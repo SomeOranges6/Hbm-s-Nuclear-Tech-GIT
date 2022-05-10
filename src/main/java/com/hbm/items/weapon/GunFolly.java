@@ -21,35 +21,48 @@ public class GunFolly extends Item implements IHoldableWeapon {
 		return Crosshair.L_SPLIT;
 	}
 	
+	int bulletType;
+	
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
 		int state = getState(stack);
 		
-		if(state == 0) {
-			
+		switch (state) {
+		
+		case 0:
+		
 			world.playSoundAtEntity(player, "hbm:weapon.follyOpen", 1.0F, 1.0F);
 			setState(stack, 1);
+			break;
+		case 1:
 			
-		} else if(state == 1) {
-			
-			if(player.inventory.hasItem(ModItems.ammo_folly)) {
+			if(player.inventory.hasItem(ModItems.ammo_folly_nuclear)) {
 
 				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
-				player.inventory.consumeInventoryItem(ModItems.ammo_folly);
+				player.inventory.consumeInventoryItem(ModItems.ammo_folly_nuclear);
 				setState(stack, 2);
+				bulletType = 1;
+			} else if(player.inventory.hasItem(ModItems.ammo_folly_du)) {
+				
+				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
+				player.inventory.consumeInventoryItem(ModItems.ammo_folly_du);
+				setState(stack, 2);
+				bulletType = 2;
 			} else {
 				
 				world.playSoundAtEntity(player, "hbm:weapon.follyClose", 1.0F, 1.0F);
 				setState(stack, 0);
+				bulletType = 0;
 			}
-			
-		} else if(state == 2) {
+			break;
+		case 2:
 
 			world.playSoundAtEntity(player, "hbm:weapon.follyClose", 1.0F, 1.0F);
 			setState(stack, 3);
 			setTimer(stack, 100);
-		} else if(state == 3) {
+			break;
+		case 3:
 			
 			if(getTimer(stack) == 0) {
 				
@@ -63,8 +76,13 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				player.motionZ -= player.getLookVec().zCoord * mult;
 
 				if (!world.isRemote) {
-					EntityBulletBase bullet = new EntityBulletBase(world, BulletConfigSyncingUtil.TEST_CONFIG, player);
-					world.spawnEntityInWorld(bullet);
+					if(bulletType == 1) {
+					  EntityBulletBase bullet = new EntityBulletBase(world, BulletConfigSyncingUtil.SHELL_W9, player);
+					  world.spawnEntityInWorld(bullet);
+					} else {
+						EntityBulletBase bullet = new EntityBulletBase(world, BulletConfigSyncingUtil.SHELL_DU, player);
+						world.spawnEntityInWorld(bullet);
+					}
 					
 					for(int i = 0; i < 25; i++) {
 						EntitySSmokeFX flame = new EntitySSmokeFX(world);
@@ -80,6 +98,9 @@ public class GunFolly extends Item implements IHoldableWeapon {
 						world.spawnEntityInWorld(flame);
 					}
 				}
+				
+			 break;
+			 
 			}
 		}
 		
