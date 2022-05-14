@@ -210,6 +210,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineMiningDrill.class, new RenderMiningDrill());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineMiningLaser.class, new RenderLaserMiner());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineAssembler.class, new RenderAssembler());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineAssemfac.class, new RenderAssemfac());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemplant.class, new RenderChemplant());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemfac.class, new RenderChemfac());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineFluidTank.class, new RenderFluidTank());
@@ -625,7 +626,9 @@ public class ClientProxy extends ServerProxy {
 		//minecarts
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartTest.class, new RenderMinecartTest());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartCrate.class, new RenderMinecart());
-		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartDestroyer.class, new RenderMinecart());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartDestroyer.class, new RenderNeoCart());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartOre.class, new RenderNeoCart());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMagnusCartus.class, new RenderMagnusCartus());
 		//items
 		RenderingRegistry.registerEntityRenderingHandler(EntityMovingItem.class, new RenderMovingItem());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTNTPrimedBase.class, new RenderTNTPrimedBase());
@@ -1495,12 +1498,14 @@ public class ClientProxy extends ServerProxy {
 		}
 		
 		if("tower".equals(type)) {
-			ParticleCoolingTower fx = new ParticleCoolingTower(man, world, x, y, z);
-			fx.setLift(data.getFloat("lift"));
-			fx.setBaseScale(data.getFloat("base"));
-			fx.setMaxScale(data.getFloat("max"));
-			fx.setLife(data.getInteger("life") / (particleSetting + 1));
-			Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+			if(particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
+				ParticleCoolingTower fx = new ParticleCoolingTower(man, world, x, y, z);
+				fx.setLift(data.getFloat("lift"));
+				fx.setBaseScale(data.getFloat("base"));
+				fx.setMaxScale(data.getFloat("max"));
+				fx.setLife(data.getInteger("life") / (particleSetting + 1));
+				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+			}
 		}
 		
 		if("deadleaf".equals(type)) {
