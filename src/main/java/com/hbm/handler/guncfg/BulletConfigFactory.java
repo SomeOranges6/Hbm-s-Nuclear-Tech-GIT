@@ -3,6 +3,8 @@ package com.hbm.handler.guncfg;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.entity.effect.EntityCloudFleijaRainbow;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionNukeSmall;
@@ -29,6 +31,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 public class BulletConfigFactory {
 	
@@ -303,6 +306,34 @@ public class BulletConfigFactory {
 			
 			ExplosionNukeSmall.explode(bullet.worldObj, posX, posY, posZ, size);
 		}
+	}
+	
+ 
+    public static void follyStar(EntityBulletBase bullet, int x, int y, int z) {
+		
+		if(!bullet.worldObj.isRemote) {
+			
+			World world = bullet.worldObj;
+			
+			double posX = bullet.posX;
+			double posY = bullet.posY + 0.5;
+			double posZ = bullet.posZ;
+			
+			if(y >= 0) {
+				posX = x + 0.5;
+				posY = y + 1.5;
+				posZ = z + 0.5;
+			}
+			
+			world.playSoundEffect(posX,posY,posZ, "random.explode", 100.0f, world.rand.nextFloat() * 0.1F + 0.9F);
+			world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world,posX,posY,posZ, 50));
+			 
+			EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(bullet.worldObj, 50);
+			cloud.posX = bullet.posX;
+			cloud.posY = bullet.posY;
+			cloud.posZ = bullet.posZ;
+			world.spawnEntityInWorld(cloud);
+		}	
 	}
 	
 	public static IBulletImpactBehavior getPhosphorousEffect(final int radius, final int duration, final int count, final double motion, float hazeChance) {

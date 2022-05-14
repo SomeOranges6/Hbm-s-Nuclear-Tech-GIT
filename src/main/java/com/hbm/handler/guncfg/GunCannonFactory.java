@@ -77,5 +77,25 @@ public class GunCannonFactory {
 		
 		return bullet;
 	}
+	
+    public static BulletConfiguration getShellFollyStarConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+		
+		bullet.ammo = ModItems.ammo_folly;
+		bullet.dmgMin = 250;
+		bullet.dmgMax = 360;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit (EntityBulletBase bullet, int x, int y, int z) {
+				BulletConfigFactory.follyStar(bullet, x, y, z);
+			
+			}
+		};
+		
+		return bullet;
+	}
 
 }
