@@ -97,5 +97,51 @@ public class GunCannonFactory {
 		
 		return bullet;
 	}
+    
+    public static BulletConfiguration getShellFollyNukeConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+		
+		bullet.ammo = ModItems.ammo_folly_nuclear;
+		bullet.dmgMin = 200;
+		bullet.dmgMax = 200;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit (EntityBulletBase bullet, int x, int y, int z) {
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 4);
+			
+			}
+		};
+		
+		return bullet;
+	}
+    
+    public static BulletConfiguration getShellFollyDuConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+		
+		bullet.ammo = ModItems.ammo_folly_du;
+		bullet.dmgMin = 100;
+		bullet.dmgMax = 150;
+		bullet.doesPenetrate = true;
+		bullet.style = BulletConfiguration.STYLE_APDS;
+		
+		return bullet;
+	} 
+    public static BulletConfiguration getShellFollyOuchConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.gun_jack_ammo;
+		bullet.dmgMin = 15;
+		bullet.dmgMax = 20;
+		bullet.bulletsMin *= 10;
+		bullet.bulletsMax *= 12;
+		
+		return bullet;
+	}
+
 
 }

@@ -324,11 +324,12 @@ public class BulletConfigFactory {
 				posY = y + 1.5;
 				posZ = z + 0.5;
 			}
+			ExplosionNukeSmall.explode(bullet.worldObj, posX, posY, posZ, 4);
 			
 			world.playSoundEffect(posX,posY,posZ, "random.explode", 100.0f, world.rand.nextFloat() * 0.1F + 0.9F);
-			world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world,posX,posY,posZ, 50));
+			world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world,posX,posY,posZ, 5));
 			 
-			EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(bullet.worldObj, 50);
+			EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(bullet.worldObj, 5);
 			cloud.posX = bullet.posX;
 			cloud.posY = bullet.posY;
 			cloud.posZ = bullet.posZ;

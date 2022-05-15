@@ -59,6 +59,12 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				player.inventory.consumeInventoryItem(ModItems.ammo_folly);
 				setState(stack, 2);
 				setType(stack,3);
+            } else if(player.inventory.hasItem(ModItems.gun_jack_ammo)) {
+				
+				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
+				player.inventory.consumeInventoryItem(ModItems.gun_jack_ammo);
+				setState(stack, 2);
+				setType(stack,4);
 				
 			} else {
 				
@@ -93,9 +99,11 @@ public class GunFolly extends Item implements IHoldableWeapon {
 					final int config;
 					switch (bulletType)
 					{
-					  case 1: config = BulletConfigSyncingUtil.SHELL_W9; break;
-					  case 2: config = BulletConfigSyncingUtil.SHELL_DU; break;
+					  case 1: config = BulletConfigSyncingUtil.SHELL_FOLLY_NUKE; break;
+					  case 2: config = BulletConfigSyncingUtil.SHELL_FOLLY_DU; break;
 					  case 3: config = BulletConfigSyncingUtil.SHELL_FOLLY_STAR; break;
+					  case 4: config = BulletConfigSyncingUtil.SHELL_FOLLY_OUCH; break;
+					  
 					  default:config = BulletConfigSyncingUtil.TEST_CONFIG; break;
 					}
 					world.spawnEntityInWorld(new EntityBulletBase(world, config, player));
