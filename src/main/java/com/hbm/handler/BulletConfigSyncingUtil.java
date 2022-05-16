@@ -201,10 +201,11 @@ public class BulletConfigSyncingUtil {
 	public static int SHELL_AP = i++;
 	public static int SHELL_DU = i++;
 	public static int SHELL_W9 = i++;
+	
 	public static int SHELL_FOLLY_STAR = i++;
 	public static int SHELL_FOLLY_NUKE = i++;
 	public static int SHELL_FOLLY_DU = i++;
-	public static int SHELL_FOLLY_OUCH = i++;
+	
 	public static int DGK_NORMAL = i++;
 	public static int FLA_NORMAL = i++;
 
@@ -448,10 +449,11 @@ public class BulletConfigSyncingUtil {
 		configSet.put(SHELL_AP, GunCannonFactory.getShellAPConfig());
 		configSet.put(SHELL_DU, GunCannonFactory.getShellDUConfig());
 		configSet.put(SHELL_W9, GunCannonFactory.getShellW9Config());
+		
 		configSet.put(SHELL_FOLLY_STAR, GunCannonFactory.getShellFollyStarConfig());
 		configSet.put(SHELL_FOLLY_NUKE, GunCannonFactory.getShellFollyNukeConfig());
 		configSet.put(SHELL_FOLLY_DU, GunCannonFactory.getShellFollyDuConfig());
-		configSet.put(SHELL_FOLLY_OUCH, GunCannonFactory.getShellFollyOuchConfig());
+		
 		configSet.put(DGK_NORMAL, GunDGKFactory.getDGKConfig());
 		configSet.put(FLA_NORMAL, GunEnergyFactory.getTurretConfig());
 

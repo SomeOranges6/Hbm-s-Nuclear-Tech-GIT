@@ -103,8 +103,8 @@ public class GunCannonFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
 		bullet.ammo = ModItems.ammo_folly_nuclear;
-		bullet.dmgMin = 200;
-		bullet.dmgMax = 200;
+		bullet.dmgMin = 300;
+		bullet.dmgMax = 330;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
 
@@ -130,18 +130,4 @@ public class GunCannonFactory {
 		
 		return bullet;
 	} 
-    public static BulletConfiguration getShellFollyOuchConfig() {
-		
-		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
-		
-		bullet.ammo = ModItems.gun_jack_ammo;
-		bullet.dmgMin = 15;
-		bullet.dmgMax = 20;
-		bullet.bulletsMin *= 10;
-		bullet.bulletsMax *= 12;
-		
-		return bullet;
-	}
-
-
 }

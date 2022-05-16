@@ -1,17 +1,23 @@
 package com.hbm.items.weapon;
 
+import java.util.List;
+import java.util.Random;
+
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class GunFolly extends Item implements IHoldableWeapon {
@@ -79,9 +85,18 @@ public class GunFolly extends Item implements IHoldableWeapon {
 
 			world.playSoundAtEntity(player, "hbm:weapon.follyClose", 1.0F, 1.0F);
 			setState(stack, 3);
-			setTimer(stack, 100);
+			switch (bulletType) {
+			
+			case 2:
+			setTimer(stack, 50);
 			break;
 			
+			case 4:
+			setTimer(stack, 25);
+			break;
+			
+			default:setTimer(stack, 100);
+			};
 		case 3:
 			
 			if(getTimer(stack) == 0) {
@@ -102,8 +117,7 @@ public class GunFolly extends Item implements IHoldableWeapon {
 					  case 1: config = BulletConfigSyncingUtil.SHELL_FOLLY_NUKE; break;
 					  case 2: config = BulletConfigSyncingUtil.SHELL_FOLLY_DU; break;
 					  case 3: config = BulletConfigSyncingUtil.SHELL_FOLLY_STAR; break;
-					  case 4: config = BulletConfigSyncingUtil.SHELL_FOLLY_OUCH; break;
-					  
+				
 					  default:config = BulletConfigSyncingUtil.TEST_CONFIG; break;
 					}
 					world.spawnEntityInWorld(new EntityBulletBase(world, config, player));
@@ -154,6 +168,36 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				setTimer(stack, 100);
 			}
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+		
+		if(MainRegistry.polaroidID == 3) {
+			
+			list.add(EnumChatFormatting.BLUE + "  Besides the name it is completly Unrelated to" + EnumChatFormatting.OBFUSCATED + "The Digamma Particle");
+			
+		} else if (MainRegistry.polaroidID == 11) {
+			
+			list.add(EnumChatFormatting.RED + "    AHAHAH OOO THEY'RE GONNA HAVE TO GLUE YOU BACK TOGETHER");
+			list.add(EnumChatFormatting.RED + ""+ EnumChatFormatting.BOLD + "    IN HELL");
+			
+		} else {
+	
+		
+		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  A Handheld 126mm Cannon made deep inside the IF-RD skunkworks");
+		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  However, it never made out of the drawing board.");
+		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  The blueprint was recovered at a later date by an unknown Ironshod Firearms Employee");
+		
+		
+		
+		}
+		list.add("Ammo: Silver Bullets");
+	}
+	public EnumRarity getRarity(ItemStack p_77613_1_)
+	{ 
+		return EnumRarity.epic;
 	}
 
 	//0: closed, empty,
