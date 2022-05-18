@@ -7,6 +7,7 @@ import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.missile.*;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -334,6 +335,39 @@ public class BulletConfigFactory {
 			cloud.posY = bullet.posY;
 			cloud.posZ = bullet.posZ;
 			world.spawnEntityInWorld(cloud);
+		}	
+	}
+    public static void follySleek(EntityBulletBase bullet, float x, float y, float z) {
+		
+		if(!bullet.worldObj.isRemote) {
+			
+			World world = bullet.worldObj;
+			
+			double posX = bullet.posX;
+			double posY = bullet.posY + 0.5;
+			double posZ = bullet.posZ;
+			int a = (int) posX;
+			int b = (int) posZ;
+			
+			Random rand  = new Random();
+			if(y >= 0) {
+				posX = x + 0.5;
+				posZ = z + 0.5;
+				y = (float) posY + 150;
+			}
+			
+			for(int i = 0; i < 2; i++) {
+			Entity missile = new EntityMissileMicro(world,x +rand.nextFloat()*2 ,y,z+rand.nextFloat(), a, b);
+			
+			
+			world.spawnEntityInWorld(missile); 
+			}
+			for(int i = 0; i < 2; i++) {
+				Entity missile = new EntityMissileStrong(world,x+rand.nextFloat()*2 ,y,z+rand.nextFloat(), a, b);
+				
+				
+				world.spawnEntityInWorld(missile); 
+				}
 		}	
 	}
 	

@@ -1,7 +1,6 @@
 package com.hbm.items.weapon;
 
 import java.util.List;
-import java.util.Random;
 
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
@@ -65,13 +64,13 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				player.inventory.consumeInventoryItem(ModItems.ammo_folly);
 				setState(stack, 2);
 				setType(stack,3);
-            } else if(player.inventory.hasItem(ModItems.gun_jack_ammo)) {
+            } else if(player.inventory.hasItem(ModItems.ring_starmetal)) {
 				
 				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
-				player.inventory.consumeInventoryItem(ModItems.gun_jack_ammo);
+				player.inventory.consumeInventoryItem(ModItems.ring_starmetal);
 				setState(stack, 2);
 				setType(stack,4);
-				
+       
 			} else {
 				
 				world.playSoundAtEntity(player, "hbm:weapon.follyClose", 1.0F, 1.0F);
@@ -87,11 +86,11 @@ public class GunFolly extends Item implements IHoldableWeapon {
 			setState(stack, 3);
 			switch (bulletType) {
 			
-			case 2:
+			case 1:
 			setTimer(stack, 50);
 			break;
 			
-			case 4:
+			case 2:
 			setTimer(stack, 25);
 			break;
 			
@@ -117,6 +116,7 @@ public class GunFolly extends Item implements IHoldableWeapon {
 					  case 1: config = BulletConfigSyncingUtil.SHELL_FOLLY_NUKE; break;
 					  case 2: config = BulletConfigSyncingUtil.SHELL_FOLLY_DU; break;
 					  case 3: config = BulletConfigSyncingUtil.SHELL_FOLLY_STAR; break;
+					  case 4: config = BulletConfigSyncingUtil.SHELL_FOLLY_SLEEK; break;
 				
 					  default:config = BulletConfigSyncingUtil.TEST_CONFIG; break;
 					}

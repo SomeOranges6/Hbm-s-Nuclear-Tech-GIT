@@ -110,13 +110,35 @@ public class GunCannonFactory {
 
 			@Override
 			public void behaveBlockHit (EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 4);
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 0);
+				
+				
 			
 			}
 		};
 		
 		return bullet;
 	}
+    
+    public static BulletConfiguration getShellFollySleekConfig() {
+		
+  		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+  		
+  		bullet.ammo = ModItems.ring_starmetal;
+  		bullet.dmgMin = 50;
+  		bullet.dmgMax = 60;
+  		
+  		bullet.bImpact = new IBulletImpactBehavior() {
+
+  			@Override
+  			public void behaveBlockHit (EntityBulletBase bullet, int x, int y, int z) {
+  				BulletConfigFactory.follySleek(bullet, x, y, z);
+  			
+  			}
+  		};
+  		
+  		return bullet;
+  	}
     
     public static BulletConfiguration getShellFollyDuConfig() {
 		

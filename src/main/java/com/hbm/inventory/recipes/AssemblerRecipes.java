@@ -556,17 +556,16 @@ public class AssemblerRecipes {
 			}, 200);
 		makeRecipe(new ComparableStack(ModItems.gun_folly, 1), new AStack[] {
 			
-			new OreDictStack(DURA.ingot(), 16),
-			new OreDictStack(CMB.plate(), 4),
-			new ComparableStack(ModItems.circuit_targeting_tier5, 1),
+			new ComparableStack(ModItems.plate_desh, 8),
+			new ComparableStack(ModItems.circuit_targeting_tier5, 2),
 			new ComparableStack(ModItems.motor_desh, 4),
-			new ComparableStack(ModItems.hull_big_steel, 4),
-			new ComparableStack(ModItems.hull_big_titanium, 4),
-			new ComparableStack(ModItems.hull_small_steel, 4),
+			new ComparableStack(ModItems.coil_magnetized_tungsten, 4),
+			new ComparableStack(ModItems.hull_big_titanium, 2),
+			new ComparableStack(ModItems.hull_small_steel, 2),
 			new ComparableStack(ModItems.mechanism_launcher_2, 1),
-			new ComparableStack(ModItems.plate_desh, 2),
+			new ComparableStack(ModItems.ring_starmetal, 2),
 			new ComparableStack(ModBlocks.deco_emitter, 1),
-		   }, 200);
+		   }, 300);
 
 		/*makeRecipe(new ComparableStack(ModBlocks.machine_industrial_generator, 1), new AStack[] {
 				new ComparableStack(ModBlocks.machine_coal_off, 2),
