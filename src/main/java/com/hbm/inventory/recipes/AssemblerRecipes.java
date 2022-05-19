@@ -562,9 +562,19 @@ public class AssemblerRecipes {
 			new ComparableStack(ModItems.coil_magnetized_tungsten, 4),
 			new ComparableStack(ModItems.hull_big_titanium, 2),
 			new ComparableStack(ModItems.hull_small_steel, 2),
+			new OreDictStack(CMB.plate(), 4),
 			new ComparableStack(ModItems.mechanism_launcher_2, 1),
 			new ComparableStack(ModItems.ring_starmetal, 2),
 			new ComparableStack(ModBlocks.deco_emitter, 1),
+		   }, 300);
+       makeRecipe(new ComparableStack(ModItems.ammo_folly_sleek, 1), new AStack[] {
+			
+			new ComparableStack(ModItems.folly_shell, 1),
+			new ComparableStack(ModItems.circuit_targeting_tier3, 1),
+			new ComparableStack(ModItems.hull_small_steel, 1),
+			new ComparableStack(ModItems.missile_micro, 3),
+			new OreDictStack(W.block(), 1),
+			
 		   }, 300);
 
 		/*makeRecipe(new ComparableStack(ModBlocks.machine_industrial_generator, 1), new AStack[] {

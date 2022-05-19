@@ -64,10 +64,10 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				player.inventory.consumeInventoryItem(ModItems.ammo_folly);
 				setState(stack, 2);
 				setType(stack,3);
-            } else if(player.inventory.hasItem(ModItems.ring_starmetal)) {
+            } else if(player.inventory.hasItem(ModItems.ammo_folly_sleek)) {
 				
 				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
-				player.inventory.consumeInventoryItem(ModItems.ring_starmetal);
+				player.inventory.consumeInventoryItem(ModItems.ammo_folly_sleek);
 				setState(stack, 2);
 				setType(stack,4);
        
@@ -186,7 +186,7 @@ public class GunFolly extends Item implements IHoldableWeapon {
 		} else {
 	
 		
-		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  A Handheld 126mm Cannon made deep inside the IF-RD skunkworks");
+		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  A Handheld 128mm Cannon made deep inside the IF-RD skunkworks");
 		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  However, it never made out of the drawing board.");
 		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  The blueprint was recovered at a later date by an unknown Ironshod Firearms Employee");
 		

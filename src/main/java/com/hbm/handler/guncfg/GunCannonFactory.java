@@ -124,7 +124,7 @@ public class GunCannonFactory {
 		
   		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
   		
-  		bullet.ammo = ModItems.ring_starmetal;
+  		bullet.ammo = ModItems.ammo_folly_sleek;
   		bullet.dmgMin = 50;
   		bullet.dmgMax = 60;
   		

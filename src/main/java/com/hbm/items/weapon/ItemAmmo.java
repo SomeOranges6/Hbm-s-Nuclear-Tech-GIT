@@ -720,13 +720,19 @@ public class ItemAmmo extends Item {
 		
 		//FOLLY
 		if(this == ModItems.ammo_folly) {
-			list.add(EnumChatFormatting.BLUE + "+ Focused starmetal reaction blast");
+			list.add(EnumChatFormatting.BLUE + "+ Starmetal-Spark and Nuclear Tandem Charge shell");
 		}
 		if(this == ModItems.ammo_folly_nuclear) {
-			list.add(EnumChatFormatting.BLUE + "+ Howitzer mini nuke shell");
+			list.add(EnumChatFormatting.BLUE + "+ Howitzer 12.8cm Nuclear shell");
+			list.add(EnumChatFormatting.YELLOW+ "* Fallout for the whole family!");
 		}
 		if(this == ModItems.ammo_folly_du) {
-			list.add(EnumChatFormatting.BLUE + "+ Howitzer 17kg U238 shell");
+			list.add(EnumChatFormatting.BLUE + "+ Howitzer 17kg U238 Penetrator shell");
+			list.add(EnumChatFormatting.RED + "- Non-Explosive");
+		}
+		if(this == ModItems.ammo_folly_sleek) {
+			list.add(EnumChatFormatting.BLUE + "+ Launches a salvo of Micro Nuclear and HE missiles over an large area");
+			list.add(EnumChatFormatting.YELLOW + " Yowch");
 		}
 		
 		//STINGER
