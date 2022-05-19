@@ -110,7 +110,7 @@ public class GunCannonFactory {
 
 			@Override
 			public void behaveBlockHit (EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 0);
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 4);
 				
 				
 			

@@ -883,6 +883,7 @@ item.ammo_fireext_sand.name=Fire Extinguisher Sand Tank
 item.ammo_folly.name=Silver Bullet (Original)
 item.ammo_folly_du.name=Silver Bullet (DU, Non-Explosive)
 item.ammo_folly_nuclear.name=Silver Bullet (Nuclear)
+item.ammo_folly_sleek.name=Silver Bullet (Experimental)
 item.ammo_fuel.name=Diesel Tank
 item.ammo_fuel_gas.name=Gas Tank
 item.ammo_fuel_napalm.name=Napalm Tank
