@@ -3,24 +3,37 @@ package com.hbm.tileentity.machine;
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase {
+public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase implements IFluidStandardTransceiver {
 	
 	public AssemblerArm[] arms;
 
+	public FluidTank water;
+	public FluidTank steam;
+
 	public TileEntityMachineAssemfac() {
 		super(14 * 8 + 4 + 1); //8 assembler groups with 14 slots, 4 upgrade slots, 1 battery slot
+		
 		arms = new AssemblerArm[6];
 		for(int i = 0; i < arms.length; i++) {
 			arms[i] = new AssemblerArm(i % 3 == 1 ? 1 : 0); //the second of every group of three becomes a welder
 		}
+
+		water = new FluidTank(Fluids.WATER, 64_000, 0);
+		steam = new FluidTank(Fluids.SPENTSTEAM, 64_000, 1);
 	}
 
 	@Override
@@ -30,12 +43,85 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase {
 
 	@Override
 	public void updateEntity() {
+		super.updateEntity();
 		
-		if(worldObj.isRemote) {
+		if(!worldObj.isRemote) {
+			
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
+				this.updateConnections();
+			}
+			
+			this.speed = 100;
+			this.consumption = 100;
+			
+			UpgradeManager.eval(slots, 1, 4);
+
+			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 6);
+			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			int overLevel = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
+			
+			this.speed -= speedLevel * 15;
+			this.consumption += speedLevel * 300;
+			this.speed += powerLevel * 5;
+			this.consumption -= powerLevel * 30;
+			this.speed /= (overLevel + 1);
+			this.consumption *= (overLevel + 1);
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", this.power);
+			data.setIntArray("progress", this.progress);
+			data.setIntArray("maxProgress", this.maxProgress);
+			data.setBoolean("isProgressing", isProgressing);
+			
+			water.writeToNBT(data, "w");
+			steam.writeToNBT(data, "s");
+			
+			this.networkPack(data, 150);
+			
+		} else {
+			
 			for(AssemblerArm arm : arms) {
-				arm.updateArm();
+				arm.updateInterp();
+				if(isProgressing) {
+					arm.updateArm();
+				}
 			}
 		}
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
+		this.progress = nbt.getIntArray("progress");
+		this.maxProgress = nbt.getIntArray("maxProgress");
+		this.isProgressing = nbt.getBoolean("isProgressing");
+		
+		water.readFromNBT(nbt, "w");
+		steam.readFromNBT(nbt, "s");
+	}
+	
+	private void updateConnections() {
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(water.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	public DirPos[] getConPos() {
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		return new DirPos[] {
+				new DirPos(xCoord - dir.offsetX * 3 + rot.offsetX * 5, yCoord, zCoord - dir.offsetZ * 3 + rot.offsetZ * 5, rot),
+				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX * 5, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 5, rot),
+				new DirPos(xCoord - dir.offsetX * 3 - rot.offsetX * 4, yCoord, zCoord - dir.offsetZ * 3 - rot.offsetZ * 4, rot.getOpposite()),
+				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 4, rot.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 5 + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 5 + rot.offsetZ * 3, dir.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 5 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 5 - rot.offsetZ * 2, dir.getOpposite()),
+				new DirPos(xCoord + dir.offsetX * 4 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 4 + rot.offsetZ * 3, dir),
+				new DirPos(xCoord + dir.offsetX * 4 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 4 - rot.offsetZ * 2, dir)
+		};
 	}
 	
 	public static class AssemblerArm {
@@ -71,7 +157,6 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase {
 		}
 		
 		public void updateArm() {
-			updateInterp();
 			
 			if(actionDelay > 0) {
 				actionDelay--;
@@ -210,18 +295,6 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase {
 	}
 
 	@Override
-	public void setPower(long power) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public long getPower() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public long getMaxPower() {
 		return 10_000_000;
 	}
@@ -280,5 +353,15 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase {
 		};
 		
 		return outpos;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { steam };
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { water };
 	}
 }
