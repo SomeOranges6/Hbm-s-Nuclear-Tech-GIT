@@ -573,7 +573,10 @@ public class AssemblerRecipes {
 			new ComparableStack(ModItems.circuit_targeting_tier3, 1),
 			new ComparableStack(ModItems.hull_small_steel, 1),
 			new ComparableStack(ModItems.missile_micro, 3),
+			new ComparableStack(ModBlocks.det_charge, 5),
 			new OreDictStack(W.block(), 1),
+			new ComparableStack(ModBlocks.pole_satellite_receiver, 2),
+			new ComparableStack(ModBlocks.pole_top, 2),
 			
 		   }, 300);
 

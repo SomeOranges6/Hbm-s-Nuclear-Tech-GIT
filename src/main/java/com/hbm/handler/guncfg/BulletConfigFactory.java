@@ -352,21 +352,23 @@ public class BulletConfigFactory {
 			Random rand  = new Random();
 			if(y >= 0) {
 				
-				y = (float) posY + 150;
+				y = (float) posY + 100;
 			}
 			
-			for(int i = 0; i < 2; i++) {
-			Entity missile = new EntityMissileMicro(world,x-200+rand.nextFloat()*10 ,y,z+rand.nextFloat()*10, a+42, b);
+			for(int i = 0; i < 4; i++) {
+			Entity missile = new EntityMissileMicro(world,x-100+rand.nextFloat()*10 ,y,z+rand.nextFloat()*10, a+rand.nextInt(8)-5, b+rand.nextInt(8)-5);
 			
 			
 			world.spawnEntityInWorld(missile); 
 			}
+			
 			for(int i = 0; i < 4; i++) {
-				Entity missile = new EntityMissileGeneric(world,x-200+rand.nextFloat()*10,y,z+rand.nextFloat()*10, a+42, b);
+				Entity missile2 = new EntityMissileGeneric(world,x-100+rand.nextFloat()*10,y,z+rand.nextFloat()*10, a+rand.nextInt(8)-5, b+rand.nextInt(8)-5);
 				
 				
-				world.spawnEntityInWorld(missile); 
+				world.spawnEntityInWorld(missile2); 
 				}
+			
 		}	
 	}
 	

@@ -732,7 +732,7 @@ public class ItemAmmo extends Item {
 		}
 		if(this == ModItems.ammo_folly_sleek) {
 			list.add(EnumChatFormatting.BLUE + "+ Launches a salvo of Micro Nuclear and HE missiles over an large area");
-			list.add(EnumChatFormatting.YELLOW + " Yowch");
+			list.add(EnumChatFormatting.WHITE + "* Verification needed in order to authorize launch");
 		}
 		
 		//STINGER

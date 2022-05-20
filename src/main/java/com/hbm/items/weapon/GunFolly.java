@@ -16,6 +16,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
@@ -29,6 +30,13 @@ public class GunFolly extends Item implements IHoldableWeapon {
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+		//man I wish old zomg was a thing:
+		if (!stack.hasTagCompound()) {
+			stack.stackTagCompound = new NBTTagCompound();
+			stack.stackTagCompound.setBoolean("verified", false);
+		}
+		
+		boolean verified = stack.stackTagCompound.getBoolean("verified");
 		
 		int state = getState(stack);
 		
@@ -64,12 +72,22 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				player.inventory.consumeInventoryItem(ModItems.ammo_folly);
 				setState(stack, 2);
 				setType(stack,3);
+            } else if(player.inventory.hasItem(ModItems.coin_maskman)) {
+            	player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "[IF Systems] Access granted, Fire when ready."));
+            	stack.stackTagCompound.setBoolean("verified", true);
             } else if(player.inventory.hasItem(ModItems.ammo_folly_sleek)) {
+            	
+            	if(verified == true) {
 				
 				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
 				player.inventory.consumeInventoryItem(ModItems.ammo_folly_sleek);
 				setState(stack, 2);
 				setType(stack,4);
+				
+            	} else {
+                	player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "[IF Systems] Access to Silos Denied, Verify using a IF-R&D M.A.S.K token"));
+            	}
+            	
        
 			} else {
 				
