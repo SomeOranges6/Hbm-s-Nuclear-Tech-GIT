@@ -368,6 +368,16 @@ public class BulletConfigFactory {
 				
 				world.spawnEntityInWorld(missile2); 
 				}
+			for(int i = 0; i < 6; i++) {
+				
+				EntityBulletBase nuke = new EntityBulletBase(world, BulletConfigSyncingUtil.NUKE_HIGH);
+				nuke.setPosition(x,y+50,z);
+				double mod = 0.5D;
+				nuke.motionX = bullet.worldObj.rand.nextGaussian() * mod;
+				nuke.motionY = -0.1D;
+				nuke.motionZ = bullet.worldObj.rand.nextGaussian() * mod;
+				bullet.worldObj.spawnEntityInWorld(nuke);
+			}
 			
 		}	
 	}
