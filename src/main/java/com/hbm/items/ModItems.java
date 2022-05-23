@@ -1744,6 +1744,7 @@ public class ModItems {
 	public static Item grenade_cloud;
 	public static Item grenade_pink_cloud;
 	public static Item ullapool_caber;
+	public static Item grenade_cirno;
 
 	public static Item grenade_if_generic;
 	public static Item grenade_if_he;
@@ -2565,6 +2566,7 @@ public class ModItems {
 
 	public static Item mysteryshovel;
 	public static Item memory;
+	
 
 	public static void initializeItem()
 	{			
@@ -4490,6 +4492,8 @@ public class ModItems {
 		grenade_burst = new ItemGrenade(1).setUnlocalizedName("grenade_burst").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_burst");
 		nuclear_waste_pearl = new ItemGrenade(-1).setUnlocalizedName("nuclear_waste_pearl").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":nuclear_waste_pearl");
 		
+		grenade_cirno = new ItemGrenadeCirno(4).setUnlocalizedName("grenade_cirno").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":fumo_cirno");
+		
 		weaponized_starblaster_cell = new WeaponizedCell().setUnlocalizedName("weaponized_starblaster_cell").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b92_ammo_weaponized");
 
 		bomb_waffle = new ItemWaffle(20, false).setUnlocalizedName("bomb_waffle").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bomb_waffle");
@@ -5691,7 +5695,7 @@ public class ModItems {
 		
 		mysteryshovel = new ItemMS().setUnlocalizedName("mysteryshovel").setFull3D().setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cursed_shovel");
 		memory = new ItemBattery(Long.MAX_VALUE / 100L, 100000000000000L, 100000000000000L).setUnlocalizedName("memory").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mo8_anim");
-
+        
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.mud_fluid, 1000), new ItemStack(ModItems.bucket_mud));
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.acid_fluid, 1000), new ItemStack(ModItems.bucket_acid));
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.toxic_fluid, 1000), new ItemStack(ModItems.bucket_toxic));
@@ -7485,7 +7489,8 @@ public class ModItems {
 		GameRegistry.registerItem(grenade_nuclear, grenade_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_zomg, grenade_zomg.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_black_hole, grenade_black_hole.getUnlocalizedName());
-
+		GameRegistry.registerItem(grenade_cirno, grenade_cirno.getUnlocalizedName());
+        
 		GameRegistry.registerItem(grenade_if_generic, grenade_if_generic.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_if_he, grenade_if_he.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_if_bouncy, grenade_if_bouncy.getUnlocalizedName());

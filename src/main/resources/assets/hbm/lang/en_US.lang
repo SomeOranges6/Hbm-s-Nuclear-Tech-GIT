@@ -1702,6 +1702,7 @@ item.grenade_smart.name=Smart Grenade
 item.grenade_strong.name=Enhanced Grenade
 item.grenade_tau.name=Tau Grenade
 item.grenade_zomg.name=Negative Energy Pair Annihilation Grenade
+item.grenade_cirno.name=Cirno
 item.gun_ar15.name=Josh
 item.gun_avenger.name=CZ57 Avenger Minigun
 item.gun_b92.name=§9B92 Energy Pistol§r
