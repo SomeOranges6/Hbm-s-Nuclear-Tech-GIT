@@ -2,9 +2,11 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.weapon.GunFolly;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -31,39 +33,162 @@ public class ItemRenderFolly implements IItemRenderer {
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		
+		int state = GunFolly.getState(item);
+		int timer = GunFolly.getTimer(item);
 		GL11.glPushMatrix();
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.folly_tex);
+		
 		
 		switch(type) {
 		
+		
 		case EQUIPPED_FIRST_PERSON:
-			
 			double s0 = 0.26D;
-			GL11.glTranslated(1.7, 1.1, 0);
-			GL11.glScaled(s0, s0, s0);
-			GL11.glRotated(255, 0, 0.8, -0.3);
-			GL11.glRotated(-25, 0, 0, 0.1);
+			switch (state) {
+			
+			case 1: 
+				//Open but shell'nt
+				
+				GL11.glTranslated(1.7, 1.1, 0);
+			    GL11.glScaled(s0, s0, s0);
+			    GL11.glRotated(200, 0, 0.8, -0.3);
+			    GL11.glRotated(-25, 0, 0, 0.1);
+			    ResourceManager.folly.renderPart("Barrel2_Cylinder.002");
+			    break;
+			case 2: 
+				
+				//Open with A an shell
+				
+				GL11.glTranslated(1.7, 1.1, 0);
+			    GL11.glScaled(s0, s0, s0);
+			    GL11.glRotated(200, 0, 0.8, -0.3);
+			    GL11.glRotated(-25, 0, 0, 0.1);
+			    ResourceManager.folly.renderPart("Shell2_Cylinder.001");
+			    ResourceManager.folly.renderPart("Barrel2_Cylinder.002");
+			    break;
+			case 3:
+				//closed and has a an shell
+				GL11.glTranslated(1.7, 1.1, 0);
+			    GL11.glScaled(s0, s0, s0);
+			    GL11.glRotated(255, 0, 0.8, -0.3);
+			    GL11.glRotated(-25, 0, 0, 0.1);
+			    ResourceManager.folly.renderPart("Shell_Cylinder.010");
+			    ResourceManager.folly.renderPart("Barrel_Cylinder.004");
+			    break;
+			   
+			default:
+	            //Closed and empy
+			    GL11.glTranslated(1.7, 1.1, 0);
+			    GL11.glScaled(s0, s0, s0);
+			    GL11.glRotated(255, 0, 0.8, -0.3);
+			    GL11.glRotated(-25, 0, 0, 0.1);
+			    ResourceManager.folly.renderPart("Barrel_Cylinder.004");
+			    break;
+			    
+			    //Same pattern applies for the second big block of switches
+			    
+			}
+			
+			if(state == 3 && timer > -1) {
+				GL11.glPushMatrix();
+		        GL11.glDisable(GL11.GL_TEXTURE_2D);
+		        GL11.glDisable(GL11.GL_LIGHTING);
+		        GL11.glRotated(-90, 0, 1, 0);
+		        GL11.glTranslated(1.8, -0.4, 1);
+	            Tessellator tessellator = Tessellator.instance;
+	            int color = 0x00FF00;
+	            
+	            if(timer == 0)
+	            	color = 0xFF0000;
+
+	            tessellator.startDrawing(3);
+		        tessellator.setColorOpaque_I(color);
+	            tessellator.addVertex(-32F / 16F, 0 + 4F / 16F, 0);
+	            tessellator.addVertex(-150, timer, 0);
+	            tessellator.draw();
+
+	            tessellator.startDrawing(3);
+		        tessellator.setColorOpaque_I(color);
+	            tessellator.addVertex(-32F / 16F, 0 + 4F / 16F, 0);
+	            tessellator.addVertex(-150, -timer, 0);
+	            tessellator.draw();
+
+	            tessellator.startDrawing(3);
+		        tessellator.setColorOpaque_I(color);
+	            tessellator.addVertex(-32F / 16F, 0 + 4F / 16F, 0);
+	            tessellator.addVertex(-150, 0, timer);
+	            tessellator.draw();
+
+	            tessellator.startDrawing(3);
+		        tessellator.setColorOpaque_I(color);
+	            tessellator.addVertex(-32F / 16F, 0 + 4F / 16F, 0);
+	            tessellator.addVertex(-150, 0, -timer);
+	            tessellator.draw();
+		        
+		        GL11.glEnable(GL11.GL_LIGHTING);
+		        GL11.glEnable(GL11.GL_TEXTURE_2D);
+				GL11.glPopMatrix();
+			}
 			
 			break;
-			
 		case EQUIPPED:
 
 			double scale = 0.3D;
-			GL11.glRotated(190, 0, 1, 0);
-			GL11.glRotated(-10, 1, 0, 0);
-			GL11.glRotated(0, 0, 0, 0);
-			GL11.glTranslated(-0.55, 0.5, -1.3);
-			GL11.glScaled(scale, scale, scale);
+             switch (state) {
 			
-			break;
+			case 1: 
+				
+				GL11.glRotated(190, 0, 1, 0);
+				GL11.glRotated(-10, 1, 0, 0);
+				GL11.glRotated(0, 0, 0, 0);
+				GL11.glTranslated(-0.55, 0.5, -1.3);
+				GL11.glScaled(scale, scale, scale);
+				ResourceManager.folly.renderPart("Barrel2_Cylinder.002");
+			    break;
+			case 2: 
+				GL11.glRotated(190, 0, 1, 0);
+				GL11.glRotated(-10, 1, 0, 0);
+				GL11.glRotated(0, 0, 0, 0);
+				GL11.glTranslated(-0.55, 0.5, -1.3);
+				GL11.glScaled(scale, scale, scale);
+				
+			    ResourceManager.folly.renderPart("Shell2_Cylinder.001");
+			    ResourceManager.folly.renderPart("Barrel2_Cylinder.002");
+			    break;
+			case 3:
+				
+				GL11.glRotated(190, 0, 1, 0);
+				GL11.glRotated(-10, 1, 0, 0);
+				GL11.glRotated(0, 0, 0, 0);
+				GL11.glTranslated(-0.55, 0.5, -1.3);
+				GL11.glScaled(scale, scale, scale);
+				ResourceManager.folly.renderPart("Barrel_Cylinder.004");
+			    ResourceManager.folly.renderPart("Shell_Cylinder.010");
+			    
+			    break;
+			default:
+			    GL11.glRotated(190, 0, 1, 0);
+			    GL11.glRotated(-10, 1, 0, 0);
+			    GL11.glRotated(0, 0, 0, 0);
+			    GL11.glTranslated(-0.55, 0.5, -1.3);
+			    GL11.glScaled(scale, scale, scale);
+			    ResourceManager.folly.renderPart("Barrel_Cylinder.004");
+			    break;
+             }
+             
+             
+             
+          break;
 			
 		case ENTITY:
 
 			double s1 = 0.4D;
 			GL11.glScaled(s1, s1, s1);
 			GL11.glRotated(0, 0, 1, 0);
+			ResourceManager.folly.renderPart("Barrel_Cylinder.004");
 			
 			break;
 			
@@ -76,15 +201,17 @@ public class ItemRenderFolly implements IItemRenderer {
 			GL11.glRotated(-140, 0, 0, 1);
 			GL11.glRotated(90, 0, 1, 0);
 			GL11.glScaled(s, s, -s);
+			ResourceManager.folly.renderPart("Barrel_Cylinder.004");
 			
 			break;
 			
 		default: break;
 		}
 		
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.folly_tex);
-		ResourceManager.folly.renderAll();
-
+		ResourceManager.folly.renderPart("MainHousing_Cylinder");
+		ResourceManager.folly.renderPart("Iforgor_Cylinder.005");
+		
+	
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 	}
