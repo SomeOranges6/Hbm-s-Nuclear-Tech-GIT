@@ -134,6 +134,7 @@ public class BulletConfigSyncingUtil {
 	public static int SPECIAL_OSIPR_CHARGED = i++;
 	public static int SPECIAL_GAUSS = i++;
 	public static int SPECIAL_GAUSS_CHARGED = i++;
+	public static int SPECIAL_DEFAB = i++;
 	public static int SPECIAL_EMP = i++;
 
 	public static int FLAMER_NORMAL = i++;
@@ -389,6 +390,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(SPECIAL_OSIPR_CHARGED, GunOSIPRFactory.getPulseChargedConfig());
 		configSet.put(SPECIAL_GAUSS, GunGaussFactory.getGaussConfig());
 		configSet.put(SPECIAL_GAUSS_CHARGED, GunGaussFactory.getAltConfig());
+		configSet.put(SPECIAL_DEFAB, GunGaussFactory.getEnergyConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE));
 		configSet.put(SPECIAL_EMP, GunEnergyFactory.getOrbusConfig());
 
 		configSet.put(FLAMER_NORMAL, GunEnergyFactory.getFlameConfig());
