@@ -627,7 +627,8 @@ public class ClientProxy extends ServerProxy {
 		//minecarts
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartTest.class, new RenderMinecartTest());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartCrate.class, new RenderMinecart());
-		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartNTM.class, new RenderNeoCart());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartDestroyer.class, new RenderNeoCart());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartOre.class, new RenderNeoCart());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMagnusCartus.class, new RenderMagnusCartus());
 		//items
 		RenderingRegistry.registerEntityRenderingHandler(EntityMovingItem.class, new RenderMovingItem());

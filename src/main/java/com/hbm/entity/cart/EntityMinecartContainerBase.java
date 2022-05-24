@@ -1,7 +1,6 @@
 package com.hbm.entity.cart;
 
-import com.hbm.items.tool.ItemModMinecart.EnumCartBase;
-
+import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -15,16 +14,16 @@ import net.minecraft.world.World;
  * @author hbm
  *
  */
-public abstract class EntityMinecartContainerBase extends EntityMinecartNTM implements IInventory {
+public abstract class EntityMinecartContainerBase extends EntityMinecart implements IInventory {
 	
 	protected ItemStack[] slots = new ItemStack[this.getSizeInventory()];
 
-	public EntityMinecartContainerBase(World world) {
-		super(world);
+	public EntityMinecartContainerBase(World p_i1712_1_) {
+		super(p_i1712_1_);
 	}
 
-	public EntityMinecartContainerBase(World world, double x, double y, double z, EnumCartBase type) {
-		super(world, x, y, z, type);
+	public EntityMinecartContainerBase(World world, double x, double y, double z) {
+		super(world, x, y, z);
 	}
 
 	@Override
@@ -102,6 +101,11 @@ public abstract class EntityMinecartContainerBase extends EntityMinecartNTM impl
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		return true;
+	}
+
+	@Override
+	public int getMinecartType() {
+		return -1;
 	}
 	
 	@Override

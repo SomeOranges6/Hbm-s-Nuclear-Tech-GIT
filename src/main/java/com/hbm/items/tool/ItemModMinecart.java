@@ -43,11 +43,10 @@ public class ItemModMinecart extends Item {
 	}
 	
 	public static enum EnumMinecart {
-		EMPTY		(EnumCartBase.WOOD, EnumCartBase.STEEL, EnumCartBase.PAINTED),
+		EMPTY		(EnumCartBase.STEEL),
 		CRATE		(EnumCartBase.VANILLA),
-		DESTROYER	(EnumCartBase.STEEL, EnumCartBase.PAINTED),
-		POWDER		(EnumCartBase.WOOD, EnumCartBase.STEEL, EnumCartBase.PAINTED),
-		SEMTEX		(EnumCartBase.WOOD, EnumCartBase.STEEL, EnumCartBase.PAINTED);
+		DESTROYER	(EnumCartBase.STEEL),
+		POWDER		(EnumCartBase.WOOD);
 		
 		public int types;
 		
@@ -218,7 +217,7 @@ public class ItemModMinecart extends Item {
 		if(BlockRailBase.func_150051_a(world.getBlock(x, y, z))) {
 			if(!world.isRemote) {
 				
-				EntityMinecart entityminecart = createMinecart(world, x + fx, y + fy, z + fz, stack);
+				EntityMinecart entityminecart = createMinecart(world, x + 0.5D, y + 0.5D, z + 0.5D, stack);
 
 				if(stack.hasDisplayName()) {
 					entityminecart.setMinecartName(stack.getDisplayName());
@@ -236,13 +235,10 @@ public class ItemModMinecart extends Item {
 	
 	public static EntityMinecart createMinecart(World world, double x, double y, double z, ItemStack stack) {
 		EnumMinecart type = (EnumMinecart) EnumMinecart.values()[stack.getItemDamage()];
-		EnumCartBase base = getBaseType(stack);
 		switch(type) {
-		case CRATE: return new EntityMinecartCrate(world, x, y, z, base, stack);
-		case DESTROYER: return new EntityMinecartDestroyer(world, x, y, z, base);
-		case EMPTY: return new EntityMinecartOre(world, x, y, z, base);
-		case POWDER: return new EntityMinecartPowder(world, x, y, z, base);
-		case SEMTEX: return new EntityMinecartSemtex(world, x, y, z, base);
+		case CRATE: return new EntityMinecartCrate(world, x, y, z, stack);
+		case DESTROYER: return new EntityMinecartDestroyer(world, x, y, z);
+		case EMPTY: return new EntityMinecartOre(world, x, y, z);
 		default: return new EntityMinecartEmpty(world, x, y, z);
 		}
 	}
