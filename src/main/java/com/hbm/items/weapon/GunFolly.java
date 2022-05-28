@@ -2,6 +2,8 @@ package com.hbm.items.weapon;
 
 import java.util.List;
 
+import com.hbm.entity.effect.EntityCloudFleijaRainbow;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
@@ -56,25 +58,39 @@ public class GunFolly extends Item implements IHoldableWeapon {
 
 				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
 				player.inventory.consumeInventoryItem(ModItems.ammo_folly_nuclear);
+				
 				setState(stack, 2);
 				setType(stack,1);
 				
+			} else if(player.inventory.hasItem(ModItems.ammo_folly)) {
+				
+    			world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
+    			player.inventory.consumeInventoryItem(ModItems.ammo_folly);
+    				
+    			setState(stack, 2);
+    			setType(stack,5);
+    			
 			} else if(player.inventory.hasItem(ModItems.ammo_folly_du)) {
 				
 				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
 				player.inventory.consumeInventoryItem(ModItems.ammo_folly_du);
+				
 				setState(stack, 2);
 				setType(stack,2);
-				
-            } else if(player.inventory.hasItem(ModItems.ammo_folly)) {
+
+           } else if(player.inventory.hasItem(ModItems.ammo_folly_tandem)) {
 				
 				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
-				player.inventory.consumeInventoryItem(ModItems.ammo_folly);
+				player.inventory.consumeInventoryItem(ModItems.ammo_folly_tandem);
+				
 				setState(stack, 2);
 				setType(stack,3);
+				
             } else if(player.inventory.hasItem(ModItems.coin_maskman)) {
+            	
             	player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "[IF Systems] Access granted, Fire when ready."));
             	stack.stackTagCompound.setBoolean("verified", true);
+            	
             } else if(player.inventory.hasItem(ModItems.ammo_folly_sleek)) {
             	
             	if(verified == true) {
@@ -135,6 +151,22 @@ public class GunFolly extends Item implements IHoldableWeapon {
 					  case 2: config = BulletConfigSyncingUtil.SHELL_FOLLY_DU; break;
 					  case 3: config = BulletConfigSyncingUtil.SHELL_FOLLY_STAR; break;
 					  case 4: config = BulletConfigSyncingUtil.SHELL_FOLLY_SLEEK; break;
+					  
+					  case 5: config = BulletConfigSyncingUtil.TEST_CONFIG;
+					  
+					  for(int i = 0; i < 6; i++) {
+						  
+						  world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world,player.getLookVec().xCoord + (i*3),player.getLookVec().yCoord,player.getLookVec().zCoord + (i*3), i*2));
+							 
+							EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(world, i*2);
+							cloud.posX = player.getLookVec().xCoord + (i*3);
+							cloud.posY = player.getLookVec().yCoord;
+							cloud.posZ = player.getLookVec().zCoord + (i*3);
+							world.spawnEntityInWorld(cloud);
+							
+					  } 
+					       
+					  break;
 				
 					  default:config = BulletConfigSyncingUtil.TEST_CONFIG; break;
 					}
