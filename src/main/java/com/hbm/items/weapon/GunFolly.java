@@ -156,12 +156,14 @@ public class GunFolly extends Item implements IHoldableWeapon {
 					  
 					  for(int i = 0; i < 6; i++) {
 						  
-						  world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world,player.getLookVec().xCoord + (i*3),player.getLookVec().yCoord,player.getLookVec().zCoord + (i*3), i*2));
+						  world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world,player.posX + player.getLookVec().xCoord + i*2 ,player.posY+player.getLookVec().yCoord + player.eyeHeight,player.posZ +player.getLookVec().zCoord , i*2));
 							 
 							EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(world, i*2);
-							cloud.posX = player.getLookVec().xCoord + (i*3);
-							cloud.posY = player.getLookVec().yCoord;
-							cloud.posZ = player.getLookVec().zCoord + (i*3);
+							//these mafs are the same ones used for the blast 
+							cloud.posX = player.posX + player.getLookVec().xCoord + i*2;
+							cloud.posY = player.posY + player.getLookVec().yCoord + player.eyeHeight;
+							cloud.posZ = player.posZ + player.getLookVec().zCoord;
+							
 							world.spawnEntityInWorld(cloud);
 							
 					  } 
