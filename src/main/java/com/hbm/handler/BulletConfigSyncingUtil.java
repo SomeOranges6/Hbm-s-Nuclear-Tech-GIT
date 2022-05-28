@@ -129,6 +129,7 @@ public class BulletConfigSyncingUtil {
 	public static int G4_VOID = i++;
 	public static int G4_TITAN = i++;
 	public static int G4_SLEEK = i++;
+	public static int G4_QUAD = i++;
 
 	public static int SPECIAL_OSIPR = i++;
 	public static int SPECIAL_OSIPR_CHARGED = i++;
@@ -385,6 +386,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(G4_VOID, Gun4GaugeFactory.get4GaugeVoidConfig());
 		configSet.put(G4_TITAN, Gun4GaugeFactory.get4GaugeQuackConfig());
 		configSet.put(G4_SLEEK, Gun4GaugeFactory.get4GaugeSleekConfig());
+		configSet.put(G4_QUAD, Gun4GaugeFactory.get4GaugeQuadConfig());
 
 		configSet.put(SPECIAL_OSIPR, GunOSIPRFactory.getPulseConfig());
 		configSet.put(SPECIAL_OSIPR_CHARGED, GunOSIPRFactory.getPulseChargedConfig());

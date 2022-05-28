@@ -1692,7 +1692,7 @@ public class ModItems {
 	public static Item gun_emp;
 	public static Item gun_emp_ammo;
 	public static Item gun_jack;
-	public static Item gun_jack_ammo;
+	public static Item ammo_4gauge_quad;
 	public static Item gun_spark;
 	public static Item gun_spark_ammo;
 	public static Item gun_hp;
@@ -4196,6 +4196,7 @@ public class ModItems {
 		ammo_4gauge_void = new ItemAmmo().setUnlocalizedName("ammo_4gauge_void");
 		ammo_4gauge_titan = new ItemAmmo().setUnlocalizedName("ammo_4gauge_titan");
 		ammo_4gauge_sleek = new ItemAmmo().setUnlocalizedName("ammo_4gauge_sleek");
+		ammo_4gauge_quad = new ItemAmmo().setUnlocalizedName("ammo_4gauge_quad");
 		ammo_5mm = new ItemAmmo().setUnlocalizedName("ammo_5mm");
 		ammo_5mm_explosive = new ItemAmmo().setUnlocalizedName("ammo_5mm_explosive");
 		ammo_5mm_du = new ItemAmmo().setUnlocalizedName("ammo_5mm_du");
@@ -4416,7 +4417,6 @@ public class ModItems {
 		gun_revolver_inverted = new GunSuicide().setUnlocalizedName("gun_revolver_inverted").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver_inverted");
 		gun_emp_ammo = new Item().setUnlocalizedName("gun_emp_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_emp_ammo");
 		gun_emp = new ItemGunBase(GunEnergyFactory.getEMPConfig()).setUnlocalizedName("gun_emp").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_emp");
-		gun_jack_ammo = new Item().setUnlocalizedName("gun_jack_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_jack_ammo");
 		gun_jack = new ItemGunBase(Gun4GaugeFactory.getJackConfig()).setUnlocalizedName("gun_jack").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_jack");
 		gun_spark_ammo = new Item().setUnlocalizedName("gun_spark_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_spark_ammo");
 		gun_spark = new GunSpark().setUnlocalizedName("gun_spark").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_spark");
@@ -7251,7 +7251,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_immolator_ammo, gun_immolator_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_cryolator_ammo, gun_cryolator_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_emp_ammo, gun_emp_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(gun_jack_ammo, gun_jack_ammo.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_4gauge_quad, ammo_4gauge_quad.getUnlocalizedName());
 		GameRegistry.registerItem(gun_spark_ammo, gun_spark_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_hp_ammo, gun_hp_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_defabricator_ammo, gun_defabricator_ammo.getUnlocalizedName());

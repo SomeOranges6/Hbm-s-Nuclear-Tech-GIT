@@ -120,6 +120,7 @@ public class Gun4GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G4_VOID);
 		config.config.add(BulletConfigSyncingUtil.G4_TITAN);
 		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
+		config.config.add(BulletConfigSyncingUtil.G4_QUAD);
 		
 		return config;
 	}
@@ -178,6 +179,7 @@ public class Gun4GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G4_VOID);
 		config.config.add(BulletConfigSyncingUtil.G4_TITAN);
 		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
+		config.config.add(BulletConfigSyncingUtil.G4_QUAD);
 		
 		return config;
 	}
@@ -553,6 +555,18 @@ public class Gun4GaugeFactory {
 				}
 			}
 		};
+		
+		return bullet;
+	}
+    public static BulletConfiguration get4GaugeQuadConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_4gauge_quad;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 10;
+		bullet.bulletsMin *= 8;
+		bullet.bulletsMax *= 8;
 		
 		return bullet;
 	}

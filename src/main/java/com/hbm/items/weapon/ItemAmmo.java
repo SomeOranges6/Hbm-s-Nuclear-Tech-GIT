@@ -249,6 +249,20 @@ public class ItemAmmo extends Item {
 		if(this == ModItems.ammo_4gauge_sleek) {
 			list.add(EnumChatFormatting.YELLOW + "* Fires a tracer which summons a storm of DU-flechettes");
 		}
+		if(this == ModItems.ammo_4gauge_quad) {
+			if (MainRegistry.polaroidID == 11) {
+			list.add(EnumChatFormatting.YELLOW + " 'So its four four Gauge Shotgun shells compressed together?' ");
+			list.add(EnumChatFormatting.RED + " 'Yes' ");
+			list.add(EnumChatFormatting.YELLOW + " 'Which can be fired from a gun that shoots Four Four gauge shotgun shells' ");
+			list.add(EnumChatFormatting.RED + " 'Yes' ");
+			list.add(EnumChatFormatting.YELLOW + " 'So you can get up to 16x more shot per shot?' ");
+			list.add(EnumChatFormatting.RED + " 'Exactly' ");
+			
+		    } else {
+		    	list.add(EnumChatFormatting.BLUE + "Can pulveirize anything within a square mile");
+		    }
+			
+		}
 		
 		//.357 MAGNUM
 		if(this == ModItems.ammo_357_desh) {
