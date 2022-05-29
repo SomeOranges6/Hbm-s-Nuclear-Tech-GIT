@@ -734,7 +734,12 @@ public class ItemAmmo extends Item {
 		
 		//FOLLY
 		if(this == ModItems.ammo_folly) {
-			list.add(EnumChatFormatting.BLUE + "+ Starmetal-Spark and Nuclear Tandem Charge shell");
+			list.add(EnumChatFormatting.BLUE + "+ Starmetal-Spark focused Folkvangr blast");
+			list.add(EnumChatFormatting.WHITE + "To put it in simple terms, everything in front of it dies");
+		}
+		if(this == ModItems.ammo_folly_tandem) {
+			list.add(EnumChatFormatting.BLUE + "+ Starmetal-Schrab/Nuclear Tandem Charge shell");
+			list.add(EnumChatFormatting.BLUE + "+ Can penetrate thick walls");
 		}
 		if(this == ModItems.ammo_folly_nuclear) {
 			list.add(EnumChatFormatting.BLUE + "+ Howitzer 12.8cm Nuclear shell");

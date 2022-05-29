@@ -1533,6 +1533,7 @@ public class ModItems {
 	public static Item ammo_folly_tandem;
 	public static Item ammo_folly_nuclear;
 	public static Item ammo_folly_du;
+	public static Item ammo_folly_ouch;
 	public static Item ammo_folly_sleek;
 	public static Item ammo_rocket;
 	public static Item ammo_rocket_he;
@@ -4259,6 +4260,7 @@ public class ModItems {
 		ammo_22lr_chlorophyte = new ItemAmmo().setUnlocalizedName("ammo_22lr_chlorophyte");
 		ammo_folly = new ItemAmmo().setUnlocalizedName("ammo_folly");
 		ammo_folly_tandem = new ItemAmmo().setUnlocalizedName("ammo_folly_tandem");
+		ammo_folly_ouch = new ItemAmmo().setUnlocalizedName("ammo_folly_ouch");
 		ammo_folly_nuclear = new ItemAmmo().setUnlocalizedName("ammo_folly_nuclear");
 		ammo_folly_du = new ItemAmmo().setUnlocalizedName("ammo_folly_du");
 		ammo_folly_sleek = new ItemAmmo().setUnlocalizedName("ammo_folly_sleek");
@@ -7411,6 +7413,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_folly_tandem, ammo_folly_tandem.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_folly_nuclear, ammo_folly_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_folly_du, ammo_folly_du.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_folly_ouch, ammo_folly_ouch.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_folly_sleek, ammo_folly_sleek.getUnlocalizedName());
 		
 		//Turret Ammo

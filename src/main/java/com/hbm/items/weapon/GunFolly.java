@@ -85,6 +85,13 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				
 				setState(stack, 2);
 				setType(stack,3);
+           } else if(player.inventory.hasItem(ModItems.ammo_folly_ouch)) {
+				
+				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
+				player.inventory.consumeInventoryItem(ModItems.ammo_folly_ouch);
+				
+				setState(stack, 2);
+				setType(stack,6);
 				
             } else if(player.inventory.hasItem(ModItems.coin_maskman)) {
             	
@@ -151,18 +158,19 @@ public class GunFolly extends Item implements IHoldableWeapon {
 					  case 2: config = BulletConfigSyncingUtil.SHELL_FOLLY_DU; break;
 					  case 3: config = BulletConfigSyncingUtil.SHELL_FOLLY_STAR; break;
 					  case 4: config = BulletConfigSyncingUtil.SHELL_FOLLY_SLEEK; break;
+					  case 6: config = BulletConfigSyncingUtil.SHELL_FOLLY_OUCH; break;
 					  
 					  case 5: config = BulletConfigSyncingUtil.TEST_CONFIG;
 					  
-					  for(int i = 0; i < 6; i++) {
+					  for(int i = 0; i < 10; i++) {
 						  
-						  world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world,player.posX + player.getLookVec().xCoord + i*2 ,player.posY+player.getLookVec().yCoord + player.eyeHeight,player.posZ +player.getLookVec().zCoord , i*2));
+						  world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world,player.posX + player.getLookVec().xCoord *i*5 ,player.posY+player.getLookVec().yCoord + player.eyeHeight,player.posZ +player.getLookVec().zCoord *i*5 , i*2));
 							 
 							EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(world, i*2);
 							//these mafs are the same ones used for the blast 
-							cloud.posX = player.posX + player.getLookVec().xCoord + i*2;
+							cloud.posX = player.posX + player.getLookVec().xCoord *i*5;
 							cloud.posY = player.posY + player.getLookVec().yCoord + player.eyeHeight;
-							cloud.posZ = player.posZ + player.getLookVec().zCoord;
+							cloud.posZ = player.posZ + player.getLookVec().zCoord *i*5;
 							
 							world.spawnEntityInWorld(cloud);
 							

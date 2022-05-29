@@ -1,8 +1,10 @@
 package com.hbm.handler.guncfg;
 
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
 
 public class GunCannonFactory {
@@ -152,4 +154,36 @@ public class GunCannonFactory {
 		
 		return bullet;
 	} 
+public static BulletConfiguration getShellFollyOuchConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+		
+		bullet.ammo = ModItems.ammo_folly_ouch;
+		bullet.dmgMin = 80;
+		bullet.dmgMax = 90;
+		bullet.trail = 0;
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(!bullet.worldObj.isRemote) {
+					
+					if(bullet.ticksExisted > 8) {
+						bullet.setDead();
+						
+						for(int i = 0; i < 80; i++) {
+							
+							EntityBulletBase bolt = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.M44_STAR);
+							bolt.setPosition(bullet.posX, bullet.posY, bullet.posZ);
+							bolt.setThrowableHeading(bullet.motionX, bullet.motionY, bullet.motionZ, 0.25F, 0.1F);
+							bullet.worldObj.spawnEntityInWorld(bolt);
+						}
+					}
+				}
+			}
+		};
+		return bullet;
+     }
 }
