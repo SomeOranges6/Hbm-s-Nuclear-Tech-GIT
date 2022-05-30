@@ -110,7 +110,13 @@ public class GunFolly extends Item implements IHoldableWeapon {
             	} else {
                 	player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "[IF Systems] Access to Silos Denied, Verify using a IF-R&D M.A.S.K token"));
             	}
-            	
+             } else if(player.inventory.hasItem(ModItems.folly_shell)) {
+				
+				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
+				player.inventory.consumeInventoryItem(ModItems.folly_shell);
+				
+				setState(stack, 2);
+				setType(stack,0);	
        
 			} else {
 				
@@ -143,8 +149,14 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				
 				setState(stack, 0);
 				world.playSoundAtEntity(player, "hbm:weapon.follyFire", 1.0F, 1.0F);
-
-				double mult = 1.75D;
+				
+				double mult;
+				
+				if(player.inventory.hasItem(ModItems.memespoon)) {
+			     mult = 5D;
+				} else {
+				 mult = 1.75D;
+				}
 				
 				player.motionX -= player.getLookVec().xCoord * mult;
 				player.motionY -= player.getLookVec().yCoord * mult;
