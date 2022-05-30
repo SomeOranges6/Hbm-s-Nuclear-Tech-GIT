@@ -155,7 +155,6 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModItems.plate_schrabidium, 2), new AStack[] {new OreDictStack(SA326.ingot(), 3), },30);
 		makeRecipe(new ComparableStack(ModItems.plate_combine_steel, 2), new AStack[] {new OreDictStack(CMB.ingot(), 3), },30);
 		makeRecipe(new ComparableStack(ModItems.plate_saturnite, 2), new AStack[] {new OreDictStack(BIGMT.ingot(), 3), },30);
-		makeRecipe(new ComparableStack(ModItems.plate_mixed, 4), new AStack[] {new OreDictStack(ALLOY.plate(), 2), new OreDictStack(OreDictManager.getReflector(), 1), new OreDictStack(BIGMT.plate(), 1) },50);
 		makeRecipe(new ComparableStack(ModItems.wire_aluminium, 6), new AStack[] {new OreDictStack(AL.ingot(), 1), },20);
 		makeRecipe(new ComparableStack(ModItems.wire_copper, 6), new AStack[] {new OreDictStack(CU.ingot(), 1), },20);
 		makeRecipe(new ComparableStack(ModItems.wire_tungsten, 6), new AStack[] {new OreDictStack(W.ingot(), 1), },20);
@@ -576,9 +575,30 @@ public class AssemblerRecipes {
 			new ComparableStack(ModBlocks.det_charge, 5),
 			new OreDictStack(W.block(), 1),
 			new ComparableStack(ModBlocks.pole_satellite_receiver, 2),
-			new ComparableStack(ModBlocks.pole_top, 2),
+			new ComparableStack(ModItems.ammo_mirv_high, 1),
 			
 		   }, 300);
+       makeRecipe(new ComparableStack(ModItems.folly_bullet_tandem, 1), new AStack[] {
+			
+			new ComparableStack(ModItems.folly_bullet_nuclear, 1),
+			new ComparableStack(ModItems.powder_magic, 2),
+			new ComparableStack(ModItems.fragment_meteorite, 30),
+			new OreDictStack(STAR.ingot(), 4),
+			new ComparableStack(ModItems.tainted_reflector, 2),
+			
+			
+		   }, 300);
+       
+       makeRecipe(new ComparableStack(ModItems.folly_bullet, 1), new AStack[] {
+			
+			new OreDictStack(STAR.block(), 2),
+			new ComparableStack(ModItems.tainted_reflector, 4),
+			new OreDictStack(SA326.plate(), 4),
+			new ComparableStack(ModItems.powder_spark_mix, 2),
+			new ComparableStack(ModBlocks.block_meteor, 2),
+
+		   }, 300);
+       
 
 		/*makeRecipe(new ComparableStack(ModBlocks.machine_industrial_generator, 1), new AStack[] {
 				new ComparableStack(ModBlocks.machine_coal_off, 2),

@@ -372,7 +372,7 @@ public class BulletConfigFactory {
 				
 				EntityBulletBase nuke = new EntityBulletBase(world, BulletConfigSyncingUtil.NUKE_HIGH);
 				nuke.setPosition(x,y+50,z);
-				double mod = 0.5D;
+				double mod = 0.3D;
 				nuke.motionX = bullet.worldObj.rand.nextGaussian() * mod;
 				nuke.motionY = -0.1D;
 				nuke.motionZ = bullet.worldObj.rand.nextGaussian() * mod;

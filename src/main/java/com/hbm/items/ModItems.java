@@ -265,6 +265,7 @@ public class ModItems {
 	public static Item wire_red_copper;
 	public static Item wire_tungsten;
 	public static Item neutron_reflector;
+	public static Item tainted_reflector;
 	public static Item ingot_steel;
 	public static Item plate_steel;
 	public static Item plate_iron;
@@ -596,6 +597,7 @@ public class ModItems {
 	public static Item folly_bullet;
 	public static Item folly_bullet_nuclear;
 	public static Item folly_bullet_du;
+	public static Item folly_bullet_tandem;
 
 	public static Item circuit_targeting_tier1;
 	public static Item circuit_targeting_tier2;
@@ -2838,6 +2840,7 @@ public class ModItems {
 		wire_red_copper = new Item().setUnlocalizedName("wire_red_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_red_copper");
 		wire_tungsten = new ItemCustomLore().setUnlocalizedName("wire_tungsten").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_tungsten");
 		neutron_reflector = new Item().setUnlocalizedName("neutron_reflector").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":neutron_reflector");
+		tainted_reflector = new Item().setUnlocalizedName("tainted_reflector").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":tainted_reflector");
 		nugget_lead = new Item().setUnlocalizedName("nugget_lead").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_lead");
 		ingot_bismuth = new ItemCustomLore().setUnlocalizedName("ingot_bismuth").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_bismuth");
 		nugget_bismuth = new Item().setUnlocalizedName("nugget_bismuth").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_bismuth");
@@ -3182,6 +3185,7 @@ public class ModItems {
 		folly_bullet = new Item().setUnlocalizedName("folly_bullet").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":folly_bullet");
 		folly_bullet_nuclear = new Item().setUnlocalizedName("folly_bullet_nuclear").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":folly_bullet_nuclear");
 		folly_bullet_du = new Item().setUnlocalizedName("folly_bullet_du").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":folly_bullet_du");
+		folly_bullet_tandem = new Item().setUnlocalizedName("folly_bullet_tandem").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":folly_bullet_tandem");
 		
 		wiring_red_copper = new ItemWiring().setUnlocalizedName("wiring_red_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wiring_red_copper");
 
@@ -6129,6 +6133,7 @@ public class ModItems {
 		GameRegistry.registerItem(plate_copper, plate_copper.getUnlocalizedName());
 		GameRegistry.registerItem(plate_advanced_alloy, plate_advanced_alloy.getUnlocalizedName());
 		GameRegistry.registerItem(neutron_reflector, neutron_reflector.getUnlocalizedName());
+		GameRegistry.registerItem(tainted_reflector, tainted_reflector.getUnlocalizedName());
 		GameRegistry.registerItem(plate_schrabidium, plate_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(plate_combine_steel, plate_combine_steel.getUnlocalizedName());
 		GameRegistry.registerItem(plate_mixed, plate_mixed.getUnlocalizedName());
@@ -6369,6 +6374,7 @@ public class ModItems {
 		GameRegistry.registerItem(folly_bullet, folly_bullet.getUnlocalizedName());
 		GameRegistry.registerItem(folly_bullet_nuclear, folly_bullet_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(folly_bullet_du, folly_bullet_du.getUnlocalizedName());
+		GameRegistry.registerItem(folly_bullet_tandem, folly_bullet_tandem.getUnlocalizedName());
 		
 		//Wiring
 		GameRegistry.registerItem(wiring_red_copper, wiring_red_copper.getUnlocalizedName());
