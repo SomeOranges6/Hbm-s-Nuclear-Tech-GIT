@@ -138,6 +138,7 @@ public class GunFolly extends Item implements IHoldableWeapon {
 			break;
 			
 			case 2:
+			case 6:
 			setTimer(stack, 25);
 			break;
 			
