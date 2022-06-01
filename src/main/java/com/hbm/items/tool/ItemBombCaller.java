@@ -47,6 +47,8 @@ public class ItemBombCaller extends Item {
     		list.add("Type: WP AAAAAA");
         if(itemstack.getItemDamage() == 9)
     		list.add("Type: Warcrimes: Top Hits all season");
+        if(itemstack.getItemDamage() == 10)
+    		list.add("Type: Chickenator");
 	}
 	
 	@Override
@@ -95,6 +97,9 @@ public class ItemBombCaller extends Item {
 	        	if(world.spawnEntityInWorld(EntityBomber.statFacChlorine(world, x, y, z)))
 	        	if(world.spawnEntityInWorld(EntityBomber.statFacOrange(world, x, y, z)))
 	        		b = true;
+	        if(stack.getItemDamage() == 10)
+	        	if(world.spawnEntityInWorld(EntityBomber.statFacCluck(world, x, y, z)))
+	        		b = true;
 	        
 	        if(b) {
 	        	if (stack.getItemDamage() == 9) { 
@@ -125,6 +130,7 @@ public class ItemBombCaller extends Item {
         p_150895_3_.add(new ItemStack(p_150895_1_, 1, 4));
         p_150895_3_.add(new ItemStack(p_150895_1_, 1, 8));
         p_150895_3_.add(new ItemStack(p_150895_1_, 1, 9));
+        p_150895_3_.add(new ItemStack(p_150895_1_, 1, 10));
         
     }
 
