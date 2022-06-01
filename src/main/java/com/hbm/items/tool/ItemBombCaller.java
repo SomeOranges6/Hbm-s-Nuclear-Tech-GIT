@@ -44,6 +44,8 @@ public class ItemBombCaller extends Item {
         if(itemstack.getItemDamage() == 7)
     		list.add("Type: Cloud the cloud oh god the cloud");
         if(itemstack.getItemDamage() == 8)
+    		list.add("Type: WP AAAAAA");
+        if(itemstack.getItemDamage() == 9)
     		list.add("Type: Warcrimes: Top Hits all season");
 	}
 	
@@ -85,14 +87,17 @@ public class ItemBombCaller extends Item {
 	        	if(world.spawnEntityInWorld(EntityBomber.statFacPC(world, x, y, z)))
 	        		b = true;
 	        if(stack.getItemDamage() == 8)
-	        	if(world.spawnEntityInWorld(EntityBomber.statFacNapalm(world, x, y, z)))
+	        	if(world.spawnEntityInWorld(EntityBomber.statFacWP(world, x, y, z)))
+	        		b = true;
+	        if(stack.getItemDamage() == 9)
+	        	if(world.spawnEntityInWorld(EntityBomber.statFacWP(world, x, y, z)))
 	        	if(world.spawnEntityInWorld(EntityBomber.statFacCarpet(world, x, y, z)))
 	        	if(world.spawnEntityInWorld(EntityBomber.statFacChlorine(world, x, y, z)))
 	        	if(world.spawnEntityInWorld(EntityBomber.statFacOrange(world, x, y, z)))
 	        		b = true;
 	        
 	        if(b) {
-	        	if (stack.getItemDamage() == 8) { 
+	        	if (stack.getItemDamage() == 9) { 
 	        		player.addChatMessage(new ChatComponentText("Now Playing: Fortunate Son By CCR"));
 			        world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);	
 	        	} else {
@@ -119,6 +124,7 @@ public class ItemBombCaller extends Item {
         p_150895_3_.add(new ItemStack(p_150895_1_, 1, 3));
         p_150895_3_.add(new ItemStack(p_150895_1_, 1, 4));
         p_150895_3_.add(new ItemStack(p_150895_1_, 1, 8));
+        p_150895_3_.add(new ItemStack(p_150895_1_, 1, 9));
         
     }
 

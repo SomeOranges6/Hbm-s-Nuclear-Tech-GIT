@@ -400,6 +400,21 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	
     	return bomber;
     }
+    public static EntityBomber statFacWP(World world, double x, double y, double z) {
+    	
+    	EntityBomber bomber = new EntityBomber(world);
+    	
+    	bomber.timer = 200;
+    	bomber.bombStart = 50;
+    	bomber.bombStop = 100;
+    	bomber.bombRate = 2;
+
+    	bomber.fac(world, x, y, z);
+    	
+    	bomber.type = 8;
+    	
+    	return bomber;
+    }
 
     @Override
 	public void entityInit() {

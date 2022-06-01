@@ -1,18 +1,26 @@
 package com.hbm.entity.projectile;
 
+import java.util.List;
+
 import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -71,8 +79,48 @@ public class EntityBombletZeta extends EntityThrowable {
     				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
     				worldObj.playSoundEffect(posX, posY, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
     			}
+    			if(type == 8) {
+    				ExplosionLarge.explode(worldObj, this.posX + 0.5F, this.posY + 0.5F, this.posZ + 0.5F, 2.5F, false, false, false);
+    				ExplosionChaos.burn(worldObj, (int)posX, (int)posY, (int)posZ, 9);
+    				ExplosionChaos.flameDeath(worldObj, (int)posX, (int)posY, (int)posZ, 14);
+    				
+    				final int radius = 15;
+    				final int duration = 60 * 20;
+    				final int count = 100;
+    				final double motion = 0.5D;
+    				float hazeChance = 1F;
+    				List<Entity> hit = worldObj.getEntitiesWithinAABBExcludingEntity(this, AxisAlignedBB.getBoundingBox(posX - radius, posY - radius,posZ - radius, posX + radius, posY + radius,posZ + radius));
+    				
+    				for(Entity e : hit) {
+    					
+    					if(!Library.isObstructed(worldObj,posX,posY,posZ, e.posX, e.posY + e.getEyeHeight(), e.posZ)) {
+    						e.setFire(5);
+    						
+    						if(e instanceof EntityLivingBase) {
+    							
+    							PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, duration, 0, true);
+    							eff.getCurativeItems().clear();
+    							((EntityLivingBase)e).addPotionEffect(eff);
+    						}
+    					}
+    				}
+    				
+    				NBTTagCompound data = new NBTTagCompound();
+    				data.setString("type", "vanillaburst");
+    				data.setString("mode", "flame");
+    				data.setInteger("count", count);
+    				data.setDouble("motion", motion);
+    				
+    				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX,posY,posZ), new TargetPoint(this.dimension,posX,posY,posZ, 50));
+    				
+    				if(worldObj.rand.nextFloat() < hazeChance) {
+    				NBTTagCompound haze = new NBTTagCompound();
+    				haze.setString("type", "haze");
+    				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(haze, posX,posY,posZ), new TargetPoint(this.dimension,posX,posY,posZ, 150));
+    			}
     		}
     		this.setDead();
+        }
         }
 	}
 	
