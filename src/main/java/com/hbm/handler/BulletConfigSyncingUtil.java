@@ -236,7 +236,11 @@ public class BulletConfigSyncingUtil {
 
 	public static int ZOMG_BOLT = i++;
 	public static int DET_BOLT = i++;
-
+	
+	public static int VORTEX_ENERGY = i++;
+	public static int VORTEX_ENERGY_ALT = i++;
+	public static int VORTEX_OUCH = i++;
+	
 	public static int TURBINE = i++;
 
 	public static int CHL_LR22 = i++;
@@ -488,7 +492,11 @@ public class BulletConfigSyncingUtil {
 
 		configSet.put(ZOMG_BOLT, GunEnergyFactory.getZOMGBoltConfig());
 		configSet.put(DET_BOLT, GunDetonatorFactory.getLaserConfig());
-
+		
+		configSet.put(VORTEX_ENERGY, GunVortexFactory.getEnergyConfig());
+		configSet.put(VORTEX_ENERGY_ALT, GunVortexFactory.getAltEnergyConfig());
+		configSet.put(VORTEX_OUCH, GunVortexFactory.getOuchConfig());
+        
 		configSet.put(TURBINE, GunEnergyFactory.getTurbineConfig());
 
 		configSet.put(CHL_LR22, Gun22LRFactory.get22LRConfig().setToHoming(ModItems.ammo_22lr_chlorophyte));
