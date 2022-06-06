@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.projectile.EntityBeamVortex;
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityLaser;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
@@ -49,6 +50,10 @@ public class ItemGunVortex extends ItemGunBase {
 
 			if(getHasShot(stack)) {
 				world.playSoundAtEntity(player, "hbm:weapon.sparkShoot", 1.0F, 1.0F);
+				EntityBeamVortex laser = new EntityBeamVortex(world, player);
+				if (!world.isRemote) {
+					world.spawnEntityInWorld(laser);
+				}
 				setHasShot(stack, false);
 			}
 			
@@ -60,6 +65,10 @@ public class ItemGunVortex extends ItemGunBase {
 				world.playSoundAtEntity(player, "hbm:weapon.tauShoot", 1.0F, 0.75F);
 				setItemWear(stack, getItemWear(stack) + (getCharge(stack)) * 2);
 				setCharge(stack, 0);
+				EntityBeamVortex laser = new EntityBeamVortex(world, player);
+				if (!world.isRemote) {
+					world.spawnEntityInWorld(laser);
+				}
 			}
 		}
 		
@@ -111,6 +120,11 @@ public class ItemGunVortex extends ItemGunBase {
 					setItemWear(stack, getItemWear(stack) + (getCharge(stack)) * 2);
 					setCharge(stack, 0);
 					
+					
+					EntityBeamVortex laser = new EntityBeamVortex(world, player);
+					if (!world.isRemote) {
+						world.spawnEntityInWorld(laser);
+					}
 					return;
 				}
 				
@@ -160,7 +174,6 @@ public class ItemGunVortex extends ItemGunBase {
 			super.spawnProjectile(world, player, stack, config);
 			setHasShot(stack, true);
 		}
-		
 		public static void setHasShot(ItemStack stack, boolean b) {
 			writeNBT(stack, "hasShot", b ? 1 : 0);
 		}
@@ -185,6 +198,7 @@ public class ItemGunVortex extends ItemGunBase {
 		public static int getStored(ItemStack stack) {
 			return readNBT(stack, "stored");
 		}
+		
 	}
     
 	/*@Override

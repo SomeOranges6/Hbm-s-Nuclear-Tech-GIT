@@ -1,6 +1,11 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionChaos;
@@ -10,8 +15,10 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.util.ArmorUtil;
 
 public class GunVortexFactory {
        public static GunConfiguration getVortexConfig() {
@@ -124,15 +131,24 @@ public class GunVortexFactory {
 
     			@Override
     			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+    				World world = bullet.worldObj;
+    				List<EntityLivingBase> affected = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - 5, y - 5, z - 5, x + 5, y + 5, z + 5));
     				
-    				if(!bullet.worldObj.isRemote) {
-    					ExplosionChaos.explodeZOMG(bullet.worldObj, (int)Math.floor(bullet.posX), (int)Math.floor(bullet.posY), (int)Math.floor(bullet.posZ), 10);
-    					bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "hbm:entity.bombDet", 5.0F, 1.0F);
-        				ExplosionLarge.spawnParticles(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, 10);
-    				}
+    				for(EntityLivingBase entity : affected) {
+    					
+    					if(entity.getDistance(x, y, z) > 5)
+    						continue;
+    					
+    					ArmorUtil.damageSuit(entity, 0, 25);
+    					ArmorUtil.damageSuit(entity, 1, 25);
+    					ArmorUtil.damageSuit(entity, 2, 25);
+    					ArmorUtil.damageSuit(entity, 3, 25);
+    					entity.attackEntityFrom(ModDamageSource.pc, 7);
     			}
-    		};
+    		}
+    			
+    	};
     		return bullet;
-    	}
+    }
         
 }
