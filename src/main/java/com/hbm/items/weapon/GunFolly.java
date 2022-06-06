@@ -10,6 +10,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.entity.Entity;
@@ -18,12 +19,16 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class GunFolly extends Item implements IHoldableWeapon {
-
+	public GunFolly()
+    {
+        this.maxStackSize = 1;
+    }
 	@Override
 	public Crosshair getCrosshair() {
 		return Crosshair.L_SPLIT;
@@ -139,6 +144,7 @@ public class GunFolly extends Item implements IHoldableWeapon {
 			
 			case 2:
 			case 6:
+			case 7:
 			setTimer(stack, 25);
 			break;
 			
@@ -175,7 +181,7 @@ public class GunFolly extends Item implements IHoldableWeapon {
 					  
 					  case 5: config = BulletConfigSyncingUtil.TEST_CONFIG;
 					  
-					  for(int i = 0; i < 10; i++) {
+					  for(int i = 0; i < 12; i++) {
 						  
 						  world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world,player.posX + player.getLookVec().xCoord *i*5 ,player.posY+player.getLookVec().yCoord + player.eyeHeight,player.posZ +player.getLookVec().zCoord *i*5 , i*2));
 							 
@@ -188,7 +194,8 @@ public class GunFolly extends Item implements IHoldableWeapon {
 							world.spawnEntityInWorld(cloud);
 							
 					  } 
-					       
+					  player.addPotionEffect(new PotionEffect(HbmPotion.taint.id, 20 * 20, 0));  
+					  player.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 0));  
 					  break;
 				
 					  default:config = BulletConfigSyncingUtil.TEST_CONFIG; break;
