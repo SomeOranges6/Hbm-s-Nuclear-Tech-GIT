@@ -30,6 +30,7 @@ import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -1069,19 +1070,51 @@ public class MainRegistry {
 	}
 	
 	private static HashSet<String> ignoreMappings = new HashSet();
+	private static HashMap<String, Item> remapItems = new HashMap();
 	
-	static {
-		for(int i = 1; i <= 8; i++)
-			ignoreMappings.add("hbm:item.gasflame" + i);
-	}
 
 	@EventHandler
 	public void handleMissingMappings(FMLMissingMappingsEvent event) {
 		
+		ignoreMappings.clear();
+		remapItems.clear();
+		
+		/// IGNORE ///
+		for(int i = 1; i <= 8; i++) ignoreMappings.add("hbm:item.gasflame" + i);
+		ignoreMappings.add("hbm:item.cyclotron_tower");
+		ignoreMappings.add("hbm:item.magnet_dee");
+		ignoreMappings.add("hbm:item.centrifuge_tower");
+		ignoreMappings.add("hbm:item.gun_revolver_nopip_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_pip_ammo");
+		ignoreMappings.add("hbm:item.gun_calamity_ammo");
+		ignoreMappings.add("hbm:item.gun_lacunae_ammo");
+		ignoreMappings.add("hbm:item.gun_rpg_ammo");
+		ignoreMappings.add("hbm:item.gun_mp40_ammo");
+		ignoreMappings.add("hbm:item.gun_uzi_ammo");
+		ignoreMappings.add("hbm:item.gun_uboinik_ammo");
+		ignoreMappings.add("hbm:item.gun_lever_action_ammo");
+		ignoreMappings.add("hbm:item.gun_bolt_action_ammo");
+		ignoreMappings.add("hbm:item.gun_fatman_ammo");
+		ignoreMappings.add("hbm:item.gun_mirv_ammo");
+		ignoreMappings.add("hbm:item.gun_stinger_ammo");
+		ignoreMappings.add("hbm:item.limiter");
+		ignoreMappings.add("hbm:item.turret_biometry");
+		ignoreMappings.add("hbm:item.thermo_unit_empty");
+		ignoreMappings.add("hbm:item.thermo_unit_endo");
+		ignoreMappings.add("hbm:item.thermo_unit_exo");
+		
 		for(MissingMapping mapping : event.get()) {
+
+			if(ignoreMappings.contains(mapping.name)) {
+				mapping.ignore();
+				continue;
+			}
+			
 			if(mapping.type == GameRegistry.Type.ITEM) {
-				if(ignoreMappings.contains(mapping.name)) {
-					mapping.ignore();
+				
+				if(remapItems.get(mapping.name) != null) {
+					mapping.remap(remapItems.get(mapping.name));
+					continue;
 				}
 			}
 		}
