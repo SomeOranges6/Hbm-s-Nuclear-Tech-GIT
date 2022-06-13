@@ -625,6 +625,7 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntityDeathBlast.class, new RenderDeathBlast());
 		RenderingRegistry.registerEntityRenderingHandler(EntityNukeExplosionAdvanced.class, new RenderSnowball(ModItems.energy_ball));
 	    RenderingRegistry.registerEntityRenderingHandler(EntitySpear.class, new RenderSpear());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeTorex.class, new RenderTorex());
 		//minecarts
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartTest.class, new RenderMinecartTest());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartCrate.class, new RenderMinecart());
@@ -686,6 +687,8 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderAntennaTop());
 		RenderingRegistry.registerBlockHandler(new RenderConserve());
 		RenderingRegistry.registerBlockHandler(new RenderConveyor());
+		RenderingRegistry.registerBlockHandler(new RenderConveyorChute());
+		RenderingRegistry.registerBlockHandler(new RenderConveyorLift());
 		RenderingRegistry.registerBlockHandler(new RenderRTGBlock());
 		RenderingRegistry.registerBlockHandler(new RenderSpikeBlock());
 		RenderingRegistry.registerBlockHandler(new RenderChain());
@@ -701,6 +704,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderBlockCT());
 		RenderingRegistry.registerBlockHandler(new RenderDetCord());
 		RenderingRegistry.registerBlockHandler(new RenderBlockMultipass());
+		RenderingRegistry.registerBlockHandler(new RenderBlockSideRotation());
 		RenderingRegistry.registerBlockHandler(new RenderDiode());
 
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_dynamite.getRenderType(), ResourceManager.charge_dynamite));
