@@ -21,30 +21,13 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class TileEntityZirnoxDestroyed extends TileEntity {
-	
-	public boolean onFire = true;
-	
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		onFire = nbt.getBoolean("fire");
-	}
-	
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setBoolean("onFire", onFire);
-	}
-	
+
 	@Override
 	public void updateEntity() {
 		if(!worldObj.isRemote) {
 			radiate(worldObj, this.xCoord, this.yCoord, this.zCoord);
 			
-			if(this.worldObj.rand.nextInt(5000) == 0)
-				onFire = false;
-			
-			if(onFire && this.worldObj.getTotalWorldTime() % 50 == 0) {
+			if(this.worldObj.getTotalWorldTime() % 50 == 0) {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "rbmkflame");
 				data.setInteger("maxAge", 90);
@@ -57,7 +40,7 @@ public class TileEntityZirnoxDestroyed extends TileEntity {
 
 	private void radiate(World world, int x, int y, int z) {
 
-		float rads = onFire ? 500000F : 75000F;
+		float rads = 500000F;
 		double range = 100D;
 
 		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x + 0.5, y + 0.5, z + 0.5, x + 0.5, y + 0.5, z + 0.5).expand(range, range, range));
@@ -88,7 +71,7 @@ public class TileEntityZirnoxDestroyed extends TileEntity {
 
 			ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, eRads);
 
-			if(onFire && len < 5) {
+			if(len < 5) {
 				e.attackEntityFrom(DamageSource.onFire, 2);
 			}
 		}

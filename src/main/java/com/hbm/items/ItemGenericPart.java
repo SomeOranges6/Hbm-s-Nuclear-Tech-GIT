@@ -9,20 +9,20 @@ import net.minecraft.util.IIcon;
 
 public class ItemGenericPart extends ItemEnumMulti {
 	
-	public static enum EnumPartType {
+	public static enum EnumPartTpe {
 		PISTON_PNEUMATIC("piston_pneumatic"),
 		PISTON_HYDRAULIC("piston_hydraulic"),
 		PISTON_ELECTRIC("piston_electric");
 		
 		private String texName;
 		
-		private EnumPartType(String texName) {
+		private EnumPartTpe(String texName) {
 			this.texName = texName;
 		}
 	}
 
 	public ItemGenericPart() {
-		super(EnumPartType.class, true, true);
+		super(EnumPartTpe.class, true, true);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -32,7 +32,7 @@ public class ItemGenericPart extends ItemEnumMulti {
 		this.icons = new IIcon[enums.length];
 		
 		for(int i = 0; i < icons.length; i++) {
-			EnumPartType num = (EnumPartType)enums[i];
+			EnumPartTpe num = (EnumPartTpe)enums[i];
 			this.icons[i] = reg.registerIcon(RefStrings.MODID + ":" + num.texName);
 		}
 	}

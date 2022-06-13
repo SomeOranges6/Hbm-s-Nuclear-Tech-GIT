@@ -35,7 +35,7 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 
 	public EntityMovingItem(World p_i1582_1_) {
 		super(p_i1582_1_);
-		this.setSize(0.375F, 0.375F);
+		this.setSize(0.5F, 0.5F);
 		this.noClip = true;
 	}
 
@@ -116,10 +116,10 @@ public class EntityMovingItem extends Entity implements IConveyorItem {
 			
 			if(!(b instanceof IConveyorBelt)) {
 				this.setDead();
-				EntityItem item = new EntityItem(worldObj, posX + motionX * 2, posY + motionY * 2, posZ + motionZ * 2, this.getItemStack());
-				item.motionX = this.motionX * 2;
+				EntityItem item = new EntityItem(worldObj, posX, posY, posZ, this.getItemStack());
+				item.motionX = this.motionX * 3;
 				item.motionY = 0.1;
-				item.motionZ = this.motionZ * 2;
+				item.motionZ = this.motionZ * 3;
 				item.velocityChanged = true;
 				worldObj.spawnEntityInWorld(item);
 				return;

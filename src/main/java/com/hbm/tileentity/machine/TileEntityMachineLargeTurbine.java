@@ -33,8 +33,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	private boolean shouldTurn;
 	public float rotor;
 	public float lastRotor;
-	public float fanAcceleration = 0F;
-	
+
 	public TileEntityMachineLargeTurbine() {
 		super(7);
 		
@@ -105,20 +104,17 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			data.setBoolean("operational", operational);
 			this.networkPack(data, 50);
 		} else {
+			
 			this.lastRotor = this.rotor;
-			this.rotor += this.fanAcceleration;
-				
-			if(this.rotor >= 360) {
-				this.rotor -= 360;
-				this.lastRotor -= 360;
-			}
 			
 			if(shouldTurn) {
-
-				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration += 0.1F));
-			}
-			if(!shouldTurn) {
-				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration -= 0.1F));
+				
+				this.rotor += 15F;
+				
+				if(this.rotor >= 360) {
+					this.rotor -= 360;
+					this.lastRotor -= 360;
+				}
 			}
 		}
 	}

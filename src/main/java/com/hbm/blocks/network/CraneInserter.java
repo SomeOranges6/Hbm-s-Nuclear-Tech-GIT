@@ -1,21 +1,22 @@
 package com.hbm.blocks.network;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.network.TileEntityCraneInserter;
 
 import api.hbm.conveyor.IConveyorItem;
 import api.hbm.conveyor.IEnterableBlock;
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -37,6 +38,18 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 		this.iconDirectional = iconRegister.registerIcon(RefStrings.MODID + ":crane_in_top");
 		this.iconDirectionalUp = iconRegister.registerIcon(RefStrings.MODID + ":crane_in_side_up");
 		this.iconDirectionalDown = iconRegister.registerIcon(RefStrings.MODID + ":crane_in_side_down");
+	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(world.isRemote) {
+			return true;
+		} else if(!player.isSneaking()) {
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -136,7 +149,6 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 				
 				stack.stackSize += amount;
 				toAdd.stackSize -= amount;
-				inv.markDirty();
 				
 				if(toAdd.stackSize == 0) {
 					return null;
@@ -156,7 +168,6 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 				newStack.stackSize = amount;
 				inv.setInventorySlotContents(index, newStack);
 				toAdd.stackSize -= amount;
-				inv.markDirty();
 				
 				if(toAdd.stackSize == 0) {
 					return null;
@@ -165,29 +176,5 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 		}
 		
 		return toAdd;
-	}
-
-	@Override
-	public int getRotationFromSide(IBlockAccess world, int x, int y, int z, int side) {
-		int meta = world.getBlockMetadata(x, y, z);
-		
-		if(meta > 1 && side == 1) {
-			if(meta == 2) return 3;
-			if(meta == 3) return 0;
-			if(meta == 4) return 1;
-			if(meta == 5) return 2;
-		}
-		
-		return 0;
-	}
-	
-	@Override
-	public boolean hasComparatorInputOverride() {
-		return true;
-	}
-	
-	@Override
-	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
-		return Container.calcRedstoneFromInventory((TileEntityCraneInserter)world.getTileEntity(x, y, z));
 	}
 }

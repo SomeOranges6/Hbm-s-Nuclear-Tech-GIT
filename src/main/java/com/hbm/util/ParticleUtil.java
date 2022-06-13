@@ -1,6 +1,5 @@
 package com.hbm.util;
 
-import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
@@ -17,14 +16,6 @@ public class ParticleUtil {
 		data.setDouble("mX", mX);
 		data.setDouble("mY", mY);
 		data.setDouble("mZ", mZ);
-		
-		if(world.isRemote) {
-			data.setDouble("posX", x);
-			data.setDouble("posY", y);
-			data.setDouble("posZ", z);
-			MainRegistry.proxy.effectNT(data);
-		} else {
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 150));
-		}
+		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 150));
 	}
 }

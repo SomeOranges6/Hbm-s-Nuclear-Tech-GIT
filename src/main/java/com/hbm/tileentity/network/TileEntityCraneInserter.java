@@ -19,8 +19,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCraneInserter extends TileEntityMachineBase implements IGUIProvider {
-	
-	public static final int[] access = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
 
 	public TileEntityCraneInserter() {
 		super(21);
@@ -36,7 +34,7 @@ public class TileEntityCraneInserter extends TileEntityMachineBase implements IG
 		
 		if(!worldObj.isRemote) {
 
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+			ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata);
 			TileEntity te = worldObj.getTileEntity(xCoord - dir.offsetX, yCoord - dir.offsetY, zCoord - dir.offsetZ);
 			
 			int[] access = null;
@@ -56,18 +54,12 @@ public class TileEntityCraneInserter extends TileEntityMachineBase implements IG
 						
 						if(ret == null || ret.stackSize != stack.stackSize) {
 							slots[i] = ret;
-							this.markDirty();
 							break;
 						}
 					}
 				}
 			}
 		}
-	}
-
-	@Override
-	public int[] getAccessibleSlotsFromSide(int side) {
-		return access;
 	}
 
 	@Override
