@@ -2,10 +2,10 @@ package com.hbm.items.weapon;
 
 import java.util.List;
 
-import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityFollyBeam;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
@@ -184,16 +184,16 @@ public class GunFolly extends Item implements IHoldableWeapon {
 					  for(int i = 0; i < 12; i++) {
 						  
 						  world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world,player.posX + player.getLookVec().xCoord *i*5 ,player.posY+player.getLookVec().yCoord + player.eyeHeight,player.posZ +player.getLookVec().zCoord *i*5 , i*2));
-							 
-							EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(world, i*2);
-							//these mafs are the same ones used for the blast 
-							cloud.posX = player.posX + player.getLookVec().xCoord *i*5;
-							cloud.posY = player.posY + player.getLookVec().yCoord + player.eyeHeight;
-							cloud.posZ = player.posZ + player.getLookVec().zCoord *i*5;
-							
-							world.spawnEntityInWorld(cloud);
-							
+	
 					  } 
+					  EntityFollyBeam beam = new EntityFollyBeam(world, 12);
+						//these mafs are the same ones used for the blast 
+						beam.posX = player.posX + player.getLookVec().xCoord*50;
+						beam.posY = player.posY + player.getLookVec().yCoord + player.eyeHeight;
+						beam.posZ = player.posZ + player.getLookVec().zCoord*50;
+						
+						world.spawnEntityInWorld(beam);
+						
 					  player.addPotionEffect(new PotionEffect(HbmPotion.taint.id, 20 * 20, 0));  
 					  player.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 0));  
 					  break;
