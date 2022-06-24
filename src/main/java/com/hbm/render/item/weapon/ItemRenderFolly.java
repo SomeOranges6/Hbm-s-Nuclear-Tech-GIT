@@ -54,9 +54,9 @@ public class ItemRenderFolly implements IItemRenderer {
 				
 				GL11.glTranslated(1.7, 1.1, 0);
 			    GL11.glScaled(s0, s0, s0);
-			    GL11.glRotated(200, 0, 0.8, -0.3);
-			    GL11.glRotated(-25, 0, 0, 0.1);
-			    ResourceManager.folly.renderPart("Barrel2_Cylinder.002");
+			    GL11.glRotated(80, 0, 1, 0);
+			    GL11.glRotated(-20, 1, 0, 0);
+			   
 			    break;
 			case 2: 
 				
@@ -64,28 +64,28 @@ public class ItemRenderFolly implements IItemRenderer {
 				
 				GL11.glTranslated(1.7, 1.1, 0);
 			    GL11.glScaled(s0, s0, s0);
-			    GL11.glRotated(200, 0, 0.8, -0.3);
-			    GL11.glRotated(-25, 0, 0, 0.1);
-			    ResourceManager.folly.renderPart("Shell2_Cylinder.001");
-			    ResourceManager.folly.renderPart("Barrel2_Cylinder.002");
+			    GL11.glRotated(80, 0, 1, 0);
+			    GL11.glRotated(-20, 1, 0, 0);
+			    ResourceManager.folly.renderPart("Shell");
+			   
 			    break;
 			case 3:
 				//closed and has a an shell
 				GL11.glTranslated(1.7, 1.1, 0);
 			    GL11.glScaled(s0, s0, s0);
-			    GL11.glRotated(255, 0, 0.8, -0.3);
-			    GL11.glRotated(-25, 0, 0, 0.1);
-			    ResourceManager.folly.renderPart("Shell_Cylinder.010");
-			    ResourceManager.folly.renderPart("Barrel_Cylinder.004");
+			    GL11.glRotated(80, 0, 1, 0);
+			    GL11.glRotated(-20, 1, 0, 0);
+			    ResourceManager.folly.renderPart("Shell");
+			    
 			    break;
 			   
 			default:
 	            //Closed and empy
 			    GL11.glTranslated(1.7, 1.1, 0);
 			    GL11.glScaled(s0, s0, s0);
-			    GL11.glRotated(255, 0, 0.8, -0.3);
-			    GL11.glRotated(-25, 0, 0, 0.1);
-			    ResourceManager.folly.renderPart("Barrel_Cylinder.004");
+			    GL11.glRotated(80, 0, 1, 0);
+			    GL11.glRotated(-20, 1, 0, 0);
+			    
 			    break;
 			    
 			    //Same pattern applies for the second big block of switches
@@ -96,7 +96,7 @@ public class ItemRenderFolly implements IItemRenderer {
 				GL11.glPushMatrix();
 		        GL11.glDisable(GL11.GL_TEXTURE_2D);
 		        GL11.glDisable(GL11.GL_LIGHTING);
-		        GL11.glRotated(-90, 0, 1, 0);
+		        GL11.glRotated(90, 0, 1, 0);
 		        GL11.glTranslated(1.8, -0.4, 1);
 	            Tessellator tessellator = Tessellator.instance;
 	            int color = 0x00FF00;
@@ -146,7 +146,7 @@ public class ItemRenderFolly implements IItemRenderer {
 				GL11.glRotated(0, 0, 0, 0);
 				GL11.glTranslated(-0.55, 0.5, -1.3);
 				GL11.glScaled(scale, scale, scale);
-				ResourceManager.folly.renderPart("Barrel2_Cylinder.002");
+				
 			    break;
 			case 2: 
 				GL11.glRotated(190, 0, 1, 0);
@@ -155,8 +155,8 @@ public class ItemRenderFolly implements IItemRenderer {
 				GL11.glTranslated(-0.55, 0.5, -1.3);
 				GL11.glScaled(scale, scale, scale);
 				
-			    ResourceManager.folly.renderPart("Shell2_Cylinder.001");
-			    ResourceManager.folly.renderPart("Barrel2_Cylinder.002");
+			    ResourceManager.folly.renderPart("Shell");
+			   
 			    break;
 			case 3:
 				
@@ -165,8 +165,8 @@ public class ItemRenderFolly implements IItemRenderer {
 				GL11.glRotated(0, 0, 0, 0);
 				GL11.glTranslated(-0.55, 0.5, -1.3);
 				GL11.glScaled(scale, scale, scale);
-				ResourceManager.folly.renderPart("Barrel_Cylinder.004");
-			    ResourceManager.folly.renderPart("Shell_Cylinder.010");
+				
+			    ResourceManager.folly.renderPart("Shell");
 			    
 			    break;
 			default:
@@ -175,7 +175,7 @@ public class ItemRenderFolly implements IItemRenderer {
 			    GL11.glRotated(0, 0, 0, 0);
 			    GL11.glTranslated(-0.55, 0.5, -1.3);
 			    GL11.glScaled(scale, scale, scale);
-			    ResourceManager.folly.renderPart("Barrel_Cylinder.004");
+			    
 			    break;
              }
              
@@ -188,7 +188,7 @@ public class ItemRenderFolly implements IItemRenderer {
 			double s1 = 0.4D;
 			GL11.glScaled(s1, s1, s1);
 			GL11.glRotated(0, 0, 1, 0);
-			ResourceManager.folly.renderPart("Barrel_Cylinder.004");
+			
 			
 			break;
 			
@@ -196,22 +196,21 @@ public class ItemRenderFolly implements IItemRenderer {
 
 			GL11.glEnable(GL11.GL_LIGHTING);
 			
-			double s = 1.7D;
-			GL11.glTranslated(8, 6, 1);
+			double s = 2D;
+			GL11.glTranslated(10, 9, 0);
 			GL11.glRotated(-140, 0, 0, 1);
 			GL11.glRotated(90, 0, 1, 0);
 			GL11.glScaled(s, s, -s);
-			ResourceManager.folly.renderPart("Barrel_Cylinder.004");
+			
 			
 			break;
 			
 		default: break;
 		}
 		
-		ResourceManager.folly.renderPart("MainHousing_Cylinder");
-		ResourceManager.folly.renderPart("Iforgor_Cylinder.005");
-		
-	
+		ResourceManager.folly.renderPart("Main");
+		ResourceManager.folly.renderPart("Barrel");
+		ResourceManager.folly.renderPart("Handle");
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 	}
