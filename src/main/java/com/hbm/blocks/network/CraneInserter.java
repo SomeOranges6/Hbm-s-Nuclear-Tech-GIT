@@ -16,6 +16,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -60,7 +61,8 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 		
 		if(te instanceof ISidedInventory) {
 			ISidedInventory sided = (ISidedInventory) te;
-			access = sided.getAccessibleSlotsFromSide(dir.ordinal());
+			//access = sided.getAccessibleSlotsFromSide(dir.ordinal());
+			access = masquerade(sided, dir.ordinal());
 		}
 		
 		if(te instanceof IInventory) {
@@ -119,6 +121,15 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 		}
 	}
 	
+	public static int[] masquerade(ISidedInventory sided, int side) {
+		
+		if(sided instanceof TileEntityFurnace) {
+			return new int[] {1, 0};
+		}
+		
+		return sided.getAccessibleSlotsFromSide(side);
+	}
+	
 	public static ItemStack addToInventory(IInventory inv, int[] access, ItemStack toAdd, int side) {
 		
 		ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
@@ -130,7 +141,8 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 			int index = access == null ? i : access[i];
 			ItemStack stack = inv.getStackInSlot(index);
 			
-			if(stack != null && toAdd.isItemEqual(stack) && ItemStack.areItemStackTagsEqual(toAdd, stack) && stack.stackSize < Math.min(stack.getMaxStackSize(), limit)) {
+			if(stack != null && toAdd.isItemEqual(stack) && ItemStack.areItemStackTagsEqual(toAdd, stack) && stack.stackSize < Math.min(stack.getMaxStackSize(), limit)
+					 && ((sided == null || sided.canInsertItem(index, toAdd, side)) && inv.isItemValidForSlot(index, toAdd))) {
 				
 				int stackLimit = Math.min(stack.getMaxStackSize(), limit);
 				int amount = Math.min(toAdd.stackSize, stackLimit - stack.stackSize);
@@ -149,7 +161,7 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 			int index = access == null ? i : access[i];
 			ItemStack stack = inv.getStackInSlot(index);
 			
-			if(stack == null && (sided != null ? sided.canInsertItem(index, toAdd, side) : inv.isItemValidForSlot(index, toAdd))) {
+			if(stack == null && ((sided == null || sided.canInsertItem(index, toAdd, side)) && inv.isItemValidForSlot(index, toAdd))) {
 				
 				int amount = Math.min(toAdd.stackSize, limit);
 				

@@ -43,7 +43,8 @@ public class TileEntityCraneInserter extends TileEntityMachineBase implements IG
 			
 			if(te instanceof ISidedInventory) {
 				ISidedInventory sided = (ISidedInventory) te;
-				access = sided.getAccessibleSlotsFromSide(dir.ordinal());
+				//access = sided.getAccessibleSlotsFromSide(dir.ordinal());
+				access = CraneInserter.masquerade(sided, dir.ordinal());
 			}
 			
 			if(te instanceof IInventory) {
@@ -72,6 +73,11 @@ public class TileEntityCraneInserter extends TileEntityMachineBase implements IG
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		return true;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return true;
 	}
 
