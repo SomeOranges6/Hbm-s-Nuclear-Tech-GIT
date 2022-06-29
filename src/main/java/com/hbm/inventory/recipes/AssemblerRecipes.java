@@ -21,13 +21,16 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.OreDictManager;
+
 import static com.hbm.inventory.OreDictManager.*;
+
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
+import com.hbm.items.machine.ItemBattery;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.Loader;
@@ -561,15 +564,15 @@ public class AssemblerRecipes {
 			new ComparableStack(ModBlocks.deco_emitter, 1),
 		   }, 300);
        makeRecipe(new ComparableStack(ModItems.ammo_folly_sleek, 1), new AStack[] {
-			
-			new ComparableStack(ModItems.folly_shell, 1),
-			new ComparableStack(ModItems.circuit_targeting_tier3, 1),
+            
+			new ComparableStack(ModItems.egg_balefire_shard, 6),
+			new ComparableStack(ModItems.powder_spark_mix, 2),
+			new ComparableStack(ModItems.tainted_reflector, 8),
+			new ComparableStack(ModItems.circuit_targeting_tier5, 1),
 			new ComparableStack(ModItems.hull_small_steel, 1),
-			new ComparableStack(ModItems.missile_micro, 3),
-			new ComparableStack(ModBlocks.det_charge, 5),
-			new OreDictStack(W.block(), 1),
-			new ComparableStack(ModBlocks.pole_satellite_receiver, 2),
-			new ComparableStack(ModItems.ammo_mirv_high, 1),
+			new ComparableStack(ItemBattery.getFullBattery(ModItems.battery_trixite)),
+			new ComparableStack(ModItems.folly_shell, 1),
+		
 			
 		   }, 300);
        makeRecipe(new ComparableStack(ModItems.folly_bullet_tandem, 1), new AStack[] {

@@ -1,5 +1,9 @@
 package com.hbm.handler.guncfg;
 
+import net.minecraft.world.World;
+
+import com.hbm.entity.logic.EntityDeathBlast;
+import com.hbm.entity.logic.EntityEulerLaser;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -134,7 +138,14 @@ public class GunCannonFactory {
 
   			@Override
   			public void behaveBlockHit (EntityBulletBase bullet, int x, int y, int z) {
-  				BulletConfigFactory.follySleek(bullet, x, y, z);
+  				World world = bullet.worldObj;
+  				
+  				EntityEulerLaser blast = new EntityEulerLaser(world);
+  	    		blast.posX = x;
+  	    		blast.posY = y;
+  	    		blast.posZ = z;
+  	    		
+  	    		world.spawnEntityInWorld(blast);
   			
   			}
   		};

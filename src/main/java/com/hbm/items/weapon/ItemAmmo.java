@@ -750,8 +750,9 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.RED + "- Non-Explosive");
 		}
 		if(this == ModItems.ammo_folly_sleek) {
-			list.add(EnumChatFormatting.BLUE + "+ Launches a salvo of Micro Nuclear and HE missiles over an large area");
-			list.add(EnumChatFormatting.WHITE + "* Verification needed in order to authorize launch");
+			list.add(EnumChatFormatting.BLUE + "+ Connects onto EULER II to fire a bale-energy beam from orbit");
+			list.add(EnumChatFormatting.WHITE + "* Verification needed in order to authorize deployment");
+			
 		}
 		
 		//STINGER

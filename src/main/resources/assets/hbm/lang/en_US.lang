@@ -3530,6 +3530,7 @@ tile.cmb_brick.name=CMB Steel Tile
 tile.cmb_brick_reinforced.name=Reinforced CMB Bricks
 tile.compact_launcher.name=Compact Launch Pad
 tile.concrete.name=Concrete Tile
+tile.concrete_debris.name=Concrete Debris
 tile.concrete_asbestos.name=Asbestos Concrete
 tile.concrete_colored.black.name=Black Concrete
 tile.concrete_colored.blue.name=Blue Concrete

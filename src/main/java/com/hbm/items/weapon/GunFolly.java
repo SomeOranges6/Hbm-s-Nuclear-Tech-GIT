@@ -98,11 +98,11 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				setState(stack, 2);
 				setType(stack,6);
 				
-            } else if(player.inventory.hasItem(ModItems.coin_maskman)) {
-            	
-            	player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "[IF Systems] Access granted, Fire when ready."));
+            } if(player.inventory.hasItem(ModItems.coin_maskman)) {
+            	if(verified == false) {
+            	player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "[EV-1101] Access granted, Fire when ready."));
             	stack.stackTagCompound.setBoolean("verified", true);
-            	
+            	}
             } else if(player.inventory.hasItem(ModItems.ammo_folly_sleek)) {
             	
             	if(verified == true) {
@@ -113,7 +113,7 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				setType(stack,4);
 				
             	} else {
-                	player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "[IF Systems] Access to Silos Denied, Verify using a IF-R&D M.A.S.K token"));
+                	player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "[EV-1101] Access Denied, Verify using a IF-R&D M.A.S.K token"));
             	}
              } else if(player.inventory.hasItem(ModItems.folly_shell)) {
 				
@@ -181,7 +181,7 @@ public class GunFolly extends Item implements IHoldableWeapon {
 					  
 					  case 5: config = BulletConfigSyncingUtil.TEST_CONFIG;
 					  
-					  for(int i = 0; i < 12; i++) {
+					  for(int i = 0; i < 20; i++) {
 						  
 						  world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world,player.posX + player.getLookVec().xCoord *i*5 ,player.posY+player.getLookVec().yCoord + player.eyeHeight,player.posZ +player.getLookVec().zCoord *i*5 , i*2));
 							 
@@ -256,23 +256,25 @@ public class GunFolly extends Item implements IHoldableWeapon {
 		
 		if(MainRegistry.polaroidID == 3) {
 			
-			list.add(EnumChatFormatting.BLUE + "  Besides the name it is completly Unrelated to" + EnumChatFormatting.OBFUSCATED + "The Digamma Particle");
+			list.add(EnumChatFormatting.BLUE + "  Besides the name it is completly Unrelated to" + EnumChatFormatting.OBFUSCATED + " The Digamma Particle");
 			
 		} else if (MainRegistry.polaroidID == 11) {
 			
-			list.add(EnumChatFormatting.RED + "    AHAHAH OOO THEY'RE GONNA HAVE TO GLUE YOU BACK TOGETHER");
-			list.add(EnumChatFormatting.RED + ""+ EnumChatFormatting.BOLD + "    IN HELL");
-			
+			list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  A Handheld 128cm cannon, made to destroy Project Horizons using a Starmetal-Moonstone reaction");
+			list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  Does it work? ");
+			list.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "  No, of course not, that'd be terrible game balancing.");
+			list.add(EnumChatFormatting.WHITE + "" + EnumChatFormatting.ITALIC + "  May as well have some fun with it.");
 		} else {
 	
 		
-		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  A Handheld 128mm Cannon made deep inside the IF-RD skunkworks");
-		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  However, it never made out of the drawing board.");
-		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  The blueprint was recovered at a later date by an unknown Ironshod Firearms Employee");
-		
+		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  A Handheld 128cm cannon, made to destroy Project Horizons using a Starmetal-Moonstone reaction");
+		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  Does it work?");
+		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  Well, thats your job to find out.");
 		
 		
 		}
+		list.add("Name: Project Starfall");
+		list.add("Manufacturer: Horizons Labs");
 		list.add("Ammo: Silver Bullets");
 	}
 	public EnumRarity getRarity(ItemStack p_77613_1_)
