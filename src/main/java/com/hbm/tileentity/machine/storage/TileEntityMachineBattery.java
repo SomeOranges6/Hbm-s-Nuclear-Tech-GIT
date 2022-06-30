@@ -263,13 +263,14 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Override
 	public long transferPower(long power) {
 
-		int mode =this.getRelevantMode();
+		int mode = this.getRelevantMode();
 		
 		if(mode == mode_output || mode == mode_none) {
 			return power;
 		}
 		
 		this.power += power;
+		this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 		
 		if(this.power > this.getMaxPower()) {
 			
@@ -284,7 +285,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Override
 	public long getTransferWeight() {
 
-		int mode =this.getRelevantMode();
+		int mode = this.getRelevantMode();
 		
 		if(mode == mode_output || mode == mode_none) {
 			return 0;
@@ -301,6 +302,11 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Override
 	public void setPower(long power) {
 		this.power = power;
+	}
+
+	@Override
+	public ConnectionPriority getPriority() {
+		return ConnectionPriority.LOW;
 	}
 	
 	// do some opencomputer stuff
