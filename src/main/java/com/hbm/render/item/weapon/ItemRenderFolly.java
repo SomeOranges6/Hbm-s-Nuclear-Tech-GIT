@@ -179,46 +179,64 @@ public class ItemRenderFolly implements IItemRenderer {
 			break;
 		case EQUIPPED:
 
-			double scale = 0.3D;
+			double scale = 0.4D;
              switch (state) {
 			
 			case 1: 
+				GL11.glPushMatrix();
 				
-				GL11.glRotated(190, 0, 1, 0);
-				GL11.glRotated(-10, 1, 0, 0);
-				GL11.glRotated(0, 0, 0, 0);
-				GL11.glTranslated(-0.55, 0.5, -1.3);
+				   GL11.glTranslated(0.7, -1.3, 0.2);
+			       GL11.glScaled(scale, scale, scale);
+			       GL11.glRotated(10, 0, 1, 0);
+				   GL11.glRotated(95, 1, 0, 0);
+				
+			       
+			       ResourceManager.folly.renderPart("Barrel");
+			       ResourceManager.folly.renderPart("Handle");
+			      
+			    GL11.glPopMatrix();
+				GL11.glRotated(10, 0, 1, 0);
+				GL11.glRotated(15, 1, 0, 0);
+				GL11.glTranslated(0.7, 0.1, 1.3);
 				GL11.glScaled(scale, scale, scale);
-				 ResourceManager.folly.renderPart("Barrel");
+				
 			    break;
 			case 2: 
-				GL11.glRotated(190, 0, 1, 0);
-				GL11.glRotated(-10, 1, 0, 0);
-				GL11.glRotated(0, 0, 0, 0);
-				GL11.glTranslated(-0.55, 0.5, -1.3);
+				GL11.glPushMatrix();
+				
+				   GL11.glTranslated(0.7, -1.3, 0.2);
+			       GL11.glScaled(scale, scale, scale);
+			       GL11.glRotated(10, 0, 1, 0);
+				   GL11.glRotated(95, 1, 0, 0);
+				
+			       
+			       ResourceManager.folly.renderPart("Barrel");
+			       ResourceManager.folly.renderPart("Handle");
+			       ResourceManager.folly.renderPart("Shell");
+			    GL11.glPopMatrix();
+				GL11.glRotated(10, 0, 1, 0);
+				GL11.glRotated(15, 1, 0, 0);
+				GL11.glTranslated(0.7, 0.1, 1.3);
 				GL11.glScaled(scale, scale, scale);
 				
-			    ResourceManager.folly.renderPart("Shell");
-			    ResourceManager.folly.renderPart("Barrel");
 			    break;
 			case 3:
 				
-				GL11.glRotated(190, 0, 1, 0);
-				GL11.glRotated(-10, 1, 0, 0);
-				GL11.glRotated(0, 0, 0, 0);
-				GL11.glTranslated(-0.55, 0.5, -1.3);
+				GL11.glRotated(10, 0, 1, 0);
+				GL11.glRotated(15, 1, 0, 0);
+				GL11.glTranslated(0.7, 0.1, 1.3);
 				GL11.glScaled(scale, scale, scale);
 				 ResourceManager.folly.renderPart("Barrel");
 			    ResourceManager.folly.renderPart("Shell");
-			    
+			    ResourceManager.folly.renderPart("Handle");
 			    break;
 			default:
-			    GL11.glRotated(190, 0, 1, 0);
-			    GL11.glRotated(-10, 1, 0, 0);
-			    GL11.glRotated(0, 0, 0, 0);
-			    GL11.glTranslated(-0.55, 0.5, -1.3);
+				GL11.glRotated(10, 0, 1, 0);
+				GL11.glRotated(15, 1, 0, 0);
+				GL11.glTranslated(0.7, 0.1, 1.3);
 			    GL11.glScaled(scale, scale, scale);
 			    ResourceManager.folly.renderPart("Barrel");
+			    ResourceManager.folly.renderPart("Handle");
 			    break;
              }
              
@@ -228,10 +246,11 @@ public class ItemRenderFolly implements IItemRenderer {
 			
 		case ENTITY:
 
-			double s1 = 0.4D;
+			double s1 = 0.5D;
 			GL11.glScaled(s1, s1, s1);
 			GL11.glRotated(0, 0, 1, 0);
 			 ResourceManager.folly.renderPart("Barrel");
+			 ResourceManager.folly.renderPart("Handle");
 			
 			break;
 			
@@ -240,7 +259,7 @@ public class ItemRenderFolly implements IItemRenderer {
 			GL11.glEnable(GL11.GL_LIGHTING);
 			
 			double s = 2D;
-			GL11.glTranslated(6.7, 6, 0);
+			GL11.glTranslated(8, 7, 0);
 			GL11.glRotated(-140, 0, 0, 1);
 			GL11.glRotated(-90, 0, 1, 0);
 			GL11.glScaled(s, s, -s);

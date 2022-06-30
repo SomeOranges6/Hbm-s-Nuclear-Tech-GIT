@@ -98,10 +98,11 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				setState(stack, 2);
 				setType(stack,6);
 				
-            } if(player.inventory.hasItem(ModItems.coin_maskman)) {
+            }else if(player.inventory.hasItem(ModItems.coin_maskman)) {
             	if(verified == false) {
             	player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "[EV-1101] Access granted, Fire when ready."));
             	stack.stackTagCompound.setBoolean("verified", true);
+            	setState(stack, 1);
             	}
             } else if(player.inventory.hasItem(ModItems.ammo_folly_sleek)) {
             	
@@ -161,6 +162,8 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				
 				if(player.inventory.hasItem(ModItems.memespoon)) {
 			     mult = 5D;
+				} else if(player.isSneaking()) {
+					mult = 1.2D;	
 				} else {
 				 mult = 1.75D;
 				}
@@ -262,8 +265,7 @@ public class GunFolly extends Item implements IHoldableWeapon {
 			
 			list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  A Handheld 128cm cannon, made to destroy Project Horizons using a Starmetal-Moonstone reaction");
 			list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  Does it work? ");
-			list.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "  No, of course not, that'd be terrible game balancing.");
-			list.add(EnumChatFormatting.WHITE + "" + EnumChatFormatting.ITALIC + "  May as well have some fun with it.");
+			list.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "  Nope, found that out the hard way");
 		} else {
 	
 		
