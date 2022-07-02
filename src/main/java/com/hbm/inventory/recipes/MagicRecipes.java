@@ -94,6 +94,9 @@ public class MagicRecipes {
 				new ComparableStack(ModItems.plate_polymer),
 				new ComparableStack(ModItems.nugget_pu239),
 				new ComparableStack(ModItems.circuit_aluminium)));
+		recipes.add(new MagicRecipe(new ItemStack(ModItems.bomb_caller, 1, 10),
+				new ComparableStack(ModItems.detonator_laser),
+				new ComparableStack(Items.egg)));
 	}
 	
 	public static List<MagicRecipe> getRecipes() {
