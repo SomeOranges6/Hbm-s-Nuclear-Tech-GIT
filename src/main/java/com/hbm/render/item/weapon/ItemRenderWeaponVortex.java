@@ -39,7 +39,6 @@ public class ItemRenderWeaponVortex implements IItemRenderer {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.vortex_tex);
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		switch(type) {
 		
 		case EQUIPPED_FIRST_PERSON:
@@ -50,9 +49,6 @@ public class ItemRenderWeaponVortex implements IItemRenderer {
 			GL11.glRotated(-5, 0, 1, 0);
 			GL11.glTranslated(17, -5, -5);
 			
-			if(player.isSneaking()) {
-				GL11.glTranslatef(0.0F, -2.0F, -7.8F);
-			}
 			break;
 			
 		case EQUIPPED:

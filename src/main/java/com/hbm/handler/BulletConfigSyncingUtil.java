@@ -502,7 +502,6 @@ public class BulletConfigSyncingUtil {
 		configSet.put(DET_BOLT, GunDetonatorFactory.getLaserConfig());
 		
 		configSet.put(VORTEX_ENERGY, GunVortexFactory.getEnergyConfig());
-		configSet.put(VORTEX_ENERGY_ALT, GunVortexFactory.getAltEnergyConfig());
 		configSet.put(VORTEX_OUCH, GunVortexFactory.getOuchConfig());
         
 		configSet.put(TURBINE, GunEnergyFactory.getTurbineConfig());

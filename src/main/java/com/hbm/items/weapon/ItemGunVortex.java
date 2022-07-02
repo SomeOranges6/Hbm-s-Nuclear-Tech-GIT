@@ -49,7 +49,7 @@ public class ItemGunVortex extends ItemGunBase {
 		public void endAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
 
 			if(getHasShot(stack)) {
-				world.playSoundAtEntity(player, "hbm:weapon.sparkShoot", 1.0F, 1.0F);
+
 				EntityBeamVortex laser = new EntityBeamVortex(world, player);
 				if (!world.isRemote) {
 					world.spawnEntityInWorld(laser);
@@ -60,7 +60,7 @@ public class ItemGunVortex extends ItemGunBase {
 			if(!main && getStored(stack) > 0) {
 				
 				EntityBulletBase bullet = new EntityBulletBase(world, altConfig.config.get(0), player);
-				bullet.overrideDamage = getStored(stack)+ 240 * 2F;
+				bullet.overrideDamage = getStored(stack)*6 + 150;
 				world.spawnEntityInWorld(bullet);
 				world.playSoundAtEntity(player, "hbm:weapon.tauShoot", 1.0F, 0.75F);
 				setItemWear(stack, getItemWear(stack) + (getCharge(stack)) * 2);
@@ -81,7 +81,7 @@ public class ItemGunVortex extends ItemGunBase {
 		}
 		
 		protected void altFire(ItemStack stack, World world, EntityPlayer player) {
-			setCharge(stack, 1);
+			setCharge(stack, 10);
 		}
 		
 		@Override

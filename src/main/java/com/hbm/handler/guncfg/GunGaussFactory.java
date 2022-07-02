@@ -60,7 +60,7 @@ public class GunGaussFactory {
 		
 		GunConfiguration config = new GunConfiguration();
 		
-		config.rateOfFire = 1;
+		config.rateOfFire = 2;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_AUTO;

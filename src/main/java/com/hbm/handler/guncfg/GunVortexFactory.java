@@ -24,7 +24,7 @@ public class GunVortexFactory {
        public static GunConfiguration getVortexConfig() {
 		
 		GunConfiguration config = new GunConfiguration();
-		config.rateOfFire = 1;
+		config.rateOfFire = 10;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_RELEASE;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
@@ -33,7 +33,7 @@ public class GunVortexFactory {
 		config.firingDuration = 1;
 		config.durability = 5000;
 		config.reloadType = GunConfiguration.RELOAD_FULL;
-		config.ammoCap = 10;
+		config.ammoCap = 5;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_ARROWS;
 		config.firingSound = "hbm:weapon.tauShoot";
@@ -86,44 +86,22 @@ public class GunVortexFactory {
 		bullet.spread = 0F;
 		bullet.maxAge = 100;
 		bullet.gravity = 0D;
-		bullet.dmgMin = 240;
-	    bullet.dmgMax = 300;
+		bullet.dmgMin = 80;
+	    bullet.dmgMax = 100;
 		bullet.bulletsMin = 1;
 		bullet.bulletsMax = 1;
 		bullet.style = bullet.STYLE_BOLT;
 		bullet.trail = bullet.BOLT_LACUNAE;
 		return bullet;
 	}
-        public static BulletConfiguration getAltEnergyConfig() {
-    		
-    		BulletConfiguration bullet = new BulletConfiguration();
-    		
-    		bullet.ammo = ModItems.ammo_cell;
-    		bullet.ammoCount = 1;
-    		bullet.wear = 50;
-    		bullet.velocity = 100F;
-    		bullet.spread = 0F;
-    		bullet.maxAge = 100;
-    		bullet.gravity = 0D;
-    		bullet.dmgMin = 240;
-    	    bullet.dmgMax = 300;
-    		bullet.bulletsMin = 1;
-    		bullet.bulletsMax = 1;
-    		bullet.style = bullet.STYLE_ORB;
-    		
-    		bullet.liveAfterImpact = true;
-    		
-    		return bullet;
-    	}    
+            
         public static BulletConfiguration getOuchConfig() {
     		
-    		BulletConfiguration bullet = getAltEnergyConfig();
-    		bullet.dmgMin = 40;
-    		bullet.dmgMax = 50;
-    		bullet.velocity = 10F;
+    		BulletConfiguration bullet = getEnergyConfig();
+    		
+    		bullet.velocity = 100F;
     		bullet.maxAge = 2;
     		
-    		bullet.dmgBypass = true;
     		bullet.doesPenetrate = true;
     		bullet.liveAfterImpact = true;
     		
@@ -139,11 +117,11 @@ public class GunVortexFactory {
     					if(entity.getDistance(x, y, z) > 5)
     						continue;
     					
-    					ArmorUtil.damageSuit(entity, 0, 25);
-    					ArmorUtil.damageSuit(entity, 1, 25);
-    					ArmorUtil.damageSuit(entity, 2, 25);
-    					ArmorUtil.damageSuit(entity, 3, 25);
-    					entity.attackEntityFrom(ModDamageSource.pc, 7);
+    					ArmorUtil.damageSuit(entity, 0, 105);
+    					ArmorUtil.damageSuit(entity, 1, 125);
+    					ArmorUtil.damageSuit(entity, 2, 125);
+    					ArmorUtil.damageSuit(entity, 3, 105);
+    					
     			}
     		}
     			
