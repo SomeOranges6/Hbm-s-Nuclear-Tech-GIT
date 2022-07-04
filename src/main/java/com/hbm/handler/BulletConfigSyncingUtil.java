@@ -8,6 +8,8 @@ import com.hbm.items.ModItems;
 
 public class BulletConfigSyncingUtil {
 
+	
+
 	private static HashMap<Integer, BulletConfiguration> configSet = new HashMap();
 
 	static int i = 0;
@@ -209,6 +211,7 @@ public class BulletConfigSyncingUtil {
 	public static int SHELL_FOLLY_DU = i++;
 	public static int SHELL_FOLLY_OUCH = i++;
 	public static int SHELL_FOLLY_SLEEK = i++;
+	public static int SHELL_FOLLY = i++;
 	
 	public static int DGK_NORMAL = i++;
 	public static int FLA_NORMAL = i++;
@@ -473,6 +476,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(SHELL_FOLLY_DU, GunCannonFactory.getShellFollyDuConfig());
 		configSet.put(SHELL_FOLLY_OUCH, GunCannonFactory.getShellFollyOuchConfig());
 		configSet.put(SHELL_FOLLY_SLEEK, GunCannonFactory.getShellFollySleekConfig());
+		configSet.put(SHELL_FOLLY, GunCannonFactory.getShellFollyConfig());
 		
 		configSet.put(DGK_NORMAL, GunDGKFactory.getDGKConfig());
 		configSet.put(FLA_NORMAL, GunEnergyFactory.getTurretConfig());

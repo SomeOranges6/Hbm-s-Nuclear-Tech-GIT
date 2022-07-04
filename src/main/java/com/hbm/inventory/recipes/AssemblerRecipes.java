@@ -1084,6 +1084,8 @@ public class AssemblerRecipes {
 		hidden.put(new ComparableStack(ModItems.mp_warhead_10_taint, 1), new HashSet() {{ add(ModItems.journal_pip); }});
 		hidden.put(new ComparableStack(ModItems.mp_warhead_15_balefire, 1), new HashSet() {{ add(ModItems.journal_bj); }});
 		hidden.put(new ComparableStack(ModItems.sat_gerald, 1), new HashSet() {{ add(ModItems.journal_bj); }});
+		hidden.put(new ComparableStack(ModItems.gun_folly, 1), new HashSet() {{ add(ModItems.journal_bj); }});
+		hidden.put(new ComparableStack(ModItems.folly_bullet, 1), new HashSet() {{ add(ModItems.journal_bj); }});
 		hidden.put(new ComparableStack(ModItems.missile_soyuz, 1), new HashSet() {{ add(ModItems.journal_bj); }});
 		hidden.put(new ComparableStack(ModItems.missile_soyuz_lander, 1), new HashSet() {{ add(ModItems.journal_bj); }});
 	}

@@ -213,7 +213,7 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_folly, 1), new Object[] { " B ", "MEM", " S ", 'B', ModItems.folly_bullet, 'M', ModItems.powder_power, 'E', Fluids.NITAN.getDict(1000), 'S', ModItems.folly_shell });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_folly_nuclear, 2), new Object[] { " B ", "EEE", " S ", 'B', ModItems.folly_bullet_nuclear, 'E', ModBlocks.det_charge, 'S', ModItems.folly_shell });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_folly_tandem, 2), new Object[] { " B ", "EEE", " S ", 'B', ModItems.folly_bullet_tandem, 'E', ModBlocks.det_charge, 'S', ModItems.folly_shell });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_folly_du, 4), new Object[] { " B ", "EEE", " S ", 'B', ModItems.folly_bullet_du, 'E', ModBlocks.det_charge, 'S', ModItems.folly_shell });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_folly_du, 4), new Object[] { " B ", " S ", 'B', ModItems.folly_bullet_du, 'S', ModItems.folly_shell });
 
 		//Rockets
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_rocket, 1), new Object[] { " T ", "GCG", " P ", 'T', Blocks.tnt, 'G', ModItems.rocket_fuel, 'C', ModItems.casing_50, 'P', ModItems.primer_50 });

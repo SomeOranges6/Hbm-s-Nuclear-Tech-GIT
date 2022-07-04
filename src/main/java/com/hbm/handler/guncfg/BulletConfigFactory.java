@@ -7,7 +7,6 @@ import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
-import com.hbm.entity.missile.*;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -325,8 +324,6 @@ public class BulletConfigFactory {
 				posY = y + 1.5;
 				posZ = z + 0.5;
 			}
-			ExplosionNukeSmall.explode(bullet.worldObj, posX, posY, posZ, 4);
-			
 			world.playSoundEffect(posX,posY,posZ, "random.explode", 100.0f, world.rand.nextFloat() * 0.1F + 0.9F);
 			world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world,posX,posY,posZ, 5));
 			 
@@ -337,51 +334,7 @@ public class BulletConfigFactory {
 			world.spawnEntityInWorld(cloud);
 		}	
 	}
-    public static void follySleek(EntityBulletBase bullet, float x, float y, float z) {
-		
-		if(!bullet.worldObj.isRemote) {
-			
-			World world = bullet.worldObj;
-			
-			
-			double posY = bullet.posY + 0.5;
-			
-			int a = (int) bullet.posX;
-			int b = (int) bullet.posZ;
-			
-			Random rand  = new Random();
-			if(y >= 0) {
-				
-				y = (float) posY + 100;
-			}
-			
-			for(int i = 0; i < 4; i++) {
-			Entity missile = new EntityMissileMicro(world,x-100+rand.nextFloat()*10 ,y,z+rand.nextFloat()*10, a+rand.nextInt(8)-5, b+rand.nextInt(8)-5);
-			
-			
-			world.spawnEntityInWorld(missile); 
-			}
-			
-			for(int i = 0; i < 4; i++) {
-				Entity missile2 = new EntityMissileGeneric(world,x-100+rand.nextFloat()*10,y,z+rand.nextFloat()*10, a+rand.nextInt(8)-5, b+rand.nextInt(8)-5);
-				
-				
-				world.spawnEntityInWorld(missile2); 
-				}
-			for(int i = 0; i < 6; i++) {
-				
-				EntityBulletBase nuke = new EntityBulletBase(world, BulletConfigSyncingUtil.NUKE_HIGH);
-				nuke.setPosition(x,y+50,z);
-				double mod = 0.3D;
-				nuke.motionX = bullet.worldObj.rand.nextGaussian() * mod;
-				nuke.motionY = -0.1D;
-				nuke.motionZ = bullet.worldObj.rand.nextGaussian() * mod;
-				bullet.worldObj.spawnEntityInWorld(nuke);
-			}
-			
-		}	
-	}
-	
+   	
 	public static IBulletImpactBehavior getPhosphorousEffect(final int radius, final int duration, final int count, final double motion, float hazeChance) {
 		
 		IBulletImpactBehavior impact = new IBulletImpactBehavior() {

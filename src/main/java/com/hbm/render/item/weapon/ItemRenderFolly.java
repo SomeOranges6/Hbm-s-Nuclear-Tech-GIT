@@ -258,8 +258,8 @@ public class ItemRenderFolly implements IItemRenderer {
 
 			GL11.glEnable(GL11.GL_LIGHTING);
 			
-			double s = 2D;
-			GL11.glTranslated(8, 7, 0);
+			double s = 2.1D;
+			GL11.glTranslated(8, 8, 0);
 			GL11.glRotated(-140, 0, 0, 1);
 			GL11.glRotated(-90, 0, 1, 0);
 			GL11.glScaled(s, s, -s);

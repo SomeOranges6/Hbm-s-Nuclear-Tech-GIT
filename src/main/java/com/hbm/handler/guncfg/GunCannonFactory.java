@@ -1,9 +1,13 @@
 package com.hbm.handler.guncfg;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
+import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityDeathBlast;
 import com.hbm.entity.logic.EntityEulerLaser;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -88,7 +92,7 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = ModItems.ammo_folly;
+		bullet.ammo = ModItems.ammo_folly_tandem;
 		bullet.dmgMin = 250;
 		bullet.dmgMax = 360;
 		
@@ -97,6 +101,10 @@ public class GunCannonFactory {
 			@Override
 			public void behaveBlockHit (EntityBulletBase bullet, int x, int y, int z) {
 				BulletConfigFactory.follyStar(bullet, x, y, z);
+				EntityBulletBase bolt = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.SHELL_FOLLY_NUKE);
+				bolt.setPosition(bullet.posX, bullet.posY, bullet.posZ);
+				bolt.setThrowableHeading(bullet.motionX, bullet.motionY, bullet.motionZ, 0.1F, 0.1F);
+				bullet.worldObj.spawnEntityInWorld(bolt);
 			
 			}
 		};
@@ -165,7 +173,8 @@ public class GunCannonFactory {
 		
 		return bullet;
 	} 
-public static BulletConfiguration getShellFollyOuchConfig() {
+    
+    public static BulletConfiguration getShellFollyOuchConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
@@ -191,10 +200,58 @@ public static BulletConfiguration getShellFollyOuchConfig() {
 							bolt.setThrowableHeading(bullet.motionX, bullet.motionY, bullet.motionZ, 0.25F, 0.1F);
 							bullet.worldObj.spawnEntityInWorld(bolt);
 						}
+						
 					}
 				}
 			}
 		};
 		return bullet;
      }
+ 
+    public static BulletConfiguration getShellFollyConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+		
+		bullet.ammo = ModItems.ammo_folly;
+		bullet.dmgMin = 500;
+		bullet.dmgMax = 600;
+		bullet.velocity = 10F;
+		bullet.trail = 0;
+		bullet.HBRC = 0;
+		bullet.LBRC = 0;
+		bullet.doesPenetrate = true;
+		bullet.liveAfterImpact = true;
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+  
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				World world = Minecraft.getMinecraft().theWorld;
+				
+				if(!bullet.worldObj.isRemote) {
+					
+		        int yes = bullet.ticksExisted;
+				
+				for(int i = 0; i < yes; i++) {
+					
+					bullet.worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(bullet.worldObj,bullet.posX ,bullet.posY, bullet.posZ,5+i*2));
+							 
+					EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(bullet.worldObj,5+i*2);
+					cloud.posX = bullet.posX;
+					cloud.posY = bullet.posY;
+					cloud.posZ = bullet.posZ;
+							
+					bullet.worldObj.spawnEntityInWorld(cloud);
+					}
+				if(bullet.ticksExisted > 15) 
+					bullet.setDead();
+				
+			}
+			}
+		};
+		return bullet;
+     }
+
 }
+	

@@ -111,7 +111,7 @@ public class GunGaussFactory {
     public static BulletConfiguration getEnergyConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
-		bullet.ammoCount = 6;
+		bullet.ammoCount = 3;
 		bullet.ammo = ModItems.gun_defabricator_ammo;
 		bullet.dmgMin = 40;
 		bullet.dmgMax = 120;
