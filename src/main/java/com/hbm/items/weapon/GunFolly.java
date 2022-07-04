@@ -98,12 +98,6 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				setState(stack, 2);
 				setType(stack,6);
 				
-            }else if(player.inventory.hasItem(ModItems.coin_maskman)) {
-            	if(verified == false) {
-            	player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "[EV-1101] Access granted, Fire when ready."));
-            	stack.stackTagCompound.setBoolean("verified", true);
-            	setState(stack, 1);
-            	}
             } else if(player.inventory.hasItem(ModItems.ammo_folly_sleek)) {
             	
             	if(verified == true) {
@@ -113,9 +107,17 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				setState(stack, 2);
 				setType(stack,4);
 				
+               }else if(player.inventory.hasItem(ModItems.coin_maskman)) {
+                 	
+                 	if(verified == false) {
+                 	player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "[EV-1101] Access granted, Fire when ready."));
+                 	stack.stackTagCompound.setBoolean("verified", true);
+                 	setState(stack, 1);
+                 	}
             	} else {
                 	player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "[EV-1101] Access Denied, Verify using a IF-R&D M.A.S.K token"));
             	}
+            
              } else if(player.inventory.hasItem(ModItems.folly_shell)) {
 				
 				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
