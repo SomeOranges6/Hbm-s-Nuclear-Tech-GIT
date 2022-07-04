@@ -87,7 +87,8 @@ public class GunVortexFactory {
 		bullet.maxAge = 100;
 		bullet.gravity = 0D;
 		bullet.dmgMin = 80;
-	    bullet.dmgMax = 100;
+	    bullet.dmgMax = 90;
+	    bullet.headshotMult = 1.5F;
 		bullet.bulletsMin = 1;
 		bullet.bulletsMax = 1;
 		bullet.style = bullet.STYLE_BOLT;
@@ -101,6 +102,7 @@ public class GunVortexFactory {
     		
     		bullet.velocity = 100F;
     		bullet.maxAge = 2;
+    		bullet.headshotMult = 2F;
     		
     		bullet.doesPenetrate = true;
     		bullet.liveAfterImpact = true;

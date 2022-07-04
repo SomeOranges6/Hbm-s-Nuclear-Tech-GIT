@@ -57,10 +57,10 @@ public class ItemGunVortex extends ItemGunBase {
 				setHasShot(stack, false);
 			}
 			
-			if(!main && getStored(stack) > 0) {
+			if(!main && getStored(stack) > 1) {
 				
 				EntityBulletBase bullet = new EntityBulletBase(world, altConfig.config.get(0), player);
-				bullet.overrideDamage = getStored(stack)*6 + 150;
+				bullet.overrideDamage = getStored(stack)*6 + 120;
 				world.spawnEntityInWorld(bullet);
 				world.playSoundAtEntity(player, "hbm:weapon.tauShoot", 1.0F, 0.75F);
 				setItemWear(stack, getItemWear(stack) + (getCharge(stack)) * 2);
@@ -112,7 +112,7 @@ public class ItemGunVortex extends ItemGunBase {
 					int config = BulletConfigSyncingUtil.VORTEX_OUCH;
 					
 					EntityBulletBase bullet = new EntityBulletBase(world, config, player);
-					bullet.overrideDamage = getStored(stack)+ 200 * 2F;
+					bullet.overrideDamage = getStored(stack)* 7F + 150;
 					
 					world.spawnEntityInWorld(bullet);
 					
