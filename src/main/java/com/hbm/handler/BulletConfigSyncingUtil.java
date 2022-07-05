@@ -212,6 +212,7 @@ public class BulletConfigSyncingUtil {
 	public static int SHELL_FOLLY_OUCH = i++;
 	public static int SHELL_FOLLY_SLEEK = i++;
 	public static int SHELL_FOLLY = i++;
+	public static int SHELL_FOLLY_EFFECT = i++;
 	
 	public static int DGK_NORMAL = i++;
 	public static int FLA_NORMAL = i++;
@@ -477,6 +478,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(SHELL_FOLLY_OUCH, GunCannonFactory.getShellFollyOuchConfig());
 		configSet.put(SHELL_FOLLY_SLEEK, GunCannonFactory.getShellFollySleekConfig());
 		configSet.put(SHELL_FOLLY, GunCannonFactory.getShellFollyConfig());
+		configSet.put(SHELL_FOLLY_EFFECT, GunCannonFactory.getEffectConfig());
 		
 		configSet.put(DGK_NORMAL, GunDGKFactory.getDGKConfig());
 		configSet.put(FLA_NORMAL, GunEnergyFactory.getTurretConfig());

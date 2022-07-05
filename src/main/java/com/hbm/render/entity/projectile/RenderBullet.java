@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
@@ -57,7 +58,7 @@ public class RenderBullet extends Render {
 			case BulletConfiguration.STYLE_PISTOL: renderPistol(trail); break;
 			case BulletConfiguration.STYLE_BOLT: renderDart(trail, bullet.getEntityId()); break;
 			case BulletConfiguration.STYLE_FLECHETTE: renderFlechette(); break;
-			case BulletConfiguration.STYLE_FOLLY: renderBullet(trail); break;
+			case BulletConfiguration.STYLE_FOLLY: renderFollyBeam(bullet); break;
 			case BulletConfiguration.STYLE_PELLET: renderBuckshot(); break;
 			case BulletConfiguration.STYLE_ROCKET: renderRocket(trail); break;
 			case BulletConfiguration.STYLE_GRENADE: renderGrenade(trail); break;
@@ -297,6 +298,40 @@ public class RenderBullet extends Render {
 		ResourceManager.projectiles.renderPart("Flechette");
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
+    private void renderFollyBeam(Entity bullet) {
+    	
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+	
+        GL11.glScalef(bullet.ticksExisted, bullet.ticksExisted, bullet.ticksExisted);
+
+		GL11.glColor3ub((byte)bullet.worldObj.rand.nextInt(0x100), (byte)bullet.worldObj.rand.nextInt(0x100), (byte)bullet.worldObj.rand.nextInt(0x100));
+		GL11.glRotated(90, 0, 0, 1);
+	
+        GL11.glScalef(0.5F, 0.5F, 0.5F);
+        ResourceManager.projectiles.renderPart("Follybullet");
+        GL11.glScalef(1/0.5F, 1/0.5F, 1/0.5F);
+
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+		
+        for(float i = 0.6F; i <= 1F; i += 0.1F) {
+
+    		GL11.glColor3ub((byte)bullet.worldObj.rand.nextInt(0x100), (byte)bullet.worldObj.rand.nextInt(0x100), (byte)bullet.worldObj.rand.nextInt(0x100));
+            GL11.glScalef(i, i, i);
+            ResourceManager.projectiles.renderPart("FollyBeam");
+            GL11.glScalef(1/i, 1/i, 1/i);
+        }
+        
+		GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_CULL_FACE);
+        
+  
+	
+	}
 	
 	private void renderAPDS() {
 		
@@ -309,7 +344,7 @@ public class RenderBullet extends Render {
 		ResourceManager.projectiles.renderPart("Flechette");
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
-	
+   
 	private void renderDart(int style, int eID) {
 		
 		float red = 1F;

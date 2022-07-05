@@ -579,7 +579,7 @@ public class AssemblerRecipes {
 			
 			new ComparableStack(ModItems.folly_bullet_nuclear, 1),
 			new ComparableStack(ModItems.powder_magic, 2),
-			new ComparableStack(ModItems.fragment_meteorite, 30),
+			new ComparableStack(ModItems.fragment_meteorite, 60),
 			new OreDictStack(STAR.ingot(), 4),
 			new ComparableStack(ModItems.tainted_reflector, 2),
 			
@@ -589,7 +589,7 @@ public class AssemblerRecipes {
        makeRecipe(new ComparableStack(ModItems.folly_bullet, 1), new AStack[] {
 			
 			new OreDictStack(STAR.block(), 2),
-			new ComparableStack(ModItems.tainted_reflector, 4),
+			new ComparableStack(ModItems.tainted_reflector, 8),
 			new OreDictStack(SA326.plate(), 4),
 			new ComparableStack(ModItems.powder_spark_mix, 2),
 			new ComparableStack(ModBlocks.block_meteor, 2),

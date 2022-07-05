@@ -172,6 +172,18 @@ public class GunCannonFactory {
 		bullet.style = BulletConfiguration.STYLE_APDS;
 		
 		return bullet;
+	}
+    public static BulletConfiguration getEffectConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+		
+		bullet.ammo = ModItems.ammo_folly;
+		bullet.dmgMin = 100;
+		bullet.dmgMax = 150;
+		bullet.doesPenetrate = true;
+		bullet.style = BulletConfiguration.STYLE_FOLLY;
+		bullet.maxAge = 25;
+		return bullet;
 	} 
     
     public static BulletConfiguration getShellFollyOuchConfig() {
@@ -216,34 +228,24 @@ public class GunCannonFactory {
 		bullet.dmgMin = 500;
 		bullet.dmgMax = 600;
 		bullet.velocity = 10F;
-		bullet.trail = 0;
-		bullet.HBRC = 0;
+		bullet.HBRC = 0; //i have no idea how or why but having these ricochet variables in changes stuff so avoid touchy
 		bullet.LBRC = 0;
 		bullet.doesPenetrate = true;
+		bullet.gravity = 0D;
 		bullet.liveAfterImpact = true;
-		
+		bullet.style = 0;
 		bullet.bUpdate = new IBulletUpdateBehavior() {
   
 			@Override
 			public void behaveUpdate(EntityBulletBase bullet) {
 				
-				World world = Minecraft.getMinecraft().theWorld;
-				
 				if(!bullet.worldObj.isRemote) {
-					
+				
 		        int yes = bullet.ticksExisted;
 				
 				for(int i = 0; i < yes; i++) {
-					
-					bullet.worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(bullet.worldObj,bullet.posX ,bullet.posY, bullet.posZ,5+i*2));
-							 
-					EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(bullet.worldObj,5+i*2);
-					cloud.posX = bullet.posX;
-					cloud.posY = bullet.posY;
-					cloud.posZ = bullet.posZ;
-							
-					bullet.worldObj.spawnEntityInWorld(cloud);
-					}
+					bullet.worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(bullet.worldObj,bullet.posX ,bullet.posY, bullet.posZ,5+yes*2));	
+				}
 				if(bullet.ticksExisted > 15) 
 					bullet.setDead();
 				

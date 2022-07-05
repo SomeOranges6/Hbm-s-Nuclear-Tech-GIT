@@ -185,9 +185,11 @@ public class GunFolly extends Item implements IHoldableWeapon {
 					  case 6: config = BulletConfigSyncingUtil.SHELL_FOLLY_OUCH; break;
 					  
 					  case 5: config = BulletConfigSyncingUtil.SHELL_FOLLY;
-					 
-					  player.addPotionEffect(new PotionEffect(HbmPotion.taint.id, 20 * 20, 0));  
-					  player.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 0));  
+					  
+					  world.spawnEntityInWorld(new EntityBulletBase(world, BulletConfigSyncingUtil.SHELL_FOLLY_EFFECT, player));
+					  
+					  player.addPotionEffect(new PotionEffect(HbmPotion.taint.id, 30 * 20, 0));  
+					  player.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 20 * 20, 0));  
 					  break;
 				
 					  default:config = BulletConfigSyncingUtil.TEST_CONFIG; break;
