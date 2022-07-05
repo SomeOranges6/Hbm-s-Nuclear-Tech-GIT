@@ -91,6 +91,7 @@ public class Gun4GaugeFactory {
 		GunConfiguration config = getShotgunConfig();
 		config.rateOfFire = 15;
 		config.durability = 30000;
+		config.ammoCap = 0;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.firingSound = "hbm:weapon.shotgunShoot";
 		config.firingPitch = 1F;

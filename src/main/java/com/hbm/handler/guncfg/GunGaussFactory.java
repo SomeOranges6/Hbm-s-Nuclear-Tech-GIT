@@ -66,13 +66,12 @@ public class GunGaussFactory {
 		config.firingMode = GunConfiguration.FIRE_AUTO;
 		config.reloadDuration = 20;
 		config.firingDuration = 0;
-		config.ammoCap = 90;
+		config.ammoCap = 120;
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CIRCLE;
 		config.durability = 10000;
 		config.firingSound = "hbm:weapon.defabShoot";
-		config.reloadSound = "hbm:weapon.defabSpinup";
 		
 		
 		config.name = "Defabricator";
