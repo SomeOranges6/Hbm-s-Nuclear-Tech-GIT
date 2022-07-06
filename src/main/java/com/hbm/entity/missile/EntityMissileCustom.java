@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
+import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityBalefire;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.projectile.EntityBulletBase;
@@ -349,6 +351,14 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 			n2.posY = posY;
 			n2.posZ = posZ;
 			worldObj.spawnEntityInWorld(n2);
+			break;
+		case SCHRAB:
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ,(int) strength));
+			EntityCloudFleija sch = new EntityCloudFleija(worldObj,(int)strength);
+			sch.posX = posX;
+			sch.posY = posY;
+			sch.posZ = posZ;
+			worldObj.spawnEntityInWorld(sch);
 			break;
 		case TAINT:
 			int r = (int) strength;

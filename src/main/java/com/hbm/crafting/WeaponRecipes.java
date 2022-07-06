@@ -55,6 +55,7 @@ public class WeaponRecipes {
 		
 		//Missile warheads
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.mp_warhead_15_boxcar, 1), new Object[] { "SNS", "CBC", "SFS", 'S', STAR.ingot(), 'N', ModBlocks.det_nuke, 'C', ModItems.circuit_targeting_tier4, 'B', ModBlocks.boxcar, 'F', ModItems.tritium_deuterium_cake });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.mp_warhead_15_schrab_aus, 1), new Object[] { ModItems.mp_warhead_15_schrab, AUSTRALIUM.dust(), AUSTRALIUM.dust(), AUSTRALIUM.dust(),});
 		
 		//Missile chips
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.mp_chip_1, 1), new Object[] { "P", "C", "S", 'P', ModItems.plate_polymer, 'C', ModItems.circuit_targeting_tier1, 'S', ModBlocks.steel_scaffold });

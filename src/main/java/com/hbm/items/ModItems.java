@@ -1406,9 +1406,12 @@ public class ModItems {
 	public static Item mp_warhead_15_incendiary;
 	public static Item mp_warhead_15_nuclear;
 	public static Item mp_warhead_15_nuclear_shark;
+	public static Item mp_warhead_15_thermo_moon;
 	public static Item mp_warhead_15_boxcar;
 	public static Item mp_warhead_15_n2;
 	public static Item mp_warhead_15_balefire;
+	public static Item mp_warhead_15_schrab;
+	public static Item mp_warhead_15_schrab_aus;
 	public static Item mp_warhead_15_turbine;
 	public static Item mp_warhead_20_he;
 	
@@ -4170,8 +4173,11 @@ public class ModItems {
 		mp_warhead_15_nuclear = new ItemMissile().makeWarhead(WarheadType.NUCLEAR, 125F, 5F, PartSize.SIZE_15).setTitle("Auntie Bertha").setHealth(15F).setUnlocalizedName("mp_warhead_15_nuclear").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
 		mp_warhead_15_nuclear_shark = ((ItemMissile) mp_warhead_15_nuclear).copy().setRarity(Rarity.UNCOMMON).setTitle("Discount Bullet Bill").setWittyText("Nose art on a cannon bullet? Who does that?").setUnlocalizedName("mp_warhead_15_nuclear_shark");
 		mp_warhead_15_boxcar = new ItemMissile().makeWarhead(WarheadType.TX, 250F, 7.5F, PartSize.SIZE_15).setWittyText("?!?!").setHealth(35F).setRarity(Rarity.LEGENDARY).setUnlocalizedName("mp_warhead_15_boxcar").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
+		mp_warhead_15_thermo_moon = ((ItemMissile) mp_warhead_15_boxcar).copy().setRarity(Rarity.LEGENDARY).setWittyText("The Blood Moon is rising...").setUnlocalizedName("mp_warhead_15_thermo_moon");
 		mp_warhead_15_n2 = new ItemMissile().makeWarhead(WarheadType.N2, 100F, 5F, PartSize.SIZE_15).setWittyText("[screams geometrically]").setHealth(20F).setRarity(Rarity.RARE).setUnlocalizedName("mp_warhead_15_n2").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
 		mp_warhead_15_balefire = new ItemMissile().makeWarhead(WarheadType.BALEFIRE, 100F, 7.5F, PartSize.SIZE_15).setRarity(Rarity.LEGENDARY).setAuthor("VT-6/24").setHealth(15F).setWittyText("Hightower, never forgetti.").setUnlocalizedName("mp_warhead_15_balefire").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
+		mp_warhead_15_schrab = new ItemMissile().makeWarhead(WarheadType.SCHRAB, 50F, 7.5F, PartSize.SIZE_15).setRarity(Rarity.LEGENDARY).setAuthor("Seven").setHealth(20F).setWittyText("Ol'Reliable, cleans the toughest of messes").setUnlocalizedName("mp_warhead_15_schrab").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
+		mp_warhead_15_schrab_aus = ((ItemMissile) mp_warhead_15_schrab).copy().setRarity(Rarity.LEGENDARY).setTitle("Australium Coated").setWittyText("You better run, you better take cover").setUnlocalizedName("mp_warhead_15_schrab_aus");
 		mp_warhead_15_turbine = new ItemMissile().makeWarhead(WarheadType.TURBINE, 200F, 5F, PartSize.SIZE_15).setRarity(Rarity.SEWS_CLOTHES_AND_SUCKS_HORSE_COCK).setHealth(250F).setUnlocalizedName("mp_warhead_15_turbine").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
 		mp_warhead_20_he = new ItemMissile().makeWarhead(WarheadType.HE, 15F, 1F, PartSize.SIZE_20)												.setUnlocalizedName("mp_w_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
 		
@@ -7134,9 +7140,12 @@ public class ModItems {
 		GameRegistry.registerItem(mp_warhead_15_incendiary, mp_warhead_15_incendiary.getUnlocalizedName());
 		GameRegistry.registerItem(mp_warhead_15_nuclear, mp_warhead_15_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(mp_warhead_15_nuclear_shark, mp_warhead_15_nuclear_shark.getUnlocalizedName());
+		GameRegistry.registerItem(mp_warhead_15_thermo_moon, mp_warhead_15_thermo_moon.getUnlocalizedName());
 		GameRegistry.registerItem(mp_warhead_15_boxcar, mp_warhead_15_boxcar.getUnlocalizedName());
 		GameRegistry.registerItem(mp_warhead_15_n2, mp_warhead_15_n2.getUnlocalizedName());
 		GameRegistry.registerItem(mp_warhead_15_balefire, mp_warhead_15_balefire.getUnlocalizedName());
+		GameRegistry.registerItem(mp_warhead_15_schrab, mp_warhead_15_schrab.getUnlocalizedName());
+		GameRegistry.registerItem(mp_warhead_15_schrab_aus, mp_warhead_15_schrab_aus.getUnlocalizedName());
 		GameRegistry.registerItem(mp_warhead_15_turbine, mp_warhead_15_turbine.getUnlocalizedName());
 		GameRegistry.registerItem(mp_warhead_20_he, mp_warhead_20_he.getUnlocalizedName());
 		GameRegistry.registerItem(mp_chip_1, mp_chip_1.getUnlocalizedName());
