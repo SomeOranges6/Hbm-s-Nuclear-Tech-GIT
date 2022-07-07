@@ -233,7 +233,7 @@ public class GunCannonFactory {
 		bullet.doesPenetrate = true;
 		bullet.gravity = 0D;
 		bullet.liveAfterImpact = true;
-		bullet.style = 0;
+		bullet.style = -1;
 		bullet.bUpdate = new IBulletUpdateBehavior() {
   
 			@Override
