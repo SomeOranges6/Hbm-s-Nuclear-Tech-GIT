@@ -1158,7 +1158,9 @@ public class ModBlocks {
 	public static Block vent_cloud;
 	public static Block vent_pink_cloud;
 	public static Block vent_chlorine_seal;
+	public static Block vent_natgas_seal;
 	public static Block chlorine_gas;
+	public static Block nat_gas;
 
 	public static Block gas_radon;
 	public static Block gas_radon_dense;
@@ -2233,8 +2235,10 @@ public class ModBlocks {
 		vent_chlorine = new BlockVent(Material.iron).setBlockName("vent_chlorine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vent_chlorine");
 		vent_cloud = new BlockVent(Material.iron).setBlockName("vent_cloud").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vent_cloud");
 		vent_pink_cloud = new BlockVent(Material.iron).setBlockName("vent_pink_cloud").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vent_pink_cloud");
-		vent_chlorine_seal = new BlockClorineSeal(Material.iron).setBlockName("vent_chlorine_seal").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		vent_chlorine_seal = new BlockGasSeal(Material.iron).setBlockName("vent_chlorine_seal").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		vent_natgas_seal = new BlockGasSeal(Material.iron).setBlockName("vent_natgas_seal").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		chlorine_gas = new BlockGasClorine().setBlockName("chlorine_gas").setHardness(0.0F).setResistance(0.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":chlorine_gas");
+		nat_gas = new BlockGasNatural().setBlockName("nat_gas").setHardness(0.0F).setResistance(0.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_explosive");
 		
 		gas_radon = new BlockGasRadon().setBlockName("gas_radon").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_radon");
 		gas_radon_dense = new BlockGasRadonDense().setBlockName("gas_radon_dense").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_radon_dense");
@@ -3360,6 +3364,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(vent_cloud, vent_cloud.getUnlocalizedName());
 		GameRegistry.registerBlock(vent_pink_cloud, vent_pink_cloud.getUnlocalizedName());
 		GameRegistry.registerBlock(vent_chlorine_seal, vent_chlorine_seal.getUnlocalizedName());
+		GameRegistry.registerBlock(vent_natgas_seal, vent_natgas_seal.getUnlocalizedName());
+		GameRegistry.registerBlock(nat_gas, nat_gas.getUnlocalizedName());
 		GameRegistry.registerBlock(chlorine_gas, chlorine_gas.getUnlocalizedName());
 		GameRegistry.registerBlock(gas_radon, gas_radon.getUnlocalizedName());
 		GameRegistry.registerBlock(gas_radon_dense, gas_radon_dense.getUnlocalizedName());
