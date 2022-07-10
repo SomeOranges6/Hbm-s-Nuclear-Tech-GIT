@@ -93,6 +93,8 @@ public class GunVortexFactory {
 		bullet.bulletsMax = 1;
 		bullet.style = bullet.STYLE_BOLT;
 		bullet.trail = bullet.BOLT_LACUNAE;
+		bullet.doesPenetrate = true;
+		bullet.liveAfterImpact = true;
 		return bullet;
 	}
             

@@ -118,6 +118,8 @@ public class GunGaussFactory {
 		bullet.style = BulletConfiguration.BOLT_LACUNAE;
 		bullet.LBRC = 80;
 		bullet.HBRC = 5;
+		bullet.doesPenetrate = true;
+		bullet.liveAfterImpact = true;
 		
 		return bullet;
 	}
