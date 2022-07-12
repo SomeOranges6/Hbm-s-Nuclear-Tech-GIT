@@ -218,7 +218,7 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	vector.xCoord *= GeneralConfig.enableBomberShortMode ? 1 : 2;
     	vector.zCoord *= GeneralConfig.enableBomberShortMode ? 1 : 2;
     	
-    	this.setLocationAndAngles(x - vector.xCoord * 65, y + 50, z - vector.zCoord * 70, 0.0F, 0.0F);
+    	this.setLocationAndAngles(x - vector.xCoord * 100, y + 50, z - vector.zCoord * 100, 0.0F, 0.0F);
     	this.loadNeighboringChunks((int)(x / 16), (int)(z / 16));
     	
     	this.motionX = vector.xCoord;
@@ -261,8 +261,8 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	EntityBomber bomber = new EntityBomber(world);
     	
     	bomber.timer = 200;
-    	bomber.bombStart = 10;
-    	bomber.bombStop = 80;
+    	bomber.bombStart = 50;
+    	bomber.bombStop = 100;
     	bomber.bombRate = 2;
 
     	bomber.fac(world, x, y, z);
@@ -277,9 +277,9 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	EntityBomber bomber = new EntityBomber(world);
     	
     	bomber.timer = 200;
-    	bomber.bombStart = 10;
-    	bomber.bombStop = 80;
-    	bomber.bombRate = 4;
+    	bomber.bombStart = 50;
+    	bomber.bombStop = 100;
+    	bomber.bombRate = 5;
 
     	bomber.fac(world, x, y, z);
     	
@@ -293,8 +293,8 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	EntityBomber bomber = new EntityBomber(world);
     	
     	bomber.timer = 200;
-    	bomber.bombStart = 20;
-    	bomber.bombStop = 80;
+    	bomber.bombStart = 50;
+    	bomber.bombStop = 100;
     	bomber.bombRate = 4;
 
     	bomber.fac(world, x, y, z);
@@ -309,8 +309,8 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	EntityBomber bomber = new EntityBomber(world);
     	
     	bomber.timer = 200;
-    	bomber.bombStart = 25;
-    	bomber.bombStop = 95;
+    	bomber.bombStart = 75;
+    	bomber.bombStop = 125;
     	bomber.bombRate = 1;
 
     	bomber.fac(world, x, y, z);
@@ -410,8 +410,8 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	EntityBomber bomber = new EntityBomber(world);
     	
     	bomber.timer = 200;
-    	bomber.bombStart = 10;
-    	bomber.bombStop = 80;
+    	bomber.bombStart = 50;
+    	bomber.bombStop = 100;
     	bomber.bombRate = 2;
 
     	bomber.fac(world, x, y, z);
@@ -425,8 +425,8 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	EntityBomber bomber = new EntityBomber(world);
     	
     	bomber.timer = 200;
-    	bomber.bombStart = 30;
-    	bomber.bombStop = 70;
+    	bomber.bombStart = 50;
+    	bomber.bombStop = 100;
     	bomber.bombRate = 2;
 
     	bomber.fac(world, x, y, z);

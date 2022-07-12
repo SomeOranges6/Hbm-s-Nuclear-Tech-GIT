@@ -93,7 +93,6 @@ public class ItemBombCaller extends Item {
 	        		b = true;
 	        if(stack.getItemDamage() == 9)
 	        	if(world.spawnEntityInWorld(EntityBomber.statFacWP(world, x, y, z)))
-	        	if(world.spawnEntityInWorld(EntityBomber.statFacNapalm(world, x, y, z)))
 	        	if(world.spawnEntityInWorld(EntityBomber.statFacCarpet(world, x, y, z)))
 	        	if(world.spawnEntityInWorld(EntityBomber.statFacChlorine(world, x, y, z)))
 	        	if(world.spawnEntityInWorld(EntityBomber.statFacOrange(world, x, y, z)))
