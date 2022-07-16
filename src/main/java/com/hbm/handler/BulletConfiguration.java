@@ -1,3 +1,4 @@
+=
 package com.hbm.handler;
 
 import java.util.ArrayList;
@@ -273,3 +274,4 @@ public class BulletConfiguration implements Cloneable
 		}
 	}
 }
+

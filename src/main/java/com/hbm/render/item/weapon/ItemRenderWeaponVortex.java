@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -38,12 +39,11 @@ public class ItemRenderWeaponVortex implements IItemRenderer {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.vortex_tex);
-		
 		switch(type) {
 		
 		case EQUIPPED_FIRST_PERSON:
 			
-			double s0 = 0.05D;
+			double s0 = 0.08D;
 			GL11.glScaled(s0, s0, s0);
 			GL11.glRotated(25, 0, 0, 1);
 			GL11.glRotated(-5, 0, 1, 0);
@@ -53,7 +53,7 @@ public class ItemRenderWeaponVortex implements IItemRenderer {
 			
 		case EQUIPPED:
 
-			double scale = 0.075D;
+			double scale = 0.09D;
 			GL11.glScaled(scale, scale, scale);
 			GL11.glRotated(-75, 0, 1, 0);
 			GL11.glRotated(-10, 0, 0, 1);
@@ -64,7 +64,7 @@ public class ItemRenderWeaponVortex implements IItemRenderer {
 			
 		case ENTITY:
 
-			double s1 = 0.05D;
+			double s1 = 0.09D;
 			GL11.glScaled(s1, s1, s1);
 			
 			break;

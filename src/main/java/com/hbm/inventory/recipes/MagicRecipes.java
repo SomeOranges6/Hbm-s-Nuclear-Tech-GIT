@@ -97,6 +97,11 @@ public class MagicRecipes {
 				new ComparableStack(ModItems.plate_polymer),
 				new ComparableStack(ModItems.nugget_pu239),
 				new ComparableStack(ModItems.circuit_aluminium)));
+
+		recipes.add(new MagicRecipe(new ItemStack(ModItems.bomb_caller, 1, 10),
+				new ComparableStack(ModItems.detonator_laser),
+				new ComparableStack(Items.egg)));
+
 		
 		recipes.add(new MagicRecipe(new ItemStack(ModItems.orichalcum, 1, Orichalcum.FRAGMENT.ordinal()),
 				new ComparableStack(ModItems.powder_chlorophyte),
@@ -104,6 +109,7 @@ public class MagicRecipes {
 				new ComparableStack(ModItems.catalyst_ten),
 				new ComparableStack(ModItems.ingot_bismuth)
 				));
+
 	}
 	
 	public static List<MagicRecipe> getRecipes() {

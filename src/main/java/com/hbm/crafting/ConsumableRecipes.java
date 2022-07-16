@@ -29,6 +29,15 @@ public class ConsumableRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bomb_caller, 1, 0), new Object[] { "TTT", "TRT", "TTT", 'T', Blocks.tnt, 'R', ModItems.detonator_laser });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bomb_caller, 1, 1), new Object[] { "TTT", "TRT", "TTT", 'T', ModItems.grenade.stackFromEnum(AmmoHandGrenade.GASCAN), 'R', ModItems.detonator_laser });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bomb_caller, 1, 2), new Object[] { "TTT", "TRT", "TTT", 'T', ModItems.pellet_gas, 'R', ModItems.detonator_laser });
+
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bomb_caller, 1, 8), new Object[] { "TTT", "TRT", "TTT", 'T', P_WHITE.ingot(), 'R', ModItems.bomb_caller, });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.bomb_caller, 1, 9), new Object[] { 
+			new ItemStack(ModItems.bomb_caller, 1, 0), 
+			new ItemStack(ModItems.bomb_caller, 1, 1), 
+		    new ItemStack(ModItems.bomb_caller, 1, 2), 
+		    new ItemStack(ModItems.bomb_caller, 1, 3), 
+			new ItemStack(ModItems.bomb_caller, 1, 8), });
+
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bomb_caller, 1, 3), new Object[] { "TRT", 'T', ModItems.grenade.stackFromEnum(AmmoHandGrenade.CLOUD), 'R', ModItems.detonator_laser });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bomb_caller, 1, 4), new Object[] { "TR", 'T', ModItems.ammo_nuke.stackFromEnum(AmmoFatman.HIGH), 'R', ModItems.detonator_laser });
 

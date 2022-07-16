@@ -19,6 +19,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -172,6 +173,10 @@ public class EntityBomber extends Entity implements IChunkLoader {
 
 	        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
 				ExplosionChaos.spawnChlorine(worldObj, this.posX, worldObj.getHeightValue((int)this.posX, (int)this.posZ) + 2, this.posZ, 10, 1, 2);
+			} else if(type == 10) {
+				for(int i = 0; i < 200; i++)
+	        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
+	        	worldObj.spawnEntityInWorld(new EntityEgg(worldObj, this.posX, this.posY,this.posZ));
 				
 			} else {
 				
@@ -213,7 +218,7 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	vector.xCoord *= GeneralConfig.enableBomberShortMode ? 1 : 2;
     	vector.zCoord *= GeneralConfig.enableBomberShortMode ? 1 : 2;
     	
-    	this.setLocationAndAngles(x - vector.xCoord * 100, y + 50, z - vector.zCoord * 100, 0.0F, 0.0F);
+    	this.setLocationAndAngles(x - vector.xCoord * 65, y + 50, z - vector.zCoord * 70, 0.0F, 0.0F);
     	this.loadNeighboringChunks((int)(x / 16), (int)(z / 16));
     	
     	this.motionX = vector.xCoord;
@@ -256,8 +261,8 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	EntityBomber bomber = new EntityBomber(world);
     	
     	bomber.timer = 200;
-    	bomber.bombStart = 50;
-    	bomber.bombStop = 100;
+    	bomber.bombStart = 10;
+    	bomber.bombStop = 80;
     	bomber.bombRate = 2;
 
     	bomber.fac(world, x, y, z);
@@ -272,9 +277,9 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	EntityBomber bomber = new EntityBomber(world);
     	
     	bomber.timer = 200;
-    	bomber.bombStart = 50;
-    	bomber.bombStop = 100;
-    	bomber.bombRate = 5;
+    	bomber.bombStart = 10;
+    	bomber.bombStop = 80;
+    	bomber.bombRate = 4;
 
     	bomber.fac(world, x, y, z);
     	
@@ -288,8 +293,8 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	EntityBomber bomber = new EntityBomber(world);
     	
     	bomber.timer = 200;
-    	bomber.bombStart = 50;
-    	bomber.bombStop = 100;
+    	bomber.bombStart = 20;
+    	bomber.bombStop = 80;
     	bomber.bombRate = 4;
 
     	bomber.fac(world, x, y, z);
@@ -304,8 +309,8 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	EntityBomber bomber = new EntityBomber(world);
     	
     	bomber.timer = 200;
-    	bomber.bombStart = 75;
-    	bomber.bombStop = 125;
+    	bomber.bombStart = 25;
+    	bomber.bombStop = 95;
     	bomber.bombRate = 1;
 
     	bomber.fac(world, x, y, z);
@@ -397,6 +402,36 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	bomber.getDataWatcher().updateObject(16, (byte)6);
     	
     	bomber.type = 7;
+    	
+    	return bomber;
+    }
+    public static EntityBomber statFacWP(World world, double x, double y, double z) {
+    	
+    	EntityBomber bomber = new EntityBomber(world);
+    	
+    	bomber.timer = 200;
+    	bomber.bombStart = 10;
+    	bomber.bombStop = 80;
+    	bomber.bombRate = 2;
+
+    	bomber.fac(world, x, y, z);
+    	
+    	bomber.type = 8;
+    	
+    	return bomber;
+    }
+    public static EntityBomber statFacCluck(World world, double x, double y, double z) {
+    	
+    	EntityBomber bomber = new EntityBomber(world);
+    	
+    	bomber.timer = 200;
+    	bomber.bombStart = 30;
+    	bomber.bombStop = 70;
+    	bomber.bombRate = 2;
+
+    	bomber.fac(world, x, y, z);
+    	
+    	bomber.type = 10;
     	
     	return bomber;
     }

@@ -331,6 +331,7 @@ public class MainRegistry {
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.scrumpy), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.scrumpy), 1, 1, 1));
 
+
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 
 			@Override

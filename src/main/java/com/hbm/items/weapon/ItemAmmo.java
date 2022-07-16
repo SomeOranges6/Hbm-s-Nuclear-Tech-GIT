@@ -159,9 +159,39 @@ public class ItemAmmo extends ItemEnumMulti
 		}		
 	}
 	@Override
+
+	
+		//FOLLY
+		if(this == ModItems.ammo_folly) {
+			list.add(EnumChatFormatting.BLUE + "+ Starmetal-Moonstone focused blast");
+			list.add(EnumChatFormatting.WHITE + "To put it in simple terms, everything in front of it dies");
+		}
+		if(this == ModItems.ammo_folly_tandem) {
+			list.add(EnumChatFormatting.BLUE + "+ Starmetal-Moonstone/Nuclear Tandem Charge shell");
+			list.add(EnumChatFormatting.BLUE + "+ Can penetrate thick walls");
+			if(MainRegistry.polaroidID == 11)
+			list.add(EnumChatFormatting.RED + "- Not even real moonstone this is just meteorite");
+		}
+		if(this == ModItems.ammo_folly_nuclear) {
+			list.add(EnumChatFormatting.BLUE + "+ Howitzer 12.8cm Nuclear shell");
+			list.add(EnumChatFormatting.YELLOW+ "* Fallout for the whole family!");
+		}
+		if(this == ModItems.ammo_folly_du) {
+			list.add(EnumChatFormatting.BLUE + "+ Howitzer 17kg U238 Penetrator shell");
+			list.add(EnumChatFormatting.RED + "- Non-Explosive");
+		}
+		if(this == ModItems.ammo_folly_sleek) {
+			list.add(EnumChatFormatting.BLUE + "+ Connects onto EULER II to fire a bale-energy beam from orbit");
+			if(MainRegistry.polaroidID == 11){
+				list.add(EnumChatFormatting.RED + "- Does not make sense in the lore sorry FOEQ:PH fans");
+			}
+			list.add(EnumChatFormatting.WHITE + "* Verification needed in order to authorize deployment");
+		}
+
 	public ItemEnumMulti setUnlocalizedName(String uloc)
 	{
 		setTextureName(RefStrings.MODID + ':' + uloc);
 		return (ItemEnumMulti) super.setUnlocalizedName(uloc);
+
 	}
 }

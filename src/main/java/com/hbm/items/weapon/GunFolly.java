@@ -1,71 +1,203 @@
 package com.hbm.items.weapon;
 
+import java.util.List;
+
+import com.hbm.entity.effect.EntityCloudFleijaRainbow;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
+import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class GunFolly extends Item implements IHoldableWeapon {
-
+	public GunFolly()
+    {
+        this.maxStackSize = 1;
+    }
 	@Override
 	public Crosshair getCrosshair() {
 		return Crosshair.L_SPLIT;
 	}
 	
+	
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+		//man I wish old zomg was a thing:
+		if (!stack.hasTagCompound()) {
+			stack.stackTagCompound = new NBTTagCompound();
+			stack.stackTagCompound.setBoolean("verified", false);
+		}
+		
+		boolean verified = stack.stackTagCompound.getBoolean("verified");
 		
 		int state = getState(stack);
 		
-		if(state == 0) {
-			
+		int bulletType = getType(stack);
+		
+		switch (state) {
+		
+		case 0:
+		
 			world.playSoundAtEntity(player, "hbm:weapon.follyOpen", 1.0F, 1.0F);
 			setState(stack, 1);
+			break;
 			
-		} else if(state == 1) {
+		case 1:
 			
-			if(player.inventory.hasItem(ModItems.ammo_folly)) {
+			if(player.inventory.hasItem(ModItems.ammo_folly_nuclear)) {
 
 				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
-				player.inventory.consumeInventoryItem(ModItems.ammo_folly);
+				player.inventory.consumeInventoryItem(ModItems.ammo_folly_nuclear);
+				
 				setState(stack, 2);
+				setType(stack,1);
+				
+			} else if(player.inventory.hasItem(ModItems.ammo_folly)) {
+				
+    			world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
+    			player.inventory.consumeInventoryItem(ModItems.ammo_folly);
+    				
+    			setState(stack, 2);
+    			setType(stack,5);
+    			
+			} else if(player.inventory.hasItem(ModItems.ammo_folly_du)) {
+				
+				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
+				player.inventory.consumeInventoryItem(ModItems.ammo_folly_du);
+				
+				setState(stack, 2);
+				setType(stack,2);
+
+           } else if(player.inventory.hasItem(ModItems.ammo_folly_tandem)) {
+				
+				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
+				player.inventory.consumeInventoryItem(ModItems.ammo_folly_tandem);
+				
+				setState(stack, 2);
+				setType(stack,3);
+           } else if(player.inventory.hasItem(ModItems.ammo_folly_ouch)) {
+				
+				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
+				player.inventory.consumeInventoryItem(ModItems.ammo_folly_ouch);
+				
+				setState(stack, 2);
+				setType(stack,6);
+				
+            } else if(player.inventory.hasItem(ModItems.ammo_folly_sleek)) {
+            	
+            	if(verified == true) {
+				
+				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
+				player.inventory.consumeInventoryItem(ModItems.ammo_folly_sleek);
+				setState(stack, 2);
+				setType(stack,4);
+				
+               }else if(player.inventory.hasItem(ModItems.coin_maskman)) {
+                 	
+                 	if(verified == false) {
+                 	player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "[EV-1101] Access granted, Fire when ready."));
+                 	stack.stackTagCompound.setBoolean("verified", true);
+                 	setState(stack, 1);
+                 	}
+            	} else {
+                	player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "[EV-1101] Access Denied, Verify using a IF-R&D M.A.S.K token"));
+            	}
+            
+             } else if(player.inventory.hasItem(ModItems.folly_shell)) {
+				
+				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
+				player.inventory.consumeInventoryItem(ModItems.folly_shell);
+				
+				setState(stack, 2);
+				setType(stack,0);	
+       
 			} else {
 				
 				world.playSoundAtEntity(player, "hbm:weapon.follyClose", 1.0F, 1.0F);
 				setState(stack, 0);
+				setType(stack,0);
+				
 			}
+			break;
 			
-		} else if(state == 2) {
+		case 2:
 
 			world.playSoundAtEntity(player, "hbm:weapon.follyClose", 1.0F, 1.0F);
 			setState(stack, 3);
-			setTimer(stack, 100);
-		} else if(state == 3) {
+			switch (bulletType) {
+			
+			case 1:
+			setTimer(stack, 50);
+			break;
+			
+			case 2:
+			case 6:
+			case 7:
+			setTimer(stack, 25);
+			break;
+			
+			default:setTimer(stack, 100);
+			};
+		case 3:
 			
 			if(getTimer(stack) == 0) {
 				
 				setState(stack, 0);
 				world.playSoundAtEntity(player, "hbm:weapon.follyFire", 1.0F, 1.0F);
-
-				double mult = 1.75D;
+				
+				double mult;
+				
+				if(player.inventory.hasItem(ModItems.memespoon)) {
+			     mult = 5D;
+				} else if(player.isSneaking()) {
+					mult = 1.2D;	
+				} else {
+				 mult = 1.75D;
+				}
 				
 				player.motionX -= player.getLookVec().xCoord * mult;
 				player.motionY -= player.getLookVec().yCoord * mult;
 				player.motionZ -= player.getLookVec().zCoord * mult;
 
 				if (!world.isRemote) {
-					EntityBulletBase bullet = new EntityBulletBase(world, BulletConfigSyncingUtil.TEST_CONFIG, player);
-					world.spawnEntityInWorld(bullet);
+					final int config;
+					switch (bulletType)
+					{
+					  case 1: config = BulletConfigSyncingUtil.SHELL_FOLLY_NUKE; break;
+					  case 2: config = BulletConfigSyncingUtil.SHELL_FOLLY_DU; break;
+					  case 3: config = BulletConfigSyncingUtil.SHELL_FOLLY_STAR; break;
+					  case 4: config = BulletConfigSyncingUtil.SHELL_FOLLY_SLEEK; break;
+					  case 6: config = BulletConfigSyncingUtil.SHELL_FOLLY_OUCH; break;
+					  
+					  case 5: config = BulletConfigSyncingUtil.SHELL_FOLLY;
+					  
+					  world.spawnEntityInWorld(new EntityBulletBase(world, BulletConfigSyncingUtil.SHELL_FOLLY_EFFECT, player));
+					  
+					  player.addPotionEffect(new PotionEffect(HbmPotion.taint.id, 30 * 20, 0));  
+					  player.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 20 * 20, 0));  
+					  break;
+				
+					  default:config = BulletConfigSyncingUtil.TEST_CONFIG; break;
+					}
+					world.spawnEntityInWorld(new EntityBulletBase(world, config, player));
 					
+					
+						
 					for(int i = 0; i < 25; i++) {
 						EntitySSmokeFX flame = new EntitySSmokeFX(world);
 						
@@ -80,6 +212,7 @@ public class GunFolly extends Item implements IHoldableWeapon {
 						world.spawnEntityInWorld(flame);
 					}
 				}
+			 
 			}
 		}
 		
@@ -110,6 +243,37 @@ public class GunFolly extends Item implements IHoldableWeapon {
 			}
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+		
+		if(MainRegistry.polaroidID == 3) {
+			
+			list.add(EnumChatFormatting.BLUE + "  Besides the name it is completly Unrelated to" + EnumChatFormatting.OBFUSCATED + " The Digamma Particle");
+			
+		} else if (MainRegistry.polaroidID == 11) {
+			
+			list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  A Handheld 128cm cannon, made to destroy Project Horizons using a Starmetal-Moonstone reaction");
+			list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  Does it work? ");
+			list.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "  Nope, found that out the hard way");
+		} else {
+	
+		
+		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  A Handheld 128cm cannon, made to destroy Project Horizons using a Starmetal-Moonstone reaction");
+		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  Does it work?");
+		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "  Well, thats your job to find out.");
+		
+		
+		}
+		list.add("Name: Project Starfall");
+		list.add("Manufacturer: Horizons Labs");
+		list.add("Ammo: Silver Bullets");
+	}
+	public EnumRarity getRarity(ItemStack p_77613_1_)
+	{ 
+		return EnumRarity.epic;
+	}
 
 	//0: closed, empty,
 	//1: open, empty
@@ -121,6 +285,14 @@ public class GunFolly extends Item implements IHoldableWeapon {
 	
 	public static int getState(ItemStack stack) {
 		return readNBT(stack, "state");
+	}
+	
+	public static void setType(ItemStack stack, int i) {
+		writeNBT(stack, "type", i);
+	}
+	
+	public static int getType(ItemStack stack) {
+		return readNBT(stack, "type");
 	}
 	
 	public static void setTimer(ItemStack stack, int i) {

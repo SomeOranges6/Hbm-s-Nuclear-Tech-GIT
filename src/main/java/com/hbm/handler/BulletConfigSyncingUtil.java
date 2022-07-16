@@ -9,7 +9,9 @@ import com.hbm.items.ItemAmmoEnums.*;
 
 public class BulletConfigSyncingUtil {
 
+
 	private static final HashMap<Integer, BulletConfiguration> configSet = new HashMap<Integer, BulletConfiguration>();
+
 
 	static int i = 0;
 
@@ -144,11 +146,13 @@ public class BulletConfigSyncingUtil {
 	public static int G4_VOID = i++;
 	public static int G4_TITAN = i++;
 	public static int G4_SLEEK = i++;
+	public static int G4_QUAD = i++;
 
 	public static int SPECIAL_OSIPR = i++;
 	public static int SPECIAL_OSIPR_CHARGED = i++;
 	public static int SPECIAL_GAUSS = i++;
 	public static int SPECIAL_GAUSS_CHARGED = i++;
+	public static int SPECIAL_DEFAB = i++;
 	public static int SPECIAL_EMP = i++;
 
 	public static int FLAMER_NORMAL = i++;
@@ -218,7 +222,18 @@ public class BulletConfigSyncingUtil {
 	public static int SHELL_AP = i++;
 	public static int SHELL_DU = i++;
 	public static int SHELL_W9 = i++;
-	public static int SHELL_W9_FULL = i++;
+  public static int SHELL_W9_FULL = i++;
+
+	
+	public static int SHELL_FOLLY_STAR = i++;
+	public static int SHELL_FOLLY_NUKE = i++;
+	public static int SHELL_FOLLY_DU = i++;
+	public static int SHELL_FOLLY_OUCH = i++;
+	public static int SHELL_FOLLY_SLEEK = i++;
+	public static int SHELL_FOLLY = i++;
+	public static int SHELL_FOLLY_EFFECT = i++;
+
+
 	public static int DGK_NORMAL = i++;
 	public static int FLA_NORMAL = i++;
 
@@ -240,6 +255,8 @@ public class BulletConfigSyncingUtil {
 	public static int NUKE_MIRV_HIGH = i++;
 	public static int NUKE_MIRV_SAFE = i++;
 	public static int NUKE_MIRV_SPECIAL = i++;
+	
+	public static int MIRVLET = i++;
 
 	public static int NUKE_AMAT = i++;
 
@@ -249,7 +266,11 @@ public class BulletConfigSyncingUtil {
 	
 	public static int ZOMG_BOLT = i++;
 	public static int DET_BOLT = i++;
-
+	
+	public static int VORTEX_ENERGY = i++;
+	public static int VORTEX_ENERGY_ALT = i++;
+	public static int VORTEX_OUCH = i++;
+	
 	public static int TURBINE = i++;
 
 	public static int CHL_LR22 = i++;
@@ -414,11 +435,13 @@ public class BulletConfigSyncingUtil {
 		configSet.put(G4_VOID, Gun4GaugeFactory.get4GaugeVoidConfig());
 		configSet.put(G4_TITAN, Gun4GaugeFactory.get4GaugeQuackConfig());
 		configSet.put(G4_SLEEK, Gun4GaugeFactory.get4GaugeSleekConfig());
+		configSet.put(G4_QUAD, Gun4GaugeFactory.get4GaugeQuadConfig());
 
 		configSet.put(SPECIAL_OSIPR, GunOSIPRFactory.getPulseConfig());
 		configSet.put(SPECIAL_OSIPR_CHARGED, GunOSIPRFactory.getPulseChargedConfig());
 		configSet.put(SPECIAL_GAUSS, GunGaussFactory.getGaussConfig());
 		configSet.put(SPECIAL_GAUSS_CHARGED, GunGaussFactory.getAltConfig());
+		configSet.put(SPECIAL_DEFAB, GunGaussFactory.getEnergyConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE));
 		configSet.put(SPECIAL_EMP, GunEnergyFactory.getOrbusConfig());
 
 		configSet.put(FLAMER_NORMAL, GunEnergyFactory.getFlameConfig());
@@ -482,7 +505,19 @@ public class BulletConfigSyncingUtil {
 		configSet.put(SHELL_AP, GunCannonFactory.getShellAPConfig());
 		configSet.put(SHELL_DU, GunCannonFactory.getShellDUConfig());
 		configSet.put(SHELL_W9, GunCannonFactory.getShellW9Config());
-		configSet.put(SHELL_W9_FULL, GunCannonFactory.getShellW9FullConfig());
+    configSet.put(SHELL_W9_FULL, GunCannonFactory.getShellW9FullConfig());
+
+		
+		configSet.put(SHELL_FOLLY_STAR, GunCannonFactory.getShellFollyStarConfig());
+		configSet.put(SHELL_FOLLY_NUKE, GunCannonFactory.getShellFollyNukeConfig());
+		configSet.put(SHELL_FOLLY_DU, GunCannonFactory.getShellFollyDuConfig());
+		configSet.put(SHELL_FOLLY_OUCH, GunCannonFactory.getShellFollyOuchConfig());
+		configSet.put(SHELL_FOLLY_SLEEK, GunCannonFactory.getShellFollySleekConfig());
+		configSet.put(SHELL_FOLLY, GunCannonFactory.getShellFollyConfig());
+		configSet.put(SHELL_FOLLY_EFFECT, GunCannonFactory.getEffectConfig());
+
+
+
 		configSet.put(DGK_NORMAL, GunDGKFactory.getDGKConfig());
 		configSet.put(FLA_NORMAL, GunEnergyFactory.getTurretConfig());
 
@@ -504,7 +539,9 @@ public class BulletConfigSyncingUtil {
 		configSet.put(NUKE_MIRV_HIGH, GunFatmanFactory.getMirvHighConfig());
 		configSet.put(NUKE_MIRV_SAFE, GunFatmanFactory.getMirvSafeConfig());
 		configSet.put(NUKE_MIRV_SPECIAL, GunFatmanFactory.getMirvSpecialConfig());
-
+		
+		configSet.put(MIRVLET, GunFatmanFactory.getFullNukeConfig());
+        
 		configSet.put(NUKE_AMAT, GunFatmanFactory.getBalefireConfig());
 		
 		configSet.put(TWR_RAY, GunEnergyFactory.getSingConfig());
@@ -513,7 +550,10 @@ public class BulletConfigSyncingUtil {
 
 		configSet.put(ZOMG_BOLT, GunEnergyFactory.getZOMGBoltConfig());
 		configSet.put(DET_BOLT, GunDetonatorFactory.getLaserConfig());
-
+		
+		configSet.put(VORTEX_ENERGY, GunVortexFactory.getEnergyConfig());
+		configSet.put(VORTEX_OUCH, GunVortexFactory.getOuchConfig());
+        
 		configSet.put(TURBINE, GunEnergyFactory.getTurbineConfig());
 
 		configSet.put(CHL_LR22, Gun22LRFactory.get22LRConfig().setToHoming(ModItems.ammo_22lr.stackFromEnum(Ammo22LR.CHLOROPHYTE)));

@@ -9,6 +9,7 @@ import com.hbm.util.ArmorUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -94,7 +95,29 @@ public class ExplosionThermo {
 			}
 		}
 	}
-
+	public static void balemelt(World world, int x, int y, int z, int bombStartStrength) {
+		int r = bombStartStrength * 2;
+		int r2 = r*r;
+		int r22 = r2/2;
+		for (int xx = -r; xx < r; xx++)
+		{
+			int X = xx+x;
+			int XX = xx*xx;
+			for (int yy = -r; yy < r; yy++)
+			{
+				int Y = yy+y;
+				int YY = XX+yy*yy;
+				for (int zz = -r; zz < r; zz++)
+				{
+					int Z = zz+z;
+					int ZZ = YY+zz*zz;
+					if (ZZ<r22 + world.rand.nextInt(r22/2))
+						balemeltDest(world, X, Y, Z);
+				}
+			}
+		}
+	}
+	
 	public static void scorchLight(World world, int x, int y, int z, int bombStartStrength) {
 		int r = bombStartStrength * 2;
 		int r2 = r*r;
@@ -410,7 +433,132 @@ public class ExplosionThermo {
 			world.setBlockMetadataWithNotify(x, y, z, world.rand.nextInt(16), 3);
 		}
 	}
-	
+
+
+	public static void balemeltDest(World world, int x, int y, int z) {
+		Block block = world.getBlock(x, y, z);
+		int chance = world.rand.nextInt(100);
+
+		if(block == Blocks.grass)
+		{
+			world.setBlock(x, y, z, Blocks.netherrack);
+		}
+		
+		
+		if(block == Blocks.log)
+		{
+			world.setBlock(x, y, z, ModBlocks.waste_log);
+		}
+		
+		if(block == Blocks.log2)
+		{
+			world.setBlock(x, y, z, ModBlocks.waste_log);
+		}
+		
+		if(block == Blocks.planks)
+		{
+			world.setBlock(x, y, z, ModBlocks.waste_planks);
+		}
+		
+		if(block == Blocks.stone)
+		{
+			world.setBlock(x, y, z, ModBlocks.sellafield_slaked);
+		}
+		
+		if(block == Blocks.cobblestone)
+		{
+				world.setBlock(x, y, z, Blocks.netherrack);
+		}
+		if((block == ModBlocks.concrete)|(block == ModBlocks.concrete_smooth))
+		{       
+			   if(chance < 20)
+				world.setBlock(x, y, z, ModBlocks.concrete_debris);
+		}
+		if(block == ModBlocks.brick_light)
+		{
+			if(chance < 20)
+				world.setBlock(x, y, z, Blocks.sand);
+		}
+		if(block == ModBlocks.concrete_debris)
+		{
+				world.setBlock(x, y, z, Blocks.air);
+		}
+		if(block == ModBlocks.brick_obsidian)
+		{
+			if(chance < 10)
+				world.setBlock(x, y, z, ModBlocks.gravel_obsidian);
+		}
+        if (block.getUnlocalizedName().contains("concrete_c")){
+			
+			if(chance < 20)
+				world.setBlock(x, y, z, ModBlocks.concrete_debris);
+		}
+		if(block == ModBlocks.brick_concrete_broken)
+		{   
+			if(chance < 80)
+			    world.setBlock(x, y, z, ModBlocks.concrete_debris);
+		}
+		if(block == ModBlocks.reinforced_stone)
+		{   
+			if(chance < 60)
+			    world.setBlock(x, y, z, Blocks.gravel);
+		}
+		if (block.getUnlocalizedName().contains("brick_concrete")){
+			
+			if(chance < 40)
+			    world.setBlock(x, y, z, ModBlocks.brick_concrete_broken);
+		}
+		
+		if(block == Blocks.leaves)
+		{
+			world.setBlock(x, y, z, Blocks.air);
+		}
+		
+		if(block == Blocks.leaves2)
+		{
+			world.setBlock(x, y, z, Blocks.air);
+		}
+		
+		if(block == Blocks.water)
+		{
+			world.setBlock(x, y, z, Blocks.air);
+		}
+		
+		if(block == Blocks.flowing_water)
+		{
+			world.setBlock(x, y, z, Blocks.air);
+		}
+		
+		if(block == Blocks.packed_ice)
+		{
+			world.setBlock(x, y, z, Blocks.air);
+		}
+		
+		if(block == Blocks.ice)
+		{
+			world.setBlock(x, y, z, Blocks.air);
+		}
+		if(block == Blocks.obsidian)
+		{
+			world.setBlock(x, y, z, ModBlocks.gravel_obsidian);
+		}
+		if(block == Blocks.stonebrick)
+		{   
+			if(chance <= 20)
+			world.setBlock(x, y, z, Blocks.gravel);
+		}
+		if((block == Blocks.brick_block)|(block == Blocks.brick_stairs)|(block == Blocks.stone_stairs))
+		{
+			if(chance <= 30){
+			EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
+			world.spawnEntityInWorld(entityfallingblock);
+			}
+		}
+		if(block == Blocks.clay)
+		{
+			world.setBlock(x, y, z, Blocks.stained_hardened_clay);
+		}
+	}
 	public static void freezer(World world, int x, int y, int z, int bombStartStrength) {
 				float f = bombStartStrength;
 		        new HashSet();

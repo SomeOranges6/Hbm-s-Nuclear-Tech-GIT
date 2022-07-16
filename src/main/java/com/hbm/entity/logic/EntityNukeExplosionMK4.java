@@ -1,5 +1,8 @@
 package com.hbm.entity.logic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.Level;
 
 import com.hbm.config.BombConfig;
@@ -13,9 +16,13 @@ import com.hbm.main.MainRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.ForgeChunkManager.Type;
 
-public class EntityNukeExplosionMK4 extends Entity {
+public class EntityNukeExplosionMK4 extends Entity implements IChunkLoader {
 	
 	//Strength of the blast
 	public int strength;
@@ -24,7 +31,7 @@ public class EntityNukeExplosionMK4 extends Entity {
 	//How many rays are calculated per tick
 	public int speed;
 	public int length;
-	
+	private Ticket loaderTicket;
 	public boolean mute = false;
 	
 	public boolean fallout = true;
@@ -83,7 +90,7 @@ public class EntityNukeExplosionMK4 extends Entity {
 						for(int z = (int) (posZ - 1); z <= (int) (posZ + 1); z++)
 							worldObj.setBlock(x, y, z, Blocks.air);*/
 		}
-		
+	
 		//if(explosion.getStoredSize() < count / length) {
 		if(!explosion.isAusf3Complete) {
 			//if(!worldObj.isRemote)
@@ -110,11 +117,13 @@ public class EntityNukeExplosionMK4 extends Entity {
 		} else {
 			this.setDead();
 		}
+		loadNeighboringChunks((int)(posX / 16), (int)(posZ / 16));
+		
 	}
 
 	@Override
 	protected void entityInit() {
-		
+		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
 	}
 
 	@Override
@@ -194,4 +203,48 @@ public class EntityNukeExplosionMK4 extends Entity {
 		this.mute = true;
 		return this;
 	}
+	public void init(Ticket ticket) {
+		if(!worldObj.isRemote) {
+			
+            if(ticket != null) {
+            	
+                if(loaderTicket == null) {
+                	
+                	loaderTicket = ticket;
+                	loaderTicket.bindEntity(this);
+                	loaderTicket.getModData();
+                }
+
+                ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair(chunkCoordX, chunkCoordZ));
+            }
+        }
+	}
+	List<ChunkCoordIntPair> loadedChunks = new ArrayList<ChunkCoordIntPair>();
+	public void loadNeighboringChunks(int newChunkX, int newChunkZ)
+    {
+        if(!worldObj.isRemote && loaderTicket != null)
+        {
+            for(ChunkCoordIntPair chunk : loadedChunks)
+            {
+                ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+            }
+
+            loadedChunks.clear();
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ + 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ - 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ - 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ + 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ + 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ - 1));
+
+            for(ChunkCoordIntPair chunk : loadedChunks)
+            {
+                ForgeChunkManager.forceChunk(loaderTicket, chunk);
+            }
+        }
+    }
+
 }

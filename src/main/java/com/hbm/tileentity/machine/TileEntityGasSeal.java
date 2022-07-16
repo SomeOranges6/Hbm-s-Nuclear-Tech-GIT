@@ -2,9 +2,10 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.ModBlocks;
 
+import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityChlorineSeal extends TileEntity {
+public class TileEntityGasSeal extends TileEntity {
 	
 	@Override
 	public void updateEntity() {
@@ -17,12 +18,22 @@ public class TileEntityChlorineSeal extends TileEntity {
 		
 		if(index > 50)
 			return;
-		
+		Block b = worldObj.getBlock(xCoord, yCoord, zCoord);
+
+		if(b == ModBlocks.vent_chlorine_seal) {
 		if(worldObj.getBlock(x, y, z).isReplaceable(worldObj, x, y, z))
 			worldObj.setBlock(x, y, z, ModBlocks.chlorine_gas);
 		
 		if(worldObj.getBlock(x, y, z) != ModBlocks.chlorine_gas && worldObj.getBlock(x, y, z) != ModBlocks.vent_chlorine_seal)
 			return;
+		}
+		if(b == ModBlocks.vent_natgas_seal) {
+			if(worldObj.getBlock(x, y, z).isReplaceable(worldObj, x, y, z))
+				worldObj.setBlock(x, y, z, ModBlocks.nat_gas);
+			
+			if(worldObj.getBlock(x, y, z) != ModBlocks.nat_gas && worldObj.getBlock(x, y, z) != ModBlocks.vent_natgas_seal)
+				return;
+		}
 		
 		switch(worldObj.rand.nextInt(6)) {
 		case 0:

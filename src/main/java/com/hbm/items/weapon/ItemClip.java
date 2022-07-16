@@ -237,7 +237,7 @@ public class ItemClip extends Item {
 		
 		if(this == ModItems.clip_jack)
 		{
-			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_jack_ammo, 6)))
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_4gauge_quad, 6)))
         	{
         		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
         	}
@@ -377,7 +377,7 @@ public class ItemClip extends Item {
 			if(player.inventory.hasItem(ModItems.gun_revolver_inverted))
 				player.inventory.addItemStackToInventory(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.LEAD));
 			if(player.inventory.hasItem(ModItems.gun_jack))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_jack_ammo, 3));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_4gauge_quad, 3));
 			if(player.inventory.hasItem(ModItems.gun_spark))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_spark_ammo, 2));
 			if(player.inventory.hasItem(ModItems.gun_hp))

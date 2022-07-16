@@ -77,7 +77,45 @@ public class Gun4GaugeFactory {
 		
 		return config;
 	}
-	
+    public static GunConfiguration getJackConfig() {
+		
+		GunConfiguration config = getShotgunConfig();
+		config.rateOfFire = 15;
+		config.durability = 30000;
+		config.ammoCap = 0;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.firingSound = "hbm:weapon.shotgunShoot";
+		config.firingPitch = 1F;
+		config.roundsPerCycle = 4;
+		config.reloadType = GunConfiguration.RELOAD_NONE;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		
+		
+		config.name = "Jackhammer";
+		config.manufacturer = "Floppa Firearms";
+		
+		config.comment.add("There is nothing more American than shooting someone");
+		config.comment.add("with a quad barrel shotgun in this Walmart of a country");
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.G4_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.G4_SLUG);
+		config.config.add(BulletConfigSyncingUtil.G4_FLECHETTE);
+		config.config.add(BulletConfigSyncingUtil.G4_FLECHETTE_PHOSPHORUS);
+		config.config.add(BulletConfigSyncingUtil.G4_EXPLOSIVE);
+		config.config.add(BulletConfigSyncingUtil.G4_SEMTEX);
+		config.config.add(BulletConfigSyncingUtil.G4_BALEFIRE);
+		config.config.add(BulletConfigSyncingUtil.G4_KAMPF);
+		config.config.add(BulletConfigSyncingUtil.G4_CANISTER);
+		config.config.add(BulletConfigSyncingUtil.G4_CLAW);
+		config.config.add(BulletConfigSyncingUtil.G4_VAMPIRE);
+		config.config.add(BulletConfigSyncingUtil.G4_VOID);
+		config.config.add(BulletConfigSyncingUtil.G4_TITAN);
+		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
+		config.config.add(BulletConfigSyncingUtil.G4_QUAD);
+		
+		return config;
+	}
 	public static GunConfiguration getSauerConfig() {
 		
 		GunConfiguration config = getShotgunConfig();
@@ -118,7 +156,9 @@ public class Gun4GaugeFactory {
 						)
 				);
 		
+
 		config.config = HbmCollection.fourGauge;
+
 		
 		return config;
 	}
@@ -465,6 +505,18 @@ public class Gun4GaugeFactory {
 					}
 				}
 		};
+		
+		return bullet;
+	}
+    public static BulletConfiguration get4GaugeQuadConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_4gauge_quad;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 10;
+		bullet.bulletsMin *= 8;
+		bullet.bulletsMax *= 8;
 		
 		return bullet;
 	}
