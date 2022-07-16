@@ -214,7 +214,9 @@ public final class HbmCollection
 		COLT,
 		/**The Universal Union**/
 		COMBINE,
-		/**Cube 2: Sauerbraten**/
+		/**Ryan Industries**/
+		RYAN,
+		/**Cube 2: Sauerbraten**/ 
 		CUBE,
 		/**Enzinger Union**/
 		ENZINGER,
