@@ -8,6 +8,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
@@ -43,15 +44,15 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<ItemStack> getAmmoTypesForDisplay() {
+	public List<ComparableStack> getAmmoTypesForDisplay() {
 		
 		if(ammoStacks != null)
 			return ammoStacks;
 		
 		ammoStacks = new ArrayList();
 
-		ammoStacks.add(new ItemStack(ModItems.fluid_icon, 1, Fluids.DIESEL.getID()));
-		ammoStacks.add(new ItemStack(ModItems.ammo_fuel));
+		ammoStacks.add(new ComparableStack(ModItems.fluid_icon, 1, Fluids.DIESEL.getID()));
+		ammoStacks.add(new ComparableStack(ModItems.ammo_fuel));
 		
 		return ammoStacks;
 	}

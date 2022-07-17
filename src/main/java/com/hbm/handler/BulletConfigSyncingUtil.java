@@ -256,7 +256,7 @@ public class BulletConfigSyncingUtil {
 	public static int NUKE_MIRV_SAFE = i++;
 	public static int NUKE_MIRV_SPECIAL = i++;
 	
-	public static int MIRVLET = i++;
+
 
 	public static int NUKE_AMAT = i++;
 
@@ -312,7 +312,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(DESH_REVOLVER, Gun357MagnumFactory.getRevDeshConfig());
 
 		configSet.put(IRON_HS, Gun357MagnumFactory.getRevIronConfig().setHeadshot(3F));
-		configSet.put(STEEL_HS, Gun357MagnumFactory.getRevSteelConfig().setHeadshot(3F));
+		configSet.put(STEEL_HS, Gun357MagnumFactory.getRevCursedConfig().setHeadshot(3F));
 		configSet.put(GOLD_HS, Gun357MagnumFactory.getRevGoldConfig().setHeadshot(3F));
 		configSet.put(DESH_HS, Gun357MagnumFactory.getRevDeshConfig().setHeadshot(3F));
 
@@ -539,8 +539,6 @@ public class BulletConfigSyncingUtil {
 		configSet.put(NUKE_MIRV_HIGH, GunFatmanFactory.getMirvHighConfig());
 		configSet.put(NUKE_MIRV_SAFE, GunFatmanFactory.getMirvSafeConfig());
 		configSet.put(NUKE_MIRV_SPECIAL, GunFatmanFactory.getMirvSpecialConfig());
-		
-		configSet.put(MIRVLET, GunFatmanFactory.getFullNukeConfig());
         
 		configSet.put(NUKE_AMAT, GunFatmanFactory.getBalefireConfig());
 		

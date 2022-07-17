@@ -205,6 +205,7 @@ public class Gun357MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.STEEL_HS);
 		config.config.add(BulletConfigSyncingUtil.GOLD_HS);
 		config.config.add(BulletConfigSyncingUtil.DESH_HS);
+		return config;
 	}
 	public static GunConfiguration getColtPythonConfig()
 	{

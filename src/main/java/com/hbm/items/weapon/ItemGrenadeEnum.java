@@ -148,6 +148,12 @@ public class ItemGrenadeEnum extends ItemEnumMulti
 			world.createExplosion(nade, loc.getX(), loc.getY(), loc.getZ(), 2.0F, true);
 			ExplosionChaos.plasma(world, (int) loc.getX(), (int) loc.getY(), (int) loc.getZ(), 7);
 		});
+		logicMap.put(AmmoHandGrenade.CIRNO, (thrower, loc, nade) ->
+		{
+			final World world = loc.getWorld();
+			ExplosionThermo.freeze(world,(int) loc.getX(), (int) loc.getY(), (int) loc.getZ(), 100);
+			ExplosionThermo.freezer(world,(int) loc.getX(), (int) loc.getY(), (int) loc.getZ(), 100);
+		});
 		
 		logicMap.put(AmmoHandGrenade.KYIV, (thrower, loc, nade) -> loc.getWorld().newExplosion(null, loc.getX(), loc.getY(), loc.getZ(), 5F, true, true));
 	}

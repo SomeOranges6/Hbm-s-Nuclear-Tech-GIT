@@ -179,7 +179,7 @@ public interface ITerminal extends IComputer
 			for (String s : startupLogoFixed)
 				terminal.print(s);
 			char[] bar = new char[24];
-			Arrays.fill(bar, '═');
+			Arrays.fill(bar, '=');
 			terminal.print(terminal.getUUID().toString(), String.valueOf(bar));
 			terminal.print("Host: ", "Kernel: " + RefStrings.VERSION, "Uptime: " + terminal.upTime(), "Resolution: ", String.format("CPU: %s / %sHz", BobMathUtil.getShortNumber(terminal.getUsedCPU()), BobMathUtil.getShortNumber(terminal.getCPU())), String.format("Memory: %s / %sb", BobMathUtil.getShortNumber(terminal.getUsedRAM()), BobMathUtil.getShortNumber(terminal.getRAM())), "Motherboard Capacity: " + terminal.getUpgradeCap());
 			break;

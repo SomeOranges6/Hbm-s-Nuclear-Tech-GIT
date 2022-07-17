@@ -92,7 +92,7 @@ public class Gun4GaugeFactory {
 		
 		
 		config.name = "Jackhammer";
-		config.manufacturer = "Floppa Firearms";
+		config.manufacturer = EnumGunManufacturer.FLOPPA;
 		
 		config.comment.add("There is nothing more American than shooting someone");
 		config.comment.add("with a quad barrel shotgun in this Walmart of a country");
@@ -512,7 +512,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_4gauge_quad;
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 10;
 		bullet.bulletsMin *= 8;

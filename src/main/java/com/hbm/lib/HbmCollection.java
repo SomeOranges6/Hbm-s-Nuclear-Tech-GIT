@@ -202,7 +202,9 @@ public final class HbmCollection
 		ARMALITE,
 		/**Auto-Ordnance Corporation**/
 		AUTO_ORDINANCE,
-		/**BAE Systems plc**/
+		/**Black Mesa Research Facility**/
+		BADWOLF,
+		/**BAD WOLF CORP**/
 		BAE,
 		/**Benelli Armi SpA**/
 		BENELLI,
@@ -227,6 +229,8 @@ public final class HbmCollection
 		/**Fort Strong**/
 		F_STRONG,
 		/**FlimFlam Industries**/
+		FLOPPA,
+		/**Floppa Firearms**/
 		FLIMFLAM,
 		/**Gloria GmbH**/
 		GLORIA,
@@ -281,7 +285,9 @@ public final class HbmCollection
 		/**Winchester Repeating Arms Company**/
 		WINCHESTER,
 		/**Winchester Repeating Arms Company / Big MT**/
-		WINCHESTER_BIGMT;
+		WINCHESTER_BIGMT,
+		/**XON**/
+		XON;
 		
 		public String getKey()
 		{

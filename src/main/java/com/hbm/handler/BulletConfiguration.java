@@ -1,4 +1,4 @@
-=
+
 package com.hbm.handler;
 
 import java.util.ArrayList;
@@ -219,7 +219,10 @@ public class BulletConfiguration implements Cloneable
 		this.spread *= mod;
 		return this;
 	}
-	
+	public BulletConfiguration setHeadshot(float mult) {
+		this.headshotMult = mult;
+		return this;
+	}
 	@Untested
 	public DamageSource getDamage(EntityBulletBase bullet, EntityLivingBase shooter) {
 		

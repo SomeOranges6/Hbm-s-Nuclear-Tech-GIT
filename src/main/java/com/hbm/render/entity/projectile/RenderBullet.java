@@ -70,7 +70,6 @@ public class RenderBullet extends Render {
 			case BulletConfiguration.STYLE_APDS: renderAPDS(); break;
 			case BulletConfiguration.STYLE_BLADE: renderBlade(); break;
 			case BulletConfiguration.STYLE_BARREL: renderNuke(3); break;
-			case BulletConfiguration.STYLE_MISSILEMIRV: renderNuke(4); break;
 			default: renderBullet(trail); break;
 		}
 		

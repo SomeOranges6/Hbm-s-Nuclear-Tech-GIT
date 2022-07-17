@@ -3,6 +3,7 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -16,7 +17,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Vec3;
@@ -34,29 +34,29 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<ItemStack> getAmmoTypesForDisplay() {
+	public List<ComparableStack> getAmmoTypesForDisplay() {
 		
 		if(ammoStacks != null)
 			return ammoStacks;
 		
 		ammoStacks = new ArrayList();
 
-		ammoStacks.add(new ItemStack(ModItems.upgrade_speed_1));
-		ammoStacks.add(new ItemStack(ModItems.upgrade_speed_2));
-		ammoStacks.add(new ItemStack(ModItems.upgrade_speed_3));
-		ammoStacks.add(new ItemStack(ModItems.upgrade_effect_1));
-		ammoStacks.add(new ItemStack(ModItems.upgrade_effect_2));
-		ammoStacks.add(new ItemStack(ModItems.upgrade_effect_3));
-		ammoStacks.add(new ItemStack(ModItems.upgrade_power_1));
-		ammoStacks.add(new ItemStack(ModItems.upgrade_power_2));
-		ammoStacks.add(new ItemStack(ModItems.upgrade_power_3));
-		ammoStacks.add(new ItemStack(ModItems.upgrade_afterburn_1));
-		ammoStacks.add(new ItemStack(ModItems.upgrade_afterburn_2));
-		ammoStacks.add(new ItemStack(ModItems.upgrade_afterburn_3));
-		ammoStacks.add(new ItemStack(ModItems.upgrade_overdrive_1));
-		ammoStacks.add(new ItemStack(ModItems.upgrade_overdrive_2));
-		ammoStacks.add(new ItemStack(ModItems.upgrade_overdrive_3));
-		ammoStacks.add(new ItemStack(ModItems.upgrade_5g));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_speed_1));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_speed_2));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_speed_3));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_effect_1));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_effect_2));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_effect_3));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_power_1));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_power_2));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_power_3));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_afterburn_1));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_afterburn_2));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_afterburn_3));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_overdrive_1));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_overdrive_2));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_overdrive_3));
+		ammoStacks.add(new ComparableStack(ModItems.upgrade_5g));
 		
 		return ammoStacks;
 	}

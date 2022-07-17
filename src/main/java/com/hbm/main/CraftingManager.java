@@ -649,8 +649,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.vent_chlorine), new Object[] { "IGI", "ICI", "IDI", 'I', FE.plate(), 'G', Blocks.iron_bars, 'C', ModItems.pellet_gas, 'D', Blocks.dispenser });
 		addRecipeAuto(new ItemStack(ModBlocks.vent_chlorine_seal), new Object[] { "ISI", "SCS", "ISI", 'I', BIGMT.ingot(), 'S', STAR.ingot(), 'C', ModItems.chlorine_pinwheel });
 
-		addRecipeAuto(new ItemStack(ModBlocks.vent_cloud), new Object[] { "IGI", "ICI", "IDI", 'I', IRON.plate(), 'G', Blocks.iron_bars, 'C', ModItems.grenade_cloud, 'D', Blocks.dispenser });
-		addRecipeAuto(new ItemStack(ModBlocks.vent_pink_cloud), new Object[] { "IGI", "ICI", "IDI", 'I', IRON.plate(), 'G', Blocks.iron_bars, 'C', ModItems.grenade_pink_cloud, 'D', Blocks.dispenser });
+
 		addRecipeAuto(new ItemStack(ModBlocks.vent_natgas_seal), new Object[] { "ICI", "ICI", "IDI", 'I', STEEL.plate(), 'G', Blocks.iron_bars, 'C', new ItemStack(ModItems.fluid_barrel_full, 1, Fluids.GAS.getID()), 'D', Blocks.dispenser });
 
 		addRecipeAuto(new ItemStack(ModBlocks.vent_cloud), new Object[] { "IGI", "ICI", "IDI", 'I', FE.plate(), 'G', Blocks.iron_bars, 'C', ModItems.grenade.stackFromEnum(AmmoHandGrenade.CLOUD), 'D', Blocks.dispenser });

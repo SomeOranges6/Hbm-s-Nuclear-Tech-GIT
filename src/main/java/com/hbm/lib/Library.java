@@ -106,6 +106,7 @@ public class Library
 	public static final String the_NCR = "28ae585f-4431-4491-9ce8-3def6126e3c6";
 	public static final String Barnaby99_x = "711aaf78-a862-4b7e-921a-216349716e9a";
 	public static final String Ma118 = "1121cb7a-8773-491f-8e2b-221290c93d81";
+	public static final String Adam29Adam29 = "1121cb7a-8773-491f-8e2b-221290c93d81";
 
 
 	public static final Set<String> contributors = Sets.newHashSet(new String[] {

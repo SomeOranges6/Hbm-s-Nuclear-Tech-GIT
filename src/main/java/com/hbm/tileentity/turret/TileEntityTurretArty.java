@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.projectile.EntityArtilleryShell;
 import com.hbm.handler.BulletConfigSyncingUtil;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.inventory.gui.GUITurretArty;
 import com.hbm.items.ModItems;
@@ -54,7 +55,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public List<ItemStack> getAmmoTypesForDisplay() {
+	public List<ComparableStack> getAmmoTypesForDisplay() {
 		
 		if(ammoStacks != null)
 			return ammoStacks;

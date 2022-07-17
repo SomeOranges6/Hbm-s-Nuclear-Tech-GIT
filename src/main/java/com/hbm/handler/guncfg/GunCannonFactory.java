@@ -1,12 +1,17 @@
 package com.hbm.handler.guncfg;
 
 
+import net.minecraft.world.World;
+
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.logic.EntityEulerLaser;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-
 import com.hbm.items.ModItems;
 
 public class GunCannonFactory {
@@ -104,63 +109,55 @@ public class GunCannonFactory {
 	
     public static BulletConfiguration getShellFollyStarConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+    	final BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = ModItems.ammo_folly_tandem;
+		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
 		bullet.dmgMin = 250;
 		bullet.dmgMax = 360;
-		
-		bullet.bImpact = new IBulletImpactBehavior() {
-
-			@Override
-			public void behaveBlockHit (EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.follyStar(bullet, x, y, z);
-				EntityBulletBase bolt = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.SHELL_FOLLY_NUKE);
-				bolt.setPosition(bullet.posX, bullet.posY, bullet.posZ);
-				bolt.setThrowableHeading(bullet.motionX, bullet.motionY, bullet.motionZ, 0.1F, 0.1F);
-				bullet.worldObj.spawnEntityInWorld(bolt);
+		bullet.rainbow = 5;
+			bullet.bImpact = (projectile, x, y, z) ->
+			{
+				EntityBulletBase bolt = new EntityBulletBase(projectile.worldObj, BulletConfigSyncingUtil.SHELL_FOLLY_NUKE);
+				bolt.setPosition(projectile.posX, projectile.posY, projectile.posZ);
+				bolt.setThrowableHeading(projectile.motionX, projectile.motionY, projectile.motionZ, 0.1F, 0.1F);
+				projectile.worldObj.spawnEntityInWorld(bolt);
 			
-			}
-		};
+			};
+	
 		
 		return bullet;
-	}
+    }
+    
     
     public static BulletConfiguration getShellFollyNukeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = ModItems.ammo_folly_nuclear;
-		bullet.dmgMin = 300;
-		bullet.dmgMax = 330;
+		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, i++);
+		bullet.dmgMin = 1200;
+		bullet.dmgMax = 1250;
+		bullet.penetration = stockPen;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bImpact = (projectile, x, y, z) -> {
 
-			@Override
-			public void behaveBlockHit (EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 4);
-				
-				
-			
-			}
+			BulletConfigFactory.nuclearExplosion(projectile, x, y, z, 1);
 		};
 		
 		return bullet;
 	}
+		
     
     public static BulletConfiguration getShellFollySleekConfig() {
 		
   		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
   		
-  		bullet.ammo = ModItems.ammo_folly_sleek;
+  		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, i++);
   		bullet.dmgMin = 50;
   		bullet.dmgMax = 60;
   		
-  		bullet.bImpact = new IBulletImpactBehavior() {
+  		bullet.bImpact = (projectile, x, y, z) -> {
 
-  			@Override
-  			public void behaveBlockHit (EntityBulletBase bullet, int x, int y, int z) {
-  				World world = bullet.worldObj;
+  				World world = projectile.worldObj;
   				
   				EntityEulerLaser blast = new EntityEulerLaser(world);
   	    		blast.posX = x;
@@ -169,8 +166,8 @@ public class GunCannonFactory {
   	    		
   	    		world.spawnEntityInWorld(blast);
   			
-  			}
-  		};
+  			};
+  		
   		
   		return bullet;
   	}
@@ -179,10 +176,10 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = ModItems.ammo_folly_du;
+		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, i++);
 		bullet.dmgMin = 100;
 		bullet.dmgMax = 150;
-		bullet.doesPenetrate = true;
+		bullet.penetration = stockPen;
 		bullet.style = BulletConfiguration.STYLE_APDS;
 		
 		return bullet;
@@ -191,7 +188,7 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = ModItems.ammo_folly;
+		bullet.ammo = new ComparableStack(ModItems.nothing, 1, i++);
 		bullet.dmgMin = 100;
 		bullet.dmgMax = 150;
 		bullet.doesPenetrate = true;
@@ -204,32 +201,29 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = ModItems.ammo_folly_ouch;
+		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, i++);
 		bullet.dmgMin = 80;
 		bullet.dmgMax = 90;
 		bullet.trail = 0;
 		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
-
-			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
-				
-				if(!bullet.worldObj.isRemote) {
+		bullet.bImpact = (projectile, x, y, z) -> {
+			
+				if(!projectile.worldObj.isRemote) {
 					
-					if(bullet.ticksExisted > 8) {
-						bullet.setDead();
+					if(projectile.ticksExisted > 8) {
+						projectile.setDead();
 						
 						for(int i = 0; i < 80; i++) {
 							
-							EntityBulletBase bolt = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.M44_STAR);
-							bolt.setPosition(bullet.posX, bullet.posY, bullet.posZ);
-							bolt.setThrowableHeading(bullet.motionX, bullet.motionY, bullet.motionZ, 0.25F, 0.1F);
-							bullet.worldObj.spawnEntityInWorld(bolt);
+							EntityBulletBase bolt = new EntityBulletBase(projectile.worldObj, BulletConfigSyncingUtil.M44_STAR);
+							bolt.setPosition(projectile.posX, projectile.posY, projectile.posZ);
+							bolt.setThrowableHeading(projectile.motionX, projectile.motionY, projectile.motionZ, 0.25F, 0.1F);
+							projectile.worldObj.spawnEntityInWorld(bolt);
 						}
 						
 					}
 				}
-			}
+			
 		};
 		return bullet;
      }
@@ -238,7 +232,7 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = ModItems.ammo_folly;
+		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, i++);
 		bullet.dmgMin = 500;
 		bullet.dmgMax = 600;
 		bullet.velocity = 10F;
@@ -248,24 +242,20 @@ public class GunCannonFactory {
 		bullet.gravity = 0D;
 		bullet.liveAfterImpact = true;
 		bullet.style = -1;
-		bullet.bUpdate = new IBulletUpdateBehavior() {
-  
-			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
+		bullet.bImpact = (projectile, x, y, z) -> {
+				if(!projectile.worldObj.isRemote) {
 				
-				if(!bullet.worldObj.isRemote) {
-				
-		        int yes = bullet.ticksExisted;
+		        int yes = projectile.ticksExisted;
 				
 				for(int i = 0; i < yes; i++) {
-					bullet.worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(bullet.worldObj,bullet.posX ,bullet.posY, bullet.posZ,5+yes*2));	
+					projectile.worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(projectile.worldObj,projectile.posX ,projectile.posY, projectile.posZ,5+yes*2));	
 				}
-				if(bullet.ticksExisted > 15) 
-					bullet.setDead();
-				
-			}
-			}
+				if(projectile.ticksExisted > 15) 
+					projectile.setDead();
+			
 		};
+		};
+		
 		return bullet;
      }
 

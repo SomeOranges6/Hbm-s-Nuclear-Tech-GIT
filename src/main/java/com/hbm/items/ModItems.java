@@ -1508,7 +1508,7 @@ public class ModItems {
 	public static ItemEnumMulti ammo_50ae;
 	public static ItemEnumMulti ammo_50bmg;
 	public static ItemEnumMulti ammo_75bolt;
-	public static Item ammo_folly;
+	public static ItemEnumMulti ammo_folly;
 
 	public static Item ammo_folly_tandem;
 	public static Item ammo_folly_nuclear;
@@ -4166,19 +4166,12 @@ public class ModItems {
 		missile_skin_metal = new ItemCustomLore().setUnlocalizedName("missile_skin_metal").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_metal");
 		
 
-		ammo_folly = new ItemAmmo().setUnlocalizedName("ammo_folly");
-		ammo_folly_tandem = new ItemAmmo().setUnlocalizedName("ammo_folly_tandem");
-		ammo_folly_ouch = new ItemAmmo().setUnlocalizedName("ammo_folly_ouch");
-		ammo_folly_nuclear = new ItemAmmo().setUnlocalizedName("ammo_folly_nuclear");
-		ammo_folly_du = new ItemAmmo().setUnlocalizedName("ammo_folly_du");
-		ammo_folly_sleek = new ItemAmmo().setUnlocalizedName("ammo_folly_sleek");
-
-
+		ammo_folly = new ItemAmmo(AmmoFolly.class).setUnlocalizedName("ammo_folly");
 		ammo_arty = new ItemAmmoArty().setUnlocalizedName("ammo_arty");
 		ammo_nuke = new ItemAmmo(AmmoFatman.class).setUnlocalizedName("ammo_nuke");
 		ammo_fuel = new ItemAmmo(AmmoFlamethrower.class).setUnlocalizedName("ammo_fuel");
 		ammo_fireext = new ItemAmmo(AmmoFireExt.class).setUnlocalizedName("ammo_fireext");
-		ammo_cell = new ItemCustomLore().setCreativeTab(MainRegistry.weaponTab).setUnlocalizedName("ammo_cell").setMaxStackSize(16);
+		ammo_cell = new ItemCustomLore().setCreativeTab(MainRegistry.weaponTab).setUnlocalizedName("ammo_cell");
 		ammo_dart = (ItemEnumMulti) new ItemAmmo(AmmoDart.class).setUnlocalizedName("ammo_dart").setMaxStackSize(16);
 		ammo_stinger_rocket = new ItemAmmo(AmmoStinger.class).setUnlocalizedName("ammo_stinger_rocket");
 		ammo_luna_sniper = new ItemAmmo(AmmoLunaticSniper.class, "desc.misc.luna").setUnlocalizedName("ammo_luna_sniper");
@@ -4362,7 +4355,7 @@ public class ModItems {
 //		grenade_burst = new ItemGrenade(1, EntityGrenadeBurst.class).setUnlocalizedName("grenade_burst").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_burst");
 //		nuclear_waste_pearl = new ItemGrenade(EntityWastePearl.class).setUnlocalizedName("nuclear_waste_pearl").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":nuclear_waste_pearl");
 		
-		grenade_cirno = new ItemGrenadeCirno(4).setUnlocalizedName("grenade_cirno").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":fumo_cirno");
+		
 		
 		weaponized_starblaster_cell = new WeaponizedCell().setUnlocalizedName("weaponized_starblaster_cell").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b92_ammo_weaponized");
 

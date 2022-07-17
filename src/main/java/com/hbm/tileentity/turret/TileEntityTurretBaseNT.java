@@ -15,9 +15,11 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemTurretBiometry;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
@@ -744,10 +746,10 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	protected abstract List<Integer> getAmmoList();
 	
 	@SideOnly(Side.CLIENT)
-	protected List<ItemStack> ammoStacks;
+	protected List<ComparableStack> ammoStacks;
 
 	@SideOnly(Side.CLIENT)
-	public List<ItemStack> getAmmoTypesForDisplay() {
+	public List<ComparableStack> getAmmoTypesForDisplay() {
 		
 		if(ammoStacks != null)
 			return ammoStacks;
@@ -757,8 +759,10 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		for(Integer i : getAmmoList()) {
 			BulletConfiguration config = BulletConfigSyncingUtil.pullConfig(i);
 			
+			List list = new ArrayList();
+
 			if(config != null && config.ammo != null) {
-				ammoStacks.add(new ItemStack(config.ammo));
+				ammoStacks.add((config.ammo));
 			}
 		}
 		

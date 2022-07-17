@@ -50,6 +50,7 @@ public class ItemAmmoEnums
 		BREACH(-1),
 		WASTE_PEARL(-1),
 		STUNNING(-1),
+		CIRNO(4),
 		IF_GENERIC(4),
 		IF_HE(5),
 		IF_BOUNCY(4),
@@ -148,7 +149,34 @@ public class ItemAmmoEnums
 			return config;
 		}
 	}
-	
+	public enum AmmoFolly implements IAmmoItemEnum
+	{
+		NUCLEAR(GunCannonFactory.getShellFollyStarConfig(), AmmoItemTrait.PRO_NUCLEAR),
+		TANDEM(GunCannonFactory.getShellFollyStarConfig(), AmmoItemTrait.PRO_FOLLYTANDEM),
+		DU(GunCannonFactory.getShellFollyDuConfig(), AmmoItemTrait.PRO_PENETRATION, AmmoItemTrait.NEU_HEAVY_METAL, AmmoItemTrait.CON_NO_EXPLODE1),
+		ORIGINAL(GunCannonFactory.getShellFollyConfig(), AmmoItemTrait.PRO_FOLLY, AmmoItemTrait.NEU_DEATH),
+		SLEEK(GunCannonFactory.getShellFollySleekConfig(), AmmoItemTrait.PRO_FOLLYSLEEK, AmmoItemTrait.NEU_VERIF),
+		OUCH(GunCannonFactory.getShellFollyOuchConfig(), AmmoItemTrait.NEU_STARMETAL, AmmoItemTrait.NEU_UHH);
+		private final Set<AmmoItemTrait> traits;
+		private final BulletConfiguration config;
+		private AmmoFolly(BulletConfiguration config, AmmoItemTrait...traits)
+		{
+			this.config = config;
+			this.traits = safeAssign(traits);
+		}
+		
+		@Override
+		public Set<AmmoItemTrait> getTraits()
+		{
+			return traits;
+		}
+
+		@Override
+		public BulletConfiguration getConfig()
+		{
+			return config;
+		}
+	}
 	public enum AmmoMisc implements IAmmoItemEnum
 	{
 		LUNA_SNIPER(Gun50BMGFactory.getLunaticSabotRound(), AmmoItemTrait.PRO_HEAVY_DAMAGE, AmmoItemTrait.PRO_ACCURATE2, AmmoItemTrait.NEU_HEAVY_METAL),

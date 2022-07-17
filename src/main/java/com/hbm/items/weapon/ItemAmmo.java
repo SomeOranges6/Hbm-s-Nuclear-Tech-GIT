@@ -41,6 +41,7 @@ public class ItemAmmo extends ItemEnumMulti
 		CON_SPEED,
 		CON_SUPER_WEAR,
 		CON_WEAR,
+		CON_SMH,
 		NEU_40MM,
 		NEU_BLANK,
 		NEU_BOAT,
@@ -61,6 +62,8 @@ public class ItemAmmo extends ItemEnumMulti
 		NEU_STARMETAL,
 		NEU_TRACER,
 		NEU_UHH,
+		NEU_VERIF,
+		NEU_DEATH,
 		NEU_WARCRIME1,
 		NEU_WARCRIME2,
 		PRO_ACCURATE1,
@@ -99,6 +102,10 @@ public class ItemAmmo extends ItemEnumMulti
 		PRO_STUNNING,
 		PRO_TOXIC,
 		PRO_WEAR,
+		PRO_FOLLY,
+		PRO_FOLLYSLEEK,
+		PRO_FOLLYTANDEM,
+		PRO_WALLPEN,
 		PRO_WITHERING;
 		public String key = "desc.item.ammo.";
 		private AmmoItemTrait()
@@ -158,35 +165,7 @@ public class ItemAmmo extends ItemEnumMulti
 			}
 		}		
 	}
-	@Override
-
 	
-		//FOLLY
-		if(this == ModItems.ammo_folly) {
-			list.add(EnumChatFormatting.BLUE + "+ Starmetal-Moonstone focused blast");
-			list.add(EnumChatFormatting.WHITE + "To put it in simple terms, everything in front of it dies");
-		}
-		if(this == ModItems.ammo_folly_tandem) {
-			list.add(EnumChatFormatting.BLUE + "+ Starmetal-Moonstone/Nuclear Tandem Charge shell");
-			list.add(EnumChatFormatting.BLUE + "+ Can penetrate thick walls");
-			if(MainRegistry.polaroidID == 11)
-			list.add(EnumChatFormatting.RED + "- Not even real moonstone this is just meteorite");
-		}
-		if(this == ModItems.ammo_folly_nuclear) {
-			list.add(EnumChatFormatting.BLUE + "+ Howitzer 12.8cm Nuclear shell");
-			list.add(EnumChatFormatting.YELLOW+ "* Fallout for the whole family!");
-		}
-		if(this == ModItems.ammo_folly_du) {
-			list.add(EnumChatFormatting.BLUE + "+ Howitzer 17kg U238 Penetrator shell");
-			list.add(EnumChatFormatting.RED + "- Non-Explosive");
-		}
-		if(this == ModItems.ammo_folly_sleek) {
-			list.add(EnumChatFormatting.BLUE + "+ Connects onto EULER II to fire a bale-energy beam from orbit");
-			if(MainRegistry.polaroidID == 11){
-				list.add(EnumChatFormatting.RED + "- Does not make sense in the lore sorry FOEQ:PH fans");
-			}
-			list.add(EnumChatFormatting.WHITE + "* Verification needed in order to authorize deployment");
-		}
 
 	public ItemEnumMulti setUnlocalizedName(String uloc)
 	{
