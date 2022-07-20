@@ -2,6 +2,7 @@ package com.hbm.items.weapon;
 
 import java.util.List;
 
+import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.*;
 
@@ -237,7 +238,7 @@ public class ItemClip extends Item {
 		
 		if(this == ModItems.clip_jack)
 		{
-			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_4gauge_quad, 6)))
+			if (!player.inventory.addItemStackToInventory(ModItems.ammo_4gauge.stackFromEnum(6, Ammo4Gauge.QUAD)))
         	{
         		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
         	}
@@ -377,7 +378,7 @@ public class ItemClip extends Item {
 			if(player.inventory.hasItem(ModItems.gun_revolver_inverted))
 				player.inventory.addItemStackToInventory(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.LEAD));
 			if(player.inventory.hasItem(ModItems.gun_jack))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_4gauge_quad, 3));
+				player.inventory.addItemStackToInventory(ModItems.ammo_4gauge.stackFromEnum(6, Ammo4Gauge.QUAD));
 			if(player.inventory.hasItem(ModItems.gun_spark))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_spark_ammo, 2));
 			if(player.inventory.hasItem(ModItems.gun_hp))

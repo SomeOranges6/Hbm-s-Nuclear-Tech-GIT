@@ -97,7 +97,10 @@ public class BulletConfiguration implements Cloneable
 	public boolean doesBreakGlass;
 	/**whether the bullet should stay alive after colliding with a block**/
 	public boolean liveAfterImpact;
-	
+	/**Whether or not a bullet gives a effect to the shooter, mainly used for folly**/
+	public boolean hasPlayerEffect = false;
+	/** Used for folly, controls how long the timer takes**/
+	public int firerate = 100;
 	//creates a "muzzle flash" and a ton of smoke with every projectile spawned
 	public boolean blackPowder = false;
 	

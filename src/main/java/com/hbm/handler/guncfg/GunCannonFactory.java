@@ -1,6 +1,8 @@
 package com.hbm.handler.guncfg;
 
 
+import java.util.ArrayList;
+
 import net.minecraft.world.World;
 
 import com.hbm.config.BombConfig;
@@ -11,12 +13,42 @@ import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class GunCannonFactory {
 	static final int stockPen = 10000;
 	static byte i = 0;
+    public static GunConfiguration getFollyConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 20;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.reloadDuration = 60;
+		config.firingDuration = 0;
+		config.ammoCap = 1;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_CIRCUMFLEX;
+		config.firingSound = "hbm:weapon.follyShoot";
+		config.reloadSound = "hbm:weapon.follyOpen";
+		config.reloadSoundEnd = false;
+		
+		config.name = "Folly";
+		config.manufacturer = EnumGunManufacturer.F_STRONG;
+		
+		config.config = HbmCollection.silver;
+		config.durability = 100000;
+		
+		return config;
+	}
 	public static BulletConfiguration getShellConfig() {
 		
 		final BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
@@ -206,7 +238,7 @@ public class GunCannonFactory {
 		bullet.dmgMax = 90;
 		bullet.trail = 0;
 		
-		bullet.bImpact = (projectile, x, y, z) -> {
+		bullet.bUpdate = (projectile) -> {
 			
 				if(!projectile.worldObj.isRemote) {
 					
@@ -242,7 +274,9 @@ public class GunCannonFactory {
 		bullet.gravity = 0D;
 		bullet.liveAfterImpact = true;
 		bullet.style = -1;
-		bullet.bImpact = (projectile, x, y, z) -> {
+		bullet.bUpdate = (projectile) -> {
+			    projectile.worldObj.spawnEntityInWorld(new EntityBulletBase(projectile.worldObj, BulletConfigSyncingUtil.SHELL_FOLLY_EFFECT));
+			    
 				if(!projectile.worldObj.isRemote) {
 				
 		        int yes = projectile.ticksExisted;

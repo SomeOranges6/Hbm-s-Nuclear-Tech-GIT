@@ -226,7 +226,14 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			this.setDead();
 			return;
 		}
-		
+		 ///PLAYER EFFECT THINGMABOB///
+		if(!worldObj.isRemote && config.hasPlayerEffect == true){
+			
+			 shooter.addPotionEffect(new PotionEffect(HbmPotion.taint.id, 30 * 20, 0));  
+			 shooter.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 20 * 20, 0));  
+			 
+		}
+		///END///
 		if(this.config.blackPowder && this.ticksExisted == 1) {
 			
 			for(int i = 0; i < 15; i++) {

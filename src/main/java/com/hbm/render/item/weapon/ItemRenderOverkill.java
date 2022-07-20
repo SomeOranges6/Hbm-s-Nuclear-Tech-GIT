@@ -3,7 +3,6 @@ package com.hbm.render.item.weapon;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
-import com.hbm.items.weapon.GunFolly;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelCalBarrel;
@@ -207,11 +206,11 @@ public class ItemRenderOverkill implements IItemRenderer {
 						item.getItem() == ModItems.gun_avenger)
 					lacunae.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, ItemGunBase.readNBT(item, "rot"));
 				
-				if(item.getItem() == ModItems.gun_folly) {
+				/*if(item.getItem() == ModItems.gun_folly) {
 					int state = GunFolly.getState(item);
 					int time = GunFolly.getTimer(item);
 					folly.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, state, time);
-				}
+				} */
 				
 			GL11.glPopMatrix();
 			break;
@@ -337,11 +336,11 @@ public class ItemRenderOverkill implements IItemRenderer {
 					item.getItem() == ModItems.gun_avenger)
 				lacunae.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, f);
 			
-			if(item.getItem() == ModItems.gun_folly) {
+			/*if(item.getItem() == ModItems.gun_folly) {
 				int state = GunFolly.getState(item);
 				int time = GunFolly.getTimer(item);
 				folly.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, state, time);
-			}
+			} */
 			GL11.glPopMatrix();
 			break;
 		case ENTITY:
@@ -445,11 +444,11 @@ public class ItemRenderOverkill implements IItemRenderer {
 					item.getItem() == ModItems.gun_avenger)
 				lacunae.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, f);
 			
-			if(item.getItem() == ModItems.gun_folly) {
+			/* if(item.getItem() == ModItems.gun_folly) {
 				int state = GunFolly.getState(item);
 				int time = GunFolly.getTimer(item);
 				folly.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, state, time);
-			}
+			} */
 			GL11.glPopMatrix();
 			break;
 		default: break;

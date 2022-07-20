@@ -1,4 +1,4 @@
-package com.hbm.items.weapon;
+/*package com.hbm.items.weapon;
 
 import java.util.List;
 
@@ -319,4 +319,4 @@ public class GunFolly extends Item implements IHoldableWeapon {
 		return stack.stackTagCompound.getInteger(key);
 	}
 
-}
+}*/

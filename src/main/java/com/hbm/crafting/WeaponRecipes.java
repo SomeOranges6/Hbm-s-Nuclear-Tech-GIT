@@ -121,7 +121,7 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_emp, 1), new Object[] { "CPG", "CMF", "CPI", 'C', ModItems.coil_copper, 'P', PB.plate(), 'G', ModItems.circuit_gold, 'M', ModItems.magnetron, 'I', W.ingot(), 'F', ModItems.mechanism_special });
 
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_emp_ammo, 8), new Object[] { "IGI", "IPI", "IPI", 'G', AU.plate(), 'I', FE.plate(), 'P', ModItems.powder_power });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_4gauge_quad, 1), new Object[] { ModItems.ammo_4gauge, ModItems.ammo_4gauge, ModItems.ammo_4gauge, ModItems.ammo_4gauge });
+		CraftingManager.addShapelessAuto(ModItems.ammo_4gauge.stackFromEnum(6, Ammo4Gauge.QUAD), new Object[] { ModItems.ammo_4gauge, ModItems.ammo_4gauge, ModItems.ammo_4gauge, ModItems.ammo_4gauge });
 
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_emp_ammo, 8), new Object[] { "IGI", "IPI", "IPI", 'G', AU.plate(), 'I', FE.plate(), 'P', ModItems.powder_power });
 		//CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_jack, 1), new Object[] { "WW ", "TSD", " TT", 'W', "ingotWeidanium", 'T', ModItems.toothpicks, 'S', ModItems.gun_uboinik, 'D', ModItems.ducttape });
@@ -207,10 +207,10 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.folly_bullet_nuclear, 1), new Object[] { " N ", "UTU", "UTU", 'N', ModItems.ammo_nuke, 'U', DESH.ingot(), 'T', W.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.folly_bullet_du, 1), new Object[] { " U ", "UDU", "UTU", 'U', U238.ingot(), 'D', DURA.ingot(), 'T', W.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.folly_shell, 1), new Object[] { "IPI", "IPI", "IMI", 'I', STEEL.ingot(), 'P', FE.plate(), 'M', ModItems.cordite });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_folly, 1), new Object[] { " B ", "MEM", " S ", 'B', ModItems.folly_bullet, 'M', ModItems.powder_power, 'E', Fluids.NITAN.getDict(1000), 'S', ModItems.folly_shell });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_folly_nuclear, 2), new Object[] { " B ", "EEE", " S ", 'B', ModItems.folly_bullet_nuclear, 'E', ModBlocks.det_charge, 'S', ModItems.folly_shell });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_folly_tandem, 2), new Object[] { " B ", "EEE", " S ", 'B', ModItems.folly_bullet_tandem, 'E', ModBlocks.det_charge, 'S', ModItems.folly_shell });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_folly_du, 4), new Object[] { " B ", " S ", 'B', ModItems.folly_bullet_du, 'S', ModItems.folly_shell });
+		CraftingManager.addRecipeAuto(ModItems.ammo_folly.stackFromEnum(1, AmmoFolly.STOCK), new Object[] { " B ", "MEM", " S ", 'B', ModItems.folly_bullet, 'M', ModItems.powder_power, 'E', Fluids.NITAN.getDict(1000), 'S', ModItems.folly_shell });
+		CraftingManager.addRecipeAuto(ModItems.ammo_folly.stackFromEnum(1, AmmoFolly.NUCLEAR), new Object[] { " B ", "EEE", " S ", 'B', ModItems.folly_bullet_nuclear, 'E', ModBlocks.det_charge, 'S', ModItems.folly_shell });
+		CraftingManager.addRecipeAuto(ModItems.ammo_folly.stackFromEnum(1, AmmoFolly.TANDEM), new Object[] { " B ", "EEE", " S ", 'B', ModItems.folly_bullet_tandem, 'E', ModBlocks.det_charge, 'S', ModItems.folly_shell });
+		CraftingManager.addRecipeAuto(ModItems.ammo_folly.stackFromEnum(1, AmmoFolly.DU), new Object[] { " B ", " S ", 'B', ModItems.folly_bullet_du, 'S', ModItems.folly_shell });
 
 
 

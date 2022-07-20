@@ -629,7 +629,7 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack(AL.plate()), new ComparableStack(Items.redstone)}, new AnvilOutput(new ItemStack(ModItems.primer_buckshot))).setTier(1));
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new ComparableStack(ModItems.folly_shell, 1), new ComparableStack(ModBlocks.det_charge, 3),new ComparableStack(ModItems.pellet_buckshot, 4), new OreDictStack(STAR.ingot(), 1)},
-				new AnvilOutput(new ItemStack(ModItems.ammo_folly_ouch, 4))).setTier(3));
+				new AnvilOutput(new ItemStack(ModItems.ammo_folly, 4, 4))).setTier(3));
 
 		
 		Object[][] recs = new Object[][] {

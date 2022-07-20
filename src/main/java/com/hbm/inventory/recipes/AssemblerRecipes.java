@@ -32,6 +32,7 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo75Bolt;
+import com.hbm.items.ItemAmmoEnums.AmmoFolly;
 import com.hbm.items.ItemAmmoEnums.AmmoHandGrenade;
 import com.hbm.items.ItemEnums.*;
 import com.hbm.items.machine.ItemAssemblyTemplate;
@@ -658,7 +659,7 @@ public class AssemblerRecipes {
 			new ComparableStack(ModItems.ring_starmetal, 2),
 			new ComparableStack(ModBlocks.deco_emitter, 1),
 		   }, 300);
-       makeRecipe(new ComparableStack(ModItems.ammo_folly_sleek, 1), new AStack[] {
+       makeRecipe(new ComparableStack(ModItems.ammo_folly, 1, 5), new AStack[] {
             
 			new ComparableStack(ModItems.egg_balefire_shard, 6),
 			new ComparableStack(ModItems.powder_spark_mix, 2),

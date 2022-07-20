@@ -97,22 +97,7 @@ public class Gun4GaugeFactory {
 		config.comment.add("There is nothing more American than shooting someone");
 		config.comment.add("with a quad barrel shotgun in this Walmart of a country");
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.G4_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.G4_SLUG);
-		config.config.add(BulletConfigSyncingUtil.G4_FLECHETTE);
-		config.config.add(BulletConfigSyncingUtil.G4_FLECHETTE_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.G4_EXPLOSIVE);
-		config.config.add(BulletConfigSyncingUtil.G4_SEMTEX);
-		config.config.add(BulletConfigSyncingUtil.G4_BALEFIRE);
-		config.config.add(BulletConfigSyncingUtil.G4_KAMPF);
-		config.config.add(BulletConfigSyncingUtil.G4_CANISTER);
-		config.config.add(BulletConfigSyncingUtil.G4_CLAW);
-		config.config.add(BulletConfigSyncingUtil.G4_VAMPIRE);
-		config.config.add(BulletConfigSyncingUtil.G4_VOID);
-		config.config.add(BulletConfigSyncingUtil.G4_TITAN);
-		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
-		config.config.add(BulletConfigSyncingUtil.G4_QUAD);
+		config.config = HbmCollection.fourGauge;
 		
 		return config;
 	}

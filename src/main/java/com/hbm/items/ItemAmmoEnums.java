@@ -150,11 +150,11 @@ public class ItemAmmoEnums
 		}
 	}
 	public enum AmmoFolly implements IAmmoItemEnum
-	{
+	{   
+		STOCK(GunCannonFactory.getShellFollyConfig(), AmmoItemTrait.PRO_FOLLY, AmmoItemTrait.NEU_DEATH),
 		NUCLEAR(GunCannonFactory.getShellFollyStarConfig(), AmmoItemTrait.PRO_NUCLEAR),
 		TANDEM(GunCannonFactory.getShellFollyStarConfig(), AmmoItemTrait.PRO_FOLLYTANDEM),
 		DU(GunCannonFactory.getShellFollyDuConfig(), AmmoItemTrait.PRO_PENETRATION, AmmoItemTrait.NEU_HEAVY_METAL, AmmoItemTrait.CON_NO_EXPLODE1),
-		ORIGINAL(GunCannonFactory.getShellFollyConfig(), AmmoItemTrait.PRO_FOLLY, AmmoItemTrait.NEU_DEATH),
 		SLEEK(GunCannonFactory.getShellFollySleekConfig(), AmmoItemTrait.PRO_FOLLYSLEEK, AmmoItemTrait.NEU_VERIF),
 		OUCH(GunCannonFactory.getShellFollyOuchConfig(), AmmoItemTrait.NEU_STARMETAL, AmmoItemTrait.NEU_UHH);
 		private final Set<AmmoItemTrait> traits;
@@ -658,6 +658,7 @@ public class ItemAmmoEnums
 		CLAW(Gun4GaugeFactory.get4GaugeClawConfig()),
 		VAMPIRE(Gun4GaugeFactory.get4GaugeVampireConfig()),
 		VOID(Gun4GaugeFactory.get4GaugeVoidConfig()),
+		QUAD(Gun4GaugeFactory.get4GaugeQuadConfig()),
 		QUACK(Gun4GaugeFactory.get4GaugeQuackConfig(), AmmoItemTrait.PRO_MARAUDER, AmmoItemTrait.NEU_NO_CON);
 		private final Set<AmmoItemTrait> traits;
 		private final BulletConfiguration config;
