@@ -65,7 +65,7 @@ public class ItemRenderFolly implements IItemRenderer {
 			    
 			
 			
-			if(timer > -1) {
+		/*	if(timer > -1) {
 				GL11.glPushMatrix();
 		        GL11.glDisable(GL11.GL_TEXTURE_2D);
 		        GL11.glDisable(GL11.GL_LIGHTING);
@@ -104,7 +104,7 @@ public class ItemRenderFolly implements IItemRenderer {
 		        GL11.glEnable(GL11.GL_LIGHTING);
 		        GL11.glEnable(GL11.GL_TEXTURE_2D);
 				GL11.glPopMatrix();
-			}
+			} */
 			
 			break;
 		case EQUIPPED:

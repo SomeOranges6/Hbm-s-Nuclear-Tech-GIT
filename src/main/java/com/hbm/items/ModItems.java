@@ -7170,6 +7170,8 @@ public class ModItems {
 		GameRegistry.registerItem(gun_euthanasia_ammo, gun_euthanasia_ammo.getUnlocalizedName());
 		
         GameRegistry.registerItem(ammo_44, ammo_44.getUnlocalizedName());
+        GameRegistry.registerItem(ammo_357, ammo_357.getUnlocalizedName());
+        GameRegistry.registerItem(ammo_45, ammo_45.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_5mm, ammo_5mm.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_9mm, ammo_9mm.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_556, ammo_556.getUnlocalizedName());

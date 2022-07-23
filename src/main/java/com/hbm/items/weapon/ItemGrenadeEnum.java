@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.grenade.EntityGrenadeBouncyBaseNT;
 import com.hbm.explosion.*;
 import com.hbm.interfaces.IHasLore;
@@ -23,6 +24,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -153,10 +155,41 @@ public class ItemGrenadeEnum extends ItemEnumMulti
 			final World world = loc.getWorld();
 			ExplosionThermo.freeze(world,(int) loc.getX(), (int) loc.getY(), (int) loc.getZ(), 100);
 			ExplosionThermo.freezer(world,(int) loc.getX(), (int) loc.getY(), (int) loc.getZ(), 100);
+			
 		});
 		
 		logicMap.put(AmmoHandGrenade.KYIV, (thrower, loc, nade) -> loc.getWorld().newExplosion(null, loc.getX(), loc.getY(), loc.getZ(), 5F, true, true));
-	}
+		logicMap.put(AmmoHandGrenade.WASTE_PEARL, (thrower, loc, nade) ->
+		{
+			final World world = loc.getWorld();
+			if(!nade.worldObj.isRemote) {
+				nade.setDead();
+
+				int x = (int)Math.floor(loc.getX());
+				int y = (int)Math.floor(loc.getY());
+				int z = (int)Math.floor(loc.getZ());
+				
+				for(int ix = x - 3; ix <= x + 3; ix++) {
+					for(int iy = y - 3; iy <= y + 3; iy++) {
+						for(int iz = z - 3; iz <= z + 3; iz++) {
+							
+							if(world.rand.nextInt(3) == 0 && world.getBlock(ix, iy, iz).isReplaceable(world, ix, iy, iz) && ModBlocks.fallout.canPlaceBlockAt(world, ix, iy, iz)) {
+								world.setBlock(ix, iy, iz, ModBlocks.fallout);
+							} else if(world.getBlock(ix, iy, iz) == Blocks.air) {
+								
+								if(world.rand.nextBoolean())
+									world.setBlock(ix, iy, iz, ModBlocks.gas_radon);
+								else
+									world.setBlock(ix, iy, iz, ModBlocks.gas_radon_dense);
+							}
+						}
+					}
+				}
+			}
+		});
+	}   
+	    
+	    
 	public ItemGrenadeEnum()
 	{
 		super(AmmoHandGrenade.class, true, true);

@@ -166,7 +166,7 @@ public class ItemAmmo extends ItemEnumMulti
 		}		
 	}
 	
-
+    @Override
 	public ItemEnumMulti setUnlocalizedName(String uloc)
 	{
 		setTextureName(RefStrings.MODID + ':' + uloc);

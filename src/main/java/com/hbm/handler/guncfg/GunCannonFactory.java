@@ -143,8 +143,9 @@ public class GunCannonFactory {
 		
     	final BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, 3);
 		bullet.dmgMin = 250;
+		bullet.firerate = 100;
 		bullet.dmgMax = 360;
 		bullet.rainbow = 5;
 			bullet.bImpact = (projectile, x, y, z) ->
@@ -165,9 +166,10 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, i++);
-		bullet.dmgMin = 1200;
-		bullet.dmgMax = 1250;
+		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, 2);
+		bullet.dmgMin = 500;
+		bullet.dmgMax = 600;
+		bullet.firerate = 50;
 		bullet.penetration = stockPen;
 		
 		bullet.bImpact = (projectile, x, y, z) -> {
@@ -183,10 +185,10 @@ public class GunCannonFactory {
 		
   		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
   		
-  		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, i++);
+  		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, 5);
   		bullet.dmgMin = 50;
   		bullet.dmgMax = 60;
-  		
+  		bullet.firerate = 100;
   		bullet.bImpact = (projectile, x, y, z) -> {
 
   				World world = projectile.worldObj;
@@ -208,9 +210,10 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, 4);
 		bullet.dmgMin = 100;
 		bullet.dmgMax = 150;
+		bullet.firerate = 25;
 		bullet.penetration = stockPen;
 		bullet.style = BulletConfiguration.STYLE_APDS;
 		
@@ -220,7 +223,7 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.nothing, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.nothing);
 		bullet.dmgMin = 100;
 		bullet.dmgMax = 150;
 		bullet.doesPenetrate = true;
@@ -233,9 +236,10 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, 6);
 		bullet.dmgMin = 80;
 		bullet.dmgMax = 90;
+		bullet.firerate = 25;
 		bullet.trail = 0;
 		
 		bullet.bUpdate = (projectile) -> {
@@ -264,9 +268,10 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1);
 		bullet.dmgMin = 500;
 		bullet.dmgMax = 600;
+		bullet.firerate = 100;
 		bullet.velocity = 10F;
 		bullet.HBRC = 0; //i have no idea how or why but having these ricochet variables in changes stuff so avoid touchy
 		bullet.LBRC = 0;

@@ -1,4 +1,4 @@
-/*package com.hbm.items.weapon;
+package com.hbm.items.weapon;
 
 import java.util.List;
 
@@ -7,11 +7,16 @@ import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
+import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.GunConfiguration;
+import com.hbm.handler.guncfg.GunCannonFactory;
 import com.hbm.interfaces.IHoldableWeapon;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.util.InventoryUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,6 +30,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class GunFolly extends Item implements IHoldableWeapon {
+	
+	GunConfiguration folly = GunCannonFactory.getFollyConfig();
+	
 	public GunFolly()
     {
         this.maxStackSize = 1;
@@ -48,7 +56,8 @@ public class GunFolly extends Item implements IHoldableWeapon {
 		int state = getState(stack);
 		
 		int bulletType = getType(stack);
-		
+		final BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(folly.config.get(getType(stack)));
+		final ComparableStack ammo = cfg.ammo.copy();
 		switch (state) {
 		
 		case 0:
@@ -59,55 +68,32 @@ public class GunFolly extends Item implements IHoldableWeapon {
 			
 		case 1:
 			
-			if(player.inventory.hasItem(ModItems.ammo_folly_nuclear)) {
-
-				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
-				player.inventory.consumeInventoryItem(ModItems.ammo_folly_nuclear);
+			for(Integer config : folly.config) {
 				
-				setState(stack, 2);
-				setType(stack,1);
+				BulletConfiguration cfg1 = BulletConfigSyncingUtil.pullConfig(config);
 				
-			} else if(player.inventory.hasItem(ModItems.ammo_folly)) {
+				if(InventoryUtil.doesPlayerHaveAStack(player, cfg1.ammo, true)) {
+					setType(stack, folly.config.indexOf(config));
+					world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
+					setState(stack, 2);
+					
+				} else if(player.inventory.hasItem(ModItems.folly_shell)) {
+					
+					world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
+					player.inventory.consumeInventoryItem(ModItems.folly_shell);
+					
+					setState(stack, 2);
+					setType(stack, 7);	
+					
+			    } else {
+					
+					world.playSoundAtEntity(player, "hbm:weapon.follyClose", 1.0F, 1.0F);
+					setState(stack, 0);
+					setType(stack,0);
+					
+				}
 				
-    			world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
-    			player.inventory.consumeInventoryItem(ModItems.ammo_folly);
-    				
-    			setState(stack, 2);
-    			setType(stack,5);
-    			
-			} else if(player.inventory.hasItem(ModItems.ammo_folly_du)) {
-				
-				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
-				player.inventory.consumeInventoryItem(ModItems.ammo_folly_du);
-				
-				setState(stack, 2);
-				setType(stack,2);
-
-           } else if(player.inventory.hasItem(ModItems.ammo_folly_tandem)) {
-				
-				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
-				player.inventory.consumeInventoryItem(ModItems.ammo_folly_tandem);
-				
-				setState(stack, 2);
-				setType(stack,3);
-           } else if(player.inventory.hasItem(ModItems.ammo_folly_ouch)) {
-				
-				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
-				player.inventory.consumeInventoryItem(ModItems.ammo_folly_ouch);
-				
-				setState(stack, 2);
-				setType(stack,6);
-				
-            } else if(player.inventory.hasItem(ModItems.ammo_folly_sleek)) {
-            	
-            	if(verified == true) {
-				
-				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
-				player.inventory.consumeInventoryItem(ModItems.ammo_folly_sleek);
-				setState(stack, 2);
-				setType(stack,4);
-				
-               }else if(player.inventory.hasItem(ModItems.coin_maskman)) {
+              /*}else if(player.inventory.hasItem(ModItems.coin_maskman)) {
                  	
                  	if(verified == false) {
                  	player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "[EV-1101] Access granted, Fire when ready."));
@@ -118,20 +104,9 @@ public class GunFolly extends Item implements IHoldableWeapon {
                 	player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "[EV-1101] Access Denied, Verify using a IF-R&D M.A.S.K token"));
             	}
             
-             } else if(player.inventory.hasItem(ModItems.folly_shell)) {
-				
-				world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
-				player.inventory.consumeInventoryItem(ModItems.folly_shell);
-				
-				setState(stack, 2);
-				setType(stack,0);	
-       
-			} else {
-				
-				world.playSoundAtEntity(player, "hbm:weapon.follyClose", 1.0F, 1.0F);
-				setState(stack, 0);
-				setType(stack,0);
-				
+             */ 
+             
+			
 			}
 			break;
 			
@@ -141,17 +116,11 @@ public class GunFolly extends Item implements IHoldableWeapon {
 			setState(stack, 3);
 			switch (bulletType) {
 			
-			case 1:
-			setTimer(stack, 50);
-			break;
-			
-			case 2:
-			case 6:
 			case 7:
 			setTimer(stack, 25);
 			break;
 			
-			default:setTimer(stack, 100);
+			default:setTimer(stack, cfg.firerate);
 			};
 		case 3:
 			
@@ -178,13 +147,8 @@ public class GunFolly extends Item implements IHoldableWeapon {
 					final int config;
 					switch (bulletType)
 					{
-					  case 1: config = BulletConfigSyncingUtil.SHELL_FOLLY_NUKE; break;
-					  case 2: config = BulletConfigSyncingUtil.SHELL_FOLLY_DU; break;
-					  case 3: config = BulletConfigSyncingUtil.SHELL_FOLLY_STAR; break;
-					  case 4: config = BulletConfigSyncingUtil.SHELL_FOLLY_SLEEK; break;
-					  case 6: config = BulletConfigSyncingUtil.SHELL_FOLLY_OUCH; break;
 					  
-					  case 5: config = BulletConfigSyncingUtil.SHELL_FOLLY;
+					  case 0: config = BulletConfigSyncingUtil.SHELL_FOLLY;
 					  
 					  world.spawnEntityInWorld(new EntityBulletBase(world, BulletConfigSyncingUtil.SHELL_FOLLY_EFFECT, player));
 					  
@@ -192,7 +156,7 @@ public class GunFolly extends Item implements IHoldableWeapon {
 					  player.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 20 * 20, 0));  
 					  break;
 				
-					  default:config = BulletConfigSyncingUtil.TEST_CONFIG; break;
+					  default:config = getType(stack); break;
 					}
 					world.spawnEntityInWorld(new EntityBulletBase(world, config, player));
 					
@@ -319,4 +283,4 @@ public class GunFolly extends Item implements IHoldableWeapon {
 		return stack.stackTagCompound.getInteger(key);
 	}
 
-}*/
+}

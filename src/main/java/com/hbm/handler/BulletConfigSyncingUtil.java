@@ -100,6 +100,8 @@ public class BulletConfigSyncingUtil {
 	public static int P9_ROCKET = i++;
 	
 	public static int ACP_45 = i++;
+	public static int ACP_45_AP = i++;
+	public static int ACP_45_DU = i++;
 
 	public static int BMG50_NORMAL = i++;
 	public static int BMG50_INCENDIARY = i++;
@@ -389,6 +391,8 @@ public class BulletConfigSyncingUtil {
 		configSet.put(P9_ROCKET, Gun9mmFactory.get9mmRocketConfig());
 		
 		configSet.put(ACP_45, Gun45ACPFactory.get45AutoConfig());
+		configSet.put(ACP_45_AP, Gun45ACPFactory.get45AutoConfig());
+		configSet.put(ACP_45_DU, Gun45ACPFactory.get45AutoConfig());
 
 		configSet.put(BMG50_NORMAL, Gun50BMGFactory.get50BMGConfig());
 		configSet.put(BMG50_INCENDIARY, Gun50BMGFactory.get50BMGFireConfig());
