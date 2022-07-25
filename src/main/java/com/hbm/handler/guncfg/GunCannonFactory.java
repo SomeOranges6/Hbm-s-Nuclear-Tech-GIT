@@ -23,6 +23,7 @@ import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 public class GunCannonFactory {
 	static final int stockPen = 10000;
 	static byte i = 0;
+	//used for technical thingmabobs
     public static GunConfiguration getFollyConfig() {
 		
 		GunConfiguration config = new GunConfiguration();
@@ -139,11 +140,66 @@ public class GunCannonFactory {
 		return bullet;
 	}
 	
+    
+    
+public static BulletConfiguration getShellFollyConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+		
+		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1);
+		bullet.dmgMin = 500;
+		bullet.dmgMax = 600;
+		bullet.firerate = 100;
+		bullet.velocity = 10F;
+		bullet.HBRC = 0; //i have no idea how or why but having these ricochet variables in changes stuff so avoid touchy
+		bullet.LBRC = 0;
+		bullet.doesPenetrate = true;
+		bullet.gravity = 0D;
+		bullet.liveAfterImpact = true;
+		bullet.style = -1;
+		bullet.bUpdate = (projectile) -> {
+			  
+				if(!projectile.worldObj.isRemote) {
+				
+		        int yes = projectile.ticksExisted;
+				
+				for(int i = 0; i < yes; i++) {
+					int r = (int)(5+yes*1.5);
+					projectile.worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(projectile.worldObj,projectile.posX ,projectile.posY, projectile.posZ,r));	
+				}
+			
+				if(projectile.ticksExisted > 15) 
+					projectile.setDead();
+			
+		};
+		};
+		
+		return bullet;
+     }
+    
+    public static BulletConfiguration getShellFollyNukeConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+		
+		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, 1);
+		bullet.dmgMin = 500;
+		bullet.dmgMax = 600;
+		bullet.firerate = 50;
+		bullet.penetration = stockPen;
+		
+		bullet.bImpact = (projectile, x, y, z) -> {
+
+			BulletConfigFactory.nuclearExplosion(projectile, x, y, z, 5);
+		};
+		
+		return bullet;
+	}
+    
     public static BulletConfiguration getShellFollyStarConfig() {
 		
     	final BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, 3);
+		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, 2);
 		bullet.dmgMin = 250;
 		bullet.firerate = 100;
 		bullet.dmgMax = 360;
@@ -159,33 +215,28 @@ public class GunCannonFactory {
 	
 		
 		return bullet;
-    }
+    }	
     
     
-    public static BulletConfiguration getShellFollyNukeConfig() {
+    public static BulletConfiguration getShellFollyDuConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
+	BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, 2);
-		bullet.dmgMin = 500;
-		bullet.dmgMax = 600;
-		bullet.firerate = 50;
+		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, 3);
+		bullet.dmgMin = 100;
+		bullet.dmgMax = 150;
+		bullet.firerate = 25;
 		bullet.penetration = stockPen;
-		
-		bullet.bImpact = (projectile, x, y, z) -> {
-
-			BulletConfigFactory.nuclearExplosion(projectile, x, y, z, 1);
-		};
+		bullet.style = BulletConfiguration.STYLE_APDS;
 		
 		return bullet;
 	}
-		
-    
+   
     public static BulletConfiguration getShellFollySleekConfig() {
 		
   		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
   		
-  		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, 5);
+  		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, 4);
   		bullet.dmgMin = 50;
   		bullet.dmgMax = 60;
   		bullet.firerate = 100;
@@ -205,38 +256,11 @@ public class GunCannonFactory {
   		
   		return bullet;
   	}
-    
-    public static BulletConfiguration getShellFollyDuConfig() {
-		
-		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
-		
-		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, 4);
-		bullet.dmgMin = 100;
-		bullet.dmgMax = 150;
-		bullet.firerate = 25;
-		bullet.penetration = stockPen;
-		bullet.style = BulletConfiguration.STYLE_APDS;
-		
-		return bullet;
-	}
-    public static BulletConfiguration getEffectConfig() {
-		
-		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
-		
-		bullet.ammo = new ComparableStack(ModItems.nothing);
-		bullet.dmgMin = 100;
-		bullet.dmgMax = 150;
-		bullet.doesPenetrate = true;
-		bullet.style = BulletConfiguration.STYLE_FOLLY;
-		bullet.maxAge = 25;
-		return bullet;
-	} 
-    
     public static BulletConfiguration getShellFollyOuchConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, 6);
+		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1, 5);
 		bullet.dmgMin = 80;
 		bullet.dmgMax = 90;
 		bullet.firerate = 25;
@@ -263,40 +287,20 @@ public class GunCannonFactory {
 		};
 		return bullet;
      }
- 
-    public static BulletConfiguration getShellFollyConfig() {
+     
+      public static BulletConfiguration getEffectConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_folly, 1);
-		bullet.dmgMin = 500;
-		bullet.dmgMax = 600;
-		bullet.firerate = 100;
-		bullet.velocity = 10F;
-		bullet.HBRC = 0; //i have no idea how or why but having these ricochet variables in changes stuff so avoid touchy
-		bullet.LBRC = 0;
+		bullet.ammo = new ComparableStack(ModItems.nothing);
+		bullet.dmgMin = 100;
+		bullet.dmgMax = 150;
 		bullet.doesPenetrate = true;
-		bullet.gravity = 0D;
-		bullet.liveAfterImpact = true;
-		bullet.style = -1;
-		bullet.bUpdate = (projectile) -> {
-			    projectile.worldObj.spawnEntityInWorld(new EntityBulletBase(projectile.worldObj, BulletConfigSyncingUtil.SHELL_FOLLY_EFFECT));
-			    
-				if(!projectile.worldObj.isRemote) {
-				
-		        int yes = projectile.ticksExisted;
-				
-				for(int i = 0; i < yes; i++) {
-					projectile.worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(projectile.worldObj,projectile.posX ,projectile.posY, projectile.posZ,5+yes*2));	
-				}
-				if(projectile.ticksExisted > 15) 
-					projectile.setDead();
-			
-		};
-		};
-		
+		bullet.style = BulletConfiguration.STYLE_FOLLY;
+		bullet.maxAge = 25;
 		return bullet;
-     }
+	} 
+    
 
 }
 	

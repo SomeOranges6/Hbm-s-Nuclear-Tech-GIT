@@ -35,14 +35,6 @@ public class EntityEulerLaser extends Entity implements IChunkLoader{
 		if(this.ticksExisted <= maxAge && !worldObj.isRemote) {
 			this.setDead();
 
-			/*new ExplosionNT(worldObj, null, posX, posY, posZ, 35).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-			new ExplosionNT(worldObj, null, posX + 10, posY, posZ, 20).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-			new ExplosionNT(worldObj, null, posX - 10, posY, posZ, 20).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-			new ExplosionNT(worldObj, null, posX, posY, posZ + 10, 20).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-			new ExplosionNT(worldObj, null, posX, posY, posZ - 10, 20).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-			
-			for(int k = 1; k < 6; k++)
-				new ExplosionNT(worldObj, null, posX, posY - k * 7, posZ, 20).addAllAttrib(ExplosionNT.nukeAttribs).explode();*/
 			
 			EntityBalefire bf = new EntityBalefire(worldObj);
 			bf.posX = posX + 0.5;

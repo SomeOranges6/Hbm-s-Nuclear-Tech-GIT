@@ -52,7 +52,8 @@ public class GunFolly extends Item implements IHoldableWeapon {
 		}
 		
 		boolean verified = stack.stackTagCompound.getBoolean("verified");
-		
+	    verified = false;
+	    
 		int state = getState(stack);
 		
 		int bulletType = getType(stack);
@@ -67,32 +68,40 @@ public class GunFolly extends Item implements IHoldableWeapon {
 			break;
 			
 		case 1:
-			
+			if(player.inventory.hasItem(ModItems.coin_maskman)) {
+             	
+             	if(verified == false) {
+             	player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "[EV-1101] Access granted, Fire when ready."));
+             	verified = true;
+             	setState(stack, 1);
+             	}
+            }
 			for(Integer config : folly.config) {
 				
 				BulletConfiguration cfg1 = BulletConfigSyncingUtil.pullConfig(config);
 				
-				if(InventoryUtil.doesPlayerHaveAStack(player, cfg1.ammo, true)) {
+				if(InventoryUtil.doesPlayerHaveAStack(player, cfg1.ammo, false)) {
+					
 					setType(stack, folly.config.indexOf(config));
+					//IF bullet thingmabob
+					
+					if(getType(stack) ==  4){
+						if(verified == false){
+							player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "[EV-1101] Access Denied, Verify using a IF-R&D M.A.S.K token"));
+						} else {
+							world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
+							setState(stack, 2);
+						}
+						
+					//END of IF bullet thingmabob
+					} else {
 					world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
 					setState(stack, 2);
-					
-				} else if(player.inventory.hasItem(ModItems.folly_shell)) {
-					
-					world.playSoundAtEntity(player, "hbm:weapon.follyReload", 1.0F, 1.0F);
-					player.inventory.consumeInventoryItem(ModItems.folly_shell);
-					
-					setState(stack, 2);
-					setType(stack, 7);	
-					
-			    } else {
-					
-					world.playSoundAtEntity(player, "hbm:weapon.follyClose", 1.0F, 1.0F);
-					setState(stack, 0);
-					setType(stack,0);
-					
-				}
-				
+					}
+			     } 
+			}	
+			InventoryUtil.doesPlayerHaveAStack(player, BulletConfigSyncingUtil.pullConfig(folly.config.get(getType(stack))).ammo, true);
+			
               /*}else if(player.inventory.hasItem(ModItems.coin_maskman)) {
                  	
                  	if(verified == false) {
@@ -107,7 +116,7 @@ public class GunFolly extends Item implements IHoldableWeapon {
              */ 
              
 			
-			}
+			
 			break;
 			
 		case 2:
@@ -122,6 +131,7 @@ public class GunFolly extends Item implements IHoldableWeapon {
 			
 			default:setTimer(stack, cfg.firerate);
 			};
+			
 		case 3:
 			
 			if(getTimer(stack) == 0) {
@@ -134,7 +144,7 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				if(player.inventory.hasItem(ModItems.memespoon)) {
 			     mult = 5D;
 				} else if(player.isSneaking()) {
-					mult = 1.2D;	
+					mult = 1.1D;	
 				} else {
 				 mult = 1.75D;
 				}
@@ -145,20 +155,39 @@ public class GunFolly extends Item implements IHoldableWeapon {
 
 				if (!world.isRemote) {
 					final int config;
-					switch (bulletType)
-					{
-					  
+					
+					switch (bulletType){
+					
+					  //Original Silver Bullet
 					  case 0: config = BulletConfigSyncingUtil.SHELL_FOLLY;
 					  
-					  world.spawnEntityInWorld(new EntityBulletBase(world, BulletConfigSyncingUtil.SHELL_FOLLY_EFFECT, player));
+					      world.spawnEntityInWorld(new EntityBulletBase(world, BulletConfigSyncingUtil.SHELL_FOLLY_EFFECT, player));
 					  
-					  player.addPotionEffect(new PotionEffect(HbmPotion.taint.id, 30 * 20, 0));  
-					  player.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 20 * 20, 0));  
+					      player.addPotionEffect(new PotionEffect(HbmPotion.taint.id, 30 * 20, 0));  
+					      player.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 20 * 20, 0));
+					  
+					      world.spawnEntityInWorld(new EntityBulletBase(world, config, player));
 					  break;
-				
-					  default:config = getType(stack); break;
+					  
+					  
+					  //Experimental Silver Bullet 
+					  /*case 4: config = BulletConfigSyncingUtil.SHELL_FOLLY_SLEEK;
+					  
+					       if(verified == false){
+					    	   player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "[EV-1101] Access Denied, Verify using a IF-R&D M.A.S.K token")); 
+					       } else{
+					    	   world.spawnEntityInWorld(new EntityBulletBase(world, config, player));
+					       }
+					  
+					  break;   
+					  */
+					  //Everything else
+					  default:config = BulletConfigSyncingUtil.getKey(BulletConfigSyncingUtil.pullConfig(folly.config.get(getType(stack))));
+					   world.spawnEntityInWorld(new EntityBulletBase(world, config, player));
+					   break;
+					   
 					}
-					world.spawnEntityInWorld(new EntityBulletBase(world, config, player));
+				
 					
 					
 						
