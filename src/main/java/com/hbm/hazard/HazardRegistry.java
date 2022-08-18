@@ -180,6 +180,10 @@ public class HazardRegistry {
 		HazardSystem.register(egg_balefire_shard, makeData(RADIATION, bf * nugget));
 		HazardSystem.register(egg_balefire, makeData(RADIATION, bf * ingot));
 
+		HazardSystem.register(solid_fuel_bf, makeData(RADIATION, 1000)); //roughly the amount of the balefire shard diluted in 250mB of rocket fuel
+		HazardSystem.register(solid_fuel_presto_bf, makeData(RADIATION, 2000));
+		HazardSystem.register(solid_fuel_presto_triplet_bf, makeData(RADIATION, 6000));
+
 		HazardSystem.register(nuclear_waste_long, makeData(RADIATION, 5F));
 		HazardSystem.register(nuclear_waste_long_tiny, makeData(RADIATION, 0.5F));
 		HazardSystem.register(nuclear_waste_short, makeData().addEntry(RADIATION, 30F).addEntry(HOT, 5F));
@@ -467,8 +471,8 @@ public class HazardRegistry {
 		/*
 		 * Blacklist
 		 */
-		HazardSystem.blacklist(TH232.ore());
-		HazardSystem.blacklist(U.ore());
+		for(String ore : TH232.ores()) HazardSystem.blacklist(ore);
+		for(String ore : U.ores()) HazardSystem.blacklist(ore);
 
 		
 		/*
@@ -486,10 +490,8 @@ public class HazardRegistry {
 	
 	public static void registerTrafos() {
 		HazardSystem.trafos.add(new HazardTransformerRadiationNBT());
-	if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSafeMEDrives) 
-		{
-			return;
-		} else {
+		
+		if(!(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSafeMEDrives)) {
 			HazardSystem.trafos.add(new HazardTransformerRadiationME());
 		}
 	}

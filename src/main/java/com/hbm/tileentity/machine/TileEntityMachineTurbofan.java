@@ -4,12 +4,12 @@ import java.util.List;
 
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.types.FluidTypeCombustible;
-import com.hbm.inventory.fluid.types.FluidTypeCombustible.FuelGrade;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Combustible;
+import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.ModDamageSource;
@@ -115,8 +115,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 			long burn = 0;
 			int amount = 1 + this.afterburner;
 			
-			if(tank.getTankType() instanceof FluidTypeCombustible && ((FluidTypeCombustible) tank.getTankType()).getGrade() == FuelGrade.AERO) {
-				burn = ((FluidTypeCombustible) tank.getTankType()).getCombustionEnergy() / 1_000;
+			if(tank.getTankType().hasTrait(FT_Combustible.class) && tank.getTankType().getTrait(FT_Combustible.class).getGrade() == FuelGrade.AERO) {
+				burn = tank.getTankType().getTrait(FT_Combustible.class).getCombustionEnergy() / 1_000;
 			}
 			
 			int toBurn = Math.min(amount, this.tank.getFill());
@@ -146,6 +146,22 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 						data.setDouble("mZ", -dir.offsetZ * speed + deviation);
 						data.setFloat("scale", 8F);
 						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, this.xCoord + 0.5F - dir.offsetX * (3 - i), this.yCoord + 1.5F, this.zCoord + 0.5F - dir.offsetZ * (3 - i)), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+					}
+					
+					/*if(this.afterburner > 90 && worldObj.rand.nextInt(30) == 0) {
+						worldObj.newExplosion(null, xCoord + 0.5 + dir.offsetX * 3.5, yCoord + 0.5, zCoord + 0.5 + dir.offsetZ * 3.5, 3F, false, false);
+					}*/
+					
+					if(this.afterburner > 90) {
+						NBTTagCompound data = new NBTTagCompound();
+						data.setString("type", "gasfire");
+						data.setDouble("mY", 0.1 * worldObj.rand.nextDouble());
+						data.setFloat("scale", 4F);
+						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data,
+								this.xCoord + 0.5F + dir.offsetX * (worldObj.rand.nextDouble() * 4 - 2) + rot.offsetX * (worldObj.rand.nextDouble() * 2 - 1),
+								this.yCoord + 1F + worldObj.rand.nextDouble() * 2,
+								this.zCoord + 0.5F - dir.offsetZ * (worldObj.rand.nextDouble() * 4 - 2) + rot.offsetZ * (worldObj.rand.nextDouble() * 2 - 1)
+								), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 					}
 				}
 				
@@ -251,7 +267,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 			 * All movement related stuff has to be repeated on the client, but only for the client's player
 			 * Otherwise this could lead to desync since the motion is never sent form the server
 			 */
-			if(!MainRegistry.proxy.me().capabilities.isCreativeMode) {
+			if(tank.getFill() > 0 && !MainRegistry.proxy.me().capabilities.isCreativeMode) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 				

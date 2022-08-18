@@ -1431,7 +1431,7 @@ public class AssemblerRecipes {
 					
 				} else if(o instanceof OreDictStack) {
 					
-					List<ItemStack> list = new ArrayList();
+					/*List<ItemStack> list = new ArrayList();
 					OreDictStack oreStack = (OreDictStack)o;
 					List<ItemStack> ores = OreDictionary.getOres(oreStack.name);
 					
@@ -1439,9 +1439,9 @@ public class AssemblerRecipes {
 						ItemStack copy = ore.copy();
 						copy.stackSize = oreStack.stacksize;
 						list.add(copy);
-					}
+					}*/
 					
-					value.add(list);
+					value.add(((OreDictStack)o).extractForNEI());
 				}
 			}
 			

@@ -48,7 +48,6 @@ import com.hbm.entity.EntityMappings;
 import com.hbm.entity.grenade.*;
 import com.hbm.entity.logic.*;
 import com.hbm.entity.mob.siege.*;
-import com.hbm.entity.qic.EntitySPV;
 import com.hbm.handler.*;
 import com.hbm.handler.imc.*;
 import com.hbm.handler.radiation.ChunkRadiationManager;
@@ -83,7 +82,6 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 
@@ -746,6 +744,7 @@ public class MainRegistry {
 		BobmazonOfferFactory.init();
 		OreDictManager.registerOres();
 
+		IMCHandler.registerHandler("blastfurnace", new IMCBlastFurnace());
 		IMCHandler.registerHandler("crystallizer", new IMCCrystallizer());
 		IMCHandler.registerHandler("centrifuge", new IMCCentrifuge());
 	}
@@ -772,13 +771,9 @@ public class MainRegistry {
 		ShredderRecipes.registerShredder();
 		ShredderRecipes.registerOverrides();
 		CrystallizerRecipes.register();
-		CentrifugeRecipes.register();
 		TileEntityNukeFurnace.registerFuels();
 		BreederRecipes.registerRecipes();
 		AssemblerRecipes.loadRecipes();
-		//ChemplantRecipes.register(); moved to SerializableRecipe
-		CyclotronRecipes.register();
-		//HadronRecipes.register(); moved to SerializableRecipe
 		MagicRecipes.register();
 		SILEXRecipes.register();
 		AnvilRecipes.register();
@@ -916,6 +911,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.sellafield_4");
 		ignoreMappings.add("hbm:tile.sellafield_core");
 		ignoreMappings.add("hbm:tile.fusion_core");
+		ignoreMappings.add("hbm:tile.machine_telelinker");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

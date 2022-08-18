@@ -122,7 +122,6 @@ public class TileMappings {
 		put(TileEntityVent.class, "tileentity_vent");
 		put(TileEntityLandmine.class, "tileentity_landmine");
 		put(TileEntityBomber.class, "tileentity_bomber");
-		put(TileEntityMachineTeleLinker.class, "tileentity_telemetry_linker");
 		put(TileEntityMachineKeyForge.class, "tileentity_key_forge");
 		put(TileEntitySellafield.class, "tileentity_sellafield_core");
 		put(TileEntityNukeN45.class, "tileentity_n45");
@@ -243,12 +242,15 @@ public class TileMappings {
 		put(TileEntityTurretFritz.class, "tileentity_turret_fritz");
 		put(TileEntityTurretBrandon.class, "tileentity_turret_brandon");
 		put(TileEntityTurretArty.class, "tileentity_turret_arty");
+		put(TileEntityTurretHIMARS.class, "tileentity_turret_himars");
 	}
 	
 	private static void putMachines() {
 		put(TileEntityHeaterFirebox.class, "tileentity_firebox");
+		put(TileEntityHeaterOilburner.class, "tileentity_oilburner");
 		put(TileEntityFurnaceIron.class, "tileentity_furnace_iron");
 		put(TileEntityFurnaceSteel.class, "tileentity_furnace_steel");
+		put(TileEntityStirling.class, "tileentity_stirling");
 		put(TileEntityMachineAutocrafter.class, "tileentity_autocrafter");
 		put(TileEntityDiFurnaceRTG.class, "tileentity_rtg_difurnace");
 		put(TileEntityMachineRadiolysis.class, "tileentity_radiolysis");
@@ -321,6 +323,9 @@ public class TileMappings {
 
 		put(TileEntityCraneInserter.class, "tileentity_inserter");
 		put(TileEntityCraneExtractor.class, "tileentity_extractor");
+		put(TileEntityCraneBoxer.class, "tileentity_boxer");
+		put(TileEntityCraneUnboxer.class, "tileentity_unboxer");
+		put(TileEntityCraneRouter.class, "tileentity_router");
 	}
 	
 	private static void put(Class<? extends TileEntity> clazz, String... names) {
