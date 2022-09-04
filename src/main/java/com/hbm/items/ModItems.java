@@ -884,13 +884,13 @@ public class ModItems {
 	@Deprecated public static Item canister_NITAN;
 	@Deprecated public static Item canister_fracksol;
 
-	public static Item canister_heavyoil;
-	public static Item canister_bitumen;
-	public static Item canister_heatingoil;
-	public static Item canister_naphtha;
-	public static Item canister_lightoil;
-	public static Item canister_biofuel;
-	public static Item canister_ethanol;
+	@Deprecated public static Item canister_heavyoil;
+	@Deprecated public static Item canister_bitumen;
+	@Deprecated public static Item canister_heatingoil;
+	@Deprecated public static Item canister_naphtha;
+	@Deprecated public static Item canister_lightoil;
+	@Deprecated public static Item canister_biofuel;
+	@Deprecated public static Item canister_ethanol;
 
 	public static Item gas_empty;
 	public static Item gas_full;
@@ -926,6 +926,7 @@ public class ModItems {
 	public static Item radaway_flush;
 	public static Item radx;
 	public static Item siox;
+	public static Item pill_herbal;
 	public static Item pirfenidone;
 	public static Item xanax;
 	public static Item fmn;
@@ -1668,6 +1669,7 @@ public class ModItems {
 	//public static Item gun_mirv_ammo;
 	public static Item gun_bf;
 	public static Item gun_bf_ammo;
+	public static Item gun_chemthrower;
 	public static Item gun_mp40;
 	//public static Item gun_mp40_ammo;
 	public static Item gun_thompson;
@@ -1934,7 +1936,7 @@ public class ModItems {
 	public static Item arc_electrode;
 	public static Item arc_electrode_burnt;
 	public static Item arc_electrode_desh;
-	public static Item dynosphere_base;
+	/*public static Item dynosphere_base;
 	public static Item dynosphere_desh;
 	public static Item dynosphere_desh_charged;
 	public static Item dynosphere_schrabidium;
@@ -1942,12 +1944,12 @@ public class ModItems {
 	public static Item dynosphere_euphemium;
 	public static Item dynosphere_euphemium_charged;
 	public static Item dynosphere_dineutronium;
-	public static Item dynosphere_dineutronium_charged;
+	public static Item dynosphere_dineutronium_charged;*/
 	
 	public static Item tank_waste;
 
-	public static Item factory_core_titanium;
-	public static Item factory_core_advanced;
+	/*public static Item factory_core_titanium;
+	public static Item factory_core_advanced;*/
 
 	public static Item upgrade_template;
 	public static Item upgrade_speed_1;
@@ -3447,6 +3449,7 @@ public class ModItems {
 		med_bag = new ItemSyringe().setUnlocalizedName("med_bag").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":med_bag");
 		radx = new ItemPill(0).setUnlocalizedName("radx").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":radx");
 		siox = new ItemPill(0).setUnlocalizedName("siox").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":siox");
+		pill_herbal = new ItemPill(0).setUnlocalizedName("pill_herbal").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pill_herbal");
 		pirfenidone = new ItemPill(0).setUnlocalizedName("pirfenidone").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pirfenidone");
 		xanax = new ItemPill(0).setUnlocalizedName("xanax").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":xanax_2");
 		fmn = new ItemPill(0).setUnlocalizedName("fmn").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":tablet");
@@ -4424,6 +4427,7 @@ public class ModItems {
 		gun_mirv = new ItemGunBase(GunFatmanFactory.getMIRVConfig()).setUnlocalizedName("gun_mirv").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_mirv");
 		gun_bf_ammo = new Item().setUnlocalizedName("gun_bf_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_bf_ammo");
 		gun_bf = new ItemGunBase(GunFatmanFactory.getBELConfig()).setUnlocalizedName("gun_bf").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_bf");
+		gun_chemthrower = new ItemGunChemthrower().setUnlocalizedName("gun_chemthrower").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fatman");
 		//gun_mp40_ammo = new Item().setUnlocalizedName("gun_mp40_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_mp40_ammo");
 		gun_mp40 = new ItemGunBase(Gun9mmFactory.getMP40Config()).setUnlocalizedName("gun_mp40").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_mp40");
 		gun_thompson = new ItemGunBase(Gun9mmFactory.getThompsonConfig()).setUnlocalizedName("gun_thompson").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_thompson");
@@ -4695,19 +4699,6 @@ public class ModItems {
 		arc_electrode = new ItemCustomLore().setUnlocalizedName("arc_electrode").setMaxDamage(250).setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setFull3D().setTextureName(RefStrings.MODID + ":arc_electrode");
 		arc_electrode_burnt = new Item().setUnlocalizedName("arc_electrode_burnt").setMaxStackSize(1).setFull3D().setTextureName(RefStrings.MODID + ":arc_electrode_burnt");
 		arc_electrode_desh = new ItemCustomLore().setUnlocalizedName("arc_electrode_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setFull3D().setTextureName(RefStrings.MODID + ":arc_electrode_desh");
-
-		dynosphere_base = new Item().setUnlocalizedName("dynosphere_base").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_base");
-		dynosphere_desh = new ItemBattery(1000000L, 10000L, 0).setUnlocalizedName("dynosphere_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_desh");
-		dynosphere_desh_charged = new Item().setUnlocalizedName("dynosphere_desh_charged").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_desh_charged");
-		dynosphere_schrabidium = new ItemBattery(100000000L, 500000L, 0).setUnlocalizedName("dynosphere_schrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_schrabidium");
-		dynosphere_schrabidium_charged = new Item().setUnlocalizedName("dynosphere_schrabidium_charged").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_schrabidium_charged");
-		dynosphere_euphemium = new ItemBattery(10000000000L, 25000000L, 0).setUnlocalizedName("dynosphere_euphemium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_euphemium");
-		dynosphere_euphemium_charged = new Item().setUnlocalizedName("dynosphere_euphemium_charged").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_euphemium_charged");
-		dynosphere_dineutronium = new ItemBattery(1000000000000L, 1250000000L, 0).setUnlocalizedName("dynosphere_dineutronium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_dineutronium");
-		dynosphere_dineutronium_charged = new Item().setUnlocalizedName("dynosphere_dineutronium_charged").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":dynosphere_dineutronium_charged");
-
-		factory_core_titanium = new ItemBattery(7040000, 1000, 0).setUnlocalizedName("factory_core_titanium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":factory_core_titanium");
-		factory_core_advanced = new ItemBattery(4160000, 1000, 0).setUnlocalizedName("factory_core_advanced").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":factory_core_advanced");
 
 		ams_focus_blank = new Item().setUnlocalizedName("ams_focus_blank").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":ams_focus_blank");
 		ams_focus_limiter = new ItemCustomLore().setUnlocalizedName("ams_focus_limiter").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":ams_focus_limiter");
@@ -5028,7 +5019,7 @@ public class ModItems {
 
 		ArmorMaterial aMatDesh = EnumHelper.addArmorMaterial("HBM_DESH", 150, new int[] { 3, 8, 6, 3 }, 0);
 		aMatDesh.customCraftingMaterial = ModItems.ingot_desh;
-		steamsuit_helmet = new ArmorDesh(aMatDesh, 2, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.STEAM, 360000, 500, 50, 1).setThreshold(5F).setMod(0.8F)
+		steamsuit_helmet = new ArmorDesh(aMatDesh, 2, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.STEAM, 64_000, 500, 50, 1).setThreshold(5F).setMod(0.8F)
 				.setFireproof(true)
 				.setHasHardLanding(true)
 				.addEffect(new PotionEffect(Potion.digSpeed.id, 20, 4))
@@ -5037,22 +5028,22 @@ public class ModItems {
 				.addResistance("fall", 0)
 				.hides(EnumPlayerPart.HAT)
 				.setUnlocalizedName("steamsuit_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steamsuit_helmet");
-		steamsuit_plate = new ArmorDesh(aMatDesh, 2, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.STEAM, 360000, 500, 50, 1).cloneStats((ArmorFSB) steamsuit_helmet).setUnlocalizedName("steamsuit_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steamsuit_plate");
-		steamsuit_legs = new ArmorDesh(aMatDesh, 2, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", Fluids.STEAM, 360000, 500, 50, 1).cloneStats((ArmorFSB) steamsuit_helmet).setUnlocalizedName("steamsuit_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steamsuit_legs");
-		steamsuit_boots = new ArmorDesh(aMatDesh, 2, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.STEAM, 360000, 500, 50, 1).cloneStats((ArmorFSB) steamsuit_helmet).setUnlocalizedName("steamsuit_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steamsuit_boots");
+		steamsuit_plate = new ArmorDesh(aMatDesh, 2, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.STEAM, 64_000, 500, 50, 1).cloneStats((ArmorFSB) steamsuit_helmet).setUnlocalizedName("steamsuit_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steamsuit_plate");
+		steamsuit_legs = new ArmorDesh(aMatDesh, 2, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", Fluids.STEAM, 64_000, 500, 50, 1).cloneStats((ArmorFSB) steamsuit_helmet).setUnlocalizedName("steamsuit_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steamsuit_legs");
+		steamsuit_boots = new ArmorDesh(aMatDesh, 2, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.STEAM, 64_000, 500, 50, 1).cloneStats((ArmorFSB) steamsuit_helmet).setUnlocalizedName("steamsuit_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steamsuit_boots");
 
 		ArmorMaterial aMatDiesel = EnumHelper.addArmorMaterial("HBM_BNUUY", 150, new int[] { 3, 8, 6, 3 }, 0);
 		aMatDiesel.customCraftingMaterial = ModItems.plate_copper;
-		dieselsuit_helmet = new ArmorDiesel(aMatDiesel, 2, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.DIESEL, 360000, 500, 50, 1).setThreshold(2F).setMod(0.7F)
+		dieselsuit_helmet = new ArmorDiesel(aMatDiesel, 2, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.DIESEL, 64_000, 500, 50, 1).setThreshold(2F).setMod(0.7F)
 				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 2))
 				.addEffect(new PotionEffect(Potion.jump.id, 20, 2))
 				.enableThermalSight(true)
 				.enableVATS(true)
 				.addResistance("fall", 0)
 				.setUnlocalizedName("dieselsuit_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dieselsuit_helmet");
-		dieselsuit_plate = new ArmorDiesel(aMatDiesel, 2, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.DIESEL, 360000, 500, 50, 1).cloneStats((ArmorFSB) dieselsuit_helmet).setUnlocalizedName("dieselsuit_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dieselsuit_plate");
-		dieselsuit_legs = new ArmorDiesel(aMatDiesel, 2, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", Fluids.DIESEL, 360000, 500, 50, 1).cloneStats((ArmorFSB) dieselsuit_helmet).setUnlocalizedName("dieselsuit_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dieselsuit_legs");
-		dieselsuit_boots = new ArmorDiesel(aMatDiesel, 2, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.DIESEL, 360000, 500, 50, 1).cloneStats((ArmorFSB) dieselsuit_helmet).setUnlocalizedName("dieselsuit_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dieselsuit_boots");
+		dieselsuit_plate = new ArmorDiesel(aMatDiesel, 2, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.DIESEL, 64_000, 500, 50, 1).cloneStats((ArmorFSB) dieselsuit_helmet).setUnlocalizedName("dieselsuit_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dieselsuit_plate");
+		dieselsuit_legs = new ArmorDiesel(aMatDiesel, 2, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", Fluids.DIESEL, 64_000, 500, 50, 1).cloneStats((ArmorFSB) dieselsuit_helmet).setUnlocalizedName("dieselsuit_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dieselsuit_legs");
+		dieselsuit_boots = new ArmorDiesel(aMatDiesel, 2, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.DIESEL, 64_000, 500, 50, 1).cloneStats((ArmorFSB) dieselsuit_helmet).setUnlocalizedName("dieselsuit_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dieselsuit_boots");
 		
 		ArmorMaterial aMatAJR = EnumHelper.addArmorMaterial("HBM_T45AJR", 150, new int[] { 3, 8, 6, 3 }, 100);
 		aMatAJR.customCraftingMaterial = ModItems.plate_armor_ajr;
@@ -5202,7 +5193,7 @@ public class ModItems {
 		jackt = new ModArmor(MainRegistry.aMatSteel, 7, 1).setUnlocalizedName("jackt").setTextureName(RefStrings.MODID + ":jackt");
 		jackt2 = new ModArmor(MainRegistry.aMatSteel, 7, 1).setUnlocalizedName("jackt2").setTextureName(RefStrings.MODID + ":jackt2");
 		
-		chainsaw = new ItemToolAbilityFueled(25, -0.05, MainRegistry.tMatChainsaw, EnumToolType.AXE, 5000, 1, 250,
+		chainsaw = new ItemChainsaw(25, -0.05, MainRegistry.tMatChainsaw, EnumToolType.AXE, 5000, 1, 250,
 				Fluids.DIESEL, Fluids.DIESEL_CRACK, Fluids.KEROSENE, Fluids.BIOFUEL, Fluids.GASOLINE, Fluids.GASOLINE_LEADED, Fluids.PETROIL, Fluids.PETROIL_LEADED, Fluids.COALGAS, Fluids.COALGAS_LEADED)
 				.addBreakAbility(new ToolAbility.SilkAbility())
 				.addBreakAbility(new ToolAbility.RecursionAbility(5))
@@ -6608,19 +6599,6 @@ public class ModItems {
 		GameRegistry.registerItem(fusion_core, fusion_core.getUnlocalizedName());
 		GameRegistry.registerItem(energy_core, energy_core.getUnlocalizedName());
 		GameRegistry.registerItem(fusion_core_infinite, fusion_core_infinite.getUnlocalizedName());
-		GameRegistry.registerItem(factory_core_titanium, factory_core_titanium.getUnlocalizedName());
-		GameRegistry.registerItem(factory_core_advanced, factory_core_advanced.getUnlocalizedName());
-		
-		//Dynospheres
-		GameRegistry.registerItem(dynosphere_base, dynosphere_base.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_desh, dynosphere_desh.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_desh_charged, dynosphere_desh_charged.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_schrabidium, dynosphere_schrabidium.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_schrabidium_charged, dynosphere_schrabidium_charged.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_euphemium, dynosphere_euphemium.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_euphemium_charged, dynosphere_euphemium_charged.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_dineutronium, dynosphere_dineutronium.getUnlocalizedName());
-		GameRegistry.registerItem(dynosphere_dineutronium_charged, dynosphere_dineutronium_charged.getUnlocalizedName());
 		
 		//Folders
 		GameRegistry.registerItem(template_folder, template_folder.getUnlocalizedName());
@@ -7242,6 +7220,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_proto, gun_proto.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mirv, gun_mirv.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bf, gun_bf.getUnlocalizedName());
+		GameRegistry.registerItem(gun_chemthrower, gun_chemthrower.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mp40, gun_mp40.getUnlocalizedName());
 		GameRegistry.registerItem(gun_thompson, gun_thompson.getUnlocalizedName());
 		GameRegistry.registerItem(gun_uzi, gun_uzi.getUnlocalizedName());
@@ -7721,6 +7700,7 @@ public class ModItems {
 		GameRegistry.registerItem(radaway_flush, radaway_flush.getUnlocalizedName());
 		GameRegistry.registerItem(radx, radx.getUnlocalizedName());
 		GameRegistry.registerItem(siox, siox.getUnlocalizedName());
+		GameRegistry.registerItem(pill_herbal, pill_herbal.getUnlocalizedName());
 		GameRegistry.registerItem(pirfenidone, pirfenidone.getUnlocalizedName());
 		GameRegistry.registerItem(pill_iodine, pill_iodine.getUnlocalizedName());
 		GameRegistry.registerItem(xanax, xanax.getUnlocalizedName());

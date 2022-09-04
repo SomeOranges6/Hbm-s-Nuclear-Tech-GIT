@@ -42,6 +42,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.ImmutableList;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
+import com.hbm.commands.CommandReloadRecipes;
 import com.hbm.config.*;
 import com.hbm.creativetabs.*;
 import com.hbm.entity.EntityMappings;
@@ -69,6 +70,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.SuicideThreadDump;
 import com.hbm.world.feature.*;
 import com.hbm.world.generator.CellularDungeonFactory;
 
@@ -811,6 +813,8 @@ public class MainRegistry {
 		new OreCave(ModBlocks.stone_resource, 0).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20).withFluid(ModBlocks.sulfuric_acid_block);	//sulfur
 		new OreCave(ModBlocks.stone_resource, 1).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);											//asbestos
 		//new OreLayer(Blocks.coal_ore, 0.2F).setThreshold(4).setRangeMult(3).setYLevel(70);
+		
+		SuicideThreadDump.register();
 	}
 
 	@EventHandler
@@ -846,6 +850,7 @@ public class MainRegistry {
 		World world = event.getServer().getEntityWorld();
 		RBMKDials.createDials(world);
 		SiegeOrchestrator.createGameRules(world);
+		event.registerServerCommand(new CommandReloadRecipes());
 	}
 	
 	private void loadConfig(FMLPreInitializationEvent event) {
@@ -912,6 +917,19 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.sellafield_core");
 		ignoreMappings.add("hbm:tile.fusion_core");
 		ignoreMappings.add("hbm:tile.machine_telelinker");
+		ignoreMappings.add("hbm:item.dynosphere_base");
+		ignoreMappings.add("hbm:item.dynosphere_desh");
+		ignoreMappings.add("hbm:item.dynosphere_desh_charged");
+		ignoreMappings.add("hbm:item.dynosphere_schrabidium");
+		ignoreMappings.add("hbm:item.dynosphere_schrabidium_charged");
+		ignoreMappings.add("hbm:item.dynosphere_euphemium");
+		ignoreMappings.add("hbm:item.dynosphere_euphemium_charged");
+		ignoreMappings.add("hbm:item.dynosphere_dineutronium");
+		ignoreMappings.add("hbm:item.dynosphere_dineutronium_charged");
+		ignoreMappings.add("hbm:item.factory_core_titanium");
+		ignoreMappings.add("hbm:item.factory_core_advanced");
+		ignoreMappings.add("hbm:tile.factory_titanium_core");
+		ignoreMappings.add("hbm:tile.factory_advanced_core");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

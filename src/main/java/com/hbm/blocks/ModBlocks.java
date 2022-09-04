@@ -813,12 +813,10 @@ public class ModBlocks {
 	public static Block factory_titanium_hull;
 	@Deprecated public static Block factory_titanium_furnace;
 	@Deprecated public static Block factory_titanium_conductor;
-	@Deprecated public static Block factory_titanium_core;
 	
 	public static Block factory_advanced_hull;
 	@Deprecated public static Block factory_advanced_furnace;
 	@Deprecated public static Block factory_advanced_conductor;
-	@Deprecated public static Block factory_advanced_core;
 
 	public static Block reactor_element;
 	public static Block reactor_control;
@@ -1983,11 +1981,9 @@ public class ModBlocks {
 		factory_titanium_hull = new BlockGeneric(Material.iron).setBlockName("factory_titanium_hull").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_titanium_hull");
 		factory_titanium_furnace = new FactoryHatch(Material.iron).setBlockName("factory_titanium_furnace").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_titanium_furnace");
 		factory_titanium_conductor = new BlockPillar(Material.iron, RefStrings.MODID + ":factory_titanium_conductor").setBlockName("factory_titanium_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_titanium_hull");
-		factory_titanium_core = new FactoryCoreTitanium(Material.iron).setBlockName("factory_titanium_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_titanium_core");
 		factory_advanced_hull = new BlockGeneric(Material.iron).setBlockName("factory_advanced_hull").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_advanced_hull");
 		factory_advanced_furnace = new FactoryHatch(Material.iron).setBlockName("factory_advanced_furnace").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_advanced_furnace");
 		factory_advanced_conductor = new BlockPillar(Material.iron, RefStrings.MODID + ":factory_advanced_conductor").setBlockName("factory_advanced_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_advanced_hull");
-		factory_advanced_core = new FactoryCoreAdvanced(Material.iron).setBlockName("factory_advanced_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_advanced_core");
 
 		reactor_element = new BlockPillar(Material.iron, RefStrings.MODID + ":reactor_element_top", RefStrings.MODID + ":reactor_element_base").setBlockName("reactor_element").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":reactor_element_side");
 		reactor_control = new BlockPillar(Material.iron, RefStrings.MODID + ":reactor_control_top").setBlockName("reactor_control").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":reactor_control_side");
@@ -3134,18 +3130,18 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ladder_lead, ladder_lead.getUnlocalizedName());
 		GameRegistry.registerBlock(ladder_cobalt, ladder_cobalt.getUnlocalizedName());
 		
-		GameRegistry.registerBlock(barrel_plastic, ItemBlockLore.class, barrel_plastic.getUnlocalizedName());
-		GameRegistry.registerBlock(barrel_corroded, ItemBlockLore.class, barrel_corroded.getUnlocalizedName());
-		GameRegistry.registerBlock(barrel_iron, ItemBlockLore.class, barrel_iron.getUnlocalizedName());
-		GameRegistry.registerBlock(barrel_steel, ItemBlockLore.class, barrel_steel.getUnlocalizedName());
-		GameRegistry.registerBlock(barrel_tcalloy, ItemBlockLore.class, barrel_tcalloy.getUnlocalizedName());
-		GameRegistry.registerBlock(barrel_antimatter, ItemBlockLore.class, barrel_antimatter.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_battery_potato, machine_battery_potato.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_battery, machine_battery.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_lithium_battery, machine_lithium_battery.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_schrabidium_battery, machine_schrabidium_battery.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_dineutronium_battery, machine_dineutronium_battery.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_fensu, machine_fensu.getUnlocalizedName());
+		register(barrel_plastic);
+		register(barrel_corroded);
+		register(barrel_iron);
+		register(barrel_steel);
+		register(barrel_tcalloy);
+		register(barrel_antimatter);
+		register(machine_battery_potato);
+		register(machine_battery);
+		register(machine_lithium_battery);
+		register(machine_schrabidium_battery);
+		register(machine_dineutronium_battery);
+		register(machine_fensu);
 		GameRegistry.registerBlock(machine_transformer, machine_transformer.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_transformer_20, machine_transformer_20.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_transformer_dnt, machine_transformer_dnt.getUnlocalizedName());
@@ -3161,9 +3157,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_assemfac, machine_assemfac.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_chemplant, machine_chemplant.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_chemfac, machine_chemfac.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_fluidtank, machine_fluidtank.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_bat9000, machine_bat9000.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_orbus, machine_orbus.getUnlocalizedName());
+		register(machine_fluidtank);
+		register(machine_bat9000);
+		register(machine_orbus);
 		GameRegistry.registerBlock(machine_boiler_off, machine_boiler_off.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_boiler_on, machine_boiler_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_boiler_electric_on, machine_boiler_electric_on.getUnlocalizedName());
@@ -3241,11 +3237,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(factory_titanium_hull, factory_titanium_hull.getUnlocalizedName());
 		GameRegistry.registerBlock(factory_titanium_furnace, factory_titanium_furnace.getUnlocalizedName());
 		GameRegistry.registerBlock(factory_titanium_conductor, factory_titanium_conductor.getUnlocalizedName());
-		GameRegistry.registerBlock(factory_titanium_core, factory_titanium_core.getUnlocalizedName());
 		GameRegistry.registerBlock(factory_advanced_hull, factory_advanced_hull.getUnlocalizedName());
 		GameRegistry.registerBlock(factory_advanced_furnace, factory_advanced_furnace.getUnlocalizedName());
 		GameRegistry.registerBlock(factory_advanced_conductor, factory_advanced_conductor.getUnlocalizedName());
-		GameRegistry.registerBlock(factory_advanced_core, factory_advanced_core.getUnlocalizedName());
 		
 		//The Fluid Inserter
 		//GameRegistry.registerBlock(machine_inserter, machine_inserter.getUnlocalizedName());
