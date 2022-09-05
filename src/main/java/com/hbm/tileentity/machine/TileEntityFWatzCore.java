@@ -31,7 +31,7 @@ public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedI
 
 	public long power;
 	public final static long maxPower = 10000000000L;
-	public boolean cooldown = false;
+
 
 	public FluidTank tanks[];
 	
@@ -251,10 +251,11 @@ public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedI
 				return 2;
 			if(item == ModItems.singularity_super_heated)
 				return 3;
-			if(item == ModItems.black_hole)
+			if(item == ModItems.singularity_spark)
 				return 4;
 			if(item == ModItems.overfuse)
 				return 5;
+			
 		}
 		
 		return 0;
@@ -281,7 +282,7 @@ public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedI
 			}
 
 			if (hasFuse() && getSingularityType() > 0) {
-				if(cooldown) {
+				
 					
 					int i = getSingularityType();
 
@@ -290,59 +291,52 @@ public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedI
 					if(i == 2)
 						tanks[0].setFill(tanks[0].getFill() + 3000);
 					if(i == 3)
-						tanks[0].setFill(tanks[0].getFill() + 750);
+						tanks[0].setFill(tanks[0].getFill() + 3000);
 					if(i == 4)
-						tanks[0].setFill(tanks[0].getFill() + 7500);
+						tanks[0].setFill(tanks[0].getFill() + 15000);
 					if(i == 5)
 						tanks[0].setFill(tanks[0].getFill() + 15000);
 					
-					if(tanks[0].getFill() >= tanks[0].getMaxFill()) {
-						cooldown = false;
-						tanks[0].setFill(tanks[0].getMaxFill());
-					}
-					
-				} else {
-					int i = getSingularityType();
-					
+				
 					if(i == 1 && tanks[1].getFill() - 75 >= 0 && tanks[2].getFill() - 75 >= 0) {
 						tanks[0].setFill(tanks[0].getFill() - 150);
-						tanks[1].setFill(tanks[1].getFill() - 75);
-						tanks[2].setFill(tanks[2].getFill() - 75);
-						power += 5000000;
+						tanks[1].setFill(tanks[1].getFill() - 45);
+						tanks[2].setFill(tanks[2].getFill() - 45);
+						power += 7000000;
 					}
 					if(i == 2 && tanks[1].getFill() - 75 >= 0 && tanks[2].getFill() - 35 >= 0) {
 						tanks[0].setFill(tanks[0].getFill() - 75);
 						tanks[1].setFill(tanks[1].getFill() - 35);
-						tanks[2].setFill(tanks[2].getFill() - 30);
-						power += 2500000;
+						tanks[2].setFill(tanks[2].getFill() - 20);
+						power += 5000000;
 					}
 					if(i == 3 && tanks[1].getFill() - 75 >= 0 && tanks[2].getFill() - 140 >= 0) {
 						tanks[0].setFill(tanks[0].getFill() - 300);
-						tanks[1].setFill(tanks[1].getFill() - 75);
-						tanks[2].setFill(tanks[2].getFill() - 140);
+						tanks[1].setFill(tanks[1].getFill() - 35);
+						tanks[2].setFill(tanks[2].getFill() - 60);
 						power += 10000000;
 					}
 					if(i == 4 && tanks[1].getFill() - 100 >= 0 && tanks[2].getFill() - 100 >= 0) {
-						tanks[0].setFill(tanks[0].getFill() - 100);
-						tanks[1].setFill(tanks[1].getFill() - 100);
-						tanks[2].setFill(tanks[2].getFill() - 100);
-						power += 10000000;
+						tanks[0].setFill(tanks[0].getFill() - 150);
+						tanks[1].setFill(tanks[1].getFill() - 50);
+						tanks[2].setFill(tanks[2].getFill() - 65);
+						power += 185000000;
 					}
 					if(i == 5 && tanks[1].getFill() - 15 >= 0 && tanks[2].getFill() - 15 >= 0) {
 						tanks[0].setFill(tanks[0].getFill() - 150);
-						tanks[1].setFill(tanks[1].getFill() - 15);
-						tanks[2].setFill(tanks[2].getFill() - 15);
+						tanks[1].setFill(tanks[1].getFill() - 10);
+						tanks[2].setFill(tanks[2].getFill() - 10);
 						power += 100000000;
 					}
-					
+					if(tanks[0].getFill() >= tanks[0].getMaxFill()) {
+						
+						tanks[0].setFill(tanks[0].getMaxFill());
+					}	
 					if(power > maxPower)
 						power = maxPower;
 					
-					if(tanks[0].getFill() <= 0) {
-						cooldown = true;
-						tanks[0].setFill(0);
-					}
-				}
+				
+				
 			}
 			
 			if(power > maxPower)
@@ -357,10 +351,10 @@ public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedI
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 		}
 		
-		if(this.isRunning() && (tanks[1].getFill() <= 0 || tanks[2].getFill() <= 0 || !hasFuse() || getSingularityType() == 0) || cooldown || !this.isStructureValid(worldObj))
+		if(this.isRunning() && (tanks[1].getFill() <= 0 || tanks[2].getFill() <= 0 || !hasFuse() || getSingularityType() == 0) || !this.isStructureValid(worldObj))
 			this.emptyPlasma();
 		
-		if(!this.isRunning() && tanks[1].getFill() >= 100 && tanks[2].getFill() >= 100 && hasFuse() && getSingularityType() > 0 && !cooldown && this.isStructureValid(worldObj))
+		if(!this.isRunning() && tanks[1].getFill() >= 100 && tanks[2].getFill() >= 100 && hasFuse() && getSingularityType() > 0 && this.isStructureValid(worldObj))
 			this.fillPlasma();
 
 		if(!worldObj.isRemote)
