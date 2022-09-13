@@ -66,7 +66,6 @@ public class AssemblerRecipes {
 		
 		for(File file : files) {
 			if(file.getName().equals("hbmAssembler.json")) {
-				
 				config = file;
 			}
 		}

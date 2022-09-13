@@ -314,8 +314,20 @@ book.starter.page18=vær is just a guy who has been trapped in the grey void fea
 #book.rbmk.title16=Meltdown
 #book.rbmk.page16=§4§lAvoid.
 
+book.lore.office0.title=Letter of Resignation
+book.lore.office0.author=Kosma
+book.lore.office0.page1=Management downsized our department again yesterday. Those idiots only have themselves to blame, I don't know what they were expecting after the Panay fiasco. Who the hell leaks that sort of information? We're losing millions and 
+book.lore.office0.page2=it's ME who's the one out of a job now. I'M the one being asked to resign. I hope you asshats finally learn from your overabundance of mistakes and take that stick out of your ass.
+book.lore.office0.page3=I'm not coming back on Friday. Just send the paycheck.
+
+book.lore.office1.title=Note
+book.lore.office1.author=Jonas
+book.lore.office1.page1=
+book.lore.office2.page2=
+
 cannery.f1=[ Press F1 for help ]
 
+cannery.centrifuge=Gas Centrifuge
 cannery.centrifuge.0=Gas centrifuges can be supplied with fluid using regular fluid ducts.
 cannery.centrifuge.1=Most recipes require multiple centrifuges. The intermediate products cannot be transported via pipes.
 cannery.centrifuge.2=This side acts as a connector which outputs the intermediate product into an adjacent centrifuge.
@@ -323,16 +335,19 @@ cannery.centrifuge.3=Uranium hexafluoride can be processed with just two centrif
 cannery.centrifuge.4=Fully processing it into Uranium-235 and Uranium-238 requires a total of four centrifuges.
 cannery.centrifuge.5=Some recipes also require the centrifuge overclocking upgrade.
 
+cannery.fensu=FEnSU
 cannery.fensu.0=The FEnSU is capable of storing absurd amounts of energy, over 9EHE (that's a nine followed by 18 zeros).
 cannery.fensu.1=There is only one energy connector which can be found on the bottom.
 cannery.fensu.2=This is also the only place where the FEnSU can receive a redstone signal.
 
+cannery.firebox=Firebox
 cannery.firebox.0=The firebox burns flammable items to generate heat.
 cannery.firebox.1=It can burn any flammable item, although higher quality fuels such as coal, coke and solid fuel burn longer and hotter.
 cannery.firebox.2=Heat is given off by the copper contact at the top of the firebox. Machines with an identical contact on the bottom can receive heat by being placed on top of the firebox.
 cannery.firebox.3=If heat isn't being used up and the heat buffer becomes full, the firebox will shut off to prevent wasting of fuel.
 cannery.firebox.4=One such machine is the stirling engine, which will turn heat directly into energy.
 
+cannery.silex=FEL & SILEX
 cannery.silex.0=The Free Electron Laser (FEL) uses energy and a laser crystal to create a powerful laser beam.
 cannery.silex.1=Be careful, as the laser will burn/melt through weaker blocks...
 cannery.silex.2=...but not blast-proof ones.
@@ -343,6 +358,7 @@ cannery.silex.6=In addition to the two connectors on the sides, there is a third
 cannery.silex.7=Each recipe requires a specific laser type. Using a stronger type than required will process items faster.
 cannery.silex.8=One FEL can supply up to 5 SILEX. Each SILEX has to be one block apart from one another.
 
+cannery.stirling=Stirling Engine
 cannery.stirling.0=The Stirling engine uses heat energy from external sources to create power.
 cannery.stirling.1=It needs to be placed on top of a heat-producing machine, such as the firebox.
 cannery.stirling.2=The amount of heat it can utilize however is limited, overspinning can lead to catastrophic malfunction.
@@ -852,6 +868,8 @@ hbmpseudofluid.pf6=Plutonium Hexafluoride
 hbmpseudofluid.mud_heavy=Heavy Sludge Fraction
 hbmpseudofluid.mud=Poisonous Sludge Gas
 
+info.asbestos=My lungs are burning.
+info.coaldust=It's hard to breathe here.
 info.coil=Coil Strength
 info.templatefolder=Created with %s
 info.template_in=Input:
@@ -2724,6 +2742,7 @@ item.powder_quartz.name=Quartz Powder
 item.powder_ra226.name=Radium-226 Powder
 item.powder_red_copper.name=Red Copper Powder
 item.powder_reiium.name=Reiium Powder
+item.powder_sawdust.name=Sawdust
 item.powder_schrabidate.name=Ferric Schrabidate Powder
 item.powder_schrabidium.name=Schrabidium Powder
 item.powder_semtex_mix.name=Semtex Blend
@@ -3685,6 +3704,7 @@ tile.crystal_virus.name=Dark Crystal
 tile.deco_aluminium.name=Aluminium Deco Block
 tile.deco_asbestos.name=Asbestos Roof
 tile.deco_beryllium.name=Beryllium Deco Block
+tile.deco_computer.name=IBM Personal Computer 300PL
 tile.deco_emitter.name=Deco Light Emitter
 tile.deco_lead.name=Lead Deco Block
 tile.deco_rbmk.name=RBMK Deco Block
@@ -3949,6 +3969,7 @@ tile.machine_rtg_purple.name=Antimatter Annihilation Generator
 tile.machine_rtg_red.name=Fulmination Generator
 tile.machine_rtg_yellow.name=Australium Superfuel Reactor
 tile.machine_satlinker.name=Satellite ID Manager
+tile.machine_sawmill.name=Stirling Sawmill
 tile.machine_schrabidium_battery.name=Schrabidium Energy Storage Block
 tile.machine_schrabidium_transmutator.name=Schrabidium Transmutation Device
 tile.machine_selenium.name=Radial Performance Engine

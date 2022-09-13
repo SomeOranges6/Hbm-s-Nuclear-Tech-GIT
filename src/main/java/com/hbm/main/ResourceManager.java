@@ -63,6 +63,8 @@ public class ResourceManager {
 	
 	//Heat Engines
 	public static final IModelCustom stirling = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/stirling.obj"));
+	public static final IModelCustom sawmill = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/sawmill.obj"));
+	public static final IModelCustom crucible_heat = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/crucible.obj"));
 	
 	//Furnaces
 	public static final IModelCustom furnace_iron = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/furnace_iron.obj"));
@@ -383,6 +385,8 @@ public class ResourceManager {
 	//Heat Engines
 	public static final ResourceLocation stirling_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/stirling.png");
 	public static final ResourceLocation stirling_steel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/stirling_steel.png");
+	public static final ResourceLocation sawmill_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/sawmill.png");
+	public static final ResourceLocation crucible_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/crucible_heat.png");
 	
 	//Furnaces
 	public static final ResourceLocation furnace_iron_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/furnace_iron.png");
@@ -1251,6 +1255,8 @@ public class ResourceManager {
 	public static final IModelCustom pipe_quad = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/pipe_quad.obj"));
 	public static final IModelCustom pipe_frame = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/pipe_frame.obj"));
 
+	public static final IModelCustom deco_computer = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/puter.obj"));
+	
 	public static final IModelCustom rbmk_element = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rbmk/rbmk_element.obj"));
 	public static final IModelCustom rbmk_reflector = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rbmk/rbmk_reflector.obj"));
 	public static final IModelCustom rbmk_rods = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rbmk/rbmk_rods.obj"));
