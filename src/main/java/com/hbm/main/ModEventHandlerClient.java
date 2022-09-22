@@ -25,6 +25,8 @@ import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
+import com.hbm.inventory.material.Mats;
+import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorFSBPowered;
@@ -153,8 +155,14 @@ public class ModEventHandlerClient {
 			World world = mc.theWorld;
 			MovingObjectPosition mop = mc.objectMouseOver;
 			
-			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
-				((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK ) {
+				
+				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ILookOverlay) {
+					((ILookOverlay) player.getHeldItem().getItem()).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+					
+				} else if(world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
+					((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+				}
 			}
 			
 			/*if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
@@ -624,6 +632,14 @@ public class ModEventHandlerClient {
 		CanneryBase cannery = Jars.canneries.get(comp);
 		if(cannery != null) {
 			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1"));
+		}
+		
+		List<MaterialStack> materials = Mats.getMaterialsFromItem(new ComparableStack(stack).makeSingular().toStack());
+		
+		if(!materials.isEmpty()) {
+			for(MaterialStack mat : materials) {
+				list.add(EnumChatFormatting.DARK_PURPLE + mat.material.names[0] + ": " + Mats.formatAmount(mat.amount * stack.stackSize));
+			}
 		}
 	}
 	
