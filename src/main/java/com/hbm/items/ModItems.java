@@ -7495,13 +7495,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_folly_sleek, ammo_folly_sleek.getUnlocalizedName());
 		
 		//Turret Ammo
-		GameRegistry.registerItem(turret_light_ammo, turret_light_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_heavy_ammo, turret_heavy_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_rocket_ammo, turret_rocket_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_flamer_ammo, turret_flamer_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_tau_ammo, turret_tau_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(turret_spitfire_ammo, turret_spitfire_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_cwis_ammo, turret_cwis_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(turret_cheapo_ammo, turret_cheapo_ammo.getUnlocalizedName());
 		
 		//-C-l-i-p-s- Magazines
