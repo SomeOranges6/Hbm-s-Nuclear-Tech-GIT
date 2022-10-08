@@ -210,6 +210,7 @@ public class EntityMappings {
 		addEntity(EntitySPV.class, "entity_self_propelled_vehicle_mark_1", 1000);
 		addEntity(EntityEulerLaser.class, "entity_euler_blast", 1000);
 		addEntity(EntityCog.class, "entity_stray_cog", 1000);
+		addEntity(EntitySawblade.class, "entity_stray_saw", 1000);
 		addEntity(EntityChemical.class, "entity_chemthrower_splash", 1000);
 
 		
