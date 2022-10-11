@@ -2440,13 +2440,7 @@ public class ModItems {
 
 	public static Item mech_key;
 
-	public static Item turret_light_ammo;
-	public static Item turret_heavy_ammo;
-	public static Item turret_rocket_ammo;
-	public static Item turret_flamer_ammo;
-	public static Item turret_tau_ammo;
 	public static Item turret_spitfire_ammo;
-	public static Item turret_cwis_ammo;
 	public static Item turret_cheapo_ammo;
 
 	public static Item bucket_mud;
