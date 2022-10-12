@@ -3,6 +3,7 @@ package com.hbm.inventory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.items.ModItems;
@@ -61,24 +62,27 @@ public class RecipesCommon {
 		 * 
 		 * Major fuckup: comparablestacks need EQUAL stacksize but the oredictstack ignores stack size entirely
 		 */
-		public boolean isApplicable(ComparableStack comp) {
-			
-			if(this instanceof ComparableStack) {
-				return ((ComparableStack)this).equals(comp);
-			}
-			
-			if(this instanceof OreDictStack) {
-				
-				List<ItemStack> ores = OreDictionary.getOres(((OreDictStack)this).name);
-				
-				for(ItemStack stack : ores) {
-					if(stack.getItem() == comp.item && stack.getItemDamage() == comp.meta)
-						return true;
-				}
-			}
-			
-			return false;
-		}
+//		@Deprecated
+//		public boolean isApplicable(ComparableStack comp) {
+//			
+//			if(this instanceof ComparableStack) {
+//				return ((ComparableStack)this).equals(comp);
+//			}
+//			
+//			if(this instanceof OreDictStack) {
+//				
+//				List<ItemStack> ores = OreDictionary.getOres(((OreDictStack)this).name);
+//				
+//				for(ItemStack stack : ores) {
+//					if(stack.getItem() == comp.item && stack.getItemDamage() == comp.meta)
+//						return true;
+//				}
+//			}
+//			
+//			return false;
+//		}
+//		
+		public abstract boolean isApplicable(AStack stack);
 		
 		/**
 		 * Whether the supplied itemstack is applicable for a recipe (e.g. anvils). Slightly different from {@code isApplicable}.
@@ -88,7 +92,14 @@ public class RecipesCommon {
 		 */
 		public abstract boolean matchesRecipe(ItemStack stack, boolean ignoreSize);
 		
+		public abstract ItemStack toStack();
+		
 		public abstract AStack copy();
+		
+		public abstract String getFriendlyName();
+		
+		@Override
+		public abstract String toString();
 		
 		/**
 		 * Generates either an ItemStack or an ArrayList of ItemStacks
@@ -155,6 +166,7 @@ public class RecipesCommon {
 			this.meta = meta;
 		}
 		
+		@Override
 		public ItemStack toStack() {
 			return new ItemStack(item, stacksize, meta);
 		}
@@ -257,8 +269,28 @@ public class RecipesCommon {
 		}
 
 		@Override
-		public AStack copy() {
+		public ComparableStack copy() {
 			return new ComparableStack(item, stacksize, meta);
+		}
+		
+		@Override
+		public boolean isApplicable(AStack stack)
+		{
+			if (stack instanceof ComparableStack)
+			{
+				final ComparableStack other = (ComparableStack) stack;
+				return item == other.item && stacksize == other.stacksize && meta == other.meta;
+			} else if (stack instanceof OreDictStack)
+			{
+				final List<ItemStack> ores = OreDictionary.getOres(((OreDictStack) stack).name);
+				
+				for(ItemStack oreStack : ores) {
+					if(oreStack.getItem() == item && oreStack.stackSize == stacksize && oreStack.getItemDamage() == meta)
+						return true;
+				}
+			}
+			
+			return false;
 		}
 
 		@Override
@@ -282,6 +314,21 @@ public class RecipesCommon {
 		@Override
 		public List<ItemStack> extractForNEI() {
 			return Arrays.asList(new ItemStack[] {this.toStack()});
+		}
+
+		@Override
+		public String getFriendlyName()
+		{
+			return toStack().getDisplayName();
+		}
+
+		@Override
+		public String toString()
+		{
+			final StringBuilder builder = new StringBuilder();
+			builder.append("ComparableStack [item=").append(item == null ? null : item.getUnlocalizedName()).append(", meta=").append(meta).append(", stacksize=")
+					.append(stacksize).append(']');
+			return builder.toString();
 		}
 	}
 	
@@ -327,10 +374,42 @@ public class RecipesCommon {
 			return this;
 		}
 		
+		@Override
 		public ItemStack toStack() {
 			ItemStack stack = super.toStack();
 			stack.stackTagCompound = this.nbt;
 			return stack;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + Objects.hash(nbt);
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj)
+		{
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (!(obj instanceof ComparableNBTStack))
+				return false;
+			final ComparableNBTStack other = (ComparableNBTStack) obj;
+			return Objects.equals(nbt, other.nbt);
+		}
+
+		@Override
+		public String toString()
+		{
+			final StringBuilder builder = new StringBuilder();
+			builder.append("ComparableNBTStack [item=").append(item).append(", meta=").append(meta)
+					.append(", stacksize=").append(stacksize).append(", nbt=").append(nbt).append(']');
+			return builder.toString();
 		}
 	}
 	
@@ -350,6 +429,12 @@ public class RecipesCommon {
 		
 		public List<ItemStack> toStacks() {
 			return OreDictionary.getOres(name);
+		}
+		
+		@Override
+		public ItemStack toStack()
+		{
+			return toStacks().get(0);
 		}
 
 		@Override
@@ -371,6 +456,12 @@ public class RecipesCommon {
 		@Override
 		public AStack copy() {
 			return new OreDictStack(name, stacksize);
+		}
+		
+		@Override
+		public boolean isApplicable(AStack stack)
+		{
+			return matchesRecipe(stack.toStack(), false);
 		}
 
 		@Override
@@ -399,7 +490,7 @@ public class RecipesCommon {
 		public List<ItemStack> extractForNEI() {
 			
 			List<ItemStack> fromDict = OreDictionary.getOres(name);
-			List<ItemStack> ores = new ArrayList();
+			List<ItemStack> ores = new ArrayList<>();
 			
 			for(ItemStack stack : fromDict) {
 
@@ -443,6 +534,20 @@ public class RecipesCommon {
 			if(this.stacksize != other.stacksize)
 				return false;
 			return true;
+		}
+
+		@Override
+		public String getFriendlyName()
+		{
+			return name;
+		}
+
+		@Override
+		public String toString()
+		{
+			final StringBuilder builder = new StringBuilder();
+			builder.append("OreDictStack [name=").append(name).append(", stacksize=").append(stacksize).append(']');
+			return builder.toString();
 		}
 	}
 	

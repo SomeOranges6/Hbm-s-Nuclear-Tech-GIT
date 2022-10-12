@@ -1,6 +1,7 @@
 package com.hbm.handler.guncfg;
 
 
+
 import java.util.ArrayList;
 
 import net.minecraft.world.World;
@@ -14,6 +15,12 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+
+import com.hbm.config.BombConfig;
+import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.handler.BulletConfiguration;
+
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
@@ -23,6 +30,7 @@ import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 public class GunCannonFactory {
 	static final int stockPen = 10000;
 	static byte i = 0;
+
 	//used for technical thingmabobs
     public static GunConfiguration getFollyConfig() {
 		
@@ -50,6 +58,7 @@ public class GunCannonFactory {
 		
 		return config;
 	}
+
 	public static BulletConfiguration getShellConfig() {
 		
 		final BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
@@ -115,9 +124,25 @@ public class GunCannonFactory {
 		bullet.dmgMax = 1250;
 		bullet.penetration = stockPen;
 		
-		bullet.bImpact = (projectile, x, y, z) -> {
 
-			BulletConfigFactory.nuclearExplosion(projectile, x, y, z, 1);
+		bullet.bImpact = (projectile, x, y, z) -> BulletConfigFactory.nuclearExplosion(projectile, (int) projectile.posX, (int) projectile.posY, (int) projectile.posZ, 1);
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getShellW9FullConfig()
+	{
+		final BulletConfiguration bullet = getShellW9Config().clone();
+		
+		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, 5);
+		
+		bullet.bImpact = (projectile, x, y, z) ->
+		{
+			projectile.worldObj.playSoundEffect(x, y, z, "random.explode", 1.0f, projectile.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+
+			projectile.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(projectile.worldObj, BombConfig.boyRadius, projectile.posX + 0.5, projectile.posY + 0.5, projectile.posZ + 0.5));
+			projectile.worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(projectile.worldObj, projectile.posX, projectile.posY, projectile.posZ, BombConfig.boyRadius));
+
 		};
 		
 		return bullet;
@@ -301,6 +326,7 @@ public static BulletConfiguration getShellFollyConfig() {
 		return bullet;
 	} 
     
+
 
 }
 	
