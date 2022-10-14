@@ -17,6 +17,8 @@ public class ExplosionNukeSmall {
 	public static final int low = 2;
 	public static final int medium = 3;
 	public static final int high = 4;
+	public static final int folly = 5;
+	
 
 	public static void explode(World world, double posX, double posY, double posZ, int size) {
 
@@ -52,8 +54,16 @@ public class ExplosionNukeSmall {
 				ExplosionNukeGeneric.dealDamage(world, posX, posY, posZ, 55); break;
 			}
 			
-		} else if(size == high) {
-			world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.fatmanRadius, posX, posY, posZ).mute());
+		} else if(size >= high) {
+			switch(size) {
+			case 4: world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.fatmanRadius, posX, posY, posZ).mute());
+			    break;
+				
+			case 5: world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, 45, posX, posY, posZ).mute());
+			    break;
+				
+			}
+			
 		}
 		
 		//radiation is 50 RAD/s in the epicenter, times the radMod

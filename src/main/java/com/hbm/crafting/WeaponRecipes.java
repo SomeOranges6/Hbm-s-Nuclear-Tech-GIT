@@ -208,7 +208,7 @@ public class WeaponRecipes {
 		
 		//Folly shells
 
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.folly_bullet_nuclear, 1), new Object[] { " N ", "UTU", "UTU", 'N', ModItems.ammo_nuke_high, 'U', DESH.ingot(), 'T', W.ingot() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.folly_bullet_nuclear, 1), new Object[] { " N ", "UTU", "UTU", 'N', ModItems.ammo_nuke.stackFromEnum(AmmoFatman.HIGH), 'U', DESH.ingot(), 'T', W.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.folly_bullet_du, 1), new Object[] { " U ", "UDU", "UTU", 'U', U238.ingot(), 'D', DURA.ingot(), 'T', W.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.folly_shell, 1), new Object[] { "IPI", "IPI", "IMI", 'I', STEEL.ingot(), 'P',FE.plate(), 'M', ModItems.cordite });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_folly, 1), new Object[] { " B ", "MEM", " S ", 'B', ModItems.folly_bullet, 'M', ModItems.powder_power, 'E', Fluids.NITAN.getDict(1000), 'S', ModItems.folly_shell });

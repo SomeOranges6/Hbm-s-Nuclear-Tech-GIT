@@ -14,8 +14,10 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 import com.hbm.util.ArmorUtil;
@@ -47,7 +49,7 @@ public class GunVortexFactory {
 		else{
 			config.comment.add("OBEY XON");
         }
-		config.manufacturer = "Xon Corporation";
+		config.manufacturer = EnumGunManufacturer.XON;
         
 		
 		config.config = new ArrayList<Integer>();
@@ -79,7 +81,7 @@ public class GunVortexFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = ModItems.ammo_cell;
+		bullet.ammo = new ComparableStack(ModItems.ammo_cell);
 		bullet.ammoCount = 1;
 		bullet.wear = 50;
 		bullet.velocity = 100F;

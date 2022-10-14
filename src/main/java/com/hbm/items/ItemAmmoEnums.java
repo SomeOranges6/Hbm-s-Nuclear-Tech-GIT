@@ -68,11 +68,6 @@ public class ItemAmmoEnums
 		{
 			this.fuse = fuse;
 		}
-		
-		public int getFuse()
-		{
-			return fuse;
-		}
 	}
 
 	public enum AmmoLunaticSniper implements IAmmoItemEnum
@@ -153,7 +148,34 @@ public class ItemAmmoEnums
 			return config;
 		}
 	}
-	
+	public enum AmmoFolly implements IAmmoItemEnum
+	{   
+		STOCK(GunCannonFactory.getShellFollyConfig(), AmmoItemTrait.PRO_FOLLY, AmmoItemTrait.NEU_DEATH),
+		NUCLEAR(GunCannonFactory.getShellFollyStarConfig(), AmmoItemTrait.PRO_NUCLEAR),
+		TANDEM(GunCannonFactory.getShellFollyStarConfig(), AmmoItemTrait.PRO_FOLLYTANDEM),
+		DU(GunCannonFactory.getShellFollyDuConfig(), AmmoItemTrait.PRO_PENETRATION, AmmoItemTrait.NEU_HEAVY_METAL, AmmoItemTrait.CON_NO_EXPLODE1),
+		SLEEK(GunCannonFactory.getShellFollySleekConfig(), AmmoItemTrait.PRO_FOLLYSLEEK, AmmoItemTrait.NEU_VERIF),
+		OUCH(GunCannonFactory.getShellFollyOuchConfig(), AmmoItemTrait.NEU_STARMETAL, AmmoItemTrait.NEU_UHH);
+		private final Set<AmmoItemTrait> traits;
+		private final BulletConfiguration config;
+		private AmmoFolly(BulletConfiguration config, AmmoItemTrait...traits)
+		{
+			this.config = config;
+			this.traits = safeAssign(traits);
+		}
+		
+		@Override
+		public Set<AmmoItemTrait> getTraits()
+		{
+			return traits;
+		}
+
+		@Override
+		public BulletConfiguration getConfig()
+		{
+			return config;
+		}
+	}
 	public enum AmmoMisc implements IAmmoItemEnum
 	{
 		LUNA_SNIPER(Gun50BMGFactory.getLunaticSabotRound(), AmmoItemTrait.PRO_HEAVY_DAMAGE, AmmoItemTrait.PRO_ACCURATE2, AmmoItemTrait.NEU_HEAVY_METAL),
@@ -635,6 +657,7 @@ public class ItemAmmoEnums
 		CLAW(Gun4GaugeFactory.get4GaugeClawConfig()),
 		VAMPIRE(Gun4GaugeFactory.get4GaugeVampireConfig()),
 		VOID(Gun4GaugeFactory.get4GaugeVoidConfig()),
+		QUAD(Gun4GaugeFactory.get4GaugeQuadConfig()),
 		QUACK(Gun4GaugeFactory.get4GaugeQuackConfig(), AmmoItemTrait.PRO_MARAUDER, AmmoItemTrait.NEU_NO_CON);
 		private final Set<AmmoItemTrait> traits;
 		private final BulletConfiguration config;

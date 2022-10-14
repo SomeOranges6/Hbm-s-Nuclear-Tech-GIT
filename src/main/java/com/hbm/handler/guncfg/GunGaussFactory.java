@@ -80,7 +80,7 @@ public class GunGaussFactory {
 		
 		
 		config.name = "Defabricator";
-		config.manufacturer = "BADWOLF";
+		config.manufacturer = EnumGunManufacturer.BADWOLF;
 		
 		if(MainRegistry.polaroidID == 11){
 			config.comment.add("Thats a Compact Laser Deluxe, Where were you hiding that?");
@@ -116,7 +116,7 @@ public class GunGaussFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		bullet.ammoCount = 3;
-		bullet.ammo = ModItems.gun_defabricator_ammo;
+		bullet.ammo = new ComparableStack(ModItems.gun_defabricator_ammo);
 		bullet.dmgMin = 40;
 		bullet.dmgMax = 120;
 		bullet.trail = 1;

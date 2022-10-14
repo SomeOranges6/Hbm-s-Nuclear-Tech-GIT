@@ -41,6 +41,7 @@ public class ItemAmmo extends ItemEnumMulti
 		CON_SPEED,
 		CON_SUPER_WEAR,
 		CON_WEAR,
+		CON_SMH,
 		NEU_40MM,
 		NEU_BLANK,
 		NEU_BOAT,
@@ -61,6 +62,8 @@ public class ItemAmmo extends ItemEnumMulti
 		NEU_STARMETAL,
 		NEU_TRACER,
 		NEU_UHH,
+		NEU_VERIF,
+		NEU_DEATH,
 		NEU_WARCRIME1,
 		NEU_WARCRIME2,
 		PRO_ACCURATE1,
@@ -99,6 +102,10 @@ public class ItemAmmo extends ItemEnumMulti
 		PRO_STUNNING,
 		PRO_TOXIC,
 		PRO_WEAR,
+		PRO_FOLLY,
+		PRO_FOLLYSLEEK,
+		PRO_FOLLYTANDEM,
+		PRO_WALLPEN,
 		PRO_WITHERING;
 		public String key = "desc.item.ammo.";
 		private AmmoItemTrait()

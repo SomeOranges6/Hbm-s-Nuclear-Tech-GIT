@@ -92,27 +92,12 @@ public class Gun4GaugeFactory {
 		
 		
 		config.name = "Jackhammer";
-		config.manufacturer = "Floppa Firearms";
+		config.manufacturer = EnumGunManufacturer.FLOPPA;
 		
 		config.comment.add("There is nothing more American than shooting someone");
 		config.comment.add("with a quad barrel shotgun in this Walmart of a country");
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.G4_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.G4_SLUG);
-		config.config.add(BulletConfigSyncingUtil.G4_FLECHETTE);
-		config.config.add(BulletConfigSyncingUtil.G4_FLECHETTE_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.G4_EXPLOSIVE);
-		config.config.add(BulletConfigSyncingUtil.G4_SEMTEX);
-		config.config.add(BulletConfigSyncingUtil.G4_BALEFIRE);
-		config.config.add(BulletConfigSyncingUtil.G4_KAMPF);
-		config.config.add(BulletConfigSyncingUtil.G4_CANISTER);
-		config.config.add(BulletConfigSyncingUtil.G4_CLAW);
-		config.config.add(BulletConfigSyncingUtil.G4_VAMPIRE);
-		config.config.add(BulletConfigSyncingUtil.G4_VOID);
-		config.config.add(BulletConfigSyncingUtil.G4_TITAN);
-		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
-		config.config.add(BulletConfigSyncingUtil.G4_QUAD);
+		config.config = HbmCollection.fourGauge;
 		
 		return config;
 	}
@@ -163,7 +148,6 @@ public class Gun4GaugeFactory {
 		return config;
 	}
 	static byte i = 0;
-	static final BulletConfiguration stock = get4GaugeConfig();
 	public static BulletConfiguration get4GaugeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
@@ -379,7 +363,7 @@ public class Gun4GaugeFactory {
 	
 	public static BulletConfiguration get4GaugeClawConfig() {
 		
-		BulletConfiguration bullet = stock.clone();
+		BulletConfiguration bullet = get4GaugeConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
 		bullet.dmgMin = 6;
@@ -413,7 +397,7 @@ public class Gun4GaugeFactory {
 	
 	public static BulletConfiguration get4GaugeVampireConfig() {
 		
-		BulletConfiguration bullet = stock.clone();
+		BulletConfiguration bullet = get4GaugeConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
 		bullet.dmgMin = 5;
@@ -447,7 +431,7 @@ public class Gun4GaugeFactory {
 	
 	public static BulletConfiguration get4GaugeVoidConfig() {
 		
-		BulletConfiguration bullet = stock.clone();
+		BulletConfiguration bullet = get4GaugeConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
 		bullet.dmgMin = 6;
@@ -509,12 +493,11 @@ public class Gun4GaugeFactory {
 		
 		return bullet;
 	}
-
     public static BulletConfiguration get4GaugeQuadConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_4gauge_quad;
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 10;
 		bullet.bulletsMin *= 8;
@@ -523,4 +506,3 @@ public class Gun4GaugeFactory {
 		return bullet;
 	}
 }
-

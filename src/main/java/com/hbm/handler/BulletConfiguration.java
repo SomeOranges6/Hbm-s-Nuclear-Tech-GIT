@@ -151,6 +151,8 @@ public class BulletConfiguration implements Cloneable {
 	public boolean dmgExplosion = false;
 	public boolean dmgBypass = false;
 
+	public int firerate;
+
 	public static final int STYLE_NONE = -1;
 	public static final int STYLE_NORMAL = 0;
 	public static final int STYLE_PISTOL = 1;

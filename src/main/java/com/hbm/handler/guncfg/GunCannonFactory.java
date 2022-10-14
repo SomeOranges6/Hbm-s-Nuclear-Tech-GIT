@@ -130,23 +130,6 @@ public class GunCannonFactory {
 		return bullet;
 	}
 	
-	public static BulletConfiguration getShellW9FullConfig()
-	{
-		final BulletConfiguration bullet = getShellW9Config().clone();
-		
-		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, 5);
-		
-		bullet.bImpact = (projectile, x, y, z) ->
-		{
-			projectile.worldObj.playSoundEffect(x, y, z, "random.explode", 1.0f, projectile.worldObj.rand.nextFloat() * 0.1F + 0.9F);
-
-			projectile.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(projectile.worldObj, BombConfig.boyRadius, projectile.posX + 0.5, projectile.posY + 0.5, projectile.posZ + 0.5));
-			projectile.worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(projectile.worldObj, projectile.posX, projectile.posY, projectile.posZ, BombConfig.boyRadius));
-
-		};
-		
-		return bullet;
-	}
 	
 	public static BulletConfiguration getShellW9FullConfig()
 	{
