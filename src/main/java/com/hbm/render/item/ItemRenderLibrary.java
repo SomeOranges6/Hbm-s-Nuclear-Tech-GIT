@@ -7,6 +7,8 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemAmmoHIMARS;
+import com.hbm.items.weapon.ItemAmmoHIMARS.HIMARSRocket;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.tileentity.RenderBobble;
 import com.hbm.render.tileentity.RenderDemonLamp;
@@ -49,26 +51,6 @@ public class ItemRenderLibrary {
 				bindTexture(ResourceManager.cyclotron_book); ResourceManager.cyclotron.renderPart("B2");
 				bindTexture(ResourceManager.cyclotron_gavel); ResourceManager.cyclotron.renderPart("B3");
 				bindTexture(ResourceManager.cyclotron_coin); ResourceManager.cyclotron.renderPart("B4");
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}});
-		
-		renderers.put(Item.getItemFromBlock(ModBlocks.machine_centrifuge), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(4.5, 4.5, 4.5);
-			}
-			public void renderCommon() {
-		        bindTexture(ResourceManager.centrifuge_new_tex); ResourceManager.centrifuge_new.renderAll();
-			}});
-		
-		renderers.put(Item.getItemFromBlock(ModBlocks.machine_gascent), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(3.5, 3.5, 3.5);
-			}
-			public void renderCommon() {
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(ResourceManager.gascent_tex); ResourceManager.gascent.renderPart("Centrifuge");
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
@@ -1374,6 +1356,20 @@ public class ItemRenderLibrary {
 				GL11.glTranslated(0, 0, -0.875);
 				bindTexture(ResourceManager.sawmill_tex);
 				ResourceManager.sawmill.renderPart("Blade");
+			}});
+		
+		renderers.put(ModItems.ammo_himars, new ItemRenderBase( ) {
+			public void renderInventory() {
+				GL11.glTranslated(0, 2.5, 0);
+				GL11.glScaled(4, 4, 4);
+			}
+			public void renderCommonWithStack(ItemStack item) {
+				GL11.glRotated(-45, 0, 1, 0);
+				GL11.glRotated(90, 1, 0, 0);
+				HIMARSRocket type = ItemAmmoHIMARS.itemTypes[item.getItemDamage()];
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(type.texture); ResourceManager.turret_himars.renderPart(type.modelType == 0 ? "RocketStandard" : "RocketSingle");
+				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
 		//hi there! it seems you are trying to register a new item renderer, most likely for a tile entity.
