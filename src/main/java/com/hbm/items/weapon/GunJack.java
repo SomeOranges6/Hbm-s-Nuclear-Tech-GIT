@@ -1,10 +1,11 @@
-package com.hbm.items.weapon;
+/*package com.hbm.items.weapon;
 
 import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
 import com.hbm.items.ModItems;
 
 import net.minecraft.enchantment.Enchantment;
@@ -31,10 +32,7 @@ public class GunJack extends Item {
 		this.maxStackSize = 1;
 	}
 
-	/**
-	 * called when the player releases the use item button. Args: itemstack,
-	 * world, entityplayer, itemInUseCount
-	 */
+	
 	@Override
 	public void onPlayerStoppedUsing(ItemStack p_77615_1_, World p_77615_2_, EntityPlayer p_77615_3_, int p_77615_4_) {
 		int j = this.getMaxItemUseDuration(p_77615_1_) - p_77615_4_;
@@ -46,7 +44,7 @@ public class GunJack extends Item {
 		boolean flag = p_77615_3_.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, p_77615_1_) > 0;
 
-		if (flag || p_77615_3_.inventory.hasItem(ModItems.ammo_4gauge_quad)) {
+		if (flag || p_77615_3_.inventory.hasItem(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.QUAD))) {
 			float f = j / 20.0F;
 			f = (f * f + f * 2.0F) / 3.0F;
 
@@ -84,27 +82,19 @@ public class GunJack extends Item {
 		return p_77654_1_;
 	}
 
-	/**
-	 * How long it takes to use or consume an item
-	 */
+	\\
 	@Override
 	public int getMaxItemUseDuration(ItemStack p_77626_1_) {
 		return 72000;
 	}
 
-	/**
-	 * returns the action that specifies what animation to play when the items
-	 * is being used
-	 */
+	
 	@Override
 	public EnumAction getItemUseAction(ItemStack p_77661_1_) {
 		return EnumAction.bow;
 	}
 
-	/**
-	 * Called whenever this item is equipped and the right mouse button is
-	 * pressed. Args: itemStack, world, entityPlayer
-	 */
+	
 	@Override
 	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_) {
 		ArrowNockEvent event = new ArrowNockEvent(p_77659_3_, p_77659_1_);
@@ -117,10 +107,7 @@ public class GunJack extends Item {
 		return p_77659_1_;
 	}
 
-	/**
-	 * Return the enchantability factor of the item, most of the time is based
-	 * on material.
-	 */
+	
 	@Override
 	public int getItemEnchantability() {
 		return 1;
@@ -148,3 +135,4 @@ public class GunJack extends Item {
 		return multimap;
 	}
 }
+*/

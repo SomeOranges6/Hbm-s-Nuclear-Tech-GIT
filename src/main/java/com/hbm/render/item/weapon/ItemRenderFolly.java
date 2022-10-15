@@ -9,6 +9,7 @@ import com.hbm.main.ResourceManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -61,8 +62,10 @@ public class ItemRenderFolly implements IItemRenderer {
 				    GL11.glRotated(80, 0, 1, 0);
 				    GL11.glRotated(-20, 1, 0, 0);
 				    
-				    if(player.inventory.hasItem(ModItems.ammo_folly_nuclear )||(player.inventory.hasItem(ModItems.ammo_folly)||(player.inventory.hasItem(ModItems.ammo_folly_du)||(player.inventory.hasItem(ModItems.ammo_folly_sleek)||
-			    		  (player.inventory.hasItem(ModItems.ammo_folly_ouch)||(player.inventory.hasItem(ModItems.ammo_folly_tandem))))))){ 
+				  
+				    
+				    if(player.inventory.hasItem(ModItems.ammo_folly)){
+			    		 
 			    	  ResourceManager.folly.renderPart("Shell2");
 			        }
 				
