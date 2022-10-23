@@ -18,7 +18,7 @@ import com.hbm.hazard.HazardData;
 import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
-import com.hbm.inventory.material.MatDistribution;
+import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.main.MainRegistry;
@@ -480,7 +480,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockGlassRed", glass_polonium);
 		OreDictionary.registerOre("blockGlassBlack", glass_ash);
 		
-		MatDistribution.register(); //TEMP
+		MaterialShapes.registerCompatShapes();
 	}
 	
 	public static String getReflector() {

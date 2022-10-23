@@ -220,8 +220,7 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
 						new ComparableStack(Blocks.stonebrick, 4),
-						new OreDictStack(IRON.ingot(), 2),
-						new OreDictStack(W.ingot(), 4),
+						new ComparableStack(ModItems.ingot_firebrick, 4),
 						new ComparableStack(ModItems.board_copper, 2)
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_difurnace_off))).setTier(1));
@@ -833,12 +832,8 @@ public class AnvilRecipes {
 							new AnvilOutput(new ItemStack(ModItems.ingot_tcalloy, 4)),
 							new AnvilOutput(new ItemStack(ModItems.motor_desh, 2)),
 							new AnvilOutput(new ItemStack(ModItems.ingot_boron, 5)),
-							new AnvilOutput(new ItemStack(ModItems.ingot_lead, 12)),
-							new AnvilOutput(new ItemStack(ModItems.plate_lead, 2)),
-							new AnvilOutput(new ItemStack(ModItems.plate_aluminium, 3)),
-							new AnvilOutput(new ItemStack(ModItems.plate_aluminium, 1), 0.5F),
-							new AnvilOutput(new ItemStack(ModItems.crt_display, 2)),
-							new AnvilOutput(new ItemStack(ModItems.crt_display, 1), 0.5F),
+							new AnvilOutput(new ItemStack(ModItems.plate_lead, 8)),
+							new AnvilOutput(new ItemStack(ModItems.crt_display, 3)),
 							new AnvilOutput(new ItemStack(ModItems.circuit_copper, 1)),
 							new AnvilOutput(new ItemStack(ModItems.circuit_copper, 1), 0.5F),
 					}).setTier(4));
