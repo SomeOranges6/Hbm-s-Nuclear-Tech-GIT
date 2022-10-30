@@ -369,5 +369,5 @@ public class EntityNukeExplosionMK3 extends Entity implements IChunkLoader {
 				return false;
 			return true;
 		}
-
+	}
 }

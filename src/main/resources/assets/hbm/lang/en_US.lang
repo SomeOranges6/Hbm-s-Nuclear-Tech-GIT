@@ -1071,6 +1071,7 @@ item.ammo_arty_mini_nuke_multi.name=16" Multi Micro Nuclear Artillery Shell
 item.ammo_arty_nuke.name=16" Nuclear Artillery Shell
 item.ammo_arty_phosphorus.name=16" Phosphorus Shell
 item.ammo_arty_phosphorus_multi.name=16" Multi Phosphorus Shell
+item.ammo_arty_du.name=16" Armor-Piercing Artillery Shell
 item.ammo_cell.name=Energy Cell
 item.ammo_container.name=Ammo Container
 item.ammo_dart.name=Plastic Dart (Withering)

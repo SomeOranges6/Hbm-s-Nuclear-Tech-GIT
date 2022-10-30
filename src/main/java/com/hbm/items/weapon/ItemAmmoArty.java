@@ -1,11 +1,13 @@
 package com.hbm.items.weapon;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.projectile.EntityArtilleryShell;
+import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeSmall;
@@ -29,6 +31,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -39,10 +42,11 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.world.World;
 
 public class ItemAmmoArty extends Item {
 
-	public static ArtilleryShell[] itemTypes =	new ArtilleryShell[ /* >>> */ 9 /* <<< */ ];
+	public static ArtilleryShell[] itemTypes =	new ArtilleryShell[ /* >>> */ 10 /* <<< */ ];
 	//public static ArtilleryShell[] shellTypes =	new ArtilleryShell[ /* >>> */ 8 /* <<< */ ];
 	/* item types */
 	public final int NORMAL = 0;
@@ -54,6 +58,7 @@ public class ItemAmmoArty extends Item {
 	public final int MINI_NUKE_MULTI = 6;
 	public final int PHOSPHORUS_MULTI = 7;
 	public final int CARGO = 8;
+	public final int DU = 9;
 	/* non-item shell types */
 	
 	public ItemAmmoArty() {
@@ -74,6 +79,7 @@ public class ItemAmmoArty extends Item {
 		list.add(new ItemStack(item, 1, MINI_NUKE_MULTI));
 		list.add(new ItemStack(item, 1, NUKE));
 		list.add(new ItemStack(item, 1, CARGO));
+		list.add(new ItemStack(item, 1, DU));
 	}
 
 	@Override
@@ -129,6 +135,13 @@ public class ItemAmmoArty extends Item {
 			} else {
 				list.add(r + "Empty");
 			}
+			break;
+		case DU:
+		
+			list.add(y + "Heavy AP Shell");
+			list.add(b + "High Penetration");
+			list.add(r + "Low Radius");
+			
 			break;
 		}
 	}
@@ -281,6 +294,51 @@ public class ItemAmmoArty extends Item {
 				data.setString("type", "rbmkmush");
 				data.setFloat("scale", 10);
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord), new TargetPoint(shell.dimension, shell.posX, shell.posY, shell.posZ, 250));
+			}
+		};
+		
+		/* APDU SHELL */
+		this.itemTypes[DU] = new ArtilleryShell("ammo_arty_du") {
+			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
+				
+				World world = shell.worldObj;
+				
+				int blockPosx = (int) mop.hitVec.xCoord;
+				int blockPosz = (int) mop.hitVec.zCoord;
+				int blockPosy = (int) mop.hitVec.yCoord;
+				
+				float live = 200000;
+				List<Float> die = new ArrayList<>();
+				
+				for(int x = blockPosx; x < blockPosx + 3; x++){
+					 for( int z = blockPosz; z < blockPosz + 3; z++){
+						 
+			         EntityRubble entity2 = new EntityRubble(world);    	
+			         entity2.posX = x;                  	
+			         entity2.posY = blockPosy;                  	
+			         entity2.posZ = z;                  	
+			         entity2.motionY = 0.75;                            	
+			         entity2.motionX = world.rand.nextGaussian() * 0.75;	
+			         entity2.motionZ = world.rand.nextGaussian() * 0.75;			         
+			         entity2.setMetaBasedOnBlock(Blocks.stone, 0);      	
+			         
+			         float kill = shell.worldObj.getBlock(x, blockPosy, z).getExplosionResistance(null);
+                     die.add(kill);
+	         
+			       	float sum = 0;
+			       	
+			        for (Float i: die) {
+			            sum += i;
+			           }
+			          
+			        if ((live - sum)>=0 & kill <= 12000 ){
+			      	 shell.worldObj.setBlockToAir(x, blockPosy, z);
+			       	 shell.worldObj.spawnEntityInWorld(entity2);     
+			        } else {
+			          shell.setDead();	
+			        }
+			  }
+			 }
 			}
 		};
 		
