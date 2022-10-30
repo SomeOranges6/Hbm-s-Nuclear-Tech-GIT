@@ -53,6 +53,7 @@ public class OreDictManager {
 	public static final String KEY_SLAB = "slabWood";
 	public static final String KEY_LEAVES = "treeLeaves";
 	public static final String KEY_SAPLING = "treeSapling";
+	public static final String KEY_SAND = "sand";
 	
 	public static final String KEY_BLACK = "dyeBlack";
 	public static final String KEY_RED = "dyeRed";
@@ -192,6 +193,9 @@ public class OreDictManager {
 	public static final DictFrame CINNABAR = new DictFrame("Cinnabar");
 	public static final DictFrame BORAX = new DictFrame("Borax");
 	public static final DictFrame VOLCANIC = new DictFrame("Volcanic");
+	public static final DictFrame HEMATITE = new DictFrame("Hematite");
+	public static final DictFrame MALACHITE = new DictFrame("Malachite");
+	public static final DictFrame SLAG = new DictFrame("Slag");
 	/*
 	 * HAZARDS, MISC
 	 */
@@ -359,6 +363,9 @@ public class OreDictManager {
 		CINNABAR	.crystal(cinnebar)	.gem(cinnebar)																					.ore(ore_cinnebar, ore_depth_cinnebar);
 		BORAX																			.dust(powder_borax)								.ore(ore_depth_borax);
 		VOLCANIC						.gem(gem_volcanic)																				.ore(basalt_gem);
+		HEMATITE																														.ore(fromOne(stone_resource, EnumStoneType.HEMATITE));
+		MALACHITE																														.ore(fromOne(stone_resource, EnumStoneType.MALACHITE));
+		SLAG																									.block(block_slag);
 		
 		/*
 		 * HAZARDS, MISC
