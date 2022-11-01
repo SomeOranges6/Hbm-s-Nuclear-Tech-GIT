@@ -783,8 +783,6 @@ public class MainRegistry {
 		RefineryRecipes.registerCracking();
 		RadiolysisRecipes.registerRadiolysis();
 		GasCentrifugeRecipes.register();
-		LiquefactionRecipes.register();
-		SolidificationRecipes.register();
 
 		//the good stuff
 		SerializableRecipe.registerAllHandlers();
