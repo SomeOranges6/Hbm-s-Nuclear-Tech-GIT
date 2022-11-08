@@ -307,6 +307,7 @@ container.generator=Atomreaktor
 container.hadron=Teilchenbeschleuniger
 container.heaterFirebox=Feuerbüchse
 container.heaterOilburner=Brenner
+container.heaterOven=Heizofen
 container.iGenerator=Industrieller Generator
 container.keyForge=Schlossertisch
 container.launchPad=Raketenabschussrampe
@@ -493,6 +494,7 @@ fluid.volcanic_lava_fluid=Vulkanische Lava
 
 foundry.filter=Filter: %s
 foundry.inverted=Redstone invertiert
+foundry.invertFilter=Filter invertiert
 foundry.noCast=Keine Form eingelegt!
 
 geiger.chunkRad=Chunk-Strahlung:
@@ -3572,6 +3574,8 @@ tile.heater_firebox.name=Feuerbüchse
 tile.heater_firebox.desc=Erzeugt Wärme aus Festbrennstoff.
 tile.heater_oilburner.name=Brenner
 tile.heater_oilburner.desc=Erzäuft Wärme aus fluiden Brennstoffen.
+tile.heater_oven.name=Heizofen
+tile.heater_oven.desc=Erzeugt Wärme aus Festbrennstoff.$Nimmt von unten Wärme mit 50%% Effizienz auf.
 tile.hev_battery.name=Anzugs-Batterie
 tile.iter.name=Kernfusionsreaktor
 tile.ladder_aluminium.name=Aluminiumleiter

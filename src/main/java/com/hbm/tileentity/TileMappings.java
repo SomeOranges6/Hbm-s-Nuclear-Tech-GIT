@@ -1,6 +1,8 @@
 package com.hbm.tileentity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.hbm.blocks.bomb.BlockVolcano.TileEntityVolcanoCore;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
@@ -28,6 +30,7 @@ import net.minecraft.tileentity.TileEntity;
 public class TileMappings {
 
 	public static HashMap<Class<? extends TileEntity>, String[]> map = new HashMap();
+	public static List<Class<? extends IConfigurableMachine>> configurables = new ArrayList();
 	
 	public static void writeMappings() {
 		put(TileEntityTestBombAdvanced.class, "tilentity_testbombadvanced");
@@ -42,7 +45,6 @@ public class TileMappings {
 		put(TileEntityMachineReactorBreeding.class, "tileentity_reactor");
 		put(TileEntityNukeFurnace.class, "tileentity_nukefurnace");
 		put(TileEntityRtgFurnace.class, "tileentity_rtgfurnace");
-		put(TileEntityMachineGenerator.class, "tileentity_generator");
 		put(TileEntityMachineElectricFurnace.class, "tileentity_electric_furnace");
 		put(TileEntityDecoTapeRecorder.class, "tileentity_taperecorder");
 		put(TileEntityDecoSteelPoles.class, "tileentity_steelpoles");
@@ -114,7 +116,6 @@ public class TileMappings {
 		put(TileEntityMachineGasCent.class, "tileentity_gas_centrifuge");
 		put(TileEntityMachineBoiler.class, "tileentity_boiler");
 		put(TileEntityMachineBoilerElectric.class, "tileentity_electric_boiler");
-		put(TileEntityMachineTurbine.class, "tileentity_turbine");
 		put(TileEntityGeiger.class, "tileentity_geiger");
 		put(TileEntityFF.class, "tileentity_forcefield");
 		put(TileEntityForceField.class, "tileentity_machine_field");
@@ -156,7 +157,6 @@ public class TileMappings {
 		put(TileEntityMachineFENSU.class, "tileentity_fensu");
 		put(TileEntityTrappedBrick.class, "tileentity_trapped_brick");
 		put(TileEntityPlasmaStruct.class, "tileentity_plasma_struct");
-		put(TileEntityMachineLargeTurbine.class, "tileentity_industrial_turbine");
 		put(TileEntityHadronDiode.class, "tileentity_hadron_diode");
 		put(TileEntityHadronPower.class, "tileentity_hadron_power");
 		put(TileEntityHadron.class, "tileentity_hadron");
@@ -170,7 +170,6 @@ public class TileMappings {
 		put(TileEntityDemonLamp.class, "tileentity_demonlamp");
 		put(TileEntityStorageDrum.class, "tileentity_waste_storage_drum");
 		put(TileEntityDeaerator.class, "tileentity_deaerator");
-		put(TileEntityChungus.class, "tileentity_chungus");
 		put(TileEntityCableBaseNT.class, "tileentity_ohgod");
 		put(TileEntityPipeBaseNT.class, "tileentity_pipe_base");
 		put(TileEntityWatz.class, "tileentity_watz");
@@ -184,6 +183,8 @@ public class TileMappings {
 		put(TileEntityDoorGeneric.class, "tileentity_ntm_door");
 
 		put(TileEntityCharger.class, "tileentity_ntm_charger");
+		
+		put(TileEntityFileCabinet.class, "tileentity_file_cabinet");
 		
 		put(TileEntityProxyInventory.class, "tileentity_proxy_inventory");
 		put(TileEntityProxyEnergy.class, "tileentity_proxy_power");
@@ -232,6 +233,7 @@ public class TileMappings {
 	
 	private static void putMachines() {
 		put(TileEntityHeaterFirebox.class, "tileentity_firebox");
+		put(TileEntityHeaterOven.class, "tileentity_heating_oven");
 		put(TileEntityHeaterOilburner.class, "tileentity_oilburner");
 		put(TileEntityHeaterElectric.class, "tileentity_electric_heater");
 		put(TileEntityFurnaceIron.class, "tileentity_furnace_iron");
@@ -260,6 +262,11 @@ public class TileMappings {
 		put(TileEntityMachineLiquefactor.class, "tileentity_liquefactor");
 		put(TileEntityMachineSolidifier.class, "tileentity_solidifier");
 		put(TileEntityElectrolyser.class, "tileentity_electrolyser");
+
+		put(TileEntitySteamEngine.class, "tileentity_steam_engine");
+		put(TileEntityMachineTurbine.class, "tileentity_turbine");
+		put(TileEntityMachineLargeTurbine.class, "tileentity_industrial_turbine");
+		put(TileEntityChungus.class, "tileentity_chungus");
 
 		put(TileEntityMachineAssembler.class, "tileentity_assembly_machine");
 		put(TileEntityMachineAssemfac.class, "tileentity_assemfac");
@@ -329,6 +336,10 @@ public class TileMappings {
 
 		if((IFluidSource.class.isAssignableFrom(clazz) || IFluidAcceptor.class.isAssignableFrom(clazz)) && !IFluidConnector.class.isAssignableFrom(clazz)) {
 			LoggingUtil.errorWithHighlight(clazz.getCanonicalName() + " implements the old interfaces but not IFluidConnector!");
+		}
+		
+		if(IConfigurableMachine.class.isAssignableFrom(clazz)) {
+			configurables.add((Class<? extends IConfigurableMachine>) clazz);
 		}
 	}
 }

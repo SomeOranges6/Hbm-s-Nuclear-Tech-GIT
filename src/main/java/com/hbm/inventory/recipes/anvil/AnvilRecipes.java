@@ -244,6 +244,13 @@ public class AnvilRecipes {
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
+						new ComparableStack(ModItems.ingot_firebrick, 16),
+						new OreDictStack(STEEL.plate(), 4),
+						new OreDictStack(CU.ingot(), 8)
+				}, new AnvilOutput(new ItemStack(ModBlocks.heater_oven))).setTier(2));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
 						new ComparableStack(ModItems.tank_steel, 4),
 						new ComparableStack(ModItems.pipes_steel, 1),
 						new OreDictStack(TI.ingot(), 12),
@@ -614,6 +621,16 @@ public class AnvilRecipes {
 					
 				}
 		).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModBlocks.filing_cabinet),
+				new AnvilOutput[] {
+					new AnvilOutput(new ItemStack(ModItems.plate_steel, 2)),
+					new AnvilOutput(new ItemStack(ModItems.plate_steel, 2), 0.5F),
+					new AnvilOutput(new ItemStack(ModItems.plate_polymer, 2), 0.25F),
+					new AnvilOutput(new ItemStack(ModItems.scrap, 1))
+					
+				}
+		).setTier(1));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModItems.circuit_raw),
