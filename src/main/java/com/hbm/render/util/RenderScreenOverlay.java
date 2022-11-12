@@ -313,7 +313,23 @@ public class RenderScreenOverlay {
 		GuiIngameForge.left_height += 10;
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
-	
+    public static void renderTaintBar(ScaledResolution resolution, Gui gui) {
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		HbmPlayerProps props = HbmPlayerProps.getData(player);
+		
+
+		int width = resolution.getScaledWidth();
+		int height = resolution.getScaledHeight();
+		int left = width / 2 - 91;
+		int top = height - GuiIngameForge.left_height;
+ 
+		Minecraft.getMinecraft().renderEngine.bindTexture(misc);
+		gui.drawTexturedModalRect(left, top, 146, 18, 81, 12);
+		
+		GuiIngameForge.left_height += 3;
+		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
+	}
 	public enum Crosshair {
 
 		NONE(0, 0, 0),

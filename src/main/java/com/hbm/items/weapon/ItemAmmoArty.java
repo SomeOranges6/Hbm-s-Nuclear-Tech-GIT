@@ -48,7 +48,7 @@ import net.minecraft.world.World;
 public class ItemAmmoArty extends Item {
 
 	public static Random rand = new Random();
-	public static ArtilleryShell[] itemTypes =	new ArtilleryShell[ /* >>> */ 9 /* <<< */ ];
+	public static ArtilleryShell[] itemTypes =	new ArtilleryShell[ /* >>> */ 10 /* <<< */ ];
 
 	//public static ArtilleryShell[] shellTypes =	new ArtilleryShell[ /* >>> */ 8 /* <<< */ ];
 	/* item types */
