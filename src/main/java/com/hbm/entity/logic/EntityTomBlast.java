@@ -81,9 +81,8 @@ public class EntityTomBlast extends Entity implements IChunkLoader {
 			if(flag) {
 				this.setDead();
 				TomSaveData data = TomSaveData.forWorld(worldObj);
-				NBTTagCompound tag = data.getData();
-				tag.setBoolean("impact", true);
-				tag.setFloat("fire", 1);
+				data.impact = true;
+				data.fire = 1F;
 				data.markDirty();
 			}
 		}
