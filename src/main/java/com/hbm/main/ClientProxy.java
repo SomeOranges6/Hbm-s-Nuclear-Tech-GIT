@@ -46,6 +46,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
+import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.entity.cart.*;
 import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
@@ -58,6 +59,7 @@ import com.hbm.entity.mob.siege.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.handler.HbmKeybinds;
+import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
 import com.hbm.particle.*;
@@ -80,6 +82,7 @@ import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderInfoSystem.InfoEntry;
 import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderOverhead.Marker;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
 import com.hbm.sound.AudioWrapperClientStartStop;
@@ -159,6 +162,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDemonLamp.class, new RenderDemonLamp());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLoot.class, new RenderLoot());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBobble.class, new RenderBobble());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySnowglobe.class, new RenderSnowglobe());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEmitter.class, new RenderEmitter());
 		//bombs
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNukeGadget.class, new RenderNukeGadget());
@@ -1886,6 +1890,21 @@ public class ClientProxy extends ServerProxy {
 			sta.stackSize = stack.stackSize;
 		}
 		return list;
+	}
+
+	@Override
+	public float getImpactDust(World world) {
+		return ImpactWorldHandler.getDustForClient(world);
+	}
+
+	@Override
+	public float getImpactFire(World world) {
+		return ImpactWorldHandler.getFireForClient(world);
+	}
+
+	@Override
+	public boolean getImpact(World world) {
+		return ImpactWorldHandler.getImpactForClient(world);
 	}
 }
 
