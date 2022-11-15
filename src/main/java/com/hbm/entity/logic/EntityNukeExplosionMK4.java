@@ -113,8 +113,6 @@ public class EntityNukeExplosionMK4 extends Entity implements IChunkLoader {
 		} else {
 			this.setDead();
 		}
-		loadNeighboringChunks((int)(posX / 16), (int)(posZ / 16));
-		
 	}
 
 
@@ -253,32 +251,5 @@ public class EntityNukeExplosionMK4 extends Entity implements IChunkLoader {
             }
         }
 	}
-	List<ChunkCoordIntPair> loadedChunks = new ArrayList<ChunkCoordIntPair>();
-	public void loadNeighboringChunks(int newChunkX, int newChunkZ)
-    {
-        if(!worldObj.isRemote && loaderTicket != null)
-        {
-            for(ChunkCoordIntPair chunk : loadedChunks)
-            {
-                ForgeChunkManager.unforceChunk(loaderTicket, chunk);
-            }
-
-            loadedChunks.clear();
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ + 1));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ - 1));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ - 1));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ + 1));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ + 1));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ - 1));
-
-            for(ChunkCoordIntPair chunk : loadedChunks)
-            {
-                ForgeChunkManager.forceChunk(loaderTicket, chunk);
-            }
-        }
-    }
 
 }
