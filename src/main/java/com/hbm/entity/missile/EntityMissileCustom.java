@@ -84,8 +84,14 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 	}
 
 	private void killMissile() {
+		ItemMissile part1 = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(9));
+		WarheadType type1 = (WarheadType) part1.attributes[0];
+		if(type1 == WarheadType.MIRV){
+			mirvSplit();   		
+		}
 		ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
 		ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
+		
 	}
 
 	public EntityMissileCustom(World world, float x, float y, float z, int a, int b, MissileStruct template) {
@@ -301,47 +307,10 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 		
 		
 		if(type1 == WarheadType.MIRV){
-			
-    		if((motionY <= 0) && (posY <= 300)) {
-    			
-    			if(worldObj.isRemote)
-					return;    
-    			               
-    				this.setDead();
-    				           
-    				double mod;
-    				double mod2;
-    				for(int i = 0; i < 8; i++) {
-    					EntityMIRV nuke3 = new EntityMIRV(this.worldObj);
-    					nuke3.setPosition(posX,posY,posZ);      
-    					mod = (i == 1 || i == 2) ? 1 : -1; 
-    					mod2 = (i == 1 || i == 3) ? 1 : -1;
-    					
-    					if(i==5){ mod2 = 0; mod = 2;}
-    					if(i==6){ mod2 = 0; mod = -2;}
-    					if(i==7){ mod2 = 0; mod = 0;}
-    					
-        				nuke3.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1F, 0.1F);
-    					nuke3.motionX = this.motionX+mod;
-    					nuke3.motionY = this.motionY;
-    					nuke3.motionZ = this.motionZ+mod2;
-    					this.worldObj.spawnEntityInWorld(nuke3);
-    					
-    				}
-    				//for some reason these fuckers refuse to work any other way dont blame for the mess
-
-					/*EntityMIRV nuke4 = new EntityMIRV(this.worldObj);
-    				nuke4.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 0.25F, 0.1F);
-					nuke4.setPosition(posX,posY,posZ);
-					nuke4.motionX = this.motionX;
-					nuke4.motionY = this.motionY;
-					nuke4.motionZ = this.motionZ;
-					this.worldObj.spawnEntityInWorld(nuke4);*/
-					
-    			}
-    		}
-        
+			mirvSplit();   		
+		}
 		loadNeighboringChunks((int) (posX / 16), (int) (posZ / 16));
+		
 	}
 
 	@Override
@@ -349,7 +318,38 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 	public boolean isInRangeToRenderDist(double distance) {
 		return distance < 2500000;
 	}
-
+    public void mirvSplit(){
+    	if((motionY <= 0) && (posY <= 300)) {
+			
+			if(worldObj.isRemote)
+				return;    
+			               
+				this.setDead();
+				           
+				double mod;
+				double mod2;
+				for(int i = 0; i < 8; i++) {
+					EntityMIRV nuke3 = new EntityMIRV(this.worldObj);
+					nuke3.setPosition(posX,posY,posZ);      
+					mod = (i == 1 || i == 2) ? 1 : -1; 
+					mod2 = (i == 1 || i == 3) ? 1 : -1;
+					
+					if(i==5){ mod2 = 0; mod = 2;}
+					if(i==6){ mod2 = 0; mod = -2;}
+					if(i==7){ mod2 = 0; mod = 0;}
+					
+    				nuke3.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1F, 0.1F);
+					nuke3.motionX = this.motionX+mod;
+					nuke3.motionY = this.motionY;
+					nuke3.motionZ = this.motionZ+mod2;
+					this.worldObj.spawnEntityInWorld(nuke3);
+					
+				}
+				
+				
+			}
+		}
+	
 	public void onImpact() {
 
 		ItemMissile part = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(9));
