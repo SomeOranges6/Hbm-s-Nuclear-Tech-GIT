@@ -115,12 +115,12 @@ public class ExplosionNukeRay {
 				float z0 = (float) (posZ + (vec.zCoord * i));
 
 				double fac = 100 - ((double) i) / ((double) length) * 100;
-				fac *= 0.07D;
+				fac *= 0.04D;
 
 				if(!world.getBlock((int)x0, (int)y0, (int)z0).getMaterial().isLiquid())
-					res -= Math.pow(world.getBlock((int)x0, (int)y0, (int)z0).getExplosionResistance(null), 7.5D - fac);
+					res -= Math.pow(world.getBlock((int)x0, (int)y0, (int)z0).getExplosionResistance(null), 4.43D - fac);
 				else
-					res -= Math.pow(Blocks.air.getExplosionResistance(null), 7.5D - fac);
+					res -= Math.pow(Blocks.air.getExplosionResistance(null), 4.4D - fac);
 
 				if(res > 0 && world.getBlock((int)x0, (int)y0, (int)z0) != Blocks.air) {
 					lastPos = new FloatTriplet(x0, y0, z0);
