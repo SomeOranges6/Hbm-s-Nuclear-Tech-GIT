@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotCraftingOutput;
+import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,42 +56,49 @@ private TileEntityMachineAssembler assembler;
 	}
 	
 	@Override
-    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2)
+    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int index)
     {
-		ItemStack var3 = null;
-		Slot var4 = (Slot) this.inventorySlots.get(par2);
+		ItemStack returnStack = null;
+		Slot slot = (Slot) this.inventorySlots.get(index);
 		
-		if (var4 != null && var4.getHasStack())
-		{
-			ItemStack var5 = var4.getStack();
-			var3 = var5.copy();
-			SlotCraftingOutput.checkAchievements(p_82846_1_, var5);
-			
-            if (par2 <= 17) {
-				if (!this.mergeItemStack(var5, 18, this.inventorySlots.size(), true))
-				{
+		if (slot != null) {
+			ItemStack itemStack = slot.getStack();
+			returnStack = itemStack.copy();
+			SlotCraftingOutput.checkAchievements(p_82846_1_, itemStack);
+			if (slot.getHasStack()) {
+
+				if (index <= 17) {
+					if (!this.mergeItemStack(itemStack, 18, this.inventorySlots.size(), true)) {
+						return null;
+					}
+				} else if (itemStack.getItem() instanceof ItemAssemblyTemplate && !this.mergeItemStack(itemStack,3,4,false)){
+					return null;
+
+				} else if (!this.mergeItemStack(itemStack, 6, 18, false))
+					if (!this.mergeItemStack(itemStack, 0, 4, false))
+						return null;
+
+				if (itemStack.stackSize == 0) {
+					slot.putStack((ItemStack) null);
+				} else {
+					slot.onSlotChanged();
+				}
+
+				if (itemStack.stackSize == returnStack.stackSize) {
+					return null;
+				}
+
+				slot.onPickupFromSlot(p_82846_1_, returnStack);
+				if (returnStack.getItem() instanceof ItemAssemblyTemplate) {
+					Slot templateSlot = (Slot) this.inventorySlots.get(4);
+					templateSlot.putStack(returnStack);
 					return null;
 				}
 			}
-			else if (!this.mergeItemStack(var5, 6, 18, false))
-				if (!this.mergeItemStack(var5, 0, 4, false))
-					return null;
-			
-			if(var5.stackSize == 0) {
-				var4.putStack((ItemStack) null);
-			} else {
-				var4.onSlotChanged();
-			}
-
-			if(var5.stackSize == var3.stackSize) {
-				return null;
-			}
-
-			var4.onPickupFromSlot(p_82846_1_, var3);
 		}
 
-		return var3;
-	}
+			return returnStack;
+		}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
