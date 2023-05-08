@@ -12,10 +12,13 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
+import com.hbm.blocks.rail.IRailNTM;
+import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
+import com.hbm.entity.train.EntityRailCarRidable;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
@@ -42,6 +45,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.PlayerInformPacket;
 import com.hbm.packet.SyncButtonsPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.HbmAnimations;
@@ -65,12 +69,14 @@ import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
+import com.hbm.util.ParticleUtil;
 import com.hbm.wiaj.GuiWorldInAJar;
 import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
 import api.hbm.item.IButtonReceiver;
@@ -99,6 +105,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
@@ -106,6 +113,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
@@ -128,6 +136,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public class ModEventHandlerClient {
@@ -200,6 +209,71 @@ public class ModEventHandlerClient {
 				GL11.glColor3f(1F, 1F, 1F);
 				GL11.glPopMatrix();
 				Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
+			}*/
+			
+			/*List<String> text = new ArrayList();
+			MovingObjectPosition pos = Library.rayTrace(player, 500, 1, false, true, false);
+			
+			for(int i = 0; i < 2; i++) if(pos != null && pos.typeOfHit == pos.typeOfHit.BLOCK) {
+				
+				float yaw = player.rotationYaw;
+				
+				Vec3 next = Vec3.createVectorHelper(pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord);
+				int it = 0;
+				
+				BlockPos anchor = new BlockPos(pos.blockX, pos.blockY, pos.blockZ);
+				
+				double distanceToCover = 4D * (i == 0 ? 1 : -1);
+				
+				do {
+					
+					it++;
+					
+					if(it > 30) {
+						world.createExplosion(player, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 5F, false);
+						break;
+					}
+					
+					int x = anchor.getX();
+					int y = anchor.getY();
+					int z = anchor.getZ();
+					Block block = world.getBlock(x, y, z);
+					
+					Vec3 rot = Vec3.createVectorHelper(0, 0, 1);
+					rot.rotateAroundY((float) (-yaw * Math.PI / 180D));
+					
+					if(block instanceof IRailNTM) {
+						IRailNTM rail = (IRailNTM) block;
+						RailContext info = new RailContext();
+						
+						boolean flip = distanceToCover < 0;
+						
+						if(it == 1) {
+							Vec3 snap = next = rail.getTravelLocation(world, x, y, z, next.xCoord, next.yCoord, next.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, 0, info);
+							if(i == 0) world.spawnParticle("reddust", snap.xCoord, snap.yCoord + 0.25, snap.zCoord, 0.1, 1, 0.1);
+						}
+						
+						Vec3 prev = next;
+						next = rail.getTravelLocation(world, x, y, z, prev.xCoord, prev.yCoord, prev.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, distanceToCover, info);
+						distanceToCover = info.overshoot;
+						anchor = info.pos;
+						if(i == 0) world.spawnParticle("reddust", next.xCoord, next.yCoord + 0.25, next.zCoord, 0, distanceToCover != 0 ? 0.5 : 0, 0);
+						else world.spawnParticle("reddust", next.xCoord, next.yCoord + 0.25, next.zCoord, 0, distanceToCover != 0 ? 0.5 : 0, 1);
+						
+						double deltaX = next.xCoord - prev.xCoord;
+						double deltaZ = next.zCoord - prev.zCoord;
+						double radians = -Math.atan2(deltaX, deltaZ);
+						yaw = (float) MathHelper.wrapAngleTo180_double(radians * 180D / Math.PI + (flip ? 180 : 0));
+						
+						text.add(it + ": " + yaw);
+						
+					} else {
+						break;
+					}
+					
+				} while(distanceToCover != 0);
+				
+				ILookOverlay.printGeneric(event, "DEBUG", 0xffff00, 0x4040000, text);
 			}*/
 		}
 		
