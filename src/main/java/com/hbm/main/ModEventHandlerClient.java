@@ -3,6 +3,7 @@ package com.hbm.main;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import org.lwjgl.input.Keyboard;
@@ -12,8 +13,6 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
-import com.hbm.blocks.rail.IRailNTM;
-import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.EntityHunterChopper;
@@ -45,7 +44,6 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PlayerInformPacket;
 import com.hbm.packet.SyncButtonsPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.HbmAnimations;
@@ -69,14 +67,12 @@ import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
-import com.hbm.util.ParticleUtil;
 import com.hbm.wiaj.GuiWorldInAJar;
 import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
-import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
 import api.hbm.item.IButtonReceiver;
@@ -88,15 +84,19 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.InputEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -104,16 +104,17 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C0CPacketInput;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
@@ -125,6 +126,7 @@ import net.minecraft.world.WorldProviderSurface;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.IRenderHandler;
 import net.minecraftforge.client.event.FOVUpdateEvent;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -136,7 +138,6 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public class ModEventHandlerClient {
@@ -458,7 +459,7 @@ public class ModEventHandlerClient {
 		if(invis != null && invis.getAmplifier() > 0)
 			event.setCanceled(true);
 
-		if(player.getDisplayName().toLowerCase().equals("martmn")) {
+		if(player.getDisplayName().toLowerCase(Locale.US).equals("martmn")) {
 			
 			event.setCanceled(true);
 			
@@ -965,6 +966,54 @@ public class ModEventHandlerClient {
 			}
 		}
 	}
+
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onMouseClicked(InputEvent.KeyInputEvent event) {
+
+		Minecraft mc = Minecraft.getMinecraft();
+		if(GeneralConfig.enableKeybindOverlap && (mc.currentScreen == null || mc.currentScreen.allowUserInput)) {
+			boolean state = Mouse.getEventButtonState();
+			int keyCode = Mouse.getEventButton() - 100;
+			
+			//if anything errors here, run ./gradlew clean setupDecompWorkSpace
+			for(Object o : KeyBinding.keybindArray) {
+				KeyBinding key = (KeyBinding) o;
+				
+				if(key.getKeyCode() == keyCode && KeyBinding.hash.lookup(key.getKeyCode()) != key) {
+					
+					key.pressed = state;
+					if(state) {
+						key.pressTime++;
+					}
+				}
+			}
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onKeyTyped(InputEvent.KeyInputEvent event) {
+
+		Minecraft mc = Minecraft.getMinecraft();
+		if(GeneralConfig.enableKeybindOverlap && (mc.currentScreen == null || mc.currentScreen.allowUserInput)) {
+			boolean state = Keyboard.getEventKeyState();
+			int keyCode = Keyboard.getEventKey();
+			
+			//if anything errors here, run ./gradlew clean setupDecompWorkSpace
+			for(Object o : KeyBinding.keybindArray) {
+				KeyBinding key = (KeyBinding) o;
+				
+				if(key.getKeyCode() == keyCode && KeyBinding.hash.lookup(key.getKeyCode()) != key) {
+					
+					key.pressed = state;
+					if(state) {
+						key.pressTime++;
+					}
+				}
+			}
+		}
+	}
 	
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
@@ -1172,6 +1221,47 @@ public class ModEventHandlerClient {
 			tess.addVertexWithUV(0.5, -0.5 + o, p * 0.5, 1, 1);
 			tess.draw();
 			GL11.glEnable(GL11.GL_LIGHTING);
+		}
+	}
+	
+	@SubscribeEvent
+	public void worldTick(WorldTickEvent event) {
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		
+		if(player != null && player.ridingEntity instanceof EntityRailCarRidable && player instanceof EntityClientPlayerMP) {
+			EntityRailCarRidable train = (EntityRailCarRidable) player.ridingEntity;
+			EntityClientPlayerMP client = (EntityClientPlayerMP) player;
+			
+			//mojank compensation, because apparently the "this makes the render work" method also determines the fucking input
+			if(!train.shouldRiderSit()) {
+				client.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(client.rotationYaw, client.rotationPitch, client.onGround));
+				client.sendQueue.addToSendQueue(new C0CPacketInput(client.moveStrafing, client.moveForward, client.movementInput.jump, client.movementInput.sneak));
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onOpenGUI(GuiOpenEvent event) {
+		
+		if(event.gui instanceof GuiMainMenu) {
+			GuiMainMenu main = (GuiMainMenu) event.gui;
+			int rand = (int)(Math.random() * 150);
+			
+			switch(rand) {
+			case 0: main.splashText = "Floppenheimer!"; break;
+			case 1: main.splashText = "i should dip my balls in sulfuic acid"; break;
+			case 2: main.splashText = "All answers are popbob!"; break;
+			case 3: main.splashText = "None shall enter The Orb!"; break;
+			case 4: main.splashText = "Wacarb was here"; break;
+			case 5: main.splashText = "SpongeBoy me Bob I am overdosing on keramine agagagagaga"; break;
+			case 6: main.splashText = "I know where you live, " + System.getProperty("user.name"); break;
+			case 7: main.splashText = "Nice toes, now hand them over."; break;
+			case 8: main.splashText = "I smell burnt toast!"; break;
+			case 9: main.splashText = "There are bugs under your skin!"; break;
+			case 10: main.splashText = "Fentanyl!"; break;
+			case 11: main.splashText = "Do drugs!"; break;
+			}
 		}
 	}
 }

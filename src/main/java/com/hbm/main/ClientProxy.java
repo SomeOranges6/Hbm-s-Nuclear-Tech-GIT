@@ -61,6 +61,8 @@ import com.hbm.entity.mob.siege.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.entity.train.*;
+import com.hbm.entity.train.EntityRailCarBase.BoundingBoxDummyEntity;
+import com.hbm.entity.train.EntityRailCarRidable.SeatDummyEntity;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.ImpactWorldHandler;
@@ -251,6 +253,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineCatalyticCracker.class, new RenderCatalyticCracker());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineLiquefactor.class, new RenderLiquefactor());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineSolidifier.class, new RenderSolidifier());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineCompressor.class, new RenderCompressor());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRadiolysis.class, new RenderRadiolysis());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityElectrolyser.class, new RenderElectrolyser());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFurnaceIron.class, new RenderFurnaceIron());
@@ -682,6 +685,9 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartCrate.class, new RenderMinecart());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartNTM.class, new RenderNeoCart());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMagnusCartus.class, new RenderMagnusCartus());
+		//trains
+		RenderingRegistry.registerEntityRenderingHandler(SeatDummyEntity.class, new RenderEmpty());
+		RenderingRegistry.registerEntityRenderingHandler(BoundingBoxDummyEntity.class, new RenderEmpty());
 		RenderingRegistry.registerEntityRenderingHandler(TrainCargoTram.class, new RenderTrainCargoTram());
 		//items
 		RenderingRegistry.registerEntityRenderingHandler(EntityMovingItem.class, new RenderMovingItem());
@@ -1902,6 +1908,7 @@ public class ClientProxy extends ServerProxy {
 		case TOGGLE_HEAD:		return HbmKeybinds.hudKey.getIsKeyPressed();
 		case RELOAD:			return HbmKeybinds.reloadKey.getIsKeyPressed();
 		case DASH:				return HbmKeybinds.dashKey.getIsKeyPressed();
+		case TRAIN:				return HbmKeybinds.trainKey.getIsKeyPressed();
 		case CRANE_UP:			return HbmKeybinds.craneUpKey.getIsKeyPressed();
 		case CRANE_DOWN:		return HbmKeybinds.craneDownKey.getIsKeyPressed();
 		case CRANE_LEFT:		return HbmKeybinds.craneLeftKey.getIsKeyPressed();

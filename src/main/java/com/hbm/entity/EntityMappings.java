@@ -14,6 +14,7 @@ import com.hbm.entity.mob.botprime.*;
 import com.hbm.entity.mob.siege.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
+import com.hbm.entity.train.EntityRailCarBase.BoundingBoxDummyEntity;
 import com.hbm.entity.train.EntityRailCarRidable.SeatDummyEntity;
 import com.hbm.entity.train.TrainCargoTram;
 import com.hbm.main.MainRegistry;
@@ -109,7 +110,7 @@ public class EntityMappings {
 		addEntity(EntityTSmokeFX.class, "entity_t_smoke_fx", 1000);
 		addEntity(EntityNukeExplosionMK3.class, "entity_nuke_mk3", 1000);
 		addEntity(EntityVortex.class, "entity_vortex", 250);
-		addEntity(EntityMeteor.class, "entity_meteor", 1000);
+		addEntity(EntityMeteor.class, "entity_meteor", 250);
 		addEntity(EntityLaser.class, "entity_laser", 1000);
 		addEntity(EntityBoxcar.class, "entity_boxcar", 1000);
 		addEntity(EntityMissileTaint.class, "entity_missile_taint", 1000);
@@ -212,6 +213,7 @@ public class EntityMappings {
 		addEntity(EntityMist.class, "entity_mist", 1000);
 
 		addEntity(SeatDummyEntity.class, "entity_ntm_seat_dummy", 250, false);
+		addEntity(BoundingBoxDummyEntity.class, "entity_ntm_bounding_dummy", 250, false);
 		addEntity(TrainCargoTram.class, "entity_ntm_cargo_tram", 250, false);
 		
 		addMob(EntityCreeperNuclear.class, "entity_mob_nuclear_creeper", 0x204131, 0x75CE00);
