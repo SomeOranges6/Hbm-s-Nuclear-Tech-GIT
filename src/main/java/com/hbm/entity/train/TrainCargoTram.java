@@ -18,13 +18,13 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TrainCargoTram extends EntityRailCarRidable implements IGUIProvider {
+public class TrainCargoTram extends EntityRailCarElectric implements IGUIProvider {
 
 	/*
 	 * 
@@ -43,42 +43,26 @@ public class TrainCargoTram extends EntityRailCarRidable implements IGUIProvider
 		super(world);
 		this.setSize(5F, 2F);
 	}
-	
-	public double speed = 0;
-	public static final double maxSpeed = 0.5;
-	public static final double acceleration = 0.01;
-	public static final double deceleration = 0.95;
 
-	@Override
-	public double getCurrentSpeed() { // in its current form, only call once per tick
-		
-		if(this.riddenByEntity instanceof EntityPlayer) {
-			
-			EntityPlayer player = (EntityPlayer) this.riddenByEntity;
-			
-			if(player.moveForward > 0) {
-				speed += acceleration;
-			} else if(player.moveForward < 0) {
-				speed -= acceleration;
-			} else {
-				speed *= deceleration;
-			}
-			
-		} else {
-			speed *= deceleration;
-		}
-		
-		speed = MathHelper.clamp_double(speed, -maxSpeed, maxSpeed);
-		
-		return speed;
-	}
+	@Override public double getPoweredAcceleration() { return 0.01; }
+	@Override public double getPassivBrake() { return 0.95; }
+	@Override public boolean shouldUseEngineBrake(EntityPlayer player) { return Math.abs(this.engineSpeed) < 0.1; }
+	@Override public double getMaxPoweredSpeed() { return 0.5; }
+	@Override public double getMaxRailSpeed() { return 1; }
 
 	@Override public TrackGauge getGauge() { return TrackGauge.STANDARD; }
 	@Override public double getLengthSpan() { return 1.5; }
-	@Override public Vec3 getRiderSeatPosition() { return Vec3.createVectorHelper(0.375, 2.25, 0.5); }
+	@Override public Vec3 getRiderSeatPosition() { return Vec3.createVectorHelper(0.375, 2.375, 0.5); }
 	@Override public boolean shouldRiderSit() { return false; }
 	@Override public int getSizeInventory() { return 29; }
 	@Override public String getInventoryName() { return this.hasCustomInventoryName() ? this.getEntityName() : "container.trainTram"; }
+	@Override public AxisAlignedBB getCollisionBox() { return AxisAlignedBB.getBoundingBox(renderX, renderY, renderZ, renderX, renderY + 1, renderZ).expand(4, 0, 4); }
+	@Override public double getCouplingDist(TrainCoupling coupling) { return coupling != null ? 2.75 : 0; }
+
+	@Override public int getMaxPower() { return this.getPowerConsumption() * 100; }
+	@Override public int getPowerConsumption() { return 10; }
+	@Override public boolean hasChargeSlot() { return true; }
+	@Override public int getChargeSlot() { return 28; }
 
 	@Override
 	public DummyConfig[] getDummies() {
@@ -201,6 +185,12 @@ public class TrainCargoTram extends EntityRailCarRidable implements IGUIProvider
 		}
 		
 		@Override
+		public void drawScreen(int x, int y, float interp) {
+			super.drawScreen(x, y, interp);
+			this.drawElectricityInfo(this, x, y, guiLeft + 152, guiTop + 18, 16, 52, train.getPower(), train.getMaxPower());
+		}
+		
+		@Override
 		protected void drawGuiContainerForegroundLayer(int i, int j) {
 			String name = this.train.hasCustomInventoryName() ? this.train.getInventoryName() : I18n.format(this.train.getInventoryName());
 			this.fontRendererObj.drawString(name, 140 / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 0xffffff);
@@ -212,6 +202,13 @@ public class TrainCargoTram extends EntityRailCarRidable implements IGUIProvider
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 			drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+			
+			int i = train.getPower() * 53 / train.getMaxPower();
+			drawTexturedModalRect(guiLeft + 152, guiTop + 70 - i, 176, 52 - i, 16, i);
+			
+			if(train.getPower() > train.getPowerConsumption()) {
+				drawTexturedModalRect(guiLeft + 156, guiTop + 4, 176, 52, 9, 12);
+			}
 		}
 	}
 }

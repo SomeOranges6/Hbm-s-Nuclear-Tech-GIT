@@ -1004,7 +1004,7 @@ public class ModEventHandlerClient {
 			for(Object o : KeyBinding.keybindArray) {
 				KeyBinding key = (KeyBinding) o;
 				
-				if(key.getKeyCode() == keyCode && KeyBinding.hash.lookup(key.getKeyCode()) != key) {
+				if(keyCode != 0 && key.getKeyCode() == keyCode && KeyBinding.hash.lookup(key.getKeyCode()) != key) {
 					
 					key.pressed = state;
 					if(state) {
@@ -1261,6 +1261,7 @@ public class ModEventHandlerClient {
 			case 9: main.splashText = "There are bugs under your skin!"; break;
 			case 10: main.splashText = "Fentanyl!"; break;
 			case 11: main.splashText = "Do drugs!"; break;
+			case 12: main.splashText = "post this on r/feedthememes for free internet points!"; break;
 			}
 		}
 	}
