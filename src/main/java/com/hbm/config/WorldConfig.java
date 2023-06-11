@@ -36,6 +36,7 @@ public class WorldConfig {
 	public static int bedrockIronSpawn = 100;
 	public static int bedrockCopperSpawn = 200;
 	public static int bedrockBoraxSpawn = 50;
+	public static int bedrockChlorocalciteSpawn = 35;
 	public static int bedrockAsbestosSpawn = 50;
 	public static int bedrockNiobiumSpawn = 50;
 	public static int bedrockTitaniumSpawn = 100;
@@ -77,7 +78,6 @@ public class WorldConfig {
 	public static int dungeonStructure = 64;
 	public static int relayStructure = 500;
 	public static int satelliteStructure = 500;
-	public static int bunkerStructure = 1000;
 	public static int siloStructure = 1000;
 	public static int factoryStructure = 1000;
 	public static int dudStructure = 500;
@@ -153,6 +153,7 @@ public class WorldConfig {
 		bedrockNiterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B11_bedrockNiterWeight", "Spawn weight for niter bedrock ore", 50);
 		bedrockFluoriteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B12_bedrockFluoriteWeight", "Spawn weight for fluorite bedrock ore", 50);
 		bedrockRedstoneSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B13_bedrockRedstoneWeight", "Spawn weight for redstone bedrock ore", 50);
+		bedrockChlorocalciteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B14_bedrockbChlorocalciteWeight", "Spawn weight for chlorocalcite bedrock ore", 35);
 
 		ironClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C00_ironClusterSpawn", "Amount of iron cluster veins per chunk", 4);
 		titaniumClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C01_titaniumClusterSpawn", "Amount of titanium cluster veins per chunk", 2);
@@ -183,7 +184,6 @@ public class WorldConfig {
 		dungeonStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.04_dungeonSpawn", "Spawn library dungeon on every nTH chunk", 64);
 		relayStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.05_relaySpawn", "Spawn relay on every nTH chunk", 500);
 		satelliteStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.06_satelliteSpawn", "Spawn satellite dish on every nTH chunk", 500);
-		bunkerStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.07_bunkerSpawn", "Spawn bunker on every nTH chunk", 1000);
 		siloStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.08_siloSpawn", "Spawn missile silo on every nTH chunk", 1000);
 		factoryStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.09_factorySpawn", "Spawn factory on every nTH chunk", 1000);
 		dudStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.10_dudSpawn", "Spawn dud on every nTH chunk", 500);
@@ -218,7 +218,6 @@ public class WorldConfig {
 		dungeonStructure = CommonConfig.setDefZero(dungeonStructure, 1000);
 		relayStructure = CommonConfig.setDefZero(relayStructure, 1000);
 		satelliteStructure = CommonConfig.setDefZero(satelliteStructure, 1000);
-		bunkerStructure = CommonConfig.setDefZero(bunkerStructure, 1000);
 		siloStructure = CommonConfig.setDefZero(siloStructure, 1000);
 		factoryStructure = CommonConfig.setDefZero(factoryStructure, 1000);
 		dudStructure = CommonConfig.setDefZero(dudStructure, 1000);
