@@ -801,6 +801,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderStandardStraightRail());
 		RenderingRegistry.registerBlockHandler(new RenderStandardCurveRail());
 		RenderingRegistry.registerBlockHandler(new RenderStandardRampRail());
+		RenderingRegistry.registerBlockHandler(new RenderStandardBufferRail());
 		
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_dynamite.getRenderType(), ResourceManager.charge_dynamite));
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_c4.getRenderType(), ResourceManager.charge_c4));
@@ -1986,6 +1987,11 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public boolean getImpact(World world) {
 		return ImpactWorldHandler.getImpactForClient(world);
+	}
+
+	@Override
+	public void playSoundFuckMojang(double x, double y, double z, String sound, float volume, float pitch) {
+		Minecraft.getMinecraft().getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation(sound), volume, pitch, (float) x, (float) y, (float) z));
 	}
 }
 
