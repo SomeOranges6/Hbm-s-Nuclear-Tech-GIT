@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.hbm.blocks.BlockEnums.DecoCabinetEnum;
@@ -14,6 +15,7 @@ import com.hbm.crafting.*;
 import com.hbm.crafting.handlers.*;
 import com.hbm.handler.indexing.HbmMaterials.Mat;
 import com.hbm.inventory.OreDictManager;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.material.Mats;
 
@@ -30,6 +32,7 @@ import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.special.ItemCircuitStarComponent.CircuitComponentType;
 import com.hbm.items.special.ItemHolotapeImage.EnumHoloImage;
 import com.hbm.items.special.ItemPlasticScrap.ScrapType;
+import com.hbm.items.tool.ItemFuelMcheliCompat;
 import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.util.EnchantmentUtil;
 
@@ -40,6 +43,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -53,7 +57,7 @@ public class CraftingManager {
 		
 		AddCraftingRec();
 		SmeltingRecipes.AddSmeltingRec();
-		
+				
 		MineralRecipes.register();
 		RodRecipes.register();
 		ToolRecipes.register();
@@ -74,6 +78,7 @@ public class CraftingManager {
 		RecipeSorter.register("hbm:scraps", ScrapsCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 		RecipeSorter.register("hbm:mku", MKUCraftingHandler.class, RecipeSorter.Category.SHAPED, "after:minecraft:shaped before:minecraft:shapeless");
 	}
+
 
 	public static void AddCraftingRec() {
 
@@ -808,7 +813,7 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModBlocks.fusion_heater), new Object[] { ModBlocks.fusion_hatch });
 		addShapelessAuto(new ItemStack(ModItems.energy_core), new Object[] { ModItems.fusion_core, ModItems.fuse });
 		addRecipeAuto(new ItemStack(ModItems.catalytic_converter, 1), new Object[] { "PCP", "PBP", "PCP", 'P', ANY_HARDPLASTIC.ingot(), 'C', CO.dust(), 'B', BI.ingot() });
-
+		
 		addRecipeAuto(new ItemStack(ModItems.upgrade_nullifier, 1), new Object[] { "SPS", "PUP", "SPS", 'S', STEEL.plate(), 'P', ModItems.powder_fire, 'U', ModItems.upgrade_template });
 		addRecipeAuto(new ItemStack(ModItems.upgrade_smelter, 1), new Object[] { "PHP", "CUC", "DTD", 'P', CU.plate(), 'H', Blocks.hopper, 'C', ModItems.coil_tungsten, 'U', ModItems.upgrade_template, 'D', ModItems.coil_copper, 'T', ModBlocks.machine_transformer });
 		addRecipeAuto(new ItemStack(ModItems.upgrade_shredder, 1), new Object[] { "PHP", "CUC", "DTD", 'P', ModItems.motor, 'H', Blocks.hopper, 'C', ModItems.blades_advanced_alloy, 'U', ModItems.upgrade_smelter, 'D', TI.plate(), 'T', ModBlocks.machine_transformer });
@@ -870,6 +875,9 @@ public class CraftingManager {
 			addRecipeAuto(new ItemStack(ModBlocks.rbmk_control, 1), new Object[] { " B ", "GRG", " B ", 'G', GRAPHITE.ingot(), 'B', ModItems.motor, 'R', ModBlocks.rbmk_absorber });
 		} else {
 			addRecipeAuto(new ItemStack(ModBlocks.rbmk_control, 1), new Object[] { "CBC", "GRG", "CBC", 'G', GRAPHITE.ingot(), 'B', ModItems.motor, 'R', ModBlocks.rbmk_absorber, 'C', CD.ingot() });
+		}
+		if(Loader.isModLoaded("mcheli")) {
+    		addShapelessAuto(new ItemStack(ModItems.mchelidebug), new Object[] {new ItemStack(ModItems.canister_full, 1, Fluids.OIL.getID())});
 		}
 		addRecipeAuto(new ItemStack(ModBlocks.rbmk_control_mod, 1), new Object[] { "BGB", "GRG", "BGB", 'G', GRAPHITE.block(), 'R', ModBlocks.rbmk_control, 'B', ModItems.nugget_bismuth });
 		addRecipeAuto(new ItemStack(ModBlocks.rbmk_control_auto, 1), new Object[] { "C", "R", "D", 'C', ModItems.circuit_targeting_tier1, 'R', ModBlocks.rbmk_control, 'D', ModItems.crt_display });
@@ -1048,6 +1056,7 @@ public class CraftingManager {
 			addRecipeAuto(new ItemStack(ModItems.wire_gold, 16), new Object[] { "###", '#', GOLD.ingot() });
 			addRecipeAuto(new ItemStack(ModItems.wire_schrabidium, 16), new Object[] { "###", '#', SA326.ingot() });
 			
+			
 			addRecipeAuto(new ItemStack(ModItems.book_of_), new Object[] { "BGB", "GAG", "BGB", 'B', ModItems.egg_balefire_shard, 'G', GOLD.ingot(), 'A', Items.book });
 		}
 
@@ -1130,7 +1139,29 @@ public class CraftingManager {
 				net.minecraft.item.crafting.CraftingManager.getInstance().getRecipeList().removeAll(toDestroy);
 			}
 		}
+		if (Loader.isModLoaded("mcheli")) {
+		    List<IRecipe> toDestroy = new ArrayList<>();
+
+		    for (Object recipeObj : net.minecraft.item.crafting.CraftingManager.getInstance().getRecipeList()) {
+		        if (recipeObj instanceof IRecipe) {
+		            IRecipe recipe = (IRecipe) recipeObj;
+		            ItemStack outputStack = recipe.getRecipeOutput();
+
+		            if (outputStack != null && outputStack.getItem() != null) {
+		                Item outputItem = outputStack.getItem();
+		                if (outputItem.getClass().getName().startsWith("mcheli")) {
+		                    toDestroy.add(recipe);
+		                }
+		            }
+		        }
+		    }
+
+		    if (!toDestroy.isEmpty()) {
+		    	net.minecraft.item.crafting.CraftingManager.getInstance().getRecipeList().removeAll(toDestroy);
+		    }
+		}
 	}
+
 	
 	//option 1: find every entry that needs to be ore dicted and change the recipe method by hand and commit to doing it right in the future
 	//option 2: just make the computer do all the stupid work for us

@@ -91,6 +91,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import mcheli.aircraft.MCH_ItemFuel;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLever;
 import net.minecraft.enchantment.Enchantment;
@@ -1004,7 +1005,7 @@ public class ModEventHandler {
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		

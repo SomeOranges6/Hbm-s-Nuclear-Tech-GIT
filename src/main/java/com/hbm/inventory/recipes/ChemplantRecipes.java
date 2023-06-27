@@ -22,9 +22,10 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
-
+import cpw.mods.fml.common.Loader;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ChemplantRecipes extends SerializableRecipe {
@@ -524,6 +525,25 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(FractionRecipes.light_frac_diesel * 10, Fluids.DIESEL),
 						new FluidStack(FractionRecipes.light_frac_kero * 10, Fluids.KEROSENE)
 						));
+		
+		if(Loader.isModLoaded("mcheli")) {
+			recipes.add(new ChemRecipe(121, "MCH_T1", 50)
+					.inputFluids(new FluidStack(1000, Fluids.LIGHTOIL)) // the math here is garbage, each 100 durability translates to one canister used on right click,
+					.inputItems(new OreDictStack(STAINLESS.plate(), 2))
+					.outputItems(new ItemStack(ModItems.mchtier1))); //unity 3d!
+			recipes.add(new ChemRecipe(122, "MCH_T2", 50)
+					.inputFluids(new FluidStack(2000, Fluids.GASOLINE))
+					.inputItems(new OreDictStack(STAINLESS.plate(), 2))
+					.outputItems(new ItemStack(ModItems.mchtier2)));
+			recipes.add(new ChemRecipe(123, "MCH_T3", 50)
+					.inputFluids(new FluidStack(4000, Fluids.KEROSENE_REFORM))
+					.inputItems(new OreDictStack(STAINLESS.plate(), 2))
+					.outputItems(new ItemStack(ModItems.mchtier3)));
+			recipes.add(new ChemRecipe(124, "MCH_T4", 50)
+					.inputFluids(new FluidStack(1000, Fluids.NITAN))
+					.inputItems(new OreDictStack(STAINLESS.plate(), 2))
+					.outputItems(new ItemStack(ModItems.mchtier4)));
+		}
 	}
 
 	public static void registerOtherOil() {

@@ -77,7 +77,12 @@ public class ModItems {
 		initializeItem();
 		registerItem();
 	}
-	
+
+	public static void inTheEventThatMcheliIsDetected()
+	{
+		heliCompatInit();
+		registerCompat();
+	}
 	public static Item redstone_sword;
 	public static Item big_sword;
 
@@ -256,6 +261,8 @@ public class ModItems {
 	public static Item mineral_dust;
 	public static Item mineral_fragment;
 
+	public static Item mchelidebug;
+	
 	public static Item billet_uranium;
 	public static Item billet_u233;
 	public static Item billet_u235;
@@ -2600,7 +2607,31 @@ public class ModItems {
 	
 	public static Item mysteryshovel;
 	public static Item memory;
+	
+	public static Item mchtier1;
+	public static Item mchtier2;
+	public static Item mchtier3;
+	public static Item mchtier4;
 
+	public static void heliCompatInit() {
+		//mchelidebug = new ItemFuelMcheliCompat(100).setUnlocalizedName("mchelidebug_item").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":canister_empty");
+		mchtier1 = new ItemFuelMcheliCompat(200).setUnlocalizedName("mchtier1").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":canister_t1");
+		mchtier2 = new ItemFuelMcheliCompat(400).setUnlocalizedName("mchtier2").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":canister_t2");
+		mchtier3 = new ItemFuelMcheliCompat(600).setUnlocalizedName("mchtier3").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":canister_t3");
+		mchtier4 = new ItemFuelMcheliCompat(2000).setUnlocalizedName("mchtier4").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":canister_t4");
+
+		registerCompat();
+	}
+	public static void registerCompat() {
+		//GameRegistry.registerItem(mchelidebug, mchelidebug.getUnlocalizedName());
+		GameRegistry.registerItem(mchtier1, mchtier1.getUnlocalizedName());
+		GameRegistry.registerItem(mchtier2, mchtier2.getUnlocalizedName());
+		GameRegistry.registerItem(mchtier3, mchtier3.getUnlocalizedName());
+		GameRegistry.registerItem(mchtier4, mchtier4.getUnlocalizedName());
+
+	
+	}
+	
 	public static void initializeItem()
 	{			
 		redstone_sword = new RedstoneSword(ToolMaterial.STONE).setUnlocalizedName("redstone_sword").setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":redstone_sword");
@@ -5857,7 +5888,6 @@ public class ModItems {
 		GameRegistry.registerItem(test_leggings, test_leggings.getUnlocalizedName());
 		GameRegistry.registerItem(test_boots, test_boots.getUnlocalizedName());
 		GameRegistry.registerItem(cape_test, cape_test.getUnlocalizedName());
-		
 		//Test Nuke
 		GameRegistry.registerItem(test_nuke_igniter, test_nuke_igniter.getUnlocalizedName());
 		GameRegistry.registerItem(test_nuke_propellant, test_nuke_propellant.getUnlocalizedName());

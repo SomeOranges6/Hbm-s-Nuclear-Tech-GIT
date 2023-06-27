@@ -26,6 +26,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -276,6 +277,13 @@ public class MainRegistry {
 		
 		Fluids.init();
 		ModBlocks.mainRegistry();
+		
+		if(Loader.isModLoaded("mcheli")) {
+			ModItems.inTheEventThatMcheliIsDetected();
+		}else {
+			logger.info("mcheli is not found! thats okay, nothing wrong here!");
+		}
+		
 		ModItems.mainRegistry();
 		proxy.registerRenderInfo();
 		HbmWorld.mainRegistry();
