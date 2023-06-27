@@ -62,6 +62,8 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new OutgasserRecipes());
 		recipeHandlers.add(new CompressorRecipes());
 		recipeHandlers.add(new MatDistribution());
+		recipeHandlers.add(new CryoRecipes());
+
 	}
 	
 	public static void initialize() {

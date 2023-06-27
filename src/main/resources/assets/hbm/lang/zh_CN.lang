@@ -883,7 +883,8 @@ desc.item.kitArmor=装甲将被新的装备取代。
 desc.item.kitHaz=装甲将被防护服取代。
 desc.item.kitPack=真便宜！
 desc.item.kitPool=请在打开前清空背包库存！
-desc.item.pileRod=§e使用钻孔石墨插入$§E使用螺丝刀拔出$ 
+desc.item.pileRod=§e使用钻孔石墨插入$§E使用螺丝刀拔出$
+ 
 desc.item.rtgDecay=衰变为：%s
 desc.item.rtgHeat=功率级别：%s
 desc.item.storage.capacity=容量 %s%%s

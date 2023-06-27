@@ -11,6 +11,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.gen.structure.MapGenStronghold;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
+import net.minecraftforge.event.ForgeEventFactory;
 
 public class ItemWandD extends Item {
 
@@ -23,6 +27,9 @@ public class ItemWandD extends Item {
 		MovingObjectPosition pos = Library.rayTrace(player, 500, 1, false, true, false);
 		
 		if(pos != null) {
+	
+			
+			
 			
 			/*ExplosionVNT vnt = new ExplosionVNT(world, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 7);
 			vnt.setBlockAllocator(new BlockAllocatorBulkie(60));
@@ -40,12 +47,16 @@ public class ItemWandD extends Item {
 			world.getBlock(pos.blockX, pos.blockY, pos.blockZ);
 			TimeAnalyzer.endCount();
 			TimeAnalyzer.dump();*/
-			
-			/*TomSaveData data = TomSaveData.forWorld(world);
-			data.impact = false;
+			/*
+			TomSaveData data = TomSaveData.forWorld(world);
+			data.impact = true;
 			data.fire = 0F;
 			data.dust = 0F;
-			data.markDirty();*/
+			//data.dtime=(600-pos.blockY);
+			//data.time=3600;
+			//data.x=pos.blockX;
+			//data.z=pos.blockZ;
+			data.markDirty();
 			
 			/*EntityTomBlast tom = new EntityTomBlast(world);
 			tom.posX = pos.blockX;
@@ -140,6 +151,8 @@ public class ItemWandD extends Item {
 		
 		return stack;
 	}
+
+
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)

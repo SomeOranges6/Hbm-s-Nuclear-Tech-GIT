@@ -49,6 +49,7 @@ import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.SyncButtonsPacket;
+import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.ct.CTStitchReceiver;
@@ -324,6 +325,10 @@ public class ModEventHandlerClient {
 			}
 		}
 		
+		/// HANDLE FLASHBANG OVERLAY///
+		if(player.isPotionActive(HbmPotion.flashbang)) {		
+			RenderScreenOverlay.renderFlashbangOverlay(event.resolution);
+		}
 		/// HANDLE FSB HUD ///
 		ItemStack helmet = player.inventory.armorInventory[3];
 		
@@ -335,7 +340,7 @@ public class ModEventHandlerClient {
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
 			if(props.getDashCount() > 0) {
 				RenderScreenOverlay.renderDashBar(event.resolution, Minecraft.getMinecraft().ingameGUI, props);
-					
+
 			}
 		}
 	}
@@ -353,8 +358,18 @@ public class ModEventHandlerClient {
 			if(props.maxShield > 0) {
 				RenderScreenOverlay.renderShieldBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
 			}
+			if(player.isPotionActive(HbmPotion.nitan)) {
+				RenderScreenOverlay.renderTaintBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
+			}
 		}
-		
+        if (!event.isCanceled() && event.type == event.type.ALL)
+        {
+        	long time = ImpactWorldHandler.getTimeForClient(player.worldObj);
+        	if(time>0)
+        	{
+        		RenderScreenOverlay.renderCountdown(event.resolution, Minecraft.getMinecraft().ingameGUI, Minecraft.getMinecraft().theWorld);	
+        	}        	
+        }
 		if(!event.isCanceled() && event.type == event.type.ARMOR) {
 			
 			if(ForgeHooks.getTotalArmorValue(player) == 0/* && GuiIngameForge.left_height == 59*/) {
@@ -1177,6 +1192,10 @@ public class ModEventHandlerClient {
 
 	public static IIcon particleBase;
 	public static IIcon particleLeaf;
+	public static IIcon particleSwen;
+	public static IIcon particleLen;
+
+
 
 	@SubscribeEvent
 	public void onTextureStitch(TextureStitchEvent.Pre event) {
@@ -1184,6 +1203,9 @@ public class ModEventHandlerClient {
 		if(event.map.getTextureType() == 0) {
 			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
 			particleLeaf = event.map.registerIcon(RefStrings.MODID + ":particle/dead_leaf");
+			particleSwen = event.map.registerIcon(RefStrings.MODID + ":particle/particlenote2");
+			particleLen = event.map.registerIcon(RefStrings.MODID + ":particle/particlenote1");
+
 		}
 	}
 

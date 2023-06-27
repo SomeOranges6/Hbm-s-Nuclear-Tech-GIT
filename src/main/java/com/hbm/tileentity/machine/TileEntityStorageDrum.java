@@ -63,7 +63,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 		if(!worldObj.isRemote) {
 			
 			float rad = 0;
-			
+			float digamma = 0;
 			int liquid = 0;
 			int gas = 0;
 			
@@ -75,6 +75,11 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 					
 					if(worldObj.getTotalWorldTime() % 20 == 0) {
 						rad += HazardSystem.getHazardLevelFromStack(slots[i], HazardRegistry.RADIATION);
+						digamma += HazardSystem.getHazardLevelFromStack(slots[i], HazardRegistry.DIGAMMA);
+						if(item == ModItems.particle_digamma)
+						{
+							digamma+=0.333f;
+						}
 					}
 					
 					int meta = slots[i].getItemDamage();
@@ -110,7 +115,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 					if(item == ModItems.ingot_au198 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 100) == 0) {
 						slots[i] = new ItemStack(ModItems.ingot_mercury, 1, meta);
 					}
-					if(item == ModItems.ingot_au198 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 20) == 0) {
+					if(item == ModItems.nugget_au198 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 20) == 0) {
 						slots[i] = new ItemStack(ModItems.nugget_mercury, 1, meta);
 					}
 					
@@ -119,6 +124,20 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 					}
 					if(item == ModItems.nugget_pb209 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 10) == 0) {
 						slots[i] = new ItemStack(ModItems.nugget_bismuth, 1, meta);
+					}
+					if(slots[i]!=null)
+					{
+						if(slots[i].hasTagCompound())
+						{
+							//NBTTagCompound itemNBT = slots[i].getTagCompound(); 
+							float activation = slots[i].stackTagCompound.getFloat("ntmNeutron");
+							slots[i].stackTagCompound.setFloat("ntmNeutron",activation*0.9899916f);
+							if(activation<1e-5)
+								slots[i].stackTagCompound.removeTag("ntmNeutron");
+							if (slots[i].stackTagCompound.hasNoTags()){ 
+							    slots[i].setTagCompound((NBTTagCompound)null); //fuck you nbt 
+							}
+						}
 					}
 				}
 			}
@@ -154,13 +173,13 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 			tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			tanks[1].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
-			if(rad > 0) {
-				radiate(worldObj, xCoord, yCoord, zCoord, rad);
+			if(rad > 0 || digamma > 0) {
+				radiate(worldObj, xCoord, yCoord, zCoord, rad, digamma);
 			}
 		}
 	}
 	
-	private void radiate(World world, int x, int y, int z, float rads) {
+	private void radiate(World world, int x, int y, int z, float rads, float digamma) {
 		
 		double range = 32D;
 		

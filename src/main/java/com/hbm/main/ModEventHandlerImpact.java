@@ -6,6 +6,8 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
+import com.hbm.entity.mob.EntityDuck;
+import com.hbm.entity.projectile.EntityTom;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.world.WorldProviderNTM;
@@ -26,9 +28,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -62,6 +66,19 @@ public class ModEventHandlerImpact {
 			if(data.fire > 0) {
 				data.fire = Math.max(0, (data.fire - cool));
 				data.dust = Math.min(1, (data.dust + cool));
+				data.markDirty();
+			}
+			
+			if(data.time > 0) {
+				data.time--;
+				if(data.time==data.dtime)
+				{
+					EntityTom tom = new EntityTom(event.world);
+					tom.setPosition(data.x + 0.5, 600, data.z + 0.5);
+					event.world.spawnEntityInWorld(tom);
+					IChunkProvider provider = event.world.getChunkProvider();
+					provider.loadChunk(data.x >> 4, data.z >> 4);
+				}
 				data.markDirty();
 			}
 			
@@ -120,6 +137,27 @@ public class ModEventHandlerImpact {
 				}
 			}
 		}
+		if(!(event.entity instanceof EntityPlayer) && event.entity instanceof EntityDuck) {
+			double range = 2D;
+				
+			List<EntityLivingBase> entities = event.world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(event.entity.posX, event.entity.posY, event.entity.posZ, event.entity.posX, event.entity.posY, event.entity.posZ).expand(range, range, range));
+			if(data.impact)
+			{
+				event.setCanceled(false);
+				return;
+			}
+			for(EntityLivingBase e : entities) {
+				if(e instanceof EntityPlayer || e instanceof EntityDuck || data.impact)
+				{
+					event.setCanceled(false);
+					return;
+				}
+			}
+			//if(entities.size()==0 && !data.impact)
+			//{
+			//	event.setCanceled(true);	
+			//}
+		}		
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -201,7 +239,8 @@ public class ModEventHandlerImpact {
 				
 			} else if(data.dust == 0 && data.fire == 0) {
 				if(type == event.type.TREE || type == event.type.BIG_SHROOM || type == event.type.CACTUS) {
-					if(event.world.rand.nextInt(9) == 0) {
+					Random rand = new Random();
+					if(rand.nextInt(4) == 0) {
 						event.setResult(Result.DEFAULT);
 					} else {
 						event.setResult(Result.DENY);
