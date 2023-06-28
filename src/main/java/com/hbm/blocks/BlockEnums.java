@@ -10,7 +10,12 @@ public class BlockEnums {
 		LIMESTONE,
 		BAUXITE
 	}
+	public enum EnumDebrisType{
+		VAR1,
+		VAR2,
+		VAR3
 
+	}
 	public static enum EnumBiomeType {
 		DESERT,
 		WOODLAND

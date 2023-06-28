@@ -26,6 +26,8 @@ public class BombConfig {
 	public static int fDelay = 4;
 	public static int limitExplosionLifespan = 0;
 	public static int rain = 0;
+
+	public static int fallChance = 20;
 	public static int cont = 0;
 	public static boolean chunkloading = true;
 	
@@ -91,6 +93,11 @@ public class BombConfig {
 		Property falloutRangeProp = config.get(CATEGORY_NUKE, "6.03_falloutRange", 100);
 		falloutRangeProp.comment = "Radius of fallout area (base radius * value in percent)";
 		falloutRange = falloutRangeProp.getInt();
+
+		Property fallChance = config.get(CATEGORY_NUKE, "6.03_falloutRange", 20);
+		fallChance.comment = "Chance of a block below 10 blast resistance to fall down";
+		falloutRange = falloutRangeProp.getInt();
+
 		Property falloutDelayProp = config.get(CATEGORY_NUKE, "6.04_falloutDelay", 4);
 		falloutDelayProp.comment = "How many ticks to wait for the next fallout chunk computation";
 		fDelay = falloutDelayProp.getInt();

@@ -14,6 +14,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.blocks.BlockEnums;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.MetaBlock;
 import com.hbm.main.MainRegistry;
@@ -70,11 +71,21 @@ public class FalloutConfigJSON {
 		entries.add(new FalloutEntry()	.mB(Blocks.brown_mushroom_block)		.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.planks)						.prim(new Triplet(ModBlocks.waste_planks, 0, 1))	.max(woodEffectRange));
         // concrete damage comedy
-		FalloutEntry concrete = new FalloutEntry().prim(new Triplet(ModBlocks.concrete_debris, 0, 1)).max(60).sol(true);
-		FalloutEntry ducrete  = new FalloutEntry().prim(new Triplet(ModBlocks.ducrete_debris, 0, 1)).max(20).sol(true);
+		FalloutEntry concrete = new FalloutEntry().prim(
+				  new Triplet(ModBlocks.concrete_debris, BlockEnums.EnumDebrisType.VAR1.ordinal(), 33)
+				, new Triplet(ModBlocks.concrete_debris, BlockEnums.EnumDebrisType.VAR2.ordinal(), 33)
+				, new Triplet(ModBlocks.concrete_debris, BlockEnums.EnumDebrisType.VAR3.ordinal(), 33)).max(50).sol(true);
+
+		FalloutEntry ducrete = new FalloutEntry().prim(
+				  new Triplet(ModBlocks.concrete_debris, BlockEnums.EnumDebrisType.VAR1.ordinal(), 33)
+				, new Triplet(ModBlocks.concrete_debris, BlockEnums.EnumDebrisType.VAR2.ordinal(), 33)
+				, new Triplet(ModBlocks.concrete_debris, BlockEnums.EnumDebrisType.VAR3.ordinal(), 33)).max(10).sol(true);
+
 		FalloutEntry concreteBricks  = new FalloutEntry().prim(new Triplet(ModBlocks.brick_concrete_broken, 0, 1)).max(45).sol(true);
 		FalloutEntry concreteBricksL  = new FalloutEntry().prim(new Triplet(ModBlocks.brick_concrete_cracked, 0, 1)).max(65).sol(true);
-		
+
+		// End of concrete stuff
+
 		FalloutEntry stoneCore = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield, 1, 1)).max(5).sol(true);
 		FalloutEntry stoneInner = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield, 0, 1)).min(5).max(15).sol(true);
 		FalloutEntry stoneOuter = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield_slaked, 0, 1)).min(15).max(50).sol(true);
@@ -85,24 +96,26 @@ public class FalloutConfigJSON {
 		entries.add(stoneCore.clone().mB(Blocks.gravel));
 		entries.add(stoneInner.clone().mB(Blocks.gravel));
 		entries.add(stoneOuter.clone().mB(Blocks.gravel));
+
 		/* recontaminate slaked sellafield */
 		entries.add(stoneCore.clone().mB(ModBlocks.sellafield_slaked));
 		entries.add(stoneInner.clone().mB(ModBlocks.sellafield_slaked));
 		
 		//part 2 of the concreet 
-		entries.add(concreteBricks.clone().c(0.05).mB(ModBlocks.brick_concrete));
-		entries.add(concreteBricksL.clone().c(0.05).mB(ModBlocks.brick_concrete));
+		entries.add(concreteBricks.clone().c(0.15).mB(ModBlocks.brick_concrete));
+		entries.add(concreteBricksL.clone().c(0.15).mB(ModBlocks.brick_concrete));
 		
-		entries.add(concreteBricks.clone().c(0.50).mB(ModBlocks.brick_concrete_cracked));
+		entries.add(concreteBricks.clone().c(0.15).mB(ModBlocks.brick_concrete_cracked));
 		
-		entries.add(ducrete.clone().c(0.01).mB(ModBlocks.ducrete));
-		entries.add(ducrete.clone().c(0.01).mB(ModBlocks.ducrete_smooth));
+		entries.add(ducrete.clone().c(0.05).mB(ModBlocks.ducrete));
+		entries.add(ducrete.clone().c(0.05).mB(ModBlocks.ducrete_smooth));
 		
-		entries.add(concrete.clone().c(0.05).mB(ModBlocks.concrete));
-		entries.add(concrete.clone().c(0.05).mB(ModBlocks.concrete_smooth));
-		entries.add(concrete.clone().c(0.05).mB(ModBlocks.concrete_colored));
+		entries.add(concrete.clone().c(0.1).mB(ModBlocks.concrete));
+		entries.add(concrete.clone().c(0.1).mB(ModBlocks.concrete_smooth));
+		entries.add(concrete.clone().c(0.1).mB(ModBlocks.concrete_colored));
 		entries.add(new FalloutEntry()
 		      .mB(ModBlocks.reinforced_stone)
+				//remember to make an entry for reinforced_brick
 		      .prim(new Triplet(Blocks.gravel, 0, 1))
 		      .max(70)
 		      .c(0.3));
@@ -111,7 +124,7 @@ public class FalloutConfigJSON {
 	          .prim(new Triplet(Blocks.sand, 0, 1))
 	          .max(70)
 	          .c(0.1));
-		
+		//concreet entires done
 		entries.add(new FalloutEntry()
 				.mB(Blocks.grass)
 				.prim(new Triplet(ModBlocks.waste_earth, 0, 1)));

@@ -4636,6 +4636,7 @@ tile.ducrete.name=Ducrete Tile
 tile.ducrete_stairs.name=Ducrete Tile Stairs
 tile.ducrete_smooth.name=Ducrete
 
+tile.concrete_debris.name=Concrete Debris
 tile.ducrete_debris.name=Ducrete Debris
 
 tile.ducrete_smooth_stairs.name=Ducrete Stairs
