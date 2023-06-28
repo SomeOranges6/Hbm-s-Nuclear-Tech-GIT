@@ -20,7 +20,6 @@ import com.hbm.items.machine.ItemPistons.EnumPistonType;
 import com.hbm.items.weapon.ItemAmmoHIMARS;
 import com.hbm.main.MainRegistry;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ModClassLoader;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -1225,7 +1224,7 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.hull_big_steel, 3),
 				new OreDictStack(STAINLESS.plate(), 16),
 				new OreDictStack(TI.plate(), 6),
-				new ComparableStack(ModItems.turbine_syngas, 2),
+				new ComparableStack(ModItems.turbine_stainless, 2),
 				new ComparableStack(ModItems.flywheel_beryllium, 1),
 				new ComparableStack(ModItems.generator_steel, 5),
 				new ComparableStack(ModItems.bolt_compound, 2),
@@ -1291,7 +1290,7 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.ingot_titanium, 2),
 						new ComparableStack(ModItems.circuit_red_copper, 2),
 						new ComparableStack(ModItems.tank_steel, 4),
-						new ComparableStack(ModItems.turbine_syngas),
+						new ComparableStack(ModItems.turbine_stainless),
 						new ComparableStack(ModItems.ingot_polymer, 2)
 					}, 500);
 			}
@@ -1303,7 +1302,7 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.ingot_nickel, 5),
 						new ComparableStack(ModItems.tank_steel, 2),
 						new ComparableStack(ModItems.pipes_steel),
-						new ComparableStack(ModItems.turbine_syngas)
+						new ComparableStack(ModItems.turbine_stainless)
 						
 					}, 500);
 			}
@@ -1314,7 +1313,7 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.motor, 4),
 						new ComparableStack(ModItems.ingot_titanium, 5),
 						new ComparableStack(ModItems.tank_steel, 2),
-						new ComparableStack(ModItems.turbine_syngas)
+						new ComparableStack(ModItems.turbine_stainless)
 					}, 500);
 			}
 			if(mb4 != null) {
