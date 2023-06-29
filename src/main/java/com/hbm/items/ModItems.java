@@ -767,7 +767,7 @@ public class ModItems {
 	public static Item rotor_steel;
 	public static Item generator_steel;
 	public static Item blade_titanium;
-	public static Item blade_syngas;
+	public static Item blade_stainless;
 	public static Item turbine_titanium;
 	public static Item generator_front;
 	public static Item blade_tungsten;
@@ -3245,7 +3245,7 @@ public class ModItems {
 		rotor_steel = new Item().setUnlocalizedName("rotor_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":rotor_steel");
 		generator_steel = new Item().setUnlocalizedName("generator_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":generator_steel");
 		blade_titanium = new Item().setUnlocalizedName("blade_titanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":blade_titanium");
-		blade_syngas = new Item().setUnlocalizedName("blade_syngas").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":blade_syngas");
+		blade_stainless = new Item().setUnlocalizedName("blade_syngas").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":blade_syngas");
 		turbine_titanium = new Item().setUnlocalizedName("turbine_titanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":turbine_titanium");
 		generator_front = new Item().setUnlocalizedName("generator_front").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":generator_front");
 		blade_tungsten = new Item().setUnlocalizedName("blade_tungsten").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":blade_tungsten");
@@ -6516,7 +6516,7 @@ public class ModItems {
 		GameRegistry.registerItem(rotor_steel, rotor_steel.getUnlocalizedName());
 		GameRegistry.registerItem(generator_steel, generator_steel.getUnlocalizedName());
 		GameRegistry.registerItem(blade_titanium, blade_titanium.getUnlocalizedName());
-		GameRegistry.registerItem(blade_syngas, blade_syngas.getUnlocalizedName());
+		GameRegistry.registerItem(blade_stainless, blade_stainless.getUnlocalizedName());
 		GameRegistry.registerItem(blade_tungsten, blade_tungsten.getUnlocalizedName());
 		GameRegistry.registerItem(turbine_titanium, turbine_titanium.getUnlocalizedName());
 		GameRegistry.registerItem(turbine_tungsten, turbine_tungsten.getUnlocalizedName());
