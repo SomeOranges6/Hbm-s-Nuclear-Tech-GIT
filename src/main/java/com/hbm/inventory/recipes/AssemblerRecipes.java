@@ -1500,7 +1500,7 @@ public class AssemblerRecipes {
 			if(toppy != null) {
 				makeRecipe(new ComparableStack(toppy, 1, 0), new AStack[] {
 						new ComparableStack(ModItems.hull_big_aluminium, 2),
-						new ComparableStack(ModItems.insert_steel, 1),
+						new ComparableStack(ModItems.hull_big_steel, 3),
 						new ComparableStack(ModItems.hull_small_aluminium, 2),
 						new ComparableStack(ModItems.piston_selenium, 4),
 						new ComparableStack(ModItems.rotor_steel, 1),
@@ -1514,7 +1514,7 @@ public class AssemblerRecipes {
 			if(mh60L != null) {
 				makeRecipe(new ComparableStack(mh60L, 1, 0), new AStack[] {
 						new ComparableStack(ModItems.hull_big_titanium, 3),
-						new ComparableStack(ModItems.insert_steel, 1),
+						new ComparableStack(ModItems.hull_big_steel, 3),
 						new ComparableStack(ModItems.hull_small_steel, 2),
 						new ComparableStack(ModItems.piston_selenium, 3),
 						new OreDictStack(TI.plate(), 4),
@@ -1558,7 +1558,7 @@ public class AssemblerRecipes {
 			if(w3 != null) {
 				makeRecipe(new ComparableStack(w3, 1, 0), new AStack[] {
 						new ComparableStack(ModItems.hull_big_steel, 3),
-						new ComparableStack(ModItems.insert_steel, 3),
+						new ComparableStack(ModItems.bolt_dura_steel, 4),
 						new ComparableStack(ModBlocks.machine_diesel, 1),
 						new OreDictStack(ANY_PLASTIC.ingot(), 4),
 						new ComparableStack(ModItems.blade_titanium, 6),
@@ -1571,7 +1571,7 @@ public class AssemblerRecipes {
 			if(ka52 != null) {
 				makeRecipe(new ComparableStack(ka52, 1, 0), new AStack[] {
 						new ComparableStack(ModItems.plate_desh, 4),
-						new ComparableStack(ModItems.insert_du, 1),
+						new ComparableStack(ModItems.bolt_dura_steel, 4),
 						new ComparableStack(ModBlocks.machine_selenium, 1),
 						new ComparableStack(ModItems.piston_selenium,2),
 						new ComparableStack(ModItems.blade_stainless, 6),
@@ -1591,7 +1591,7 @@ public class AssemblerRecipes {
 			if(ka50 != null) {
 				makeRecipe(new ComparableStack(ka50, 1, 0), new AStack[] {
 						new ComparableStack(ModItems.plate_desh, 4),
-						new ComparableStack(ModItems.insert_sapi, 1),
+						new ComparableStack(ModItems.hev_plate, 4),
 						new ComparableStack(ModBlocks.machine_selenium, 1),
 						new ComparableStack(ModItems.piston_selenium,4),
 						new ComparableStack(ModItems.bolt_compound, 2),
@@ -1617,7 +1617,7 @@ public class AssemblerRecipes {
 			}
 			if(mi28 != null) {
 				makeRecipe(new ComparableStack(mi28, 1, 0), new AStack[] {
-						new ComparableStack(ModItems.insert_esapi, 1),
+						new ComparableStack(ModItems.hev_plate, 8),
 						new ComparableStack(ModItems.plate_desh, 8),
 						new ComparableStack(ModBlocks.machine_selenium, 2),
 						new ComparableStack(ModItems.piston_selenium,8),
@@ -1632,7 +1632,7 @@ public class AssemblerRecipes {
 
 			if(mi24 != null) {
 			makeRecipe(new ComparableStack(mi24, 1, 0), new AStack[] {
-					new ComparableStack(ModItems.insert_esapi, 1),
+					new ComparableStack(ModItems.hev_plate, 8),
 					new ComparableStack(ModItems.plate_desh, 8),
 					new ComparableStack(ModBlocks.machine_selenium, 2),
 					new ComparableStack(ModItems.piston_selenium,6),
@@ -1645,7 +1645,7 @@ public class AssemblerRecipes {
 			}, 30 * 20);
 			if(apache != null) {
 					makeRecipe(new ComparableStack(apache, 1, 0), new AStack[] {
-							new ComparableStack(ModItems.insert_esapi, 2),
+							new ComparableStack(ModItems.paa_plate, 12),
 							new ComparableStack(ModItems.plate_desh, 8),
 							new ComparableStack(ModBlocks.machine_selenium, 2),
 							new ComparableStack(ModItems.piston_selenium,8),
