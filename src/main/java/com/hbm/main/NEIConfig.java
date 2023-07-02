@@ -32,7 +32,6 @@ public class NEIConfig implements IConfigureNEI {
 		registerHandler(new CentrifugeRecipeHandler());
 		registerHandler(new GasCentrifugeRecipeHandler());
 		registerHandler(new BreederRecipeHandler());
-		registerHandler(new CMBFurnaceRecipeHandler());
 		registerHandler(new CyclotronRecipeHandler());
 		registerHandler(new AssemblerRecipeHandler());
 		registerHandler(new RefineryRecipeHandler());
@@ -53,6 +52,8 @@ public class NEIConfig implements IConfigureNEI {
 		registerHandler(new CrucibleSmeltingHandler());
 		registerHandler(new CrucibleAlloyingHandler());
 		registerHandler(new CrucibleCastingHandler());
+		registerHandler(new ToolingHandler());
+		registerHandler(new ConstructionHandler());
 		
 		//universal boyes
 		registerHandler(new ZirnoxRecipeHandler());
@@ -61,6 +62,7 @@ public class NEIConfig implements IConfigureNEI {
 		}
 		registerHandler(new LiquefactionHandler());
 		registerHandler(new SolidificationHandler());
+		registerHandler(new CokingHandler());
 		registerHandler(new FractioningHandler());
 		registerHandler(new BoilingHandler());
 		registerHandler(new CombinationHandler());
@@ -70,8 +72,6 @@ public class NEIConfig implements IConfigureNEI {
 		
 		//fluids
 		registerHandler(new FluidRecipeHandler());
-		
-		//registerHandler(new ChunkyHandler());
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));
@@ -92,6 +92,7 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.transission_hatch));
 		API.hideItem(new ItemStack(ModItems.euphemium_kit));
 		API.hideItem(new ItemStack(ModItems.bobmazon_hidden));
+		API.hideItem(new ItemStack(ModItems.book_lore)); //the broken nbt-less one shouldn't show up in normal play anyway
 		if(MainRegistry.polaroidID != 11) {
 			API.hideItem(new ItemStack(ModItems.book_secret));
 			API.hideItem(new ItemStack(ModItems.book_of_));
