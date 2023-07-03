@@ -80,6 +80,7 @@ public class MixerRecipes extends SerializableRecipe {
 
 		register(Fluids.CHLOROCALCITE_SOLUTION, new MixerRecipe(500, 50).setStack1(new FluidStack(Fluids.WATER, 250)).setStack2(new FluidStack(Fluids.NITRIC_ACID, 250)).setSolid(new OreDictStack(CHLOROCALCITE.dust())));
 		register(Fluids.CHLOROCALCITE_MIX, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.CHLOROCALCITE_SOLUTION, 500)).setStack2(new FluidStack(Fluids.SULFURIC_ACID, 500)));
+		register(Fluids.CAULK, new MixerRecipe(1000, 20).setStack1(new FluidStack(Fluids.COLLOID, 1000)).setSolid(new OreDictStack(CA.dust())));
 	}
 	
 	public static void register(FluidType type, MixerRecipe... rec) {

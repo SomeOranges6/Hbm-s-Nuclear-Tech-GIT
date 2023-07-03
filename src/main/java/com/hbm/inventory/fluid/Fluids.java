@@ -133,6 +133,8 @@ public class Fluids {
 	public static FluidType KEROSENE_REFORM;
 	public static FluidType REFORMGAS;			//MAPD: propyne, propadiene
 	public static FluidType COLLOID;
+	public static FluidType CAULK;
+
 	public static FluidType PHOSGENE;
 	public static FluidType MUSTARDGAS;
 	public static FluidType IONGEL;
@@ -171,6 +173,8 @@ public class Fluids {
 	public static final FT_NoContainer NOCON = new FT_NoContainer();
 	public static final FT_NoID NOID = new FT_NoID();
 	public static final FT_Delicious DELICIOUS = new FT_Delicious();
+
+	public static final FT_Caulking CAULKING = new FT_Caulking();
 	public static final FT_Leaded LEADED = new FT_Leaded();
 	
 	public static void init() {
@@ -312,7 +316,8 @@ public class Fluids {
 		SMOKE_LEADED =			new FluidType("SMOKE_LEADED",		0x808080, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS, NOID, NOCON);
 		SMOKE_POISON =			new FluidType("SMOKE_POISON",		0x808080, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS, NOID, NOCON);
 		HELIUM4 =				new FluidType(123,"HELIUM4",		0xE54B0A, 0, 0, 0, EnumSymbol.ASPHYXIANT).addTraits(GASEOUS);
-		
+		CAULK =				new FluidType("CAULK",			0x566573 , 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_Caulking());
+
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		//AND DON'T FORGET THE META DOWN HERE
@@ -456,6 +461,9 @@ public class Fluids {
 		metaOrder.add(SMOKE);
 		metaOrder.add(SMOKE_LEADED);
 		metaOrder.add(SMOKE_POISON);
+		//caulk
+		metaOrder.add(CAULK);
+
 
 		CHLORINE.addTraits(new FT_Toxin().addEntry(new ToxinDirectDamage(ModDamageSource.cloud, 2F, 20, HazardClass.GAS_CHLORINE, false)));
 		PHOSGENE.addTraits(new FT_Toxin().addEntry(new ToxinDirectDamage(ModDamageSource.cloud, 4F, 20, HazardClass.GAS_CHLORINE, false)));

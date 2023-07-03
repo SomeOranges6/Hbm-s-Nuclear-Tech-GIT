@@ -77,9 +77,9 @@ public class FalloutConfigJSON {
 				, new Triplet(ModBlocks.concrete_debris, BlockEnums.EnumDebrisType.VAR3.ordinal(), 33)).max(50).sol(true);
 
 		FalloutEntry ducrete = new FalloutEntry().prim(
-				  new Triplet(ModBlocks.concrete_debris, BlockEnums.EnumDebrisType.VAR1.ordinal(), 33)
-				, new Triplet(ModBlocks.concrete_debris, BlockEnums.EnumDebrisType.VAR2.ordinal(), 33)
-				, new Triplet(ModBlocks.concrete_debris, BlockEnums.EnumDebrisType.VAR3.ordinal(), 33)).max(10).sol(true);
+				  new Triplet(ModBlocks.ducrete_debris, BlockEnums.EnumDebrisType.VAR1.ordinal(), 33)
+				, new Triplet(ModBlocks.ducrete_debris, BlockEnums.EnumDebrisType.VAR2.ordinal(), 33)
+				, new Triplet(ModBlocks.ducrete_debris, BlockEnums.EnumDebrisType.VAR3.ordinal(), 33)).max(10).sol(true);
 
 		FalloutEntry concreteBricks  = new FalloutEntry().prim(new Triplet(ModBlocks.brick_concrete_broken, 0, 1)).max(45).sol(true);
 		FalloutEntry concreteBricksL  = new FalloutEntry().prim(new Triplet(ModBlocks.brick_concrete_cracked, 0, 1)).max(65).sol(true);
@@ -102,10 +102,10 @@ public class FalloutConfigJSON {
 		entries.add(stoneInner.clone().mB(ModBlocks.sellafield_slaked));
 		
 		//part 2 of the concreet 
-		entries.add(concreteBricks.clone().c(0.15).mB(ModBlocks.brick_concrete));
+		entries.add(concreteBricks.clone().c(0.01).mB(ModBlocks.brick_concrete));
 		entries.add(concreteBricksL.clone().c(0.15).mB(ModBlocks.brick_concrete));
 		
-		entries.add(concreteBricks.clone().c(0.15).mB(ModBlocks.brick_concrete_cracked));
+		entries.add(concreteBricks.clone().c(0.20).mB(ModBlocks.brick_concrete_cracked));
 		
 		entries.add(ducrete.clone().c(0.05).mB(ModBlocks.ducrete));
 		entries.add(ducrete.clone().c(0.05).mB(ModBlocks.ducrete_smooth));
@@ -113,12 +113,18 @@ public class FalloutConfigJSON {
 		entries.add(concrete.clone().c(0.1).mB(ModBlocks.concrete));
 		entries.add(concrete.clone().c(0.1).mB(ModBlocks.concrete_smooth));
 		entries.add(concrete.clone().c(0.1).mB(ModBlocks.concrete_colored));
+		entries.add(concrete.clone().c(0.1).mB(ModBlocks.reinforced_brick));
 		entries.add(new FalloutEntry()
 		      .mB(ModBlocks.reinforced_stone)
 				//remember to make an entry for reinforced_brick
 		      .prim(new Triplet(Blocks.gravel, 0, 1))
 		      .max(70)
 		      .c(0.3));
+		entries.add(new FalloutEntry()
+				.mB(ModBlocks.concrete_debris)
+				.prim(new Triplet(Blocks.gravel, 0, 1))
+				.max(70)
+				.c(0.3));
 		entries.add(new FalloutEntry()
 	          .mB(ModBlocks.brick_light)
 	          .prim(new Triplet(Blocks.sand, 0, 1))

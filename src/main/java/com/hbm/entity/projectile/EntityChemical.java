@@ -8,12 +8,7 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.trait.FT_Combustible;
-import com.hbm.inventory.fluid.trait.FT_Corrosive;
-import com.hbm.inventory.fluid.trait.FT_Flammable;
-import com.hbm.inventory.fluid.trait.FT_Poison;
-import com.hbm.inventory.fluid.trait.FT_Toxin;
-import com.hbm.inventory.fluid.trait.FT_VentRadiation;
+import com.hbm.inventory.fluid.trait.*;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IRepairable;
@@ -42,6 +37,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
 
 public class EntityChemical extends EntityThrowableNT {
 	
@@ -205,6 +201,12 @@ public class EntityChemical extends EntityThrowableNT {
 					HbmLivingProps.setOil(living, 300); //doused in oil for 15 seconds
 				}
 			}
+			if(type.hasTrait(Fluids.DELICIOUS.getClass())) {
+				if(living != null && living.isEntityAlive()) {
+					living.heal(2F * (float) intensity);
+				}
+			}
+
 		}
 		
 		if(this.isExtinguishing()) {
@@ -381,7 +383,24 @@ public class EntityChemical extends EntityThrowableNT {
 					FT_VentRadiation trait = type.getTrait(FT_VentRadiation.class);
 					ChunkRadiationManager.proxy.incrementRad(worldObj, mop.blockX, mop.blockY, mop.blockZ, trait.getRadPerMB() * 5);
 				}
-				
+
+				if(type.hasTrait(FluidTraitSimple.FT_Caulking.class)) {
+
+					for(int i = -1; i <= 1; i++) {
+						for(int j = -1; j <= 1; j++) {
+							for(int k = -1; k <= 1; k++) {
+
+								if(worldObj.getBlock(x + i, y + j, z + k) == ModBlocks.concrete_debris) {
+									worldObj.setBlock(x + i, y + j, z + k, ModBlocks.concrete_smooth);
+								}
+								if(worldObj.getBlock(x + i, y + j, z + k) == ModBlocks.ducrete_debris) {
+									worldObj.setBlock(x + i, y + j, z + k, ModBlocks.ducrete_smooth);
+								}
+							}
+						}
+					}
+
+				}
 				ChemicalStyle style = getStyle();
 				
 				if(style == ChemicalStyle.BURNING || style == ChemicalStyle.GASFLAME) {
@@ -390,6 +409,18 @@ public class EntityChemical extends EntityThrowableNT {
 						
 						Block fire = type == Fluids.BALEFIRE ? ModBlocks.balefire : Blocks.fire;
 						
+						if(worldObj.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ).isAir(worldObj, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
+							worldObj.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, fire);
+						}
+					}
+				}
+
+				if(style == ChemicalStyle.BURNING || style == ChemicalStyle.GASFLAME) {
+
+					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+
+						Block fire = type == Fluids.BALEFIRE ? ModBlocks.balefire : Blocks.fire;
+
 						if(worldObj.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ).isAir(worldObj, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
 							worldObj.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, fire);
 						}
