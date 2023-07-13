@@ -3,6 +3,7 @@ package com.hbm.items.tool;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.lib.Library;
 
 import com.hbm.world.feature.GlyphidHive;
@@ -32,9 +33,9 @@ public class ItemWandD extends Item {
 			vnt.setSFX(new ExplosionEffectStandard());
 			vnt.explode();*/
 			
-			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
-			world.newExplosion(null, pos.blockX, pos.blockY, pos.blockZ, 5F, false, false);
-			GlyphidHive.generateBigOrb(world, pos.blockX, pos.blockY, pos.blockZ, new Random());
+			PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionHandler.PollutionType.SOOT, 30);
+			//world.newExplosion(null, pos.blockX, pos.blockY, pos.blockZ, 5F, false, false);
+			//GlyphidHive.generateBigOrb(world, pos.blockX, pos.blockY, pos.blockZ, new Random());
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
 			TimeAnalyzer.startEndCount("getBlock");

@@ -37,7 +37,7 @@ public class MobConfig {
 	public static double tier5Threshold = 100;
 	public static double spawnMax = 50;
 	public static boolean enableInfestation = true;
-	public static double baseInfestChance = 1;
+	public static double baseInfestChance = 5;
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY = CommonConfig.CATEGORY_MOBS;
@@ -75,6 +75,6 @@ public class MobConfig {
 		tier5Threshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G06_tier5Threshold", "Minimum amount of soot for tier 5 glyphids to spawn", 100);
 		spawnMax = CommonConfig.createConfigDouble(config, CATEGORY, "12.G07_spawnMax", "Maximum amount of glyphids being able to exist at once through natural spawning", 50);
 		enableInfestation= CommonConfig.createConfigBool(config, CATEGORY, "12.G08_enableInfestation", "Whether structures infested with glyphids should spawn", true);
-		baseInfestChance = CommonConfig.createConfigDouble(config, CATEGORY, "12.G09_baseInfestChance", "The base chance for infested structures to spawn, set it to 0 to make infestations only appear the chunk has soot", 1);
+		baseInfestChance = CommonConfig.createConfigDouble(config, CATEGORY, "12.G09_baseInfestChance", "The base chance for infested structures to spawn", 5);
 	}
 }
