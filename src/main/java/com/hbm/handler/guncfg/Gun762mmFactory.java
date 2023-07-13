@@ -9,6 +9,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo762NATO;
 import com.hbm.lib.HbmCollection;
+import com.hbm.lib.RefStrings;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.main.MainRegistry;
 import com.hbm.particle.SpentCasing;
@@ -21,16 +22,21 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
 
 import static com.hbm.handler.GunConfiguration.RELOAD_FULL;
 
 public class Gun762mmFactory {
 	
+	public static final ResourceLocation scope_bolt = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_bolt.png");
+	
 	private static final CasingEjector EJECTOR_RIFLE;
+	private static final CasingEjector EJECTOR_BOLT;
 	private static final SpentCasing CASING762NATO;
 
 	static {
 		EJECTOR_RIFLE = new CasingEjector().setMotion(-0.35, 0.6, 0).setOffset(-0.35, 0, 0.35).setAngleRange(0.01F, 0.03F);
+		EJECTOR_BOLT = new CasingEjector().setMotion(-0.35, 0.6, 0).setOffset(-0.35, 0, 0.35).setAngleRange(0.01F, 0.03F).setDelay(15);
 		CASING762NATO = new SpentCasing(CasingType.BOTTLENECK).setScale(1.7F).setBounceMotion(0.01F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS);
 	}
 	
@@ -160,6 +166,7 @@ public class Gun762mmFactory {
 
 		return config;
 	}
+
 	public static GunConfiguration getBoltConfig() {
 
 		GunConfiguration config = Gun20GaugeFactory.getShotgunConfig();
@@ -203,11 +210,8 @@ public class Gun762mmFactory {
 
 		GunConfiguration config = getBoltConfig();
 
-
 		config.durability = 2500;
 		config.name = "win20Poly";
-
-
 
 		return config;
 	}
@@ -232,6 +236,7 @@ public class Gun762mmFactory {
 		config.config = HbmCollection.r762_hs;
 		return config;
 	}
+	
 	public static BulletConfiguration get762NATOConfig() {
 		final BulletConfiguration bullet = Gun556mmFactory.get556Config().clone();
 

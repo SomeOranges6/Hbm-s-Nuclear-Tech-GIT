@@ -265,6 +265,7 @@ public class TileMappings {
 		put(TileEntitySawmill.class, "tileentity_sawmill");
 		put(TileEntityCrucible.class, "tileentity_crucible");
 		put(TileEntityHeatBoiler.class, "tileentity_heat_boiler");
+		put(TileEntityHeatBoilerIndustrial.class, "tileentity_heat_boiler_industrial");
 
 		put(TileEntityFoundryMold.class, "tileentity_foundry_mold");
 		put(TileEntityFoundryBasin.class, "tileentity_foundry_basin");
@@ -372,6 +373,7 @@ public class TileMappings {
 
 		put(TileEntityRadioTorchSender.class, "tileentity_rtty_sender");
 		put(TileEntityRadioTorchReceiver.class, "tileentity_rtty_rec");
+		put(TileEntityRadioTorchCounter.class, "tileentity_rtty_counter");
 	}
 	
 	private static void put(Class<? extends TileEntity> clazz, String... names) {

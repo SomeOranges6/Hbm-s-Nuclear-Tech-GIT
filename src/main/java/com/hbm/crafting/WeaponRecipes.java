@@ -2,7 +2,6 @@ package com.hbm.crafting;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.OreDictManager;
-import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.fluid.Fluids;
 
 import static com.hbm.inventory.OreDictManager.*;
@@ -17,7 +16,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * For guns, ammo and the like
@@ -160,6 +158,10 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_spas12, 1), new Object[] { "TPS", "HHR", "  L", 'T', ModItems.bolt_tungsten, 'P', STEEL.plate(), 'S', STEEL.ingot(), 'H', ModItems.hull_small_steel, 'R', ModItems.mechanism_rifle_1, 'L', ANY_PLASTIC.ingot()});
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_glass_cannon, 1), new Object[] { "GGC", "GTM", 'G', Item.getItemFromBlock(ModBlocks.glass_quartz), 'C', ModItems.battery_lithium_cell, 'T', ModItems.crt_display, 'M', ModItems.mechanism_special });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_remington, 1), new Object[] { "PPM", "S L", 'P', STEEL.plate(), 'M', ModItems.mechanism_rifle_1, 'S', KEY_SLAB, 'L', KEY_LOG });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_benelli), new Object[] { "HHP", "SSM", "AAP", 'H', ModItems.ingot_dura_steel, 'S', ModItems.hull_small_steel, 'A', ModItems.hull_small_aluminium, 'P', ModItems.ingot_polymer, 'M', ModItems.mechanism_rifle_2 });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_lunatic_marksman), new Object[] { " GN", "SSM", "  A", 'G', KEY_ANYPANE, 'N', ModItems.powder_nitan_mix, 'S', BIGMT.plate(), 'M', ModItems.mechanism_special, 'A', ANY_RESISTANTALLOY.plateCast() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_coilgun), new Object[] { "CCC", "SSM", "  P", 'C', ModBlocks.capacitor_copper, 'S', BIGMT.plate(), 'M', ModItems.mechanism_special, 'P', ANY_PLASTIC.ingot() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_coilgun_ammo, 16), new Object[] { " T ", "TST", " T ", 'T', W.ingot(), 'S', BIGMT.ingot() });
 		
 		//Ammo assemblies
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pellet_flechette, 1), new Object[] { " L ", " L ", "LLL", 'L', PB.nugget() });
