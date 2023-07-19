@@ -29,7 +29,7 @@ public class MobConfig {
 	public static boolean enableMobGear = true;
 	
 	public static boolean enableHives = true;
-	public static int hiveSpawn = 128;
+	public static int hiveSpawn = 256;
 	public static double scoutThreshold = 0.1;
 	public static double tier2Threshold = 1;
 	public static double tier3Threshold = 10;
@@ -38,6 +38,9 @@ public class MobConfig {
 	public static double spawnMax = 50;
 	public static boolean enableInfestation = true;
 	public static double baseInfestChance = 5;
+	public static double targetingThreshold = 1;
+	
+	
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY = CommonConfig.CATEGORY_MOBS;
@@ -67,7 +70,7 @@ public class MobConfig {
 		enableMobGear = CommonConfig.createConfigBool(config, CATEGORY, "12.D01_enableMobGear", "Whether zombies and skeletons should have additional gear when spawning", true);
 
 		enableHives = CommonConfig.createConfigBool(config, CATEGORY, "12.G00_enableHives", "Whether glyphid hives should spawn", true);
-		hiveSpawn = CommonConfig.createConfigInt(config, CATEGORY, "12.G01_hiveSpawn", "The average amount of chunks per hive", 128);
+		hiveSpawn = CommonConfig.createConfigInt(config, CATEGORY, "12.G01_hiveSpawn", "The average amount of chunks per hive", 256);
 		scoutThreshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G02_scoutThreshold", "Minimum amount of soot for scouts to spawn", 0.1);
 		tier2Threshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G03_tier2Threshold", "Minimum amount of soot for tier 2 glyphids to spawn", 1);
 		tier3Threshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G04_tier3Threshold", "Minimum amount of soot for tier 3 glyphids to spawn", 10);
@@ -76,5 +79,6 @@ public class MobConfig {
 		spawnMax = CommonConfig.createConfigDouble(config, CATEGORY, "12.G07_spawnMax", "Maximum amount of glyphids being able to exist at once through natural spawning", 50);
 		enableInfestation= CommonConfig.createConfigBool(config, CATEGORY, "12.G08_enableInfestation", "Whether structures infested with glyphids should spawn", true);
 		baseInfestChance = CommonConfig.createConfigDouble(config, CATEGORY, "12.G09_baseInfestChance", "The base chance for infested structures to spawn", 5);
+		targetingThreshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G08_targetingThreshold", "Minimum amount of soot required for glyphids' extended targeting range to activate", 1D);
 	}
 }

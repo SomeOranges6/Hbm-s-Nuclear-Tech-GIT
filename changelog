@@ -1,19 +1,11 @@
 ## Added
-* UAC pistol
-  * Uses the .45 caliber
-* Cryo cannon
-  * Freezes entities
-  * Can only deal damage to already frozen entities
-  * Damage is proportional to max health, dealing more damage the stronger the mob is
+* Rubber ball
+  * can be thrown at people
+* New chlorine processing chain
+  * Involves 240 processing steps of washing, electrolyzing, centrifuging and treating chlorocalcite
 
 ## Changed
-* Making LPG in the compressor now requires two compression steps
-  * This fixes an issue where polymer is unobtainable in 528 mode since petroleum at 1PU not being obtainable
-* Fire and cryo damage now bypasses glyphid's armor, being unaffected by the armor's damage reduction and not being able to break off armor either
-* Fire now deals 4x more damage to glyphids
-* Cryogenic fluids from the chemthrower no longer deal direct damage, instead freezing the target
-  * Once the target is already frozen, it will deal damage and apply the same effects as it used to
-
-## Fixed
-* Fixed issue where mk5 explosions would behave weirdly in their origin chunk, often blowing through bedrock and thick layers of concrete
-* Fixed saturnite rifle disappearing in third person when scoping
+* Glyphids now have a higher tracking range, being 256 blocks
+* Standard glyphids now have a base health of 100
+* Glyphid scouts are now immune to fire and explosive damage, have a 50% damage reduction against projectiles and have passive regeneration
+* Increased hive block blast resistance, they can no longer be blown up wiith conventional explosives
