@@ -1359,6 +1359,9 @@ hbmfluid.xenon=Xenon Gas
 hbmfluid.xpjuice=Experience Juice
 hbmfluid.xylene=BTX
 hbmfluid.caulk=Quick-Hardening Caulk
+hbmfluid.pheromone=Pheromone
+hbmfluid.pheromone_m=Modified Pheromone
+
 hbmpseudofluid.none=Empty
 hbmpseudofluid.heuf6=Highly Enriched UF6
 hbmpseudofluid.meuf6=Medium Enriched UF6
@@ -2553,6 +2556,9 @@ item.grenade_smart.name=Smart Grenade
 item.grenade_strong.name=Enhanced Grenade
 item.grenade_tau.name=Tau Grenade
 item.grenade_zomg.name=Negative Energy Pair Annihilation Grenade
+
+item.disperser_canister.name= Disperser Canister:
+item.disperser_canister_empty.name= Disperser Canister
 item.gun_ar15.name=Josh
 item.gun_avenger.name=CZ57 Avenger Minigun
 item.gun_b92.name=§9B92 Energy Pistol§r

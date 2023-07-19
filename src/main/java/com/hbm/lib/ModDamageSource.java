@@ -16,7 +16,7 @@ public class ModDamageSource extends DamageSource {
 	
 	public static DamageSource nuclearBlast = (new DamageSource("nuclearBlast")).setExplosion();
 	public static DamageSource mudPoisoning = (new DamageSource("mudPoisoning")).setDamageBypassesArmor();
-	public static DamageSource acid = (new DamageSource("acid")).setDamageBypassesArmor();
+	public static DamageSource acid = (new DamageSource("acid")); //.setDamageBypassesArmor();
 	public static DamageSource euthanizedSelf = (new DamageSource("euthanizedSelf")).setDamageBypassesArmor();
 	public static DamageSource euthanizedSelf2 = (new DamageSource("euthanizedSelf2")).setDamageBypassesArmor();
 	public static DamageSource tauBlast = (new DamageSource("tauBlast")).setDamageBypassesArmor();

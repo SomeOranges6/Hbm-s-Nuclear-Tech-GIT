@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.mob.EntityGlyphid;
+import com.hbm.entity.mob.EntityGlyphidBehemoth;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.fluid.FluidType;
@@ -171,7 +173,7 @@ public class EntityChemical extends EntityThrowableNT {
 		}
 		
 		if(type.temperature >= 100) {
-			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_boil), 5F + (type.temperature - 100) * 0.02F); //5 damage at 100°C with one extra damage every 50°C
+			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_boil), 0.2F + (type.temperature - 100) * 0.02F); //0.4 damage at 100°C with one extra damage every 50°C
 			
 			if(type.temperature >= 500) {
 				e.setFire(10); //afterburn for 10 seconds
@@ -221,7 +223,7 @@ public class EntityChemical extends EntityThrowableNT {
 		
 		if(style == ChemicalStyle.BURNING) {
 			FT_Combustible trait = type.getTrait(FT_Combustible.class);
-			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_flamethrower), 2F + (trait != null ? (trait.getCombustionEnergy() / 100_000F) : 0));
+			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_flamethrower), 0.2F + (trait != null ? (trait.getCombustionEnergy() / 100_000F) : 0));
 			e.setFire(5);
 		}
 		
@@ -231,17 +233,17 @@ public class EntityChemical extends EntityThrowableNT {
 			
 			float heat = Math.max(flammable != null ? flammable.getHeatEnergy() / 50_000F : 0, combustible != null ? combustible.getCombustionEnergy() / 100_000F : 0);
 			heat *= intensity;
-			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_flamethrower), (2F + heat) * (float) intensity);
+			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_flamethrower), (0.2F + heat) * (float) intensity);
 			e.setFire((int) Math.ceil(5 * intensity));
 		}
 		
 		if(type.hasTrait(FT_Corrosive.class)) {
 			FT_Corrosive trait = type.getTrait(FT_Corrosive.class);
-			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_acid), trait.getRating() / 20F);
+			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, (new EntityDamageSourceIndirect(ModDamageSource.s_acid, new EntityGlyphidBehemoth(worldObj), e)).setProjectile(), trait.getRating() / 60F);
 			
 			if(living != null) {
 				for(int i = 0; i < 4; i++) {
-					ArmorUtil.damageSuit(living, i, trait.getRating() / 5);
+					ArmorUtil.damageSuit(living, i, trait.getRating() / 20);
 				}
 			}
 		}
@@ -267,6 +269,26 @@ public class EntityChemical extends EntityThrowableNT {
 			
 			if(living != null) {
 				trait.affect(living, intensity);
+			}
+		}
+
+		if(type.hasTrait(FT_Pheromone.class)){
+
+			FT_Pheromone pheromone = type.getTrait(FT_Pheromone.class);
+
+			if(living != null) {
+				living.addPotionEffect(new PotionEffect(Potion.resistance.id, 2 * 60 * 20, 2));
+				living.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 5 * 60 * 20, 1));
+				living.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 2 * 60 * 20, 4));
+
+				if (living instanceof EntityGlyphid && pheromone.getType() == 1) {
+					living.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 5 * 60 * 20, 4));
+					living.addPotionEffect(new PotionEffect(Potion.fireResistance.id,  60 * 20, 0));
+					living.addPotionEffect(new PotionEffect(Potion.field_76444_x.id,  60 * 20, 19));
+
+				} else if (living instanceof EntityPlayer && pheromone.getType() == 2) {
+					living.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 2 * 60 * 20, 2));
+				}
 			}
 		}
 		
@@ -303,14 +325,14 @@ public class EntityChemical extends EntityThrowableNT {
 	}
 	
 	//terribly copy-pasted from EntityEnderman.class
-	protected boolean teleportRandomly(Entity e) {
+	public boolean teleportRandomly(Entity e) {
 		double x = this.posX + (this.rand.nextDouble() - 0.5D) * 64.0D;
 		double y = this.posY + (double) (this.rand.nextInt(64) - 32);
 		double z = this.posZ + (this.rand.nextDouble() - 0.5D) * 64.0D;
 		return this.teleportTo(e, x, y, z);
 	}
 	
-	protected boolean teleportTo(Entity e, double x, double y, double z) {
+	public boolean teleportTo(Entity e, double x, double y, double z) {
 		
 		double targetX = e.posX;
 		double targetY = e.posY;

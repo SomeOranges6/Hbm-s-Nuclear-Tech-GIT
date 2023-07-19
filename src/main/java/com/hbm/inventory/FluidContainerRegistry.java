@@ -69,7 +69,7 @@ public class FluidContainerRegistry {
 			if(type.hasNoContainer()) continue;
 
 			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_lead_full, 1, i), new ItemStack(ModItems.fluid_tank_lead_empty), Fluids.fromID(i), 1000));
-			
+			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.disperser_canister, 1 , i), new ItemStack(ModItems.disperser_canister_empty), Fluids.fromID(i), 2000));
 			if(type.needsLeadContainer()) continue;
 			
 			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_full, 1, i), new ItemStack(ModItems.fluid_tank_empty), Fluids.fromID(i), 1000));

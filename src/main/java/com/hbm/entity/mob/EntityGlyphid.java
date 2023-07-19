@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.hbm.entity.pathfinder.PathFinderUtils;
+import com.hbm.entity.projectile.EntityChemical;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.ResourceManager;
@@ -108,6 +109,7 @@ public class EntityGlyphid extends EntityMob {
 		}
 		
 		if(source.isFireDamage()) amount *= 4F;
+		if(source == ModDamageSource.acid || source.equals(new DamageSource(ModDamageSource.s_acid))) amount = 0;
 		
 		return super.attackEntityFrom(source, amount);
 	}

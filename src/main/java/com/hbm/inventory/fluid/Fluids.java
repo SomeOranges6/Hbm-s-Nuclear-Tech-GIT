@@ -118,6 +118,9 @@ public class Fluids {
 	public static FluidType SOLVENT;			//oranic solvent in fact
 	public static FluidType BLOOD;				//BLOOD ORB! BLOOD ORB! BLOOD ORB!
 	public static FluidType BLOOD_HOT;
+
+	public static FluidType PHEROMONE;
+	public static FluidType PHEROMONE_M;
 	public static FluidType SYNGAS;
 	public static FluidType OXYHYDROGEN;
 	public static FluidType RADIOSOLVENT;		//DCM-ish made by wacky radio cracking
@@ -176,7 +179,8 @@ public class Fluids {
 
 	public static final FT_Caulking CAULKING = new FT_Caulking();
 	public static final FT_Leaded LEADED = new FT_Leaded();
-	
+
+	public static final FT_NoDispersable NO_DISPERSE= new FT_NoDispersable();
 	public static void init() {
 		
 		// ##### ##### ##### ##### ##  # ##### #   # ##### ##  # #####
@@ -225,8 +229,8 @@ public class Fluids {
 		PUF6 =					new FluidType("PUF6",				0x4C4C4C, 4, 0, 4, EnumSymbol.RADIATION).addTraits(new FT_VentRadiation(0.1F), new FT_Corrosive(15), GASEOUS);
 		SAS3 =					new FluidType("SAS3",				0x4ffffc, 5, 0, 4, EnumSymbol.RADIATION).addTraits(new FT_VentRadiation(1F), new FT_Corrosive(30), LIQUID);
 		SCHRABIDIC =			new FluidType("SCHRABIDIC",			0x006B6B, 5, 0, 5, EnumSymbol.ACID).addTraits(new FT_VentRadiation(1F), new FT_Corrosive(75), new FT_Poison(true, 2), LIQUID);
-		AMAT =					new FluidType("AMAT",				0x010101, 5, 0, 5, EnumSymbol.ANTIMATTER).addTraits(ANTI, GASEOUS);
-		ASCHRAB =				new FluidType("ASCHRAB",			0xb50000, 5, 0, 5, EnumSymbol.ANTIMATTER).addTraits(ANTI, GASEOUS);
+		AMAT =					new FluidType("AMAT",				0x010101, 5, 0, 5, EnumSymbol.ANTIMATTER).addTraits(ANTI, GASEOUS, NO_DISPERSE);
+		ASCHRAB =				new FluidType("ASCHRAB",			0xb50000, 5, 0, 5, EnumSymbol.ANTIMATTER).addTraits(ANTI, GASEOUS, NO_DISPERSE);
 		ACID =					new FluidType("ACID",				0xfff7aa, 3, 0, 3, EnumSymbol.OXIDIZER).addTraits(new FT_Corrosive(40), LIQUID);
 		WATZ =					new FluidType("WATZ",				0x86653E, 4, 0, 3, EnumSymbol.ACID).addTraits(new FT_Corrosive(60), new FT_VentRadiation(0.1F), LIQUID, VISCOUS);
 		CRYOGEL =				new FluidType("CRYOGEL",			0x32ffff, 2, 0, 0, EnumSymbol.CROYGENIC).setTemp(-170).addTraits(LIQUID, VISCOUS);
@@ -276,7 +280,7 @@ public class Fluids {
 		SEEDSLURRY =			new FluidType("SEEDSLURRY",			0x7CC35E, 0, 0, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x7CC35E)).addTraits(LIQUID, VISCOUS);
 		NITRIC_ACID =			new FluidType("NITRIC_ACID",		0xBB7A1E, 3, 0, 2, EnumSymbol.OXIDIZER).addTraits(LIQUID, new FT_Corrosive(60));
 		SOLVENT =				new FluidType("SOLVENT",			0xE4E3EF, 2, 3, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xE4E3EF)).addTraits(LIQUID, new FT_Corrosive(30));
-		BLOOD =					new FluidType("BLOOD",				0xB22424, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+		BLOOD =					new FluidType("BLOOD",				0xB22424, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, DELICIOUS);
 		BLOOD_HOT =				new FluidType("BLOOD_HOT",			0xF22419, 3, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS).setTemp(666); //it's funny because it's the satan number
 		SYNGAS =				new FluidType("SYNGAS",				0x131313, 1, 4, 2, EnumSymbol.NONE).addContainers(new CD_Gastank(0xFFFFFF, 0x131313)).addTraits(GASEOUS);
 		OXYHYDROGEN =			new FluidType("OXYHYDROGEN",		0x483FC1, 0, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
@@ -316,8 +320,9 @@ public class Fluids {
 		SMOKE_LEADED =			new FluidType("SMOKE_LEADED",		0x808080, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS, NOID, NOCON);
 		SMOKE_POISON =			new FluidType("SMOKE_POISON",		0x808080, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS, NOID, NOCON);
 		HELIUM4 =				new FluidType(123,"HELIUM4",		0xE54B0A, 0, 0, 0, EnumSymbol.ASPHYXIANT).addTraits(GASEOUS);
-		CAULK =				new FluidType("CAULK",			0x566573 , 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_Caulking());
-
+		CAULK =				    new FluidType("CAULK",			0x566573 , 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_Caulking());
+		PHEROMONE =				new FluidType("PHEROMONE",				0x5FA6E8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_Pheromone(1));
+		PHEROMONE_M =			new FluidType("PHEROMONE_M",				0x48C9B0 , 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_Pheromone(2));
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		//AND DON'T FORGET THE META DOWN HERE
@@ -463,7 +468,9 @@ public class Fluids {
 		metaOrder.add(SMOKE_POISON);
 		//caulk
 		metaOrder.add(CAULK);
-
+		//bug meth
+		metaOrder.add(PHEROMONE);
+		metaOrder.add(PHEROMONE_M);
 
 		CHLORINE.addTraits(new FT_Toxin().addEntry(new ToxinDirectDamage(ModDamageSource.cloud, 2F, 20, HazardClass.GAS_CHLORINE, false)));
 		PHOSGENE.addTraits(new FT_Toxin().addEntry(new ToxinDirectDamage(ModDamageSource.cloud, 4F, 20, HazardClass.GAS_CHLORINE, false)));

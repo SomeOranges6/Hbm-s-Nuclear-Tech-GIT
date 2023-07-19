@@ -177,7 +177,6 @@ public class Gun762mmFactory {
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.firingSound = "hbm:weapon.revolverShoot";
 		config.firingPitch = 0.75F;
-		config.hasSights = true;
 		config.absoluteFOV = true;
 		config.zoomFOV = 0.4F;
 		config.crosshair = Crosshair.CLASSIC;
@@ -242,8 +241,8 @@ public class Gun762mmFactory {
 
 		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.STOCK));
 
-		bullet.dmgMax = 20;
-		bullet.dmgMin = 24;
+		bullet.dmgMax = 24;
+		bullet.dmgMin = 20;
 		bullet.velocity *= 2.5;
 		bullet.maxAge *= 2;
 		bullet.spread /= 2;
@@ -259,8 +258,8 @@ public class Gun762mmFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.AP));
 		bullet.doesPenetrate = true;
 
-		bullet.dmgMax = 24;
-		bullet.dmgMin = 28;
+		bullet.dmgMax = 28;
+		bullet.dmgMin = 20;
 		
 		bullet.spentCasing = CASING762NATO.clone().register("762NATOAP");
 
@@ -272,8 +271,8 @@ public class Gun762mmFactory {
 
 		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.DU));
 		bullet.doesPenetrate = true;
-		bullet.dmgMax = 36;
-		bullet.dmgMin = 40;
+		bullet.dmgMax = 40;
+		bullet.dmgMin = 36;
 		bullet.spentCasing = CASING762NATO.clone().register("762NATODU");
 
 		return bullet;
