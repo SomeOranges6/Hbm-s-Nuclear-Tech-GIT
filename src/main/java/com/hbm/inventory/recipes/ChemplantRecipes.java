@@ -21,6 +21,7 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
+import cpw.mods.fml.common.Mod;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -408,6 +409,14 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(103, "CC_ELECTROLYSIS", 200)
 				.inputFluids(new FluidStack(Fluids.CALCIUM_CHLORIDE, 250))
 				.outputFluids(new FluidStack(Fluids.CHLORINE, 125), new FluidStack(Fluids.CALCIUM_SOLUTION, 125)));
+
+		recipes.add(new ChemRecipe(104, "MEAT_PROCESSING", 200)
+				.inputItems(new ComparableStack(ModItems.glyphid_meat, 3))
+				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 4000))
+				.outputItems(new ItemStack(ModItems.sulfur, 2),
+							 new ItemStack(ModItems.niter, 2))
+				.outputFluids(new FluidStack(Fluids.SALIENT, 250)));
+
 	}
 	
 	public static void registerFuelProcessing() {

@@ -31,10 +31,21 @@ public class MobConfig {
 	public static boolean enableHives = true;
 	public static int hiveSpawn = 256;
 	public static double scoutThreshold = 0.1;
-	public static double tier2Threshold = 1;
-	public static double tier3Threshold = 10;
-	public static double tier4Threshold = 50;
-	public static double tier5Threshold = 100;
+
+	public static int baseSwarmSize = 5;
+    public static double swarmScalingMult = 1.5;
+	public static int sootStep = 50;
+
+	public static double advancedThreshold = 20;
+	public static double bossThreshold = 100;
+	public static int[] glyphidChance = {50, 10};
+	public static int[] brawlerChance = {20, 40};
+	public static int[] bombardierChance = {20, 15};
+	public static int[] blasterChance = {10, 40};
+	public static int[] behemothChance = {6, 60};
+	public static int[] brendaChance = {3, 70};
+	public static int[] johnsonChance = {3, 70};
+
 	public static double spawnMax = 50;
 	public static boolean enableInfestation = true;
 	public static double baseInfestChance = 5;
@@ -72,13 +83,28 @@ public class MobConfig {
 		enableHives = CommonConfig.createConfigBool(config, CATEGORY, "12.G00_enableHives", "Whether glyphid hives should spawn", true);
 		hiveSpawn = CommonConfig.createConfigInt(config, CATEGORY, "12.G01_hiveSpawn", "The average amount of chunks per hive", 256);
 		scoutThreshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G02_scoutThreshold", "Minimum amount of soot for scouts to spawn", 0.1);
-		tier2Threshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G03_tier2Threshold", "Minimum amount of soot for tier 2 glyphids to spawn", 1);
-		tier3Threshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G04_tier3Threshold", "Minimum amount of soot for tier 3 glyphids to spawn", 10);
-		tier4Threshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G05_tier4Threshold", "Minimum amount of soot for tier 4 glyphids to spawn", 50);
-		tier5Threshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G06_tier5Threshold", "Minimum amount of soot for tier 5 glyphids to spawn", 100);
 		spawnMax = CommonConfig.createConfigDouble(config, CATEGORY, "12.G07_spawnMax", "Maximum amount of glyphids being able to exist at once through natural spawning", 50);
-		enableInfestation= CommonConfig.createConfigBool(config, CATEGORY, "12.G08_enableInfestation", "Whether structures infested with glyphids should spawn", true);
-		baseInfestChance = CommonConfig.createConfigDouble(config, CATEGORY, "12.G09_baseInfestChance", "The base chance for infested structures to spawn", 5);
 		targetingThreshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G08_targetingThreshold", "Minimum amount of soot required for glyphids' extended targeting range to activate", 1D);
+
+		//Infested structures
+		enableInfestation= CommonConfig.createConfigBool(config, CATEGORY, "12.I01_enableInfestation", "Whether structures infested with glyphids should spawn", true);
+		baseInfestChance = CommonConfig.createConfigDouble(config, CATEGORY, "12.I02_baseInfestChance", "The base chance for infested structures to spawn", 5);
+
+		//Glyphid spawn stuff
+		advancedThreshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.GT01_advancedThreshold", "Minimum amount of soot for advanced glyphids (brawlers, blasters and behemoths) to be included in the spawn pool", 20);
+		bossThreshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.GT02_bossThreshold", "Minimum amount of soot for boss glyphids (brendas and big man johnsons) to be included in the spawn pool", 100);
+
+		baseSwarmSize =  CommonConfig.createConfigInt(config, CATEGORY, "12.GS01_baseSwarmSize", "The basic, soot-less swarm size", 5);
+		swarmScalingMult =  CommonConfig.createConfigDouble(config, CATEGORY, "12.GS02_swarmScalingMult", "By how much should swarm size scale by per soot amount determined below", 1.5);
+		sootStep =  CommonConfig.createConfigInt(config, CATEGORY, "12.GS03_sootStep", "The soot amount the above multiplier applies to the swarm size", 50);
+
+		glyphidChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC01_glyphidChance", "Base Spawn chance and soot weight for a glyphid grunt", new int[]{50, 10});
+		brawlerChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC02_brawlerChance", "Base Spawn chance and soot weight for a glyphid brawler", new int[]{20, 40});
+		bombardierChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC03_bombardierChance", "Base Spawn chance and soot weight for a glyphid bombardier", new int[]{20, 15});
+		blasterChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC04_blasterChance", "Base Spawn chance and soot weight for a glyphid blaster", new int[]{10, 40});
+		behemothChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC05_behemothChance", "Base Spawn chance and soot weight for a glyphid behemoth", new int[]{6, 60});
+		brendaChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC06_brendaChance", "Base Spawn chance and soot weight for a glyphid brenda", new int[]{3, 70});
+		johnsonChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC07_johnsonChance", "Base Spawn chance and soot weight for Big Man Johnson", new int[]{3, 70});
+
 	}
 }

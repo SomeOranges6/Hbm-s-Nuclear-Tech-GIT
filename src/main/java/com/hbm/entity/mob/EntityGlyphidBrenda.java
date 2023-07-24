@@ -1,12 +1,16 @@
 package com.hbm.entity.mob;
 
 import com.hbm.entity.effect.EntityMist;
+import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -64,7 +68,8 @@ public class EntityGlyphidBrenda extends EntityGlyphid {
 	}
 
 	@Override
-	public void setDead() {
+	public void onDeath(DamageSource source) {
+		super.onDeath(source);
 		if(!this.worldObj.isRemote && this.getHealth() <= 0.0F) {
 			EntityMist mist = new EntityMist(worldObj);
 			mist.setType(Fluids.PHEROMONE);
@@ -79,7 +84,11 @@ public class EntityGlyphidBrenda extends EntityGlyphid {
 				glyphid.moveEntity(rand.nextGaussian(), 0, rand.nextGaussian());
 			}
 		}
-
-		super.setDead();
 	}
+	@Override
+	protected void dropFewItems(boolean byPlayer, int looting) {
+		super.dropFewItems(byPlayer, looting);
+		if(rand.nextInt(3) == 0) this.entityDropItem(new ItemStack(ModItems.glyphid_gland, 1, Fluids.PHEROMONE.getID()), 1);
+	}
+
 }

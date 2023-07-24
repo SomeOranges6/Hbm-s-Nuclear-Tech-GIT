@@ -356,12 +356,12 @@ public class BulletConfigFactory {
 		return impact;
 	}
 	
-	public static IBulletImpactBehavior getFlashbangEffect(final int radius, final int duration, boolean isSuper) {
+	public static IBulletImpactBehaviorNT getFlashbangEffect(final int radius, final int duration, boolean isSuper) {
 
-		IBulletImpactBehavior impact = new IBulletImpactBehavior() {
+		IBulletImpactBehaviorNT impact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
 				
 				bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "hbm:weapon.flashbang", 1F,1F);
 				
@@ -389,7 +389,7 @@ public class BulletConfigFactory {
 
 		return impact;
 	}
-	public static IBulletImpactBehavior getGasEffect(final int radius, final int duration) {
+	public static IBulletImpactBehaviorNT getGasEffect(final int radius, final int duration) {
 		
 		IBulletImpactBehaviorNT impact = new IBulletImpactBehaviorNT() {
 

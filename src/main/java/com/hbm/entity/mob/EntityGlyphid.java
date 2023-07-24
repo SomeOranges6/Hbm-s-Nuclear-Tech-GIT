@@ -64,7 +64,8 @@ public class EntityGlyphid extends EntityMob {
 	
 	@Override
 	protected void dropFewItems(boolean byPlayer, int looting) {
-		if(rand.nextInt(3) == 0) this.entityDropItem(new ItemStack(ModItems.glyphid_meat, 1 + rand.nextInt(2) + looting), 0F);
+		super.dropFewItems(byPlayer, looting);
+		if(rand.nextInt(Math.max(3/(int)getScale(), 2)) == 0) this.entityDropItem(new ItemStack(ModItems.glyphid_meat, ((int)getScale()*2) + rand.nextInt((int)getScale()*2) + looting), 0F);
 	}
 
 	@Override

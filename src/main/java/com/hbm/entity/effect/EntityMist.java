@@ -165,11 +165,11 @@ public class EntityMist extends Entity {
 		
 		if(type.hasTrait(FT_Corrosive.class)) {
 			FT_Corrosive trait = type.getTrait(FT_Corrosive.class);
-			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, new DamageSource(ModDamageSource.s_acid), trait.getRating() / 60F);
 			
 			if(living != null) {
+				EntityDamageUtil.attackEntityFromIgnoreIFrame(living, ModDamageSource.acid, trait.getRating() / 60F);
 				for(int i = 0; i < 4; i++) {
-					ArmorUtil.damageSuit(living, i, trait.getRating() / 40);
+					ArmorUtil.damageSuit(living, i, trait.getRating() / 50);
 				}
 			}
 		}
