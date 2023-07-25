@@ -41,9 +41,6 @@ public class BlockGlyphidSpawner extends BlockContainer {
 	}
 	private static final ArrayList<Pair<Function<World, EntityGlyphid>, int[]>> spawnMap = new ArrayList<>();
 
-	private static final double advThreshold = MobConfig.advancedThreshold;
-	private static final double bossThreshold = MobConfig.bossThreshold;
-
 	static{
 
 			spawnMap.add(new Pair<>(EntityGlyphid::new, MobConfig.glyphidChance));
@@ -55,11 +52,13 @@ public class BlockGlyphidSpawner extends BlockContainer {
 			spawnMap.add(new Pair<>(EntityGlyphidNuclear::new, MobConfig.johnsonChance));
 	}
 
+	public static boolean initialSpawn = true;
+
 	@Override
 	public int quantityDropped(int meta, int fortune, Random rand) {
 		return 1 + rand.nextInt(3) + fortune;
 	}
-    public static boolean initialSpawn = true;
+
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityGlpyhidSpawner();
@@ -67,10 +66,11 @@ public class BlockGlyphidSpawner extends BlockContainer {
 
 	public static class TileEntityGlpyhidSpawner extends TileEntity {
 
+
 		@Override
 		public void updateEntity() {
 
-			if(!worldObj.isRemote && (worldObj.getTotalWorldTime() % 600 == 0 || initialSpawn) && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL) {
+			if(!worldObj.isRemote && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && initialSpawn || worldObj.getTotalWorldTime() % 2400 == 0) {
 				if(worldObj.getBlock(xCoord, yCoord + 1, zCoord) != Blocks.air)	{
 					return;
 				}
@@ -96,7 +96,7 @@ public class BlockGlyphidSpawner extends BlockContainer {
 						glyphid.moveEntity(worldObj.rand.nextGaussian(), 0, worldObj.rand.nextGaussian());
 					}
 
-					initialSpawn = false;
+
 				}
 				
 				if(worldObj.rand.nextInt(20) == 0 && soot >= MobConfig.scoutThreshold) {
@@ -113,18 +113,14 @@ public class BlockGlyphidSpawner extends BlockContainer {
 
 			ArrayList<EntityGlyphid> currentSpawns = new ArrayList<>();
 			
-			int swarmAmount = (int) (MobConfig.baseSwarmSize * (MobConfig.swarmScalingMult * Math.max(soot/ MobConfig.sootStep, 1)));
+			int swarmAmount = (int) (MobConfig.baseSwarmSize * Math.max(MobConfig.swarmScalingMult * soot/ MobConfig.sootStep, 1));
 
 			while(currentSpawns.size() <= swarmAmount) {
 				 for (Pair<Function<World, EntityGlyphid>, int[]> glyphid : spawnMap) {
 
 					 int[] chance = glyphid.getValue();
 
-					 if ((chance[1] > 5 && soot < bossThreshold) || (chance[1] > 20 && soot < advThreshold)){
-						 continue;
-					 }
-
-					 int adjustedChance = (int) (chance[0] + (chance[1] - chance[1] / (soot+1)));
+					 int adjustedChance = (int) (chance[0] + (chance[1] - chance[1] / (soot/10 + 1)));
 					 if (rand.nextInt(100) <= adjustedChance) {
 						 currentSpawns.add(glyphid.getKey().apply(worldObj));
 					 }
