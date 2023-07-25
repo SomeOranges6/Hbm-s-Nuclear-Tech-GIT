@@ -38,6 +38,14 @@ public class BlockEnums {
 		DESH,
 		BISMUTH
 	}
+
+	public static enum EnumCMCircuit {
+		ALUMINIUM,
+		COPPER,
+		RED_COPPER,
+		GOLD,
+		SCHRABIDIUM
+	}
 	
 	/** DECO / STRUCTURE ENUMS */
 	//i apologize in advance
