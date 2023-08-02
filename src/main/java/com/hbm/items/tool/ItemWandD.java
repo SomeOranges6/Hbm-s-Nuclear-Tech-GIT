@@ -3,13 +3,24 @@ package com.hbm.items.tool;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.logic.EntityWaypoint;
+import com.hbm.entity.mob.EntityGlyphid;
+import com.hbm.entity.mob.EntityGlyphidNuclear;
+import com.hbm.entity.mob.EntityGlyphidScout;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.lib.Library;
 
+import com.hbm.util.ChatBuilder;
 import com.hbm.world.feature.GlyphidHive;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -32,8 +43,68 @@ public class ItemWandD extends Item {
 			vnt.setPlayerProcessor(new PlayerProcessorStandard());
 			vnt.setSFX(new ExplosionEffectStandard());
 			vnt.explode();*/
-			
-			PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionHandler.PollutionType.SOOT, 30);
+			int nestX = world.rand.nextInt((pos.blockX + 50) - (pos.blockX - 50)) + (pos.blockX - 50);
+			int nestZ = world.rand.nextInt((pos.blockZ + 50) - (pos.blockZ - 50)) + (pos.blockZ - 50);
+			int nestY = world.getHeightValue(nestX, nestZ);
+
+			if (!(nestY > pos.blockY + 20) && !(nestY < pos.blockY - 20)) {
+
+				Block b = world.getBlock(nestX, nestY - 1, nestZ);
+
+				if (b.isNormalCube() && b != ModBlocks.glyphid_base) {
+
+					if(!world.isRemote) {
+						player.addChatMessage(ChatBuilder.start("[").color(EnumChatFormatting.DARK_AQUA)
+								.nextTranslation(this.getUnlocalizedName() + ".name").color(EnumChatFormatting.DARK_AQUA)
+								.next("] ").color(EnumChatFormatting.DARK_AQUA)
+								.next(nestX + ","+ nestY + "," + nestZ).color(EnumChatFormatting.GREEN).flush());
+					}
+
+					EntityWaypoint nest = new EntityWaypoint(world);
+					nest.setWaypointType(2);
+					//nest.setHighPriority();
+					nest.setLocationAndAngles(nestX, nestY, nestZ, 0, 0);
+					world.spawnEntityInWorld(nest);
+
+
+					int radius = 8;
+					AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
+							pos.hitVec.xCoord - radius,
+							pos.hitVec.yCoord - radius,
+							pos.hitVec.zCoord - radius,
+							pos.hitVec.xCoord + radius,
+							pos.hitVec.yCoord + radius,
+							pos.hitVec.zCoord + radius);
+
+					List<Entity> bugs = world.getEntitiesWithinAABB(EntityGlyphid.class, bb);
+					for (Entity e : bugs) {
+						if (e instanceof EntityGlyphid) {
+							if(e instanceof EntityGlyphidNuclear){
+								((EntityGlyphid) e).setCurrentTask(2, nest);
+								assert ((EntityGlyphid) e).getCurrentTask() == 2;
+							} else {
+								((EntityGlyphid) e).setCurrentTask(4, nest);
+							}
+						}
+					}
+				} else {
+					if(!world.isRemote) {
+						player.addChatMessage(ChatBuilder.start("[").color(EnumChatFormatting.DARK_AQUA)
+								.nextTranslation(this.getUnlocalizedName() + ".name").color(EnumChatFormatting.DARK_AQUA)
+								.next("] ").color(EnumChatFormatting.DARK_AQUA)
+								.next("Normal cube check failed :(").color(EnumChatFormatting.GREEN)
+								.next("The culprit:" + b.getUnlocalizedName()).color(EnumChatFormatting.GREEN).flush());
+
+					}
+				}
+			} else {
+				if(!world.isRemote) {
+					player.addChatMessage(ChatBuilder.start("[").color(EnumChatFormatting.DARK_AQUA)
+							.nextTranslation(this.getUnlocalizedName() + ".name").color(EnumChatFormatting.DARK_AQUA)
+							.next("] ").color(EnumChatFormatting.DARK_AQUA)
+							.next("Coordinates beyond Y limit").color(EnumChatFormatting.GREEN).flush());
+				}
+			}
 			//world.newExplosion(null, pos.blockX, pos.blockY, pos.blockZ, 5F, false, false);
 			//GlyphidHive.generateBigOrb(world, pos.blockX, pos.blockY, pos.blockZ, new Random());
 			/*TimeAnalyzer.startCount("setBlock");
@@ -66,14 +137,14 @@ public class ItemWandD extends Item {
 			entry.blocksDistanceThreshold = 1000;
 			world.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(world, 150, pos.blockX, pos.blockY + 1, pos.blockZ));*/
 			
-			//DungeonToolbox.generateBedrockOreWithChance(world, world.rand, pos.blockX, pos.blockZ, EnumBedrockOre.TITANIUM,	new FluidStack(Fluids.SULFURIC_ACID, 500), 2, 1);
+			//DungeonToolbox.generateBedrockOreWithChance(world, world.world.rand, pos.blockX, pos.blockZ, EnumBedrockOre.TITANIUM,	new FluidStack(Fluids.SULFURIC_ACID, 500), 2, 1);
 			
 			/*EntitySiegeTunneler tunneler = new EntitySiegeTunneler(world);
 			tunneler.setPosition(pos.blockX, pos.blockY + 1, pos.blockZ);
 			tunneler.onSpawnWithEgg(null);
 			world.spawnEntityInWorld(tunneler);*/
 			
-			//CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);
+			//CellularDungeonFactory.meteor.generate(world, x, y, z, world.world.rand);
 			
 			/*int r = 5;
 			
@@ -84,12 +155,12 @@ public class ItemWandD extends Item {
 				for(int j = y - r; j <= y + r; j++) {
 					for(int k = z - r; k <= z + r; k++) {
 						if(world.getBlock(i, j, k) == ModBlocks.concrete_super)
-							world.getBlock(i, j, k).updateTick(world, i, j, k, world.rand);
+							world.getBlock(i, j, k).updateTick(world, i, j, k, world.world.rand);
 					}
 				}
 			}*/
 			
-			//new Bunker().generate(world, world.rand, x, y, z);
+			//new Bunker().generate(world, world.world.rand, x, y, z);
 			
 			/*EntityBlockSpider spider = new EntityBlockSpider(world);
 			spider.setPosition(x + 0.5, y, z + 0.5);
@@ -106,15 +177,15 @@ public class ItemWandD extends Item {
     		
     		MainRegistry.proxy.effectNT(data);*/
 			
-			//new Spaceship().generate_r0(world, world.rand, x - 4, y, z - 8);
+			//new Spaceship().generate_r0(world, world.world.rand, x - 4, y, z - 8);
 
-			//new Ruin001().generate_r0(world, world.rand, x, y - 8, z);
+			//new Ruin001().generate_r0(world, world.world.rand, x, y - 8, z);
 
-			//CellularDungeonFactory.jungle.generate(world, x, y, z, world.rand);
-			//CellularDungeonFactory.jungle.generate(world, x, y + 4, z, world.rand);
-			//CellularDungeonFactory.jungle.generate(world, x, y + 8, z, world.rand);
+			//CellularDungeonFactory.jungle.generate(world, x, y, z, world.world.rand);
+			//CellularDungeonFactory.jungle.generate(world, x, y + 4, z, world.world.rand);
+			//CellularDungeonFactory.jungle.generate(world, x, y + 8, z, world.world.rand);
 			
-			//new AncientTomb().build(world, world.rand, x, y + 10, z);
+			//new AncientTomb().build(world, world.world.rand, x, y + 10, z);
 			
 			//new ArcticVault().trySpawn(world, x, y, z);
 			
@@ -128,7 +199,7 @@ public class ItemWandD extends Item {
 					} else if(ix % 2 == 1 && iz % 2 == 1) {
 						world.setBlock(ix, y, iz, ModBlocks.reinforced_stone);
 						world.setBlock(ix, y + 1, iz, ModBlocks.spikes);
-					} else if(world.rand.nextInt(3) == 0) {
+					} else if(world.world.rand.nextInt(3) == 0) {
 						for(int iy = y; iy < y + 4; iy++)
 							world.setBlock(ix, iy, iz, ModBlocks.brick_dungeon_flat);
 						world.setBlock(ix, y + 4, iz, ModBlocks.brick_dungeon_tile);

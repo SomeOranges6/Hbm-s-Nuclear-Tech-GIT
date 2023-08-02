@@ -1366,8 +1366,8 @@ hbmfluid.xenon=Xenon Gas
 hbmfluid.xpjuice=Experience Juice
 hbmfluid.xylene=BTX
 hbmfluid.caulk=Quick-Hardening Caulk
-hbmfluid.pheromone=Pheromone
-hbmfluid.pheromone_m=Modified Pheromone
+hbmfluid.pheromone=Booster Pheromone
+hbmfluid.pheromone_m=Modified Booster Pheromone
 
 hbmpseudofluid.none=Empty
 hbmpseudofluid.heuf6=Highly Enriched UF6

@@ -1,6 +1,7 @@
 package com.hbm.entity.mob;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.logic.EntityWaypoint;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
@@ -21,7 +22,7 @@ import net.minecraft.world.World;
 public class EntityGlyphidNuclear extends EntityGlyphid {
 	
 	public int deathTicks;
-
+    public int maxDeathTicks = 100;
 	public EntityGlyphidNuclear(World world) {
 		super(world);
 		this.setSize(2.5F, 1.75F);
@@ -36,6 +37,15 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 	@Override
 	public double getScale() {
 		return 2D;
+	}
+
+	@Override
+	public void onUpdate() {
+		super.onUpdate();
+		if(atDestination && getCurrentTask() == 2){
+          maxDeathTicks = 200;
+		  this.setHealth(0);
+		}
 	}
 
 	@Override
@@ -77,7 +87,10 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 	protected void onDeathUpdate() {
 		++this.deathTicks;
 
-		if(this.deathTicks == 100) {
+		this.setCurrentTask(3, null);
+		carryOutTask();
+
+		if(this.deathTicks == maxDeathTicks) {
 			
 			if(!worldObj.isRemote) {
 				ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY, posZ, 25, this);
@@ -86,7 +99,7 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 				vnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(1.5F));
 				vnt.setPlayerProcessor(new PlayerProcessorStandard());
 				vnt.explode();
-				
+
 				worldObj.playSoundEffect(posX, posY, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 	
 				NBTTagCompound data = new NBTTagCompound();
