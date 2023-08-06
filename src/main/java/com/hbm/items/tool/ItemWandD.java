@@ -43,6 +43,8 @@ public class ItemWandD extends Item {
 			vnt.setPlayerProcessor(new PlayerProcessorStandard());
 			vnt.setSFX(new ExplosionEffectStandard());
 			vnt.explode();*/
+			PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionHandler.PollutionType.SOOT, 30);
+			/*
 			int nestX = world.rand.nextInt((pos.blockX + 50) - (pos.blockX - 50)) + (pos.blockX - 50);
 			int nestZ = world.rand.nextInt((pos.blockZ + 50) - (pos.blockZ - 50)) + (pos.blockZ - 50);
 			int nestY = world.getHeightValue(nestX, nestZ);
@@ -105,6 +107,8 @@ public class ItemWandD extends Item {
 							.next("Coordinates beyond Y limit").color(EnumChatFormatting.GREEN).flush());
 				}
 			}
+
+			 */
 			//world.newExplosion(null, pos.blockX, pos.blockY, pos.blockZ, 5F, false, false);
 			//GlyphidHive.generateBigOrb(world, pos.blockX, pos.blockY, pos.blockZ, new Random());
 			/*TimeAnalyzer.startCount("setBlock");

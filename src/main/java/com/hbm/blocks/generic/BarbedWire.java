@@ -24,10 +24,18 @@ public class BarbedWire extends Block {
 	public BarbedWire(Material mat) {
 		super(mat);
 	}
-
-	public void onEntityCollidedWithBlock(World p_149670_1_, int x, int y, int z, Entity ent) {
+	int timer = 300;
+	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity ent) {
 
 		ent.setInWeb();
+		timer--;
+
+		if(ent instanceof EntityLivingBase){
+			if(((EntityLivingBase) ent).getMaxHealth() >= 100){
+					if(timer - ((EntityLivingBase) ent).getHealth() <= 0)
+						world.setBlockToAir(x, y, z);
+			}
+		}
 
 		ent.motionX *= 0.15D;
 		ent.motionY *= 0.1D;
@@ -38,7 +46,7 @@ public class BarbedWire extends Block {
 		}
 
 		if(this == ModBlocks.barbed_wire_fire) {
-			ent.attackEntityFrom(DamageSource.cactus, 2.0F);
+			ent.attackEntityFrom(DamageSource.inFire, 2.0F);
 			ent.setFire(1);
 		}
 
@@ -51,7 +59,7 @@ public class BarbedWire extends Block {
 		}
 
 		if(this == ModBlocks.barbed_wire_acid) {
-			ent.attackEntityFrom(DamageSource.cactus, 2.0F);
+			ent.attackEntityFrom(ModDamageSource.acid, 2.0F);
 
 			if(ent instanceof EntityPlayer) {
 				ArmorUtil.damageSuit((EntityPlayer) ent, 0, 1);

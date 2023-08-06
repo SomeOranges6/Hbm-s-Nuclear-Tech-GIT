@@ -22,7 +22,6 @@ import net.minecraft.world.World;
 public class EntityGlyphidNuclear extends EntityGlyphid {
 	
 	public int deathTicks;
-    public int maxDeathTicks = 100;
 	public EntityGlyphidNuclear(World world) {
 		super(world);
 		this.setSize(2.5F, 1.75F);
@@ -42,16 +41,26 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		if(atDestination && getCurrentTask() == 2){
-          maxDeathTicks = 200;
-		  this.setHealth(0);
+		if (ticksExisted % 20 == 0) {
+			if (super.isAtDestination() && getCurrentTask() == 4) {
+				setCurrentTask(0, null);
+			}
+
+			if (isAtDestination()) {
+				this.setHealth(0);
+			}
 		}
+	}
+
+	@Override
+	public boolean isAtDestination() {
+		return super.isAtDestination() && this.getCurrentTask() == 2;
 	}
 
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20D);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(100D);
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.8D);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(50D);
 	}
@@ -83,14 +92,17 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 		return 10F;
 	}
 
+	public boolean hasWaypoint = false;
 	@Override
 	protected void onDeathUpdate() {
 		++this.deathTicks;
 
-		this.setCurrentTask(3, null);
-		carryOutTask();
+		if(!hasWaypoint) {
+			this.setCurrentTask(3, null);
+			hasWaypoint = true;
+		}
 
-		if(this.deathTicks == maxDeathTicks) {
+		if(this.deathTicks == 100) {
 			
 			if(!worldObj.isRemote) {
 				ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY, posZ, 25, this);

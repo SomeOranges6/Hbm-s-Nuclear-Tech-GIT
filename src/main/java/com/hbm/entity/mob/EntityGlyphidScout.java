@@ -57,58 +57,81 @@ public class EntityGlyphidScout extends EntityGlyphid {
 	protected boolean canDespawn() {
 		return true;
 	}
-
+	boolean hasTarget = false;
+	int timer;
 	@Override
 	public void onUpdate() {
+
 		super.onUpdate();
 
-		if(!worldObj.isRemote) {
+		if(this.getCurrentTask() == 0) {
+				setCurrentTask(2, this.taskWaypoint);
+		}
 
-			//this might be too fast
-			if(this.ticksExisted > 0 && this.ticksExisted % 200 == 0) {
-                if(getCurrentTask() == 0){
-					setCurrentTask(2, null);
-				}
-				if(expandHive(null) && getCurrentTask() == 2) {
-					worldObj.newExplosion(this, posX, posY, posZ, 5F, false, false);
-					GlyphidHive.generateBigGround(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), rand);
-				}
+		if(getCurrentTask() == 2) {
 
+			if(!worldObj.isRemote && !hasTarget) {
+				if (expandHive(null)){
+					hasTarget = true;
+				}
+			}
+
+			if (isAtDestination() && ticksExisted % 20 == 0) {
+				timer++;
+				if (!worldObj.isRemote) {
+					if(timer == 1) {
+						EntityWaypoint additional = new EntityWaypoint(worldObj);
+						additional.setLocationAndAngles(posX, posY, posZ, 0, 0);
+						additional.setWaypointType(0);
+
+						//First, go home and get reinforcements
+						EntityWaypoint home = new EntityWaypoint(worldObj);
+						home.setWaypointType(1);
+						home.setAdditionalWaypoint(additional);
+						home.setHighPriority();
+						home.setLocationAndAngles(homeX, homeY, homeZ, 0, 0);
+						worldObj.spawnEntityInWorld(home);
+
+						communicate(4, home);
+					} else if(timer == 10) {
+						worldObj.newExplosion(this, posX, posY, posZ, 5F, false, false);
+						GlyphidHive.generateBigGround(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), rand);
+						this.setDead();
+					}
+				}
 			}
 		}
+
 	}
 
 	@Override
 	public boolean expandHive(@Nullable EntityWaypoint waypoint) {
 
-       if(!worldObj.isRemote) {
+	   int nestX = rand.nextInt((homeX + 30) - (homeX - 30)) + (homeX - 30);
+	   int nestZ = rand.nextInt((homeZ + 30) - (homeZ - 30)) + (homeZ - 30);
+	   int nestY = worldObj.getHeightValue(nestX, nestZ);
 
-		   int nestX = rand.nextInt((homeX + 50) - (homeX - 50)) + (homeX - 50);
-		   int nestZ = rand.nextInt((homeZ + 50) - (homeZ - 50)) + (homeZ - 50);
-		   int nestY = worldObj.getHeightValue(nestX, nestZ) + 1;
+	   Block b = worldObj.getBlock(nestX, nestY - 1, nestZ);
 
-		   if (!(nestY > homeY + 20) && !(nestY < homeY - 20)) {
+	   if(b.getMaterial() != Material.air && b.isNormalCube() && b != ModBlocks.glyphid_base) {
+		   if(!worldObj.isRemote) {
+			   EntityWaypoint nest = new EntityWaypoint(worldObj);
+			   nest.setWaypointType(2);
+			   nest.setLocationAndAngles(nestX, nestY, nestZ, 0, 0);
+			   worldObj.spawnEntityInWorld(nest);
 
-			   Block b = worldObj.getBlock(nestX, nestY - 1, nestZ);
-
-			   if(b.getMaterial() != Material.air && b.isNormalCube() && b != ModBlocks.glyphid_base && atDestination) {
-
-				   EntityWaypoint nest = new EntityWaypoint(worldObj);
-				   nest.setWaypointType(0);
-				   nest.setHighPriority();
-				   nest.setLocationAndAngles(nestX, nestY, nestZ, 0, 0);
-				   worldObj.spawnEntityInWorld(nest);
-
-				   taskWaypoint = nest;
-				   communicate(1, taskWaypoint);
-				   return true;
-			   } else {
-				   return false;
-			   }
+			   taskWaypoint = nest;
+			   communicate(2, taskWaypoint);
 		   }
-
+		   return true;
 	   }
-		return false;
+
+		   return false;
+	}
+
+	@Override
+	public boolean isAtDestination() {
+		return super.isAtDestination() && this.getCurrentTask() == 2;
 	}
 
 	@Override
@@ -120,37 +143,18 @@ public class EntityGlyphidScout extends EntityGlyphid {
 				//then, come back later
 				EntityWaypoint additional = new EntityWaypoint(worldObj);
 				additional.setLocationAndAngles(posX, posY, posZ, 0, 0);
-				additional.setWaypointType(2);
-				worldObj.spawnEntityInWorld(additional);
+				additional.setWaypointType(0);
 
 				//First, go home and get reinforcements
 				EntityWaypoint home = new EntityWaypoint(worldObj);
-				home.setWaypointType(1);
+				home.setWaypointType(4);
 				home.setAdditionalWaypoint(additional);
 				home.setHighPriority();
+				home.radius = 6;
 				home.setLocationAndAngles(homeX, homeY, homeZ, 0, 0);
 				worldObj.spawnEntityInWorld(home);
 
-				this.taskWaypoint = home;
-			} else if (getCurrentTask() == 2 && this.taskWaypoint != null) {
-				int radius = 15;
-
-				AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
-						this.posX - radius,
-						this.posY - radius,
-						this.posZ - radius,
-						this.posX + radius,
-						this.posY + radius,
-						this.posZ + radius);
-
-				List<Entity> bugs = worldObj.getEntitiesWithinAABBExcludingEntity(this, bb);
-				for (Entity e: bugs){
-					if(e instanceof EntityGlyphidNuclear){
-						if(((EntityGlyphid) e).getCurrentTask() != 2){
-							((EntityGlyphid) e).setCurrentTask(2, taskWaypoint);
-						}
-					}
-				}
+				communicate(4, home);
 			}
 		}
 		super.carryOutTask();
@@ -171,7 +175,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 		List<Entity> bugs = worldObj.getEntitiesWithinAABBExcludingEntity(this, bb);
 		for (Entity e: bugs){
 			if(e instanceof EntityGlyphid){
-				if(((EntityGlyphid) e).getCurrentTask() != task){
+				if(((EntityGlyphid) e).getCurrentTask() == 0){
 					((EntityGlyphid) e).setCurrentTask(task, waypoint);
 				}
 			}

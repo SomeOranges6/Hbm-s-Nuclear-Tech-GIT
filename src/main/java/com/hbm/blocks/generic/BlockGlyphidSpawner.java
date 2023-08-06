@@ -99,7 +99,7 @@ public class BlockGlyphidSpawner extends BlockContainer {
 
 				}
 				
-				if(worldObj.rand.nextInt(20) == 0 && soot >= MobConfig.scoutThreshold) {
+				if(worldObj.rand.nextInt(200) == 0 && soot >= MobConfig.scoutThreshold) {
 					EntityGlyphidScout scout = new EntityGlyphidScout(worldObj);
 					scout.setLocationAndAngles(xCoord + 0.5, yCoord + 1, zCoord + 0.5, worldObj.rand.nextFloat() * 360.0F, 0.0F);
 					worldObj.spawnEntityInWorld(scout);

@@ -55,20 +55,25 @@ public class EntityWaypoint extends Entity {
             default: return 0x566573;
         }
     }
+    AxisAlignedBB bb;
     @Override
     public void onEntityUpdate() {
         if (ticksExisted >= maxAge) {
             this.setDead();
         }
         if (!worldObj.isRemote) {
-            if (worldObj.getTotalWorldTime() % 40 == 0) {
-                AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
+
+            if (ticksExisted == 1) {
+                         bb = AxisAlignedBB.getBoundingBox(
                         this.posX - radius,
                         this.posY - radius,
                         this.posZ - radius,
                         this.posX + radius,
                         this.posY + radius,
                         this.posZ + radius);
+            }
+
+            if (ticksExisted % 100 == 0) {
 
                 List<Entity> targets = worldObj.getEntitiesWithinAABBExcludingEntity(this, bb);
 
@@ -76,18 +81,21 @@ public class EntityWaypoint extends Entity {
                     if (e instanceof EntityGlyphid) {
 
                         if (additional != null) {
-                            ((EntityGlyphid) e).atDestination = false;
-                        } else if(getWaypointType() == 2 && e instanceof EntityGlyphidNuclear){
-                            ((EntityGlyphidNuclear) e).atDestination = true;
+                            worldObj.spawnEntityInWorld(additional);
                         }
 
                         ((EntityGlyphid) e).setCurrentTask(getWaypointType(), additional);
-                        this.setDead();
 
+                        if (getWaypointType() == 2) {
+                            if (e instanceof EntityGlyphidNuclear || e instanceof EntityGlyphidScout)
+                                setDead();
+                        } else {
+                            setDead();
+                        }
                     }
                 }
             }
-
+        } else {
             AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
                     this.posX - radius,
                     this.posY - radius,
@@ -107,13 +115,13 @@ public class EntityWaypoint extends Entity {
             fx.setFloat("base", 0.75F);
             fx.setFloat("max", 2F);
             fx.setInteger("life", 50 + worldObj.rand.nextInt(10));
-            fx.setInteger("color", 0x5FA6E8);
+            fx.setInteger("color", getColor());
             fx.setDouble("posX", x);
             fx.setDouble("posY", y);
             fx.setDouble("posZ", z);
             MainRegistry.proxy.effectNT(fx);
-
         }
+
     }
 
 

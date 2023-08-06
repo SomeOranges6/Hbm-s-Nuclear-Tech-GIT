@@ -40,11 +40,10 @@ public class EntityGlyphid extends EntityMob {
 	public int taskX;
 	public int taskY;
 	public int taskZ;
-	public boolean atDestination = false;
 
     public int deathCounter;
 
-	EntityWaypoint taskWaypoint;
+	EntityWaypoint taskWaypoint = null;
 	public EntityGlyphid(World world) {
 		super(world);
 		/*this.tasks.addTask(0, new EntityAISwimming(this));
@@ -81,6 +80,7 @@ public class EntityGlyphid extends EntityMob {
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(5D);
 	}
 
+
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
@@ -93,17 +93,14 @@ public class EntityGlyphid extends EntityMob {
 				hasHome = true;
 			}
 
-			atDestination = currentTask != 0 && (posX == taskX && posY == taskY && posZ == taskZ);
 
-			if(getCurrentTask() != 4) carryOutTask();
-
-            if(atDestination && getCurrentTask() == 4){
+            if(getCurrentTask() == 4 && isAtDestination()){
 				setCurrentTask(0, null);
 			}
 
 			this.setBesideClimbableBlock(this.isCollidedHorizontally);
 
-			if(worldObj.getTotalWorldTime() % 200 == 0) {
+			if(ticksExisted % 100 == 0) {
 				this.swingItem();
 			}
 		}
@@ -114,7 +111,7 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	protected void dropFewItems(boolean byPlayer, int looting) {
 		super.dropFewItems(byPlayer, looting);
-		if(rand.nextInt(Math.max(3/(int)getScale()+1, 2)) == 0) this.entityDropItem(new ItemStack(ModItems.glyphid_meat, ((int)getScale()*2) + rand.nextInt((int)getScale()*2) + looting), 0F);
+		if(rand.nextInt(Math.max(3/((int)getScale()+1), 2)) == 0) this.entityDropItem(new ItemStack(ModItems.glyphid_meat, ((int)getScale()*2) + rand.nextInt((int)getScale()*2) + looting), 0F);
 	}
 
 	@Override
@@ -127,28 +124,31 @@ public class EntityGlyphid extends EntityMob {
 	protected void updateEntityActionState() {
 		super.updateEntityActionState();
 
-		// hell yeah!!
-		if(useExtendedTargeting() && this.entityToAttack != null && !this.hasPath()) {
-			this.setPathToEntity(PathFinderUtils.getPathEntityToEntityPartial(worldObj, this, this.entityToAttack, 16F, true, false, false, true));
-		} else {
-			this.worldObj.theProfiler.startSection("stroll");
+		if(!this.hasPath()) {
 
-			if (!atDestination && getCurrentTask() != 0) {
+			// hell yeah!!
+			if (useExtendedTargeting() && this.entityToAttack != null) {
+				this.setPathToEntity(PathFinderUtils.getPathEntityToEntityPartial(worldObj, this, this.entityToAttack, 16F, true, false, false, true));
+			} else {
+				this.worldObj.theProfiler.startSection("stroll");
 
-				if (taskWaypoint != null) {
+				if (!isAtDestination() && getCurrentTask() != 0) {
 
-					taskX = (int) taskWaypoint.posX;
-					taskY = (int) taskWaypoint.posY;
-					taskZ = (int) taskWaypoint.posZ;
+					if (taskWaypoint != null) {
 
-					if (taskWaypoint.highPriority) {
-						setTarget(taskWaypoint);
+						taskX = (int) taskWaypoint.posX;
+						taskY = (int) taskWaypoint.posY;
+						taskZ = (int) taskWaypoint.posZ;
+
+						if (taskWaypoint.highPriority) {
+							setTarget(taskWaypoint);
+						}
+
 					}
-
+					this.setPathToEntity(this.worldObj.getEntityPathToXYZ(this, taskX, taskY, taskZ, 128F, true, false, false, true));
 				}
-				this.setPathToEntity(this.worldObj.getEntityPathToXYZ(this, taskX, taskY, taskZ, 128F, true, false, false, true));
+				this.worldObj.theProfiler.endSection();
 			}
-			this.worldObj.theProfiler.endSection();
 		}
 	}
 
@@ -237,9 +237,8 @@ public class EntityGlyphid extends EntityMob {
 
 	public void setCurrentTask(int task, @Nullable EntityWaypoint waypoint){
 		currentTask =  task;
-		if (waypoint != null) {
-			taskWaypoint = waypoint;
-		}
+		taskWaypoint = waypoint;
+		carryOutTask();
 	}
 
 	public void carryOutTask(){
@@ -248,19 +247,17 @@ public class EntityGlyphid extends EntityMob {
 		switch(task){
 
 			//call for reinforcements
-			case 1: if(taskWaypoint != null) communicate(0, taskWaypoint); break;
+			case 1: if(taskWaypoint != null) communicate(4, taskWaypoint); break;
 			//expand the hive
 			//case 2: expandHive(null);
 			//retreat
 			case 3:
 
 				if (!worldObj.isRemote && taskWaypoint == null) {
-                    this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 20*20, 3));
 
 					//Then, Come back later
 					EntityWaypoint additional =  new EntityWaypoint(worldObj);
 					additional.setLocationAndAngles(posX, posY, posZ, 0 , 0);
-					worldObj.spawnEntityInWorld(additional);
 
 					//First, go home and get reinforcements
 					EntityWaypoint home = new EntityWaypoint(worldObj);
@@ -271,7 +268,7 @@ public class EntityGlyphid extends EntityMob {
 					worldObj.spawnEntityInWorld(home);
 
 					this.taskWaypoint = home;
-					communicate(0, taskWaypoint);
+					communicate(4, home);
 					break;
 
 				}
@@ -282,7 +279,6 @@ public class EntityGlyphid extends EntityMob {
 			
 		}
 
-		this.setCurrentTask(4, taskWaypoint);
 	}
 
     public void communicate(int task, EntityWaypoint waypoint){
@@ -311,6 +307,11 @@ public class EntityGlyphid extends EntityMob {
 	public boolean expandHive(@Nullable EntityWaypoint waypoint){
 		return false;
 	}
+
+	public boolean isAtDestination() {
+		return this.getDistanceSq(taskX, taskY, taskZ) <= 25;
+	}
+
 	@Override
 	public boolean attackEntityAsMob(Entity victum) {
 		if(this.isSwingInProgress) return false;
