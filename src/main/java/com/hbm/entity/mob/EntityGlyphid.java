@@ -129,10 +129,10 @@ public class EntityGlyphid extends EntityMob {
 			// hell yeah!!
 			if (useExtendedTargeting() && this.entityToAttack != null) {
 				this.setPathToEntity(PathFinderUtils.getPathEntityToEntityPartial(worldObj, this, this.entityToAttack, 16F, true, false, false, true));
-			} else {
+			} else if(getCurrentTask() != 0) {
 				this.worldObj.theProfiler.startSection("stroll");
 
-				if (!isAtDestination() && getCurrentTask() != 0) {
+				if (!isAtDestination()) {
 
 					if (taskWaypoint != null) {
 
