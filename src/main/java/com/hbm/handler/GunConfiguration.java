@@ -74,7 +74,10 @@ public class GunConfiguration implements Cloneable {
 	public long chargeRate;
 	//how much energy is discharged per shot
 	public long dischargePerShot;
-	
+
+	/** Whether the burst fire gun can fire without all rounds needed, irrelevant if the firing mode is not burst**/
+	public boolean partialFire = false;
+
 	public String name = "";
 	public EnumGunManufacturer manufacturer = EnumGunManufacturer.NONE;
 	public List<String> comment = new ArrayList();
@@ -94,6 +97,7 @@ public class GunConfiguration implements Cloneable {
 
 	public static final int FIRE_MANUAL = 0;
 	public static final int FIRE_AUTO = 1;
+	public static final int FIRE_BURST = 2;
 
 	public static final int RELOAD_NONE = 0;
 	public static final int RELOAD_FULL = 1;

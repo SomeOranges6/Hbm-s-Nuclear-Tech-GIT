@@ -67,7 +67,7 @@ public class Gun556mmFactory {
 		//config.config = new ArrayList();
 		//config.config.add(BulletConfigSyncingUtil.R556_GOLD);
 		
-		config.config = HbmCollection.r556;
+		config.config = HbmCollection.r556gold;
 		
 		return config;
 	}
@@ -112,7 +112,7 @@ public class Gun556mmFactory {
 		
 		return config;
 	}
-	
+
 	public static GunConfiguration getGLauncherConfig() {
 		
 		GunConfiguration config = new GunConfiguration();
@@ -136,6 +136,102 @@ public class Gun556mmFactory {
 		
 		config.ejector = EJECTOR_GRENADE;
 		
+		return config;
+	}
+	public static GunConfiguration getMoritaConfig() {
+
+		GunConfiguration config = new GunConfiguration();
+
+		config.rateOfFire = 2;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.reloadDuration = 20;
+		config.firingDuration = 0;
+		config.ammoCap = 60;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.CLASSIC;
+		config.durability = 10000;
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
+		config.firingSound = "hbm:weapon.moritaShoot";
+		config.reloadSoundEnd = false;
+
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0.5, 0, 0, 25))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+				)
+		);
+		config.animations.put(AnimType.RELOAD, new BusAnimation()
+				.addBus("TILT", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 125))
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 750))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 125))
+				)
+				.addBus("MAG", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 250))
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 1, 250))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250))
+				)
+		);
+		config.animations.put(AnimType.ALT_CYCLE, new BusAnimation()
+				.addBus("RECOIL_TRANSLATE", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 2, 100))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+				)
+				.addBus("PUMP", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 450))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 1.8, 200))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+				)
+		);
+
+		config.name = "morita";
+		config.manufacturer = EnumGunManufacturer.MORITA;
+
+		config.comment.add("Smells like crayons.");
+
+		config.config = HbmCollection.r556;
+
+		config.ejector = EJECTOR_RIFLE;
+
+		return config;
+	}
+	public static GunConfiguration getMUnderbarrelConfig(){
+
+		GunConfiguration config = new GunConfiguration();
+
+		config.rateOfFire = 25;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.firingDuration = 0;
+		config.reloadDuration = 40;
+		config.ammoCap = 0;
+		config.reloadType = GunConfiguration.RELOAD_NONE;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.firingSound = "hbm:weapon.revolverShootAlt";
+		config.firingPitch = 0.7F;
+
+		config.ejector = EJECTOR_GRENADE;
+
+		config.config = HbmCollection.g4;
+
+
+		return config;
+	}
+
+	public static GunConfiguration getMoritaCarbineConfig() {
+
+		GunConfiguration config = getMoritaConfig();
+		config.rateOfFire = 4;
+		config.firingMode = GunConfiguration.FIRE_BURST;
+		config.roundsPerCycle = 3;
+		config.partialFire = true;
+		config.durability = 8000;
+		config.reloadDuration = 15;
+		config.comment.add("COME ON YOU APES, YOU WANNA LIVE FOREVER??");
 		return config;
 	}
 

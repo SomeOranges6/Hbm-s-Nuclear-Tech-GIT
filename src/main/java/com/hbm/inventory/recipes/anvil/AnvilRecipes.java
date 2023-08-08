@@ -488,7 +488,36 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new ComparableStack(ModBlocks.glass_quartz, 3), new ComparableStack(ModItems.pill_herbal, 2), new ComparableStack(ModItems.powder_magic, 2)},
 				new AnvilOutput(new ItemStack(ModItems.flask_infusion, 1, EnumInfusion.NITAN.ordinal()))).setTier(2));
-		
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+						new ComparableStack(ModItems.hull_small_steel, 1),
+						new ComparableStack(ModItems.mechanism_rifle_2, 2),
+						new OreDictStack(ANY_PLASTIC.ingot(), 6),
+						new OreDictStack(ALLOY.plate(), 4),
+						new ComparableStack(ModItems.bolt_dura_steel, 3),
+				},
+				new AnvilOutput(new ItemStack(ModItems.gun_morita, 1))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+						new ComparableStack(ModItems.gun_morita_carbine, 1),
+						new ComparableStack(ModItems.hull_small_steel, 1),
+						new ComparableStack(ModItems.mechanism_rifle_2, 1),
+						new OreDictStack(ANY_PLASTIC.ingot(), 2),
+						new OreDictStack(ALLOY.plate(), 2),
+						new ComparableStack(ModItems.bolt_dura_steel, 2),
+				},
+				new AnvilOutput(new ItemStack(ModItems.gun_morita, 1))).setTier(3));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+						new ComparableStack(ModItems.mechanism_rifle_2, 1),
+						new OreDictStack(ANY_PLASTIC.ingot(), 4),
+						new OreDictStack(ALLOY.plate(), 2),
+						new ComparableStack(ModItems.bolt_dura_steel, 1),
+				},
+				new AnvilOutput(new ItemStack(ModItems.gun_morita_carbine, 1))).setTier(2));
+
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new OreDictStack(AS.ingot()), new OreDictStack(REDSTONE.dust(), 4), new OreDictStack(ASBESTOS.ingot(), 2)},
 				new AnvilOutput(new ItemStack(ModItems.circuit_arsenic_raw))).setTier(5));

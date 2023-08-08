@@ -193,8 +193,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			return getBeltSize(player, getBeltType(player, stack, main)) > 0;
 			
 		} else {
-			//return getMag(stack) >= 0 + config.roundsPerCycle;
-			return getMag(stack) > 0;
+			if(config.partialFire && getMag(stack) > 0){
+				return true;
+			}
+			return getMag(stack) >= config.roundsPerCycle;
 		}
 	}
 	
@@ -210,8 +212,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		}
 		
 		int bullets = config.bulletsMin;
-		
-		for(int k = 0; k < mainConfig.roundsPerCycle; k++) {
+
+		int maxRounds = mainConfig.partialFire ? Math.min(getMag(stack), mainConfig.roundsPerCycle): mainConfig.roundsPerCycle;
+
+		for(int k = 0; k < maxRounds; k++) {
 			
 			if(!hasAmmo(stack, player, true))
 				break;
@@ -255,7 +259,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 				bullets += world.rand.nextInt(config.bulletsMax - config.bulletsMin);
 			
 			for(int i = 0; i < bullets; i++) {
-				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
+				spawnProjectileAlt(world, player, stack, BulletConfigSyncingUtil.getKey(config));
 			}
 			
 			useUpAmmo(player, stack, false);
@@ -280,11 +284,24 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
 			
 	}
+
+	//the only difference from the one above is the animation packet sent
+	protected void spawnProjectileAlt(World world, EntityPlayer player, ItemStack stack, int config) {
+
+		EntityBulletBaseNT bullet = new EntityBulletBaseNT(world, config, player);
+		world.spawnEntityInWorld(bullet);
+
+		if(player instanceof EntityPlayerMP)
+			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.ALT_CYCLE.ordinal()), (EntityPlayerMP) player);
+
+	}
 	
 	//called on click (server side, called by mouse packet) for semi-automatics and specific events
 	public void startAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
 
-		if(mainConfig.firingMode == mainConfig.FIRE_MANUAL && main && tryShoot(stack, world, player, main)) {
+		boolean validConfig = mainConfig.firingMode == GunConfiguration.FIRE_MANUAL || mainConfig.firingMode == GunConfiguration.FIRE_BURST;
+
+		if(validConfig && main && tryShoot(stack, world, player, main)) {
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
 			//setMag(stack, getMag(stack) - 1);

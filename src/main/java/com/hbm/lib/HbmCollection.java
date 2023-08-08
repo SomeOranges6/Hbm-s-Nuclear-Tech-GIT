@@ -49,7 +49,8 @@ public class HbmCollection {
 	/** .50 BROWNING MACHINE GUN (FLECHETTE) **/
 	public static final List<Integer> bmg50Flechette = ImmutableList.of(BulletConfigSyncingUtil.BMG50_FLECHETTE_AM, BulletConfigSyncingUtil.BMG50_FLECHETTE_NORMAL, BulletConfigSyncingUtil.BMG50_FLECHETTE_PO);
 	/** 5.56MMx45 NATO (BASIC) **/
-	public static final List<Integer> r556 = ImmutableList.of(BulletConfigSyncingUtil.R556_NORMAL, BulletConfigSyncingUtil.R556_TRACER, BulletConfigSyncingUtil.R556_PHOSPHORUS, BulletConfigSyncingUtil.R556_AP, BulletConfigSyncingUtil.R556_DU, BulletConfigSyncingUtil.R556_STAR, BulletConfigSyncingUtil.CHL_R556, BulletConfigSyncingUtil.R556_SLEEK, BulletConfigSyncingUtil.R556_K, BulletConfigSyncingUtil.R556_GOLD);
+	public static final List<Integer> r556 = ImmutableList.of(BulletConfigSyncingUtil.R556_NORMAL, BulletConfigSyncingUtil.R556_TRACER, BulletConfigSyncingUtil.R556_PHOSPHORUS, BulletConfigSyncingUtil.R556_AP, BulletConfigSyncingUtil.R556_DU, BulletConfigSyncingUtil.R556_STAR, BulletConfigSyncingUtil.CHL_R556, BulletConfigSyncingUtil.R556_SLEEK, BulletConfigSyncingUtil.R556_K);
+	public static final List<Integer> r556gold = ImmutableList.of(BulletConfigSyncingUtil.R556_NORMAL, BulletConfigSyncingUtil.R556_TRACER, BulletConfigSyncingUtil.R556_PHOSPHORUS, BulletConfigSyncingUtil.R556_AP, BulletConfigSyncingUtil.R556_DU, BulletConfigSyncingUtil.R556_STAR, BulletConfigSyncingUtil.CHL_R556, BulletConfigSyncingUtil.R556_SLEEK, BulletConfigSyncingUtil.R556_K, BulletConfigSyncingUtil.R556_GOLD);
 	/** 5.56MMx45 NATO (FLECHETTE) **/
 	public static final List<Integer> r556Flechette = ImmutableList.of(BulletConfigSyncingUtil.R556_FLECHETTE, BulletConfigSyncingUtil.R556_FLECHETTE_INCENDIARY, BulletConfigSyncingUtil.R556_FLECHETTE_PHOSPHORUS, BulletConfigSyncingUtil.R556_FLECHETTE_DU, BulletConfigSyncingUtil.CHL_R556_FLECHETTE, BulletConfigSyncingUtil.R556_FLECHETTE_SLEEK, BulletConfigSyncingUtil.R556_K);
 	/** 7.62x51mm NATO **/
@@ -170,7 +171,8 @@ public class HbmCollection {
 		/**Winchester Repeating Arms Company**/
 		WINCHESTER,
 		/**Winchester Repeating Arms Company / Big MT**/
-		WINCHESTER_BIGMT;
+		WINCHESTER_BIGMT,
+		MORITA;
 	
 		public String getKey() {
 			return "gun.make." + toString();
