@@ -30,27 +30,26 @@ public class MobConfig {
 	
 	public static boolean enableHives = true;
 	public static int hiveSpawn = 256;
-	public static double scoutThreshold = 0.1;
+	public static double scoutThreshold = 5;
 
 	public static int baseSwarmSize = 5;
-    public static double swarmScalingMult = 1.5;
+    public static double swarmScalingMult = 1.2;
 	public static int sootStep = 50;
 
-	public static double advancedThreshold = 20;
-	public static double bossThreshold = 100;
 	public static int[] glyphidChance = {50, -40};
-	public static int[] brawlerChance = {20, 40};
+	public static int[] brawlerChance = {5, 35};
 	public static int[] bombardierChance = {20, -15};
-	public static int[] blasterChance = {10, 40};
-	public static int[] behemothChance = {6, 40};
-	public static int[] brendaChance = {-3, 20};
-	public static int[] johnsonChance = {-3, 15};
+	public static int[] blasterChance = {-15, 40};
+	public static int[] behemothChance = {-30, 45};
+	public static int[] brendaChance = {-50, 60};
+	public static int[] johnsonChance = {-50, 60};
 
 	public static double spawnMax = 50;
 	public static boolean enableInfestation = true;
 	public static double baseInfestChance = 5;
 	public static double targetingThreshold = 1;
-	
+
+	boolean rampantMode = false;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -102,7 +101,7 @@ public class MobConfig {
 		                + "If the Modifier is negative, the bug will spawn less often in swarms,\n"
 						+ "And its place will be taken over by another one.\n"
 		                + "\n"
-						+ "The formula for glyphid spawning is: (chance + (modifier - modifier / (soot+1)))"
+						+ "The formula for glyphid spawning is: (chance + (modifier - modifier / (soot+1)/10))"
 						+ "The formula for glyphid swarm scaling is: (baseSwarmSize * Math.max(swarmScalingMult * soot/sootStep, 1))");
 
 
@@ -111,14 +110,19 @@ public class MobConfig {
 		sootStep =  CommonConfig.createConfigInt(config, CATEGORY, "12.GS03_sootStep", "The soot amount the above multiplier applies to the swarm size", 50);
 		
 
-		
-		glyphidChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC01_glyphidChance", "Base Spawn chance and soot modifier for a glyphid grunt", new int[]{50, -40});
-		brawlerChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC02_brawlerChance", "Base Spawn chance and soot modifier for a glyphid brawler", new int[]{5, 40});
+		glyphidChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC01_glyphidChance", "Base Spawn chance and soot modifier for a glyphid grunt", new int[]{50, -45});
+		brawlerChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC02_brawlerChance", "Base Spawn chance and soot modifier for a glyphid brawler", new int[]{10, 30});
 		bombardierChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC03_bombardierChance", "Base Spawn chance and soot modifier for a glyphid bombardier", new int[]{20, -15});
 		blasterChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC04_blasterChance", "Base Spawn chance and soot modifier for a glyphid blaster", new int[]{-15, 40});
-		behemothChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC05_behemothChance", "Base Spawn chance and soot modifier for a glyphid behemoth", new int[]{-30, 60});
-		brendaChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC06_brendaChance", "Base Spawn chance and soot modifier for a glyphid brenda", new int[]{-30, 10});
-		johnsonChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC07_johnsonChance", "Base Spawn chance and soot modifier for Big Man Johnson", new int[]{-30, 10});
+		behemothChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC05_behemothChance", "Base Spawn chance and soot modifier for a glyphid behemoth", new int[]{-30, 45});
+		brendaChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC06_brendaChance", "Base Spawn chance and soot modifier for a glyphid brenda", new int[]{-50, 60});
+		johnsonChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC07_johnsonChance", "Base Spawn chance and soot modifier for Big Man Johnson", new int[]{-50, 60});
 
+        String rampantDesc = "Rampant Mode changes glyphid behavior and spawning to be more aggressive, changes include:\n"
+				+ "\n"
+				+ "Glyphid Scouts will naturally spawn alongside normal mobs if soot levels are above a certain threshold\n"
+				+ "Glyphids will always have the extended targetting enabled\n"
+				+ "Scouts will spawn from the start, making glyphids start expanding off the bat\n"
+				+ "Smokestacks have reduced efficiency, only reducing soot by 40%\n";
 	}
 }

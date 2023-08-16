@@ -19,20 +19,22 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class BarbedWire extends Block {
 
 	public BarbedWire(Material mat) {
 		super(mat);
 	}
-	int timer = 300;
+	int timer = 30 * 20;
+
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity ent) {
 
 		ent.setInWeb();
-		timer--;
 
 		if(ent instanceof EntityLivingBase){
 			if(((EntityLivingBase) ent).getMaxHealth() >= 100){
-					if(timer - ((EntityLivingBase) ent).getHealth() <= 0)
+					if(timer-- - ((EntityLivingBase) ent).getHealth() <= 0)
 						world.setBlockToAir(x, y, z);
 			}
 		}

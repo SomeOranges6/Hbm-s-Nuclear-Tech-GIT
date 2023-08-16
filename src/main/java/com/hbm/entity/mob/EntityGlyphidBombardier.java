@@ -4,6 +4,7 @@ import com.hbm.entity.projectile.EntityAcidBomb;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -23,6 +24,12 @@ public class EntityGlyphidBombardier extends EntityGlyphid {
 	protected double lastY;
 	protected double lastZ;
 
+	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20D);
+
+	}
 	@Override
 	public void onUpdate() {
 		super.onUpdate();

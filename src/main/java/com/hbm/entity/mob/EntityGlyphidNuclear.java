@@ -1,6 +1,7 @@
 package com.hbm.entity.mob;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.effect.EntityMist;
 import com.hbm.entity.logic.EntityWaypoint;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
@@ -8,16 +9,24 @@ import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class EntityGlyphidNuclear extends EntityGlyphid {
 	
@@ -46,15 +55,42 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 				setCurrentTask(0, null);
 			}
 
+			if(getCurrentTask() == 2 && getAITarget() == null){
+				this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 10 * 20, 3));
+			}
+
 			if (isAtDestination()) {
 				this.setHealth(0);
+			}
+
+		}
+	}
+
+	@Override
+	public void communicate(int task, @Nullable EntityWaypoint waypoint) {
+		int radius = waypoint != null ? waypoint.radius : 4;
+
+		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
+				this.posX - radius,
+				this.posY - radius,
+				this.posZ - radius,
+				this.posX + radius,
+				this.posY + radius,
+				this.posZ + radius);
+
+		List<Entity> bugs = worldObj.getEntitiesWithinAABBExcludingEntity(this, bb);
+		for (Entity e: bugs){
+			if(e instanceof EntityGlyphidScout){
+				if(((EntityGlyphid) e).getCurrentTask() != task){
+					((EntityGlyphid) e).setCurrentTask(task, waypoint);
+				}
 			}
 		}
 	}
 
 	@Override
 	public boolean isAtDestination() {
-		return super.isAtDestination() && this.getCurrentTask() == 2;
+		return super.isAtDestination() && this.getCurrentTask() == 5;
 	}
 
 	@Override
@@ -66,8 +102,9 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 	}
 
 	@Override
-	public int getArmorBreakChance(float amount) {
-		return amount < 25 ? 100 : amount > 1000 ? 1 : 10;
+	public boolean isArmorBroken(float amount) {
+		// amount < 5 ? 5 : amount < 10 ? 3 : 2;
+		return this.rand.nextInt(100) <= Math.min(Math.pow(amount/6, 2), 100);
 	}
 
 	@Override
@@ -98,17 +135,35 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 		++this.deathTicks;
 
 		if(!hasWaypoint) {
-			this.setCurrentTask(3, null);
+			communicate(3, null);
 			hasWaypoint = true;
 		}
+		if(deathTicks == 90){
+			int radius = 8;
+			AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
+					this.posX - radius,
+					this.posY - radius,
+					this.posZ - radius,
+					this.posX + radius,
+					this.posY + radius,
+					this.posZ + radius);
 
+			List<Entity> bugs = worldObj.getEntitiesWithinAABBExcludingEntity(this, bb);
+			for (Entity e: bugs){
+				if(e instanceof EntityGlyphid){
+					addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 15, 6));
+					addPotionEffect(new PotionEffect(Potion.fireResistance.id, 15, 6));
+				}
+			}
+		}
 		if(this.deathTicks == 100) {
 			
 			if(!worldObj.isRemote) {
+
 				ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY, posZ, 25, this);
 				vnt.setBlockAllocator(new BlockAllocatorStandard(24));
 				vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorDebris(ModBlocks.volcanic_lava_block, 0)).setNoDrop());
-				vnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(1.5F));
+				vnt.setEntityProcessor(new EntityProcessorStandard());
 				vnt.setPlayerProcessor(new PlayerProcessorStandard());
 				vnt.explode();
 

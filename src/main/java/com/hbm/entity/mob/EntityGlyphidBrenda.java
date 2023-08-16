@@ -41,8 +41,9 @@ public class EntityGlyphidBrenda extends EntityGlyphid {
 	}
 
 	@Override
-	public int getArmorBreakChance(float amount) {
-		return amount < 25 ? 100 : amount > 1000 ? 1 : 10;
+	public boolean isArmorBroken(float amount) {
+		// amount < 5 ? 5 : amount < 10 ? 3 : 2;
+		return this.rand.nextInt(100) <= Math.min(Math.pow(amount/4, 2), 100);
 	}
 
 	@Override

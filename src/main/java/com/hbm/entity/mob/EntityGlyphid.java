@@ -7,7 +7,6 @@ import java.util.List;
 import com.hbm.config.MobConfig;
 import com.hbm.entity.logic.EntityWaypoint;
 import com.hbm.entity.pathfinder.PathFinderUtils;
-import com.hbm.entity.projectile.EntityChemical;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.ModItems;
@@ -15,6 +14,7 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.main.ResourceManager;
 
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.BobMathUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -22,11 +22,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -40,8 +36,6 @@ public class EntityGlyphid extends EntityMob {
 	public int taskX;
 	public int taskY;
 	public int taskZ;
-
-    public int deathCounter;
 
 	EntityWaypoint taskWaypoint = null;
 	public EntityGlyphid(World world) {
@@ -80,7 +74,6 @@ public class EntityGlyphid extends EntityMob {
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(5D);
 	}
 
-
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
@@ -98,7 +91,7 @@ public class EntityGlyphid extends EntityMob {
 				setCurrentTask(0, null);
 			}
 
-			this.setBesideClimbableBlock(this.isCollidedHorizontally);
+			this.setBesideClimbableBlock(climbCheck());
 
 			if(ticksExisted % 100 == 0) {
 				this.swingItem();
@@ -106,18 +99,23 @@ public class EntityGlyphid extends EntityMob {
 		}
 	}
 
-
-
 	@Override
 	protected void dropFewItems(boolean byPlayer, int looting) {
 		super.dropFewItems(byPlayer, looting);
-		if(rand.nextInt(Math.max(3/((int)getScale()+1), 2)) == 0) this.entityDropItem(new ItemStack(ModItems.glyphid_meat, ((int)getScale()*2) + rand.nextInt((int)getScale()*2) + looting), 0F);
+		if(rand.nextInt(2) == 0) this.entityDropItem(new ItemStack(ModItems.glyphid_meat, ((int)getScale()*2)  + looting), 0F);
 	}
 
 	@Override
 	protected Entity findPlayerToAttack() {
 		EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, useExtendedTargeting() ? 128D : 16D);
 		return entityplayer != null && this.canEntityBeSeen(entityplayer) ? entityplayer : null;
+	}
+
+	@Override
+	protected void updateWanderPath() {
+		if(getCurrentTask() == 0) {
+			super.updateWanderPath();
+		}
 	}
 
 	@Override
@@ -145,13 +143,20 @@ public class EntityGlyphid extends EntityMob {
 						}
 
 					}
-					this.setPathToEntity(this.worldObj.getEntityPathToXYZ(this, taskX, taskY, taskZ, 128F, true, false, false, true));
+					if(taskX != 0) {
+						Vec3 vec = Vec3.createVectorHelper(posX, posY, posZ);
+						int maxDist = (int) (Math.sqrt(vec.squareDistanceTo(taskX, taskY, taskZ)) * 1.2);
+						this.setPathToEntity(PathFinderUtils.getPathEntityToCoordPartial(worldObj, this, taskX, taskY, taskZ, maxDist, true, false, true, true));
+					}
 				}
 				this.worldObj.theProfiler.endSection();
 			}
 		}
 	}
 
+	public boolean climbCheck(){
+        return this.hasPath() && isCollidedHorizontally;
+	}
 	public boolean useExtendedTargeting() {
 		return PollutionHandler.getPollution(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), PollutionType.SOOT) >= MobConfig.targetingThreshold;
 	}
@@ -171,8 +176,8 @@ public class EntityGlyphid extends EntityMob {
 
 				if(amount < getDamageThreshold()) return false;
 
-				int chance = getArmorBreakChance(amount); //chances of armor being broken off
-				if(this.rand.nextInt(chance) == 0 && amount > 1) {
+				 //chances of armor being broken off
+				if(amount > 1 && isArmorBroken(amount)) {
 					breakOffArmor();
 					amount *= 0.25F;
 				}
@@ -184,14 +189,19 @@ public class EntityGlyphid extends EntityMob {
 			amount = this.calculateDamage(amount);
 		}
 
-		if(source.isFireDamage()) amount *= 4F;
+		if(source.isFireDamage()) amount *= 0.6F;
+
+		if(this.isPotionActive(HbmPotion.phosphorus.getId())){
+			amount *= 1.5F;
+		}
+
 		if(source == ModDamageSource.acid || source.equals(new DamageSource(ModDamageSource.s_acid))) amount = 0;
 
 		return super.attackEntityFrom(source, amount);
 	}
 
-	public int getArmorBreakChance(float amount) {
-		return amount < 10 ? 5 : amount < 20 ? 3 : 2;
+	public boolean isArmorBroken(float amount) {
+		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.5, 2), 100);
 	}
 
 	public float calculateDamage(float amount) {
@@ -227,118 +237,6 @@ public class EntityGlyphid extends EntityMob {
 				this.dataWatcher.updateObject(17, armor);
 				worldObj.playSoundAtEntity(this, "mob.zombie.woodbreak", 1.0F, 1.25F);
 				break;
-			}
-		}
-	}
-
-	public int getCurrentTask(){
-		return currentTask;
-	}
-
-	public void setCurrentTask(int task, @Nullable EntityWaypoint waypoint){
-		currentTask =  task;
-		taskWaypoint = waypoint;
-		carryOutTask();
-	}
-
-	public void carryOutTask(){
-		int task = getCurrentTask();
-
-		switch(task){
-
-			//call for reinforcements
-			case 1: if(taskWaypoint != null) communicate(4, taskWaypoint); break;
-			//expand the hive
-			//case 2: expandHive(null);
-			//retreat
-			case 3:
-
-				if (!worldObj.isRemote && taskWaypoint == null) {
-
-					//Then, Come back later
-					EntityWaypoint additional =  new EntityWaypoint(worldObj);
-					additional.setLocationAndAngles(posX, posY, posZ, 0 , 0);
-
-					//First, go home and get reinforcements
-					EntityWaypoint home = new EntityWaypoint(worldObj);
-					home.setWaypointType(1);
- 					home.setAdditionalWaypoint(additional);
-					home.setHighPriority();
-					home.setLocationAndAngles(homeX, homeY, homeZ, 0, 0);
-					worldObj.spawnEntityInWorld(home);
-
-					this.taskWaypoint = home;
-					communicate(4, home);
-					break;
-
-				}
-				//the fourth task (case 4) is to just follow the waypoint path
-			break;
-
-			default: break;
-			
-		}
-
-	}
-
-    public void communicate(int task, EntityWaypoint waypoint){
-		int radius = waypoint.radius;
-		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
-				this.posX - radius,
-				this.posY - radius,
-				this.posZ - radius,
-				this.posX + radius,
-				this.posY + radius,
-				this.posZ + radius);
-
-		List<Entity> bugs = worldObj.getEntitiesWithinAABBExcludingEntity(this, bb);
-		for (Entity e: bugs){
-			if(e instanceof EntityGlyphid){
-				if(((EntityGlyphid) e).getCurrentTask() != task){
-					((EntityGlyphid) e).setCurrentTask(task, waypoint);
-				}
-			}
-		}
-	}
-
-    /** What each type of glyphid does when it is time to expand the hive.
-	 * Args: Whether there is a specific coordinate to expand to, can be null.
-	 * Returns: whether it has expanded successfully or not **/
-	public boolean expandHive(@Nullable EntityWaypoint waypoint){
-		return false;
-	}
-
-	public boolean isAtDestination() {
-		return this.getDistanceSq(taskX, taskY, taskZ) <= 25;
-	}
-
-	@Override
-	public boolean attackEntityAsMob(Entity victum) {
-		if(this.isSwingInProgress) return false;
-		this.swingItem();
-		return super.attackEntityAsMob(victum);
-	}
-
-
-
-	@Override
-	public void onDeath(DamageSource source) {
-		super.onDeath(source);
-		if(source.getEntity() instanceof EntityPlayer){
-			int radius = 4;
-			AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
-					this.posX - radius,
-					this.posY - radius,
-					this.posZ - radius,
-					this.posX + radius,
-					this.posY + radius,
-					this.posZ + radius);
-
-			List<Entity> bugs = worldObj.getEntitiesWithinAABBExcludingEntity(this, bb);
-			for (Entity e: bugs){
-				if(e instanceof EntityGlyphidScout){
-					((EntityGlyphid) e).deathCounter++;
-				}
 			}
 		}
 	}
@@ -390,8 +288,122 @@ public class EntityGlyphid extends EntityMob {
 	}
 
 	@Override
+	public boolean attackEntityAsMob(Entity victum) {
+		if(this.isSwingInProgress) return false;
+		this.swingItem();
+		return super.attackEntityAsMob(victum);
+	}
+
+
+	@Override
 	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.ARTHROPOD;
+	}
+
+	/// TASK SYSTEM START ///
+	public int getCurrentTask(){
+		return currentTask;
+	}
+
+	public EntityWaypoint getWaypoint(){
+		return taskWaypoint;
+	}
+
+	public void setCurrentTask(int task, @Nullable EntityWaypoint waypoint){
+		currentTask =  task;
+		taskWaypoint = waypoint;
+		if (taskWaypoint != null) {
+
+			taskX = (int) taskWaypoint.posX;
+			taskY = (int) taskWaypoint.posY;
+			taskZ = (int) taskWaypoint.posZ;
+
+			if (taskWaypoint.highPriority) {
+				setTarget(taskWaypoint);
+			}
+
+		}
+		carryOutTask();
+	}
+
+	public void carryOutTask(){
+		int task = getCurrentTask();
+
+		switch(task){
+
+			//call for reinforcements
+			case 1: if(taskWaypoint != null){
+				communicate(4, taskWaypoint);
+				setCurrentTask(4, taskWaypoint);
+			}  break;
+			//expand the hive
+			//case 2: expandHive(null);
+
+			//retreat
+			case 3:
+
+				if (!worldObj.isRemote && taskWaypoint == null) {
+
+					//Then, Come back later
+					EntityWaypoint additional =  new EntityWaypoint(worldObj);
+					additional.setLocationAndAngles(posX, posY, posZ, 0 , 0);
+
+					//First, go home and get reinforcements
+					EntityWaypoint home = new EntityWaypoint(worldObj);
+					home.setWaypointType(1);
+ 					home.setAdditionalWaypoint(additional);
+					home.setHighPriority();
+					home.setLocationAndAngles(homeX, homeY, homeZ, 0, 0);
+					worldObj.spawnEntityInWorld(home);
+
+					this.taskWaypoint = home;
+					communicate(4, home);
+					setCurrentTask(4, taskWaypoint);
+
+					break;
+				}
+
+				//the fourth task (case 4) is to just follow the waypoint path
+			break;
+
+			default: break;
+			
+		}
+
+	}
+
+    public void communicate(int task, @Nullable EntityWaypoint waypoint) {
+		int radius = waypoint != null ? waypoint.radius : 4;
+
+		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
+				this.posX - radius,
+				this.posY - radius,
+				this.posZ - radius,
+				this.posX + radius,
+				this.posY + radius,
+				this.posZ + radius);
+
+		List<Entity> bugs = worldObj.getEntitiesWithinAABBExcludingEntity(this, bb);
+		for (Entity e: bugs){
+			if(e instanceof EntityGlyphid && !(e instanceof EntityGlyphidScout)){
+				if(((EntityGlyphid) e).getCurrentTask() != task){
+					((EntityGlyphid) e).setCurrentTask(task, waypoint);
+				}
+			}
+		}
+	}
+
+    /** What each type of glyphid does when it is time to expand the hive.
+	 * Args: Whether there is a specific coordinate to expand to, can be null.
+	 * Returns: whether it has expanded successfully or not **/
+	public boolean expandHive(@Nullable EntityWaypoint waypoint){
+		return false;
+	}
+
+	public boolean isAtDestination() {
+		int destinationRadius = taskWaypoint != null ? (int) Math.pow(taskWaypoint.radius-1, 2) : 25;
+
+		return this.getDistanceSq(taskX, taskY, taskZ) <= destinationRadius;
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class BlockGlyphidSpawner extends BlockContainer {
 	private static final ArrayList<Pair<Function<World, EntityGlyphid>, int[]>> spawnMap = new ArrayList<>();
 
 	static{
-
+			//big thanks to martin for the suggestion of using functions
 			spawnMap.add(new Pair<>(EntityGlyphid::new, MobConfig.glyphidChance));
 			spawnMap.add(new Pair<>(EntityGlyphidBombardier::new, MobConfig.bombardierChance));
 			spawnMap.add(new Pair<>(EntityGlyphidBrawler::new, MobConfig.brawlerChance));
@@ -51,8 +51,6 @@ public class BlockGlyphidSpawner extends BlockContainer {
 			spawnMap.add(new Pair<>(EntityGlyphidBrenda::new, MobConfig.brendaChance));
 			spawnMap.add(new Pair<>(EntityGlyphidNuclear::new, MobConfig.johnsonChance));
 	}
-
-	public static boolean initialSpawn = true;
 
 	@Override
 	public int quantityDropped(int meta, int fortune, Random rand) {
@@ -65,12 +63,14 @@ public class BlockGlyphidSpawner extends BlockContainer {
 	}
 
 	public static class TileEntityGlpyhidSpawner extends TileEntity {
-
+		boolean initialSpawn = true;
 
 		@Override
 		public void updateEntity() {
 
-			if(!worldObj.isRemote && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && initialSpawn || worldObj.getTotalWorldTime() % 2400 == 0) {
+			boolean timeToSpawn = (initialSpawn|| worldObj.getTotalWorldTime() % 3600 == 0);
+
+			if(!worldObj.isRemote && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && timeToSpawn) {
 				if(worldObj.getBlock(xCoord, yCoord + 1, zCoord) != Blocks.air)	{
 					return;
 				}
@@ -86,7 +86,7 @@ public class BlockGlyphidSpawner extends BlockContainer {
 				float soot = PollutionHandler.getPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT);
 				List<EntityGlyphid> list = worldObj.getEntitiesWithinAABB(EntityGlyphid.class, AxisAlignedBB.getBoundingBox(xCoord - 6, yCoord + 1, zCoord - 6, xCoord + 7, yCoord + 9, zCoord + 7));
 				
-				if(list.size() <= 5) {
+				if(list.size() <= 3) {
 
 					ArrayList<EntityGlyphid> currentSwarm = createSwarm(soot);
 
@@ -96,10 +96,10 @@ public class BlockGlyphidSpawner extends BlockContainer {
 						glyphid.moveEntity(worldObj.rand.nextGaussian(), 0, worldObj.rand.nextGaussian());
 					}
 
-
+					initialSpawn = false;
 				}
 				
-				if(worldObj.rand.nextInt(200) == 0 && soot >= MobConfig.scoutThreshold) {
+				if(!initialSpawn && soot >= MobConfig.scoutThreshold) {
 					EntityGlyphidScout scout = new EntityGlyphidScout(worldObj);
 					scout.setLocationAndAngles(xCoord + 0.5, yCoord + 1, zCoord + 0.5, worldObj.rand.nextFloat() * 360.0F, 0.0F);
 					worldObj.spawnEntityInWorld(scout);
@@ -113,14 +113,14 @@ public class BlockGlyphidSpawner extends BlockContainer {
 
 			ArrayList<EntityGlyphid> currentSpawns = new ArrayList<>();
 			
-			int swarmAmount = (int) (MobConfig.baseSwarmSize * Math.max(MobConfig.swarmScalingMult * soot/ MobConfig.sootStep, 1));
+			int swarmAmount = (int) (MobConfig.baseSwarmSize * Math.max(MobConfig.swarmScalingMult * (soot / MobConfig.sootStep), 1));
 
 			while(currentSpawns.size() <= swarmAmount) {
+				 //(dys)functional programing
 				 for (Pair<Function<World, EntityGlyphid>, int[]> glyphid : spawnMap) {
 
 					 int[] chance = glyphid.getValue();
-
-					 int adjustedChance = (int) (chance[0] + (chance[1] - chance[1] / (soot/10 + 1)));
+					 int adjustedChance = (int) (chance[0] + (chance[1] - chance[1] / Math.max(((soot + 1)/10 ), 1)));
 					 if (rand.nextInt(100) <= adjustedChance) {
 						 currentSpawns.add(glyphid.getKey().apply(worldObj));
 					 }

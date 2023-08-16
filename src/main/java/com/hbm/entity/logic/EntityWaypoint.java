@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class EntityWaypoint extends Entity {
         //this.dataWatcher.addObject(11, 0);
 
     }
-    int maxAge = 2400;
+    public int maxAge = 2400;
     public int radius = 3;
     public boolean highPriority = false;
     public EntityWaypoint additional;
@@ -42,7 +43,7 @@ public class EntityWaypoint extends Entity {
     public void setWaypointType(int waypointType) {
         this.dataWatcher.updateObject(10, waypointType);
     }
-
+    boolean hasSpawned = false;
     public int getColor(){
         switch(getWaypointType()){
 
@@ -61,49 +62,52 @@ public class EntityWaypoint extends Entity {
         if (ticksExisted >= maxAge) {
             this.setDead();
         }
+
+        bb = AxisAlignedBB.getBoundingBox(
+                this.posX - radius,
+                this.posY - radius*3,
+                this.posZ - radius,
+                this.posX + radius,
+                this.posY + radius*3,
+                this.posZ + radius);
+
         if (!worldObj.isRemote) {
 
-            if (ticksExisted == 1) {
-                         bb = AxisAlignedBB.getBoundingBox(
-                        this.posX - radius,
-                        this.posY - radius,
-                        this.posZ - radius,
-                        this.posX + radius,
-                        this.posY + radius,
-                        this.posZ + radius);
-            }
-
-            if (ticksExisted % 100 == 0) {
+            if (ticksExisted % 40 == 0) {
 
                 List<Entity> targets = worldObj.getEntitiesWithinAABBExcludingEntity(this, bb);
 
                 for (Entity e : targets) {
                     if (e instanceof EntityGlyphid) {
 
-                        if (additional != null) {
+                        EntityGlyphid bug = ((EntityGlyphid) e);
+
+                        if (additional != null && !hasSpawned) {
+
                             worldObj.spawnEntityInWorld(additional);
+                            hasSpawned = true;
+
                         }
 
-                        ((EntityGlyphid) e).setCurrentTask(getWaypointType(), additional);
+                        boolean exceptions = bug.getWaypoint() != null
+                                || e instanceof EntityGlyphidScout
+                                || e instanceof EntityGlyphidNuclear;
+
+
+                        if(getWaypointType() != 0 && !exceptions)
+                            bug.setCurrentTask(getWaypointType(), additional);
 
                         if (getWaypointType() == 2) {
-                            if (e instanceof EntityGlyphidNuclear || e instanceof EntityGlyphidScout)
+                            if (exceptions)
                                 setDead();
                         } else {
                             setDead();
                         }
+
                     }
                 }
             }
         } else {
-            AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
-                    this.posX - radius,
-                    this.posY - radius,
-                    this.posZ - radius,
-                    this.posX + radius,
-                    this.posY + radius,
-                    this.posZ + radius);
-
 
             double x = bb.minX + (rand.nextDouble() - 0.5) * (bb.maxX - bb.minX);
             double y = bb.minY + rand.nextDouble() * (bb.maxY - bb.minY);

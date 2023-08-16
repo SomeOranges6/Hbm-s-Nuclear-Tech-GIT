@@ -45,10 +45,7 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 	}
 	public int timer = 120;
 	int breathTime = 0;
-	@Override
-	public int getArmorBreakChance(float amount) {
-		return amount < 20 ? 10 : amount < 100 ? 5 : amount > 200 ? 1 : 3;
-	}
+
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
@@ -104,7 +101,11 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 		if(rand.nextInt(2) == 0) this.entityDropItem(new ItemStack(ModItems.glyphid_gland, 1, Fluids.SULFURIC_ACID.getID()), 1);
 		super.dropFewItems(byPlayer, looting);
 	}
-
+	@Override
+	public boolean isArmorBroken(float amount) {
+		// amount < 5 ? 5 : amount < 10 ? 3 : 2;
+		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.15, 2), 100);
+	}
 	@Override
 	public int swingDuration() {
 		return 100;
@@ -117,7 +118,7 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 		
 		for(int i = 0; i < 5; i++) {
 			if((armor & (1 << i)) > 0) {
-				divisor += 3;
+				divisor += 4;
 			}
 		}
 		
