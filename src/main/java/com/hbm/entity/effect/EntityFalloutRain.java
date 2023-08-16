@@ -181,6 +181,7 @@ public class EntityFalloutRain extends Entity {
 						if(hardness <= Blocks.stonebrick.getExplosionResistance(null) && hardness >= 0) {
 							if(BombConfig.fallChance > worldObj.rand.nextInt(100)){
 							EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldObj, x + 0.5D, y + 0.5D + i, z + 0.5D, worldObj.getBlock(x, y + i, z), worldObj.getBlockMetadata(x, y + i, z));
+							entityfallingblock.field_145813_c = false; //turn off block drops because block dropping was coded by a mule with dementia
 							worldObj.spawnEntityInWorld(entityfallingblock);
 							}
 						}

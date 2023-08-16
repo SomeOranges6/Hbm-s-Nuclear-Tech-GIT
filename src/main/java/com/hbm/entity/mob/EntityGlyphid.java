@@ -22,7 +22,13 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
 import net.minecraft.util.*;
+
+import net.minecraft.potion.Potion;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
+
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -107,6 +113,7 @@ public class EntityGlyphid extends EntityMob {
 
 	@Override
 	protected Entity findPlayerToAttack() {
+		if(this.isPotionActive(Potion.blindness)) return null;
 		EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, useExtendedTargeting() ? 128D : 16D);
 		return entityplayer != null && this.canEntityBeSeen(entityplayer) ? entityplayer : null;
 	}
@@ -122,6 +129,10 @@ public class EntityGlyphid extends EntityMob {
 	protected void updateEntityActionState() {
 		super.updateEntityActionState();
 
+		if(this.isPotionActive(Potion.blindness)) {
+			this.entityToAttack = null;
+			this.setPathToEntity(null);
+		}
 		if(!this.hasPath()) {
 
 			// hell yeah!!
@@ -150,8 +161,10 @@ public class EntityGlyphid extends EntityMob {
 					}
 				}
 				this.worldObj.theProfiler.endSection();
+
 			}
 		}
+
 	}
 
 	public boolean climbCheck(){

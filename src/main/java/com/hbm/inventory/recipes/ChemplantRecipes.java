@@ -400,8 +400,9 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputFluids(new FluidStack(Fluids.MUSTARDGAS, 4000))
 				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 11)));
 		recipes.add(new ChemRecipe(101, "CC_CENTRIFUGE", 200)
-				.inputFluids(new FluidStack(Fluids.CHLOROCALCITE_CLEANED, 500), new FluidStack(Fluids.WATER, 1_000))
+				.inputFluids(new FluidStack(Fluids.CHLOROCALCITE_CLEANED, 500), new FluidStack(Fluids.SULFURIC_ACID, 8_000))
 				.outputFluids(new FluidStack(Fluids.POTASSIUM_CHLORIDE, 250), new FluidStack(Fluids.CALCIUM_CHLORIDE, 250)));
+
 		recipes.add(new ChemRecipe(102, "PC_ELECTROLYSIS", 200)
 				.inputFluids(new FluidStack(Fluids.POTASSIUM_CHLORIDE, 250))
 				.outputItems(new ItemStack(ModItems.dust))

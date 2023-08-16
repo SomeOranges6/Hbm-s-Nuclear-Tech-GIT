@@ -180,6 +180,7 @@ public class Gun4GaugeFactory {
 		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		bullet.HBRC = 2;
 		bullet.LBRC = 95;
+		BulletConfigFactory.makeFlechette(bullet);
 		
 		bullet.spentCasing = CASING4GAUGE.clone().register("4GaFlech").setColor(0x1537FF, SpentCasing.COLOR_CASE_4GA);
 		
@@ -206,7 +207,7 @@ public class Gun4GaugeFactory {
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(eff));
 		
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "vanillaburst");
@@ -252,7 +253,7 @@ public class Gun4GaugeFactory {
 		bullet.trail = 1;
 		bullet.explosive = 0.0F;
 		
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 			
 			if(bulletnt.worldObj.isRemote)
 				return;
@@ -322,7 +323,7 @@ public class Gun4GaugeFactory {
 		bullet.trail = 1;
 		bullet.explosive = 0.0F;
 		
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 			
 			if(bulletnt.worldObj.isRemote)
 				return;
