@@ -20,6 +20,7 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -108,7 +109,8 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	protected void dropFewItems(boolean byPlayer, int looting) {
 		super.dropFewItems(byPlayer, looting);
-		if(rand.nextInt(2) == 0) this.entityDropItem(new ItemStack(ModItems.glyphid_meat, ((int)getScale()*2)  + looting), 0F);
+        Item drop = isBurning() ? ModItems.glyphid_meat_grilled : ModItems.glyphid_meat;
+		if(rand.nextInt(2) == 0) this.entityDropItem(new ItemStack(drop, ((int)getScale()*2)  + looting), 0F);
 	}
 
 	@Override

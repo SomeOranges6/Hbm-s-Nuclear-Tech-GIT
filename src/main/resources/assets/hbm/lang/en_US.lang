@@ -574,6 +574,7 @@ chem.KEVLAR=Kevlar Compound Production
 chem.LPG=Petroleum Gas Liquefaction
 chem.LUBRICANT=Lubricant Mixing
 chem.METH=Methamphetamine Synthesis
+chem.MEAT_PROCESSING=Glyphid Meat Mineral Extraction
 chem.NITAN=NITAN Super Fuel Mixing
 chem.NITRIC_ACID=Nitric Acid Production
 chem.OIL_SAND=Tar Sand Extraction
