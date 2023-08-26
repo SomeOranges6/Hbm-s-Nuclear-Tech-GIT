@@ -65,10 +65,10 @@ public class EntityWaypoint extends Entity {
 
         bb = AxisAlignedBB.getBoundingBox(
                 this.posX - radius,
-                this.posY - radius*3,
+                this.posY - radius,
                 this.posZ - radius,
                 this.posX + radius,
-                this.posY + radius*3,
+                this.posY + radius,
                 this.posZ + radius);
 
         if (!worldObj.isRemote) {
@@ -93,8 +93,7 @@ public class EntityWaypoint extends Entity {
                                 || e instanceof EntityGlyphidScout
                                 || e instanceof EntityGlyphidNuclear;
 
-
-                        if(getWaypointType() != 0 && !exceptions)
+                        if(!exceptions)
                             bug.setCurrentTask(getWaypointType(), additional);
 
                         if (getWaypointType() == 2) {

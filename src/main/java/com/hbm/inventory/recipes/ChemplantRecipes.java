@@ -412,7 +412,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputFluids(new FluidStack(Fluids.CHLORINE, 125), new FluidStack(Fluids.CALCIUM_SOLUTION, 125)));
 
 		recipes.add(new ChemRecipe(104, "MEAT_PROCESSING", 200)
-				.inputItems(new ComparableStack(ModItems.glyphid_meat, 3))
+				.inputItems(new OreDictStack(KEY_GLYPHID_MEAT, 3))
 				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 1000))
 				.outputItems(new ItemStack(ModItems.sulfur, 2),
 							 new ItemStack(ModItems.niter, 2))
