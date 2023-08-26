@@ -63,47 +63,57 @@ public class BlockGlyphidSpawner extends BlockContainer {
 	}
 
 	public static class TileEntityGlpyhidSpawner extends TileEntity {
+
 		boolean initialSpawn = true;
 
 		@Override
 		public void updateEntity() {
 
-			boolean timeToSpawn = (initialSpawn|| worldObj.getTotalWorldTime() % 3600 == 0);
+			if(!worldObj.isRemote && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL) {
 
-			if(!worldObj.isRemote && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && timeToSpawn) {
-				if(worldObj.getBlock(xCoord, yCoord + 1, zCoord) != Blocks.air)	{
+				int scoutDelay = MobConfig.scoutTimedSpawn * 20;
+
+				if (initialSpawn || worldObj.getTotalWorldTime() % 3600 == 0) {
+
+					if (worldObj.getBlock(xCoord, yCoord + 1, zCoord) != Blocks.air) {
+						return;
+					}
+					int count = 0;
+
+					for (Object e : worldObj.loadedEntityList) {
+						if (e instanceof EntityGlyphid) {
+							count++;
+							if (count >= MobConfig.spawnMax) return;
+						}
+					}
+
+					float soot = PollutionHandler.getPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT);
+					List<EntityGlyphid> list = worldObj.getEntitiesWithinAABB(EntityGlyphid.class, AxisAlignedBB.getBoundingBox(xCoord - 6, yCoord + 1, zCoord - 6, xCoord + 7, yCoord + 9, zCoord + 7));
+
+					if (list.size() <= 3) {
+
+						ArrayList<EntityGlyphid> currentSwarm = createSwarm(soot);
+
+						for (EntityGlyphid glyphid : currentSwarm) {
+							glyphid.setLocationAndAngles(xCoord + 0.5, yCoord + 1, zCoord + 0.5, worldObj.rand.nextFloat() * 360.0F, 0.0F);
+							worldObj.spawnEntityInWorld(glyphid);
+							glyphid.moveEntity(worldObj.rand.nextGaussian(), 0, worldObj.rand.nextGaussian());
+						}
+
+						initialSpawn = false;
+					}
+
+					if (!(MobConfig.scoutSwarmSpawn && soot >= MobConfig.scoutThreshold)) {
+						return;
+					}
+
+				} else if (!(scoutDelay > 0 && worldObj.getWorldTime() % scoutDelay == 0)){
 					return;
 				}
-				int count = 0;
-				
-				for(Object e : worldObj.loadedEntityList) {
-					if(e instanceof EntityGlyphid) {
-						count++;
-						if(count >= MobConfig.spawnMax) return;
-					}
-				}
 
-				float soot = PollutionHandler.getPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT);
-				List<EntityGlyphid> list = worldObj.getEntitiesWithinAABB(EntityGlyphid.class, AxisAlignedBB.getBoundingBox(xCoord - 6, yCoord + 1, zCoord - 6, xCoord + 7, yCoord + 9, zCoord + 7));
-				
-				if(list.size() <= 3) {
-
-					ArrayList<EntityGlyphid> currentSwarm = createSwarm(soot);
-
-					for (EntityGlyphid glyphid : currentSwarm) {
-						glyphid.setLocationAndAngles(xCoord + 0.5, yCoord + 1, zCoord + 0.5, worldObj.rand.nextFloat() * 360.0F, 0.0F);
-						worldObj.spawnEntityInWorld(glyphid);
-						glyphid.moveEntity(worldObj.rand.nextGaussian(), 0, worldObj.rand.nextGaussian());
-					}
-
-					initialSpawn = false;
-				}
-				
-				if(!initialSpawn && soot >= MobConfig.scoutThreshold) {
-					EntityGlyphidScout scout = new EntityGlyphidScout(worldObj);
-					scout.setLocationAndAngles(xCoord + 0.5, yCoord + 1, zCoord + 0.5, worldObj.rand.nextFloat() * 360.0F, 0.0F);
-					worldObj.spawnEntityInWorld(scout);
-				}
+				EntityGlyphidScout scout = new EntityGlyphidScout(worldObj);
+				scout.setLocationAndAngles(xCoord + 0.5, yCoord + 1, zCoord + 0.5, worldObj.rand.nextFloat() * 360.0F, 0.0F);
+				worldObj.spawnEntityInWorld(scout);
 			}
 		}
 

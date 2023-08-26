@@ -1,6 +1,7 @@
 package com.hbm.entity.mob;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.MobConfig;
 import com.hbm.entity.logic.EntityWaypoint;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.main.ResourceManager;
@@ -9,6 +10,7 @@ import com.hbm.world.feature.GlyphidHive;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -22,7 +24,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 
 	boolean hasTarget = false;
 	int timer;
-	int scoutingRange = 30;
+	int scoutingRange = 45;
 	int minDistanceToHive = 8 ;
 
 	public EntityGlyphidScout(World world) {
@@ -31,10 +33,12 @@ public class EntityGlyphidScout extends EntityGlyphid {
 	}
 
 	@Override
-	public float getDamageThreshold() {
-		return 0.0F;
+	public boolean attackEntityAsMob(Entity victum) {
+		if(victum instanceof EntityLivingBase){
+			((EntityLivingBase)victum).addPotionEffect(new PotionEffect(Potion.poison.id, 10 * 20, 3));
+		}
+		return super.attackEntityAsMob(victum);
 	}
-
 	@Override
 	public ResourceLocation getSkin() {
 		return ResourceManager.glyphid_scout_tex;
@@ -59,17 +63,37 @@ public class EntityGlyphidScout extends EntityGlyphid {
 	}
 
 	@Override
-	protected boolean canDespawn() {
-		return true;
-	}
-
-	@Override
 	public void onUpdate() {
 
 		super.onUpdate();
 
-		if(getCurrentTask() == 0 && taskWaypoint == null) {
-				setCurrentTask(2, null);
+		if(getCurrentTask() != 2 || getCurrentTask() != 5 && taskWaypoint == null) {
+
+			    if(MobConfig.rampantGlyphidGuidance && PollutionHandler.targetCoords != null){
+					if(!hasTarget) {
+						Vec3 dirVec = playerBaseDirFinder(
+								Vec3.createVectorHelper(posX, posY, posZ),
+								PollutionHandler.targetCoords);
+
+						EntityWaypoint target = new EntityWaypoint(worldObj);
+						target.setLocationAndAngles(dirVec.xCoord, dirVec.yCoord, dirVec.zCoord, 0, 0);
+						target.maxAge = 300;
+						target.radius = 6;
+						worldObj.spawnEntityInWorld(target);
+						hasTarget = true;
+
+						setCurrentTask(1, target);
+					}
+
+					if(super.isAtDestination()) {
+						setCurrentTask(2, null) ;
+						hasTarget = false;
+					}
+
+				} else {
+					setCurrentTask(2, null);
+				}
+
 		}
 
 		if(getCurrentTask() == 2 || getCurrentTask() == 5) {
@@ -146,6 +170,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 		}
 		return true;
 	}
+
 	@Override
 	public boolean isAtDestination() {
 		return this.getCurrentTask() == 2 && super.isAtDestination();
@@ -234,6 +259,20 @@ public class EntityGlyphidScout extends EntityGlyphid {
 		}
 		super.carryOutTask();
 
+	}
+
+    ///RAMPANT MODE STUFFS
+
+	/** Finds the direction from the bug's location to the target and adds it to their current coord
+	 * Used as a performant way to make scouts expand toward the player's spawn point
+	 * @return An adjusted direction vector, to be added into the bug's current position for it to path in the required direction**/
+	public static Vec3 playerBaseDirFinder(Vec3 currentLocation, Vec3 target){
+		Vec3 dirVec = currentLocation.subtract(target).normalize();
+		return Vec3.createVectorHelper(
+				currentLocation.xCoord + dirVec.xCoord * 10,
+				currentLocation.yCoord + dirVec.yCoord * 10,
+				currentLocation.zCoord + dirVec.zCoord * 10
+		);
 	}
 
 

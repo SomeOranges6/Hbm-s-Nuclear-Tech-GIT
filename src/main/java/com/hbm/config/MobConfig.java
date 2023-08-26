@@ -31,7 +31,8 @@ public class MobConfig {
 	public static boolean enableHives = true;
 	public static int hiveSpawn = 256;
 	public static double scoutThreshold = 5;
-
+	public static int scoutTimedSpawn = 120;
+	public static boolean scoutSwarmSpawn = false;
 	public static int baseSwarmSize = 5;
     public static double swarmScalingMult = 1.2;
 	public static int sootStep = 50;
@@ -49,7 +50,12 @@ public class MobConfig {
 	public static double baseInfestChance = 5;
 	public static double targetingThreshold = 1;
 
-	boolean rampantMode = false;
+	public static boolean rampantMode = false;
+	public static boolean rampantNaturalScoutSpawn = false;
+	public static boolean rampantExtendedTargetting = false;
+	public static boolean rampantDig = false;
+	public static boolean rampantGlyphidGuidance = false;
+	public static double rampantSmokeStackOverride = 0.4;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -84,7 +90,8 @@ public class MobConfig {
 		scoutThreshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G02_scoutThreshold", "Minimum amount of soot for scouts to spawn", 0.1);
 		spawnMax = CommonConfig.createConfigDouble(config, CATEGORY, "12.G07_spawnMax", "Maximum amount of glyphids being able to exist at once through natural spawning", 50);
 		targetingThreshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G08_targetingThreshold", "Minimum amount of soot required for glyphids' extended targeting range to activate", 1D);
-
+		scoutTimedSpawn = CommonConfig.createConfigInt(config, CATEGORY, "12.G09_scoutTimedSpawn", "How often scouts (in seconds) should spawn, set it to 0 in order to disable timed scout spawns",120);
+		scoutSwarmSpawn = CommonConfig.createConfigBool(config, CATEGORY,"12.G10_scoutTimedSpawn", "Whether scouts should spawn in swarms, please dont combine this with the above", false);
 		//Infested structures
 		enableInfestation= CommonConfig.createConfigBool(config, CATEGORY, "12.I01_enableInfestation", "Whether structures infested with glyphids should spawn", true);
 		baseInfestChance = CommonConfig.createConfigDouble(config, CATEGORY, "12.I02_baseInfestChance", "The base chance for infested structures to spawn", 5);
@@ -106,7 +113,7 @@ public class MobConfig {
 
 
 		baseSwarmSize =  CommonConfig.createConfigInt(config, CATEGORY, "12.GS01_baseSwarmSize", "The basic, soot-less swarm size", 5);
-		swarmScalingMult =  CommonConfig.createConfigDouble(config, CATEGORY, "12.GS02_swarmScalingMult", "By how much should swarm size scale by per soot amount determined below", 1.5);
+		swarmScalingMult =  CommonConfig.createConfigDouble(config, CATEGORY, "12.GS02_swarmScalingMult", "By how much should swarm size scale by per soot amount determined below", 1.2);
 		sootStep =  CommonConfig.createConfigInt(config, CATEGORY, "12.GS03_sootStep", "The soot amount the above multiplier applies to the swarm size", 50);
 		
 
@@ -122,7 +129,32 @@ public class MobConfig {
 				+ "\n"
 				+ "Glyphid Scouts will naturally spawn alongside normal mobs if soot levels are above a certain threshold\n"
 				+ "Glyphids will always have the extended targetting enabled\n"
+				+ "Glyphids can dig to waypoints\n"
+				+ "The Glyphids will expand always toward your base\n"
 				+ "Scouts will spawn from the start, making glyphids start expanding off the bat\n"
 				+ "Smokestacks have reduced efficiency, only reducing soot by 40%\n";
+
+		config.addCustomCategoryComment(CATEGORY,rampantDesc);
+
+        //TODO: Disable this before release
+		rampantMode = CommonConfig.createConfigBool(config, CATEGORY, "13.R01_rampantMode", "The main rampant mode toggle, enables all other features associated with it", false);
+
+		config.addCustomCategoryComment(CATEGORY, "The individual features of rampant can be used regardless of whether the main rampant toggle is enabled or not");
+
+		rampantNaturalScoutSpawn = CommonConfig.createConfigBool(config, CATEGORY,"13.R02_rampantScoutSpawn", "Whether scouts should spawn natually in highly polluted chunks", true);
+		rampantExtendedTargetting = CommonConfig.createConfigBool(config, CATEGORY,"13.R03_rampantExtendedTargeting", "Whether Glyphids should have the extended targetting always enabled", true);
+		rampantDig = CommonConfig.createConfigBool(config, CATEGORY,"13.R04_rampantDig", "Whether Glyphids should be able to dig to waypoints", true);
+		rampantGlyphidGuidance = CommonConfig.createConfigBool(config, CATEGORY,"13.R05_rampantGlyphidGuidance", "Whether Glyphids should always expand toward a player's spawnpoint", true);
+		rampantSmokeStackOverride = CommonConfig.createConfigDouble(config, CATEGORY, "13.R06_rampantSmokeStackOverride", "How much should the smokestack multiply soot by when on rampant mode", 0.4);
+
+		if(rampantMode){
+			rampantNaturalScoutSpawn = true;
+			rampantExtendedTargetting = true;
+			rampantDig = true;
+			rampantGlyphidGuidance = true;
+			scoutSwarmSpawn = true;
+			scoutTimedSpawn = 0;
+			scoutThreshold = 0;
+		}
 	}
 }

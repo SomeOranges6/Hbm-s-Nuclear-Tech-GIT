@@ -8,13 +8,16 @@ import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import com.hbm.config.MobConfig;
 import com.hbm.config.RadiationConfig;
 
+import com.hbm.entity.mob.EntityGlyphidScout;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.IMob;
@@ -22,10 +25,12 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
 public class PollutionHandler {
@@ -37,7 +42,8 @@ public class PollutionHandler {
 	public static final float SOOT_PER_SECOND = 1F / 25F;
 	/** Baserate of heavy metal generation, balanced around the soot values of combustion engines */
 	public static final float HEAVY_METAL_PER_SECOND = 1F / 50F;
-	
+	public static Vec3 targetCoords;
+
 	///////////////////////
 	/// UTILITY METHODS ///
 	///////////////////////
@@ -329,4 +335,34 @@ public class PollutionHandler {
 			}
 		}
 	}
+    ///RAMPANT MODE STUFFS///
+
+	@SubscribeEvent
+	public void rampantTargetSetter(PlayerSleepInBedEvent event){
+		if (MobConfig.rampantGlyphidGuidance) targetCoords = Vec3.createVectorHelper(event.x, event.y, event.z);
+	}
+	@SubscribeEvent
+	public void rampantScoutPopulator(WorldEvent.PotentialSpawns event){
+		//yell at me if this vertical formatting hurts your brain
+		if(MobConfig.rampantNaturalScoutSpawn
+				&& !event.world.isRemote
+				&& event.world.provider.dimensionId == 0
+				&& event.type == EnumCreatureType.monster
+				&& event.world.canBlockSeeTheSky(event.x, event.y, event.z)) {
+
+					if (event.world.rand.nextInt(30) == 0) {
+
+						PollutionPerWorld ppw = perWorld.get(event.world);
+						int pollutedLocations = ppw == null ? 0 : ppw.pollution.size();
+
+						if (pollutedLocations >= 40) {
+							EntityGlyphidScout scout = new EntityGlyphidScout(event.world);
+							scout.setLocationAndAngles(event.x, event.y, event.z, event.world.rand.nextFloat() * 360.0F, 0.0F);
+							event.world.spawnEntityInWorld(scout);
+						}
+					}
+				}
+
+	}
+
 }

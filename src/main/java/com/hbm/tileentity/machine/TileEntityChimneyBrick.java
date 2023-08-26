@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.config.MobConfig;
+import com.hbm.config.RadiationConfig;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.fluid.FluidType;
@@ -74,11 +76,13 @@ public class TileEntityChimneyBrick extends TileEntityLoadedBase implements IFlu
 				(type == Fluids.SMOKE || type == Fluids.SMOKE_LEADED || type == Fluids.SMOKE_POISON);
 	}
 
+    public static double sootMult = MobConfig.rampantMode ? MobConfig.rampantSmokeStackOverride : RadiationConfig.smokeStackSootMult;
+
 	@Override
 	public long transferFluid(FluidType type, int pressure, long fluid) {
 		onTicks = 20;
-		
-		fluid *= 0.25;
+
+			fluid *= sootMult;
 
 		if(type == Fluids.SMOKE) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, fluid / 100F);
 		if(type == Fluids.SMOKE_LEADED) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.HEAVYMETAL, fluid / 100F);

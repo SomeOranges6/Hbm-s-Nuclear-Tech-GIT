@@ -3,10 +3,16 @@ package com.hbm.entity.mob;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockGlyphidSpawner;
 import com.hbm.config.MobConfig;
 import com.hbm.entity.logic.EntityWaypoint;
 import com.hbm.entity.pathfinder.PathFinderUtils;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.interfaces.IExplosionSFX;
+import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.ModItems;
@@ -14,7 +20,7 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.main.ResourceManager;
 
 import com.hbm.potion.HbmPotion;
-import com.hbm.util.BobMathUtil;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -35,14 +41,25 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class EntityGlyphid extends EntityMob {
+
+	//I might have overdone it a little bit
 	public boolean hasHome = false;
 	public int homeX;
 	public int homeY;
 	public int homeZ;
 	protected int currentTask = 0;
+
+	//both of those below are used for digging, so the glyphid remembers what it was doing
+	protected int previousTask;
+	protected EntityWaypoint previousWaypoint;
 	public int taskX;
 	public int taskY;
 	public int taskZ;
+
+	//used for digging, bigger glyphids have a longer reach
+	public int blastSize = Math.min((int) (3 * (getScale()))/2, 5);
+    public int blastResToDig = Math.min((int) (50 * (getScale() * 2)), 150);
+	public boolean shouldDig;
 
 	EntityWaypoint taskWaypoint = null;
 	public EntityGlyphid(World world) {
@@ -93,18 +110,37 @@ public class EntityGlyphid extends EntityMob {
 				hasHome = true;
 			}
 
-
-            if(getCurrentTask() == 4 && isAtDestination()){
-				setCurrentTask(0, null);
+			if(this.isPotionActive(Potion.blindness)) {
+				onBlinded();
 			}
 
-			this.setBesideClimbableBlock(climbCheck());
+            if(getCurrentTask() == 4){
+
+				if(isAtDestination()) {
+					setCurrentTask(0, null);
+				}
+
+			} else if (getCurrentTask() == 6 && ticksExisted % 20 == 0 && isAtDestination()) {
+				swingItem();
+
+				ExplosionVNT vnt = new ExplosionVNT(worldObj, taskX, taskY + 2, taskZ, blastSize, this);
+				vnt.setBlockAllocator(new BlockAllocatorGlyphidDig(blastResToDig));
+				vnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
+				vnt.setEntityProcessor(null);
+				vnt.setPlayerProcessor(null);
+				vnt.explode();
+
+				this.setCurrentTask(previousTask, previousWaypoint);
+			}
+
+			this.setBesideClimbableBlock(isCollidedHorizontally);
 
 			if(ticksExisted % 100 == 0) {
 				this.swingItem();
 			}
 		}
 	}
+
 
 	@Override
 	protected void dropFewItems(boolean byPlayer, int looting) {
@@ -116,8 +152,9 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	protected Entity findPlayerToAttack() {
 		if(this.isPotionActive(Potion.blindness)) return null;
+
 		EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, useExtendedTargeting() ? 128D : 16D);
-		return entityplayer != null && this.canEntityBeSeen(entityplayer) ? entityplayer : null;
+		return entityplayer != null && (MobConfig.rampantExtendedTargetting || canEntityBeSeen(entityplayer)) ? entityplayer : null;
 	}
 
 	@Override
@@ -131,54 +168,97 @@ public class EntityGlyphid extends EntityMob {
 	protected void updateEntityActionState() {
 		super.updateEntityActionState();
 
-		if(this.isPotionActive(Potion.blindness)) {
-			this.entityToAttack = null;
-			this.setPathToEntity(null);
-		}
-		if(!this.hasPath()) {
+		if(!this.isPotionActive(Potion.blindness)) {
+			if (!this.hasPath()) {
 
-			// hell yeah!!
-			if (useExtendedTargeting() && this.entityToAttack != null) {
-				this.setPathToEntity(PathFinderUtils.getPathEntityToEntityPartial(worldObj, this, this.entityToAttack, 16F, true, false, false, true));
-			} else if(getCurrentTask() != 0) {
-				this.worldObj.theProfiler.startSection("stroll");
+				// hell yeah!!
+				if (useExtendedTargeting() && this.entityToAttack != null) {
+					this.setPathToEntity(PathFinderUtils.getPathEntityToEntityPartial(worldObj, this, this.entityToAttack, 16F, true, false, true, true));
+				} else if (getCurrentTask() != 0) {
+					this.worldObj.theProfiler.startSection("stroll");
 
-				if (!isAtDestination()) {
+					if (!isAtDestination()) {
 
-					if (taskWaypoint != null) {
+						if (taskWaypoint != null) {
 
-						taskX = (int) taskWaypoint.posX;
-						taskY = (int) taskWaypoint.posY;
-						taskZ = (int) taskWaypoint.posZ;
+							taskX = (int) taskWaypoint.posX;
+							taskY = (int) taskWaypoint.posY;
+							taskZ = (int) taskWaypoint.posZ;
 
-						if (taskWaypoint.highPriority) {
-							setTarget(taskWaypoint);
+							if (taskWaypoint.highPriority) {
+								setTarget(taskWaypoint);
+							}
+
 						}
 
-					}
-					if(taskX != 0) {
-						Vec3 vec = Vec3.createVectorHelper(posX, posY, posZ);
-						int maxDist = (int) (Math.sqrt(vec.squareDistanceTo(taskX, taskY, taskZ)) * 1.2);
-						this.setPathToEntity(PathFinderUtils.getPathEntityToCoordPartial(worldObj, this, taskX, taskY, taskZ, maxDist, true, false, true, true));
-					}
-				}
-				this.worldObj.theProfiler.endSection();
+						if (taskX != 0) {
+                            if(MobConfig.rampantDig) {
 
+								MovingObjectPosition obstacle = findWaypointObstruction();
+								if (getScale() >= 1 && getCurrentTask() != 6 && obstacle != null) {
+									digToWaypoint(obstacle);
+								} else {
+									Vec3 vec = Vec3.createVectorHelper(posX, posY, posZ);
+									int maxDist = (int) (Math.sqrt(vec.squareDistanceTo(taskX, taskY, taskZ)) * 1.2);
+									this.setPathToEntity(PathFinderUtils.getPathEntityToCoordPartial(worldObj, this, taskX, taskY, taskZ, maxDist, true, false, true, true));
+								}
+
+							} else {
+								Vec3 vec = Vec3.createVectorHelper(posX, posY, posZ);
+								int maxDist = (int) (Math.sqrt(vec.squareDistanceTo(taskX, taskY, taskZ)) * 1.2);
+								this.setPathToEntity(PathFinderUtils.getPathEntityToCoordPartial(worldObj, this, taskX, taskY, taskZ, maxDist, true, false, true, true));
+							}
+						}
+					}
+					this.worldObj.theProfiler.endSection();
+
+				}
 			}
 		}
 
 	}
 
-	public boolean climbCheck(){
-        return this.hasPath() && isCollidedHorizontally;
+
+	public void onBlinded(){
+		this.entityToAttack = null;
+		this.setPathToEntity(null);
+		fleeingTick = 80;
+
+		if(getScale() >= 1.25){
+			if(ticksExisted % 20 == 0) {
+				for (int i = 0; i < 16; i++) {
+					float angle = (float) Math.toRadians(360D / 16 * i);
+					Vec3 rot = Vec3.createVectorHelper(0, 0, 4);
+					rot.rotateAroundY(angle);
+					Vec3 pos = Vec3.createVectorHelper(this.posX, this.posY + 1, this.posZ);
+					Vec3 nextPos = Vec3.createVectorHelper(this.posX + rot.xCoord, this.posY + 1, this.posZ + rot.zCoord);
+					MovingObjectPosition mop = this.worldObj.rayTraceBlocks(pos, nextPos);
+
+					if (mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
+
+						Block block = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+
+						if (block == ModBlocks.lantern) {
+							rotationYaw = 360F / 16 * i;
+							swingItem();
+							//this function is incredibly useful for breaking blocks naturally but obfuscated
+							//jesus fucking christ who the fuck runs forge?
+							worldObj.func_147480_a(mop.blockX, mop.blockY, mop.blockZ, false);
+						}
+
+					}
+				}
+			}
+		}
 	}
+
 	public boolean useExtendedTargeting() {
-		return PollutionHandler.getPollution(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), PollutionType.SOOT) >= MobConfig.targetingThreshold;
+		return MobConfig.rampantExtendedTargetting || PollutionHandler.getPollution(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), PollutionType.SOOT) >= MobConfig.targetingThreshold;
 	}
 
 	@Override
 	protected boolean canDespawn() {
-		return entityToAttack == null;
+		return entityToAttack == null && getCurrentTask() == 0;
 	}
 
 	@Override
@@ -204,13 +284,19 @@ public class EntityGlyphid extends EntityMob {
 			amount = this.calculateDamage(amount);
 		}
 
-		if(source.isFireDamage()) amount *= 0.6F;
+		if(source.isFireDamage()) {
+			//you might be thinking, why would fire damage be nerfed?
+			//thing is, it bypasses glyphid chitin, making it unbelievably powerful, so this was the most reasonable solution
+			amount *= 0.6F;
+		} else if(source.getDamageType().equals("player")) {
+			amount *= 2F;
+		} else if(source == ModDamageSource.acid || source.equals(new DamageSource(ModDamageSource.s_acid))){
+			amount = 0;
+		}
 
 		if(this.isPotionActive(HbmPotion.phosphorus.getId())){
 			amount *= 1.5F;
 		}
-
-		if(source == ModDamageSource.acid || source.equals(new DamageSource(ModDamageSource.s_acid))) amount = 0;
 
 		return super.attackEntityFrom(source, amount);
 	}
@@ -351,7 +437,8 @@ public class EntityGlyphid extends EntityMob {
 				communicate(4, taskWaypoint);
 				setCurrentTask(4, taskWaypoint);
 			}  break;
-			//expand the hive
+
+			//expand the hive, used by the scout
 			//case 2: expandHive(null);
 
 			//retreat
@@ -378,8 +465,15 @@ public class EntityGlyphid extends EntityMob {
 					break;
 				}
 
-				//the fourth task (case 4) is to just follow the waypoint path
 			break;
+
+			//the fourth task (case 4) is to just follow the waypoint path
+			//fifth task is used only in the scout and big man johnson, for terraforming
+
+			//dig
+			case 6:
+				shouldDig = true;
+				break;
 
 			default: break;
 			
@@ -416,10 +510,49 @@ public class EntityGlyphid extends EntityMob {
 	}
 
 	public boolean isAtDestination() {
-		int destinationRadius = taskWaypoint != null ? (int) Math.pow(taskWaypoint.radius-1, 2) : 25;
+		int destinationRadius = taskWaypoint != null ? (int) Math.pow(taskWaypoint.radius, 2) : 25;
 
 		return this.getDistanceSq(taskX, taskY, taskZ) <= destinationRadius;
 	}
+    ///TASK SYSTEM END
+
+	///DIGGING SYSTEM START
+
+	/** Handles the special digging system, used in Rampant mode due to high potential for destroyed bases**/
+	public MovingObjectPosition findWaypointObstruction(){
+		Vec3 bugVec = Vec3.createVectorHelper(posX, posY + getEyeHeight(), posZ);
+		Vec3 waypointVec =  Vec3.createVectorHelper(taskX, taskY, taskZ);
+		//incomplete forge docs my beloved
+		MovingObjectPosition obstruction = worldObj.func_147447_a(bugVec, waypointVec, false, true, false);
+		if(obstruction != null){
+			Block blockHit = worldObj.getBlock(obstruction.blockX, obstruction.blockY, obstruction.blockZ);
+			if(blockHit.getExplosionResistance(null) <= blastResToDig){
+				return obstruction;
+			}
+		}
+		return null;
+	}
+
+	public void digToWaypoint(MovingObjectPosition obstacle){
+
+		EntityWaypoint target =  new EntityWaypoint(worldObj);
+		target.setLocationAndAngles(obstacle.blockX, obstacle.blockY, obstacle.blockZ, 0 , 0);
+		target.radius = 5;
+		worldObj.spawnEntityInWorld(target);
+
+		previousTask = getCurrentTask();
+		previousWaypoint =  getWaypoint();
+
+		setCurrentTask(6, target);
+
+		Vec3 vec = Vec3.createVectorHelper(posX, posY, posZ);
+		int maxDist = (int) (Math.sqrt(vec.squareDistanceTo(taskX, taskY, taskZ)) * 1.2);
+		this.setPathToEntity(PathFinderUtils.getPathEntityToCoordPartial(worldObj, this, taskX, taskY, taskZ, maxDist, true, false, true, true));
+
+		communicate(6, target);
+
+	}
+	///DIGGING END
 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) {
