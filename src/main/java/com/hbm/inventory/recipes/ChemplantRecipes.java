@@ -402,20 +402,20 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(101, "CC_CENTRIFUGE", 200)
 				.inputFluids(new FluidStack(Fluids.CHLOROCALCITE_CLEANED, 500), new FluidStack(Fluids.SULFURIC_ACID, 8_000))
 				.outputFluids(new FluidStack(Fluids.POTASSIUM_CHLORIDE, 250), new FluidStack(Fluids.CALCIUM_CHLORIDE, 250)));
+		
+		recipes.add(new ChemRecipe(102, "THORIUM_SALT", 60)
+				.inputFluids(new FluidStack(Fluids.THORIUM_SALT_DEPLETED, 16_000))
+				.inputItems(new OreDictStack(TH232.nugget(), 2))
+				.outputFluids(new FluidStack(Fluids.THORIUM_SALT, 16_000))
+				.outputItems(
+						new ItemStack(ModItems.nugget_u233, 1),
+						new ItemStack(ModItems.nuclear_waste_tiny, 1)));
 
-		recipes.add(new ChemRecipe(102, "PC_ELECTROLYSIS", 200)
-				.inputFluids(new FluidStack(Fluids.POTASSIUM_CHLORIDE, 250))
-				.outputItems(new ItemStack(ModItems.dust))
-				.outputFluids(new FluidStack(Fluids.CHLORINE, 125)));
-		recipes.add(new ChemRecipe(103, "CC_ELECTROLYSIS", 200)
-				.inputFluids(new FluidStack(Fluids.CALCIUM_CHLORIDE, 250))
-				.outputFluids(new FluidStack(Fluids.CHLORINE, 125), new FluidStack(Fluids.CALCIUM_SOLUTION, 125)));
-
-		recipes.add(new ChemRecipe(104, "MEAT_PROCESSING", 200)
+		recipes.add(new ChemRecipe(103, "MEAT_PROCESSING", 200)
 				.inputItems(new OreDictStack(KEY_GLYPHID_MEAT, 3))
 				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 1000))
 				.outputItems(new ItemStack(ModItems.sulfur, 2),
-							 new ItemStack(ModItems.niter, 2))
+						new ItemStack(ModItems.niter, 2))
 				.outputFluids(new FluidStack(Fluids.SALIENT, 250)));
 
 	}
