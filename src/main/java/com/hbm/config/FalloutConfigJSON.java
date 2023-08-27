@@ -114,31 +114,12 @@ public class FalloutConfigJSON {
 		entries.add(concrete.clone().c(0.1).mB(ModBlocks.concrete_smooth));
 		entries.add(concrete.clone().c(0.1).mB(ModBlocks.concrete_colored));
 		entries.add(concrete.clone().c(0.1).mB(ModBlocks.reinforced_brick));
-
 		entries.add(new FalloutEntry()
 		      .mB(ModBlocks.reinforced_stone)
 				//remember to make an entry for reinforced_brick
 		      .prim(new Triplet(Blocks.gravel, 0, 1))
 		      .max(70)
 		      .c(0.3));
-
-
-		entries.add(new FalloutEntry()
-				.mB(Blocks.obsidian)
-				.prim(new Triplet(ModBlocks.gravel_obsidian, 0, 1))
-				.max(70)
-				.c(0.8));
-		entries.add(new FalloutEntry()
-				.mB(ModBlocks.brick_obsidian)
-				.prim(new Triplet(ModBlocks.brick_obsidian_cracked, 0, 1))
-				.max(45)
-				.c(0.8));
-		entries.add(new FalloutEntry()
-				.mB(ModBlocks.brick_obsidian_cracked)
-				.prim(new Triplet(ModBlocks.gravel_obsidian, 0, 1))
-				.max(70)
-				.c(1));
-
 		entries.add(new FalloutEntry()
 				.mB(ModBlocks.concrete_debris)
 				.prim(new Triplet(Blocks.gravel, 0, 1))

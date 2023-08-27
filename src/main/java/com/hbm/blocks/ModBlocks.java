@@ -359,7 +359,6 @@ public class ModBlocks {
 	public static Block brick_concrete_marked;
 	public static Block brick_ducrete;
 	public static Block brick_obsidian;
-	public static Block brick_obsidian_cracked;
 	public static Block brick_light;
 	public static Block brick_compound;
 	public static Block brick_asbestos;
@@ -2776,7 +2775,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(brick_concrete_marked, ItemBlockBlastInfo.class, brick_concrete_marked.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_ducrete, ItemBlockBlastInfo.class, brick_ducrete.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_obsidian, ItemBlockBlastInfo.class, brick_obsidian.getUnlocalizedName());
-		GameRegistry.registerBlock(brick_obsidian_cracked, ItemBlockBlastInfo.class, brick_obsidian_cracked.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_compound, ItemBlockBlastInfo.class, brick_compound.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_light, ItemBlockBlastInfo.class, brick_light.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_asbestos, brick_asbestos.getUnlocalizedName());
