@@ -187,7 +187,7 @@ public class Gun556mmFactory {
 				)
 		);
 
-		config.name = "morita";
+		config.name = "Morita Assault Rifle";
 		config.manufacturer = EnumGunManufacturer.MORITA;
 
 		config.comment.add("Smells like crayons.");
@@ -222,7 +222,7 @@ public class Gun556mmFactory {
 		return config;
 	}
 
-	public static GunConfiguration getMoritaCarbineConfig() {
+	public static GunConfiguration getMoritaCarbineBurstConfig() {
 
 		GunConfiguration config = getMoritaConfig();
 		config.rateOfFire = 4;
@@ -231,9 +231,32 @@ public class Gun556mmFactory {
 		config.partialFire = true;
 		config.durability = 8000;
 		config.reloadDuration = 15;
+		config.comment.clear();
+		config.name = "Morita Carbine Rifle";
 		config.comment.add("COME ON YOU APES, YOU WANNA LIVE FOREVER??");
+		config.comment.add("Main fire for full auto, alt fire for 3 round bursts");
+		config.animations.put(AnimType.ALT_CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0.5, 0, 0, 25))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+				)
+		);
 		return config;
 	}
+	public static GunConfiguration getMoritaCarbineAutoConfig() {
+
+		GunConfiguration config = getMoritaCarbineBurstConfig();
+
+		config.rateOfFire = 2;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.firingSound = "hbm:weapon.moritaShoot";
+		config.firingDuration = 0;
+
+		return config;
+	}
+
 
 	private static float inaccuracy = 2.5F;
 	public static BulletConfiguration get556Config() {
