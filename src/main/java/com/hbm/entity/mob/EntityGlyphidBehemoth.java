@@ -9,6 +9,7 @@ import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -86,9 +87,8 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 	}
 
 
-
 	public void acidAttack(){
-		if (!worldObj.isRemote) {
+		if (!worldObj.isRemote && entityToAttack instanceof EntityLivingBase) {
 			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 2 * 20, 6));
 			EntityChemical chem = new EntityChemical(worldObj, this);
 			chem.setFluid(Fluids.ACID);

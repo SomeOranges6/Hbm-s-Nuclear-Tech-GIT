@@ -4903,6 +4903,7 @@ tile.glass_quartz.name=Quartz Glass
 tile.glass_trinitite.name=Trinity Glass
 tile.glass_uranium.name=Uranium Glass
 tile.glyphid_base.name=Glyphid Hive Block
+tile.glyphid_support.name=Glyphid Hive Support Block
 tile.glyphid_spawner.name=Glyphid Hive Spawner
 tile.gneiss_brick.name=Schist Brick
 tile.gneiss_chiseled.name=Chiseled Schist

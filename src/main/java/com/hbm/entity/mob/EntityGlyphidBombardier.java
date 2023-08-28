@@ -4,6 +4,7 @@ import com.hbm.entity.projectile.EntityAcidBomb;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -33,19 +34,17 @@ public class EntityGlyphidBombardier extends EntityGlyphid {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
+		Entity e = this.getEntityToAttack();
+		if(!this.worldObj.isRemote && e instanceof EntityLivingBase) {
 
-		if(!this.worldObj.isRemote) {
-
-			Entity e = this.getEntityToAttack();
-			
-			if(this.ticksExisted % 20 == 0 && e != null) {
+			if(this.ticksExisted % 20 == 0) {
 				this.lastTarget = e;
 				this.lastX = e.posX;
 				this.lastY = e.posY;
 				this.lastZ = e.posZ;
 			}
 			
-			if(this.ticksExisted % 20 == 1 && e != null) {
+			if(this.ticksExisted % 20 == 1) {
 				
 				boolean topAttack = rand.nextBoolean();
 

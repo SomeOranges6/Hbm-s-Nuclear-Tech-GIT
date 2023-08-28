@@ -503,6 +503,7 @@ public class ModBlocks {
 	public static Block mush_block_stem;
 
 	public static Block glyphid_base;
+	public static Block glyphid_support;
 	public static Block glyphid_spawner;
 
 	public static Block plant_flower;
@@ -1731,6 +1732,7 @@ public class ModBlocks {
 		mush_block = new BlockMushHuge(Material.plants).setBlockName("mush_block").setLightLevel(1.0F).setStepSound(Block.soundTypeGrass).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":mush_block_skin");
 		mush_block_stem = new BlockMushHuge(Material.plants).setBlockName("mush_block_stem").setLightLevel(1.0F).setStepSound(Block.soundTypeGrass).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":mush_block_stem");
 		glyphid_base = new BlockBase(Material.coral).setBlockName("glyphid_base").setStepSound(Block.soundTypeCloth).setHardness(0.5F);
+		glyphid_support = new BlockBase(Material.rock).setBlockName("glyphid_support").setStepSound(Block.soundTypeStone).setHardness(0.5F).setResistance(40).setBlockTextureName((RefStrings.MODID + ":glyphid_support"));
 		glyphid_spawner = new BlockGlyphidSpawner(Material.coral).setBlockName("glyphid_spawner").setStepSound(Block.soundTypeCloth).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":glyphid_spawner");
 		
 		plant_flower = new BlockNTMFlower().setBlockName("plant_flower").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
@@ -2903,7 +2905,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(mush_block, mush_block.getUnlocalizedName());
 		GameRegistry.registerBlock(mush_block_stem, mush_block_stem.getUnlocalizedName());
 		GameRegistry.registerBlock(glyphid_base, glyphid_base.getUnlocalizedName());
-		GameRegistry.registerBlock(glyphid_spawner, glyphid_spawner.getUnlocalizedName());
+		GameRegistry.registerBlock(glyphid_support, glyphid_support.getUnlocalizedName());
+		GameRegistry.registerBlock(glyphid_spawner, ItemBlockBlastInfo.class, glyphid_spawner.getUnlocalizedName());
 		GameRegistry.registerBlock(moon_turf, moon_turf.getUnlocalizedName());
 		
 		//Waste

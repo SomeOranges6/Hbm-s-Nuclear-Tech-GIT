@@ -51,7 +51,7 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 	public void onUpdate() {
 		super.onUpdate();
 		if (ticksExisted % 20 == 0) {
-			if (super.isAtDestination() && getCurrentTask() == 4) {
+			if (isAtDestination() && getCurrentTask() == 4) {
 				setCurrentTask(0, null);
 			}
 
@@ -59,7 +59,7 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 				this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 10 * 20, 3));
 			}
 
-			if (isAtDestination()) {
+			if (getCurrentTask() == 5) {
 				this.setHealth(0);
 			}
 
@@ -88,10 +88,6 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 		}
 	}
 
-	@Override
-	public boolean isAtDestination() {
-		return super.isAtDestination() && this.getCurrentTask() == 5;
-	}
 
 	@Override
 	protected void applyEntityAttributes() {
@@ -151,8 +147,8 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 			List<Entity> bugs = worldObj.getEntitiesWithinAABBExcludingEntity(this, bb);
 			for (Entity e: bugs){
 				if(e instanceof EntityGlyphid){
-					addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 15, 6));
-					addPotionEffect(new PotionEffect(Potion.fireResistance.id, 15, 6));
+					addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 20, 6));
+					addPotionEffect(new PotionEffect(Potion.fireResistance.id, 15 * 20, 1));
 				}
 			}
 		}

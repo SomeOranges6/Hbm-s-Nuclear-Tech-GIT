@@ -1,5 +1,6 @@
 package com.hbm.entity.logic;
 
+import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.EntityGlyphid;
 import com.hbm.entity.mob.EntityGlyphidNuclear;
 import com.hbm.entity.mob.EntityGlyphidScout;
@@ -28,7 +29,7 @@ public class EntityWaypoint extends Entity {
     public int maxAge = 2400;
     public int radius = 3;
     public boolean highPriority = false;
-    public EntityWaypoint additional;
+    protected EntityWaypoint additional;
     public void setHighPriority(){
         highPriority = true;
     }
@@ -83,13 +84,11 @@ public class EntityWaypoint extends Entity {
                         EntityGlyphid bug = ((EntityGlyphid) e);
 
                         if (additional != null && !hasSpawned) {
-
                             worldObj.spawnEntityInWorld(additional);
                             hasSpawned = true;
-
                         }
 
-                        boolean exceptions = bug.getWaypoint() != null
+                        boolean exceptions = bug.getWaypoint() != this
                                 || e instanceof EntityGlyphidScout
                                 || e instanceof EntityGlyphidNuclear;
 
@@ -97,7 +96,7 @@ public class EntityWaypoint extends Entity {
                             bug.setCurrentTask(getWaypointType(), additional);
 
                         if (getWaypointType() == 2) {
-                            if (exceptions)
+                            if (e instanceof EntityGlyphidScout)
                                 setDead();
                         } else {
                             setDead();
@@ -106,7 +105,7 @@ public class EntityWaypoint extends Entity {
                     }
                 }
             }
-        } else {
+        } else if(MobConfig.waypointDebug) {
 
             double x = bb.minX + (rand.nextDouble() - 0.5) * (bb.maxX - bb.minX);
             double y = bb.minY + rand.nextDouble() * (bb.maxY - bb.minY);

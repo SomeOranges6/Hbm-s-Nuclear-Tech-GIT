@@ -25,7 +25,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 	boolean hasTarget = false;
 	int timer;
 	int scoutingRange = 45;
-	int minDistanceToHive = 8 ;
+	int minDistanceToHive = 8;
 
 	public EntityGlyphidScout(World world) {
 		super(world);
@@ -34,10 +34,11 @@ public class EntityGlyphidScout extends EntityGlyphid {
 
 	@Override
 	public boolean attackEntityAsMob(Entity victum) {
-		if(victum instanceof EntityLivingBase){
+		if(super.attackEntityAsMob(victum) && victum instanceof EntityLivingBase){
 			((EntityLivingBase)victum).addPotionEffect(new PotionEffect(Potion.poison.id, 10 * 20, 3));
+			return true;
 		}
-		return super.attackEntityAsMob(victum);
+		return false;
 	}
 	@Override
 	public ResourceLocation getSkin() {
@@ -61,13 +62,14 @@ public class EntityGlyphidScout extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1.5D);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2D);
 	}
-
+	boolean useLargeHive = false;
+	float largeHiveChance = MobConfig.largeHiveChance;
 	@Override
 	public void onUpdate() {
 
 		super.onUpdate();
 
-		if(getCurrentTask() != 2 || getCurrentTask() != 5 && taskWaypoint == null) {
+		if((getCurrentTask() != 2 || getCurrentTask() != 5) && taskWaypoint == null) {
 
 			    if(MobConfig.rampantGlyphidGuidance && PollutionHandler.targetCoords != null){
 					if(!hasTarget) {
@@ -103,6 +105,14 @@ public class EntityGlyphidScout extends EntityGlyphid {
 				if(scoutingRange != 60 && findJohnson()){
 					setCurrentTask(5, null);
 				}
+				if(PollutionHandler.getPollution(worldObj,
+						(int) posX,
+						(int) posY,
+						(int) posZ, PollutionHandler.PollutionType.SOOT) <= MobConfig.largeHiveThreshold){
+
+					useLargeHive = true;
+					this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 3));
+				}
 				if (expandHive(null)){
 					this.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 180*20, 1));
 					hasTarget = true;
@@ -110,13 +120,15 @@ public class EntityGlyphidScout extends EntityGlyphid {
 			}
 
 			if (getCurrentTask() == 5 && super.isAtDestination()) {
-				communicate(5, null);
+				communicate(5, taskWaypoint);
 			}
 
 			if (ticksExisted % 10 == 0 && isAtDestination()) {
 				timer++;
+
 				if (!worldObj.isRemote && doubleCheckHive()) {
 					 if(timer == 1) {
+
 						 EntityWaypoint additional = new EntityWaypoint(worldObj);
 						 additional.setLocationAndAngles(posX, posY, posZ, 0, 0);
 						 additional.setWaypointType(0);
@@ -136,9 +148,21 @@ public class EntityGlyphidScout extends EntityGlyphid {
 						 communicate(1, taskWaypoint);
 
 					 } else if (timer >= 5) {
-						 worldObj.newExplosion(this, posX, posY, posZ, 5F, false, false);
-						 GlyphidHive.generateBigGround(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), rand, true);
-						 this.setDead();
+						 if(useLargeHive && worldObj.rand.nextInt((int)largeHiveChance) == 0){
+							 worldObj.newExplosion(this, posX, posY, posZ, 10F, false, false);
+							 GlyphidHive.generateBigFwatz(worldObj,
+									 (int) Math.floor(posX),
+									 (int) Math.floor(posY),
+									 (int) Math.floor(posZ));
+							 this.setDead();
+						 } else {
+							 worldObj.newExplosion(this, posX, posY, posZ, 5F, false, false);
+							 GlyphidHive.generateBigGround(worldObj,
+									 (int) Math.floor(posX),
+									 (int) Math.floor(posY),
+									 (int) Math.floor(posZ), rand, true);
+							 this.setDead();
+						 }
 					 } else {
 						 communicate(4, taskWaypoint);
 					 }
@@ -147,20 +171,20 @@ public class EntityGlyphidScout extends EntityGlyphid {
 		}
 	}
     public boolean doubleCheckHive(){
-
+		int length = useLargeHive ? 16 : 8;
 		for(int i = 0; i < 8; i++) {
 			float angle = (float) Math.toRadians(360D / 16 * i);
-			Vec3 rot = Vec3.createVectorHelper(0, 0, 8);
+			Vec3 rot = Vec3.createVectorHelper(0, 0, length);
 			rot.rotateAroundY(angle);
 			Vec3 pos = Vec3.createVectorHelper(this.posX, this.posY + 1, this.posZ);
 			Vec3 nextPos = Vec3.createVectorHelper(this.posX + rot.xCoord, this.posY + 1, this.posZ + rot.zCoord);
 			MovingObjectPosition mop = this.worldObj.rayTraceBlocks(pos, nextPos);
 
-			if (mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
+			if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 
 				Block block = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
 
-				if (block == ModBlocks.glyphid_base) {
+				if (block == ModBlocks.glyphid_base || block == ModBlocks.glyphid_support) {
 					setCurrentTask(0 ,null);
 					hasTarget = false;
 					return false;
@@ -202,14 +226,28 @@ public class EntityGlyphidScout extends EntityGlyphid {
 	   int nestX = rand.nextInt((homeX + scoutingRange) - (homeX - scoutingRange)) + (homeX - scoutingRange);
 	   int nestZ = rand.nextInt((homeZ + scoutingRange) - (homeZ - scoutingRange)) + (homeZ - scoutingRange);
 	   int nestY = worldObj.getHeightValue(nestX, nestZ);
-
 	   Block b = worldObj.getBlock(nestX, nestY - 1, nestZ);
-	   boolean distanceCheck = Vec3.createVectorHelper(nestX - homeX, nestY - homeY, nestZ - homeZ).lengthVector() > minDistanceToHive;
+
+	   boolean distanceCheck = Vec3.createVectorHelper(
+			   nestX - homeX,
+			   nestY - homeY,
+			   nestZ - homeZ).lengthVector() > minDistanceToHive;
+
 	   if(distanceCheck && b.getMaterial() != Material.air && b.isNormalCube() && b != ModBlocks.glyphid_base) {
+
+		   if(b == ModBlocks.basalt) {
+			   useLargeHive = true;
+			   largeHiveChance /= 2;
+			   this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 3));
+		   }
 		   if(!worldObj.isRemote) {
 			   EntityWaypoint nest = new EntityWaypoint(worldObj);
 			   nest.setWaypointType(getCurrentTask());
-			   nest.radius = 3;
+			   nest.radius = 5;
+
+			   if(useLargeHive)
+				   nest.setHighPriority();
+
 			   nest.setLocationAndAngles(nestX, nestY, nestZ, 0, 0);
 			   worldObj.spawnEntityInWorld(nest);
 
@@ -230,15 +268,14 @@ public class EntityGlyphidScout extends EntityGlyphid {
 		if (!worldObj.isRemote && taskWaypoint == null) {
 			switch(getCurrentTask()){
 				case 3:
-					this.clearActivePotions();
+					this.removePotionEffect(Potion.moveSlowdown.id);
 					this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 20 * 20, 4));
 
 					//then, come back later
 					EntityWaypoint additional = new EntityWaypoint(worldObj);
 					additional.setLocationAndAngles(posX, posY, posZ, 0, 0);
 					additional.setWaypointType(0);
-
-
+					
 					//First, go home and get reinforcements
 					EntityWaypoint home = new EntityWaypoint(worldObj);
 					home.setWaypointType(2);
@@ -274,38 +311,5 @@ public class EntityGlyphidScout extends EntityGlyphid {
 				currentLocation.zCoord + dirVec.zCoord * 10
 		);
 	}
-
-
-	/*
-	@Override
-	protected void updateWanderPath() {
-		this.worldObj.theProfiler.startSection("stroll");
-		boolean flag = false;
-		int pathX = -1;
-		int pathY = -1;
-		int pathZ = -1;
-		float maxWeight = -99999.0F;
-
-		for(int l = 0; l < 5; ++l) {
-			int x = MathHelper.floor_double(this.posX + (double) this.rand.nextInt(25) - 12.0D);
-			int y = MathHelper.floor_double(this.posY + (double) this.rand.nextInt(11) - 5.0D);
-			int z = MathHelper.floor_double(this.posZ + (double) this.rand.nextInt(25) - 12.0D);
-			float weight = this.getBlockPathWeight(x, y, z);
-
-			if(weight > maxWeight) {
-				maxWeight = weight;
-				pathX = x;
-				pathY = y;
-				pathZ = z;
-				flag = true;
-			}
-		}
-
-		if(flag) {
-			this.setPathToEntity(this.worldObj.getEntityPathToXYZ(this, pathX, pathY, pathZ, 10.0F, true, false, false, true));
-		}
-
-		this.worldObj.theProfiler.endSection();
-	}*/
 
 }
