@@ -31,8 +31,7 @@ public class MobConfig {
 	public static boolean enableHives = true;
 	public static int hiveSpawn = 256;
 	public static double scoutThreshold = 5;
-	public static int scoutTimedSpawn = 120;
-	public static boolean scoutSwarmSpawn = false;
+	public static int scoutSwarmSpawnChance = 2;
 	public static boolean waypointDebug = false;
 	public static int largeHiveChance = 5;
 	public static int largeHiveThreshold = 30;
@@ -94,8 +93,7 @@ public class MobConfig {
 		spawnMax = CommonConfig.createConfigDouble(config, CATEGORY, "12.G07_spawnMax", "Maximum amount of glyphids being able to exist at once through natural spawning", 50);
 		targetingThreshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G08_targetingThreshold", "Minimum amount of soot required for glyphids' extended targeting range to activate", 1D);
 
-		scoutTimedSpawn = CommonConfig.createConfigInt(config, CATEGORY, "12.G09_scoutTimedSpawn", "How often scouts (in seconds) should spawn, set it to 0 in order to disable timed scout spawns",120);
-		scoutSwarmSpawn = CommonConfig.createConfigBool(config, CATEGORY,"12.G10_scoutTimedSpawn", "Whether scouts should spawn in swarms, please dont combine this with the above", false);
+		scoutSwarmSpawnChance = CommonConfig.createConfigInt(config, CATEGORY,"12.G10_scoutSwarmSpawn", "How likely are scouts to spawn in swarms, 1 in x chance format", 2);
 
 		largeHiveChance = CommonConfig.createConfigInt(config, CATEGORY,"12.G11_largeHiveChance", "The chance for a large hive to spawn, formula: 1/x", 5);
 		largeHiveThreshold = CommonConfig.createConfigInt(config, CATEGORY,"12.G12_largeHiveThreshold", "The soot threshold for a large hive to spawn", 30);
@@ -162,8 +160,7 @@ public class MobConfig {
 			rampantExtendedTargetting = true;
 			rampantDig = true;
 			rampantGlyphidGuidance = true;
-			scoutSwarmSpawn = true;
-			scoutTimedSpawn = 0;
+			scoutSwarmSpawnChance = 1;
 			scoutThreshold = 0;
 		}
 	}

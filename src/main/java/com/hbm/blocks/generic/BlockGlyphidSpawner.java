@@ -1,8 +1,6 @@
 package com.hbm.blocks.generic;
 
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 import com.hbm.config.MobConfig;
@@ -68,13 +66,13 @@ public class BlockGlyphidSpawner extends BlockContainer {
 
 		@Override
 		public void updateEntity() {
+            float soot;
 
 			if(!worldObj.isRemote && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL) {
 
-				int scoutDelay = MobConfig.scoutTimedSpawn * 20;
-
 				if (initialSpawn || worldObj.getTotalWorldTime() % 3600 == 0) {
 
+					soot = PollutionHandler.getPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT);
 					if (worldObj.getBlock(xCoord, yCoord + 1, zCoord) != Blocks.air) {
 						return;
 					}
@@ -87,7 +85,7 @@ public class BlockGlyphidSpawner extends BlockContainer {
 						}
 					}
 
-					float soot = PollutionHandler.getPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT);
+
 					List<EntityGlyphid> list = worldObj.getEntitiesWithinAABB(EntityGlyphid.class, AxisAlignedBB.getBoundingBox(xCoord - 6, yCoord + 1, zCoord - 6, xCoord + 7, yCoord + 9, zCoord + 7));
 
 					if (list.size() <= 3) {
@@ -101,19 +99,15 @@ public class BlockGlyphidSpawner extends BlockContainer {
 						}
 
 						initialSpawn = false;
-					}
 
-					if (!(MobConfig.scoutSwarmSpawn && soot >= MobConfig.scoutThreshold)) {
-						return;
-					}
 
-				} else if (!(scoutDelay > 0 && worldObj.getWorldTime() % scoutDelay == 0)){
-					return;
+						if (worldObj.rand.nextInt(MobConfig.scoutSwarmSpawnChance + 1) == 0 && soot >= MobConfig.scoutThreshold) {
+							EntityGlyphidScout scout = new EntityGlyphidScout(worldObj);
+							scout.setLocationAndAngles(xCoord + 0.5, yCoord + 1, zCoord + 0.5, worldObj.rand.nextFloat() * 360.0F, 0.0F);
+							worldObj.spawnEntityInWorld(scout);
+						}
+					}
 				}
-
-				EntityGlyphidScout scout = new EntityGlyphidScout(worldObj);
-				scout.setLocationAndAngles(xCoord + 0.5, yCoord + 1, zCoord + 0.5, worldObj.rand.nextFloat() * 360.0F, 0.0F);
-				worldObj.spawnEntityInWorld(scout);
 			}
 		}
 
