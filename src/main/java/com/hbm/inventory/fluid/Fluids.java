@@ -334,7 +334,7 @@ public class Fluids {
 		PHEROMONE_M =			new FluidType("PHEROMONE_M",				0x48C9B0 , 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_Pheromone(2));
 		THORIUM_SALT =			new FluidType("THORIUM_SALT",		0x7A5542, 2, 0, 3, EnumSymbol.NONE).setTemp(800).addTraits(LIQUID, new FT_Corrosive(65));
 		THORIUM_SALT_HOT =		new FluidType("THORIUM_SALT_HOT",	0x3E3627, 2, 0, 3, EnumSymbol.NONE).setTemp(1600).addTraits(LIQUID, new FT_Corrosive(65));
-		THORIUM_SALT_DEPLETED =	new FluidType(129, "THORIUM_SALT_DEPLETED",	0x302D1C, 2, 0, 3, EnumSymbol.NONE).setTemp(800).addTraits(LIQUID, new FT_Corrosive(65));
+		THORIUM_SALT_DEPLETED =	new FluidType(132, "THORIUM_SALT_DEPLETED",	0x302D1C, 2, 0, 3, EnumSymbol.NONE).setTemp(800).addTraits(LIQUID, new FT_Corrosive(65));
 
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
