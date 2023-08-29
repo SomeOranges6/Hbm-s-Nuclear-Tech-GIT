@@ -76,7 +76,7 @@ public class Balefire extends BlockFire {
                     p_149674_1_.setBlockMetadataWithNotify(p_149674_2_, p_149674_3_, p_149674_4_, l + p_149674_5_.nextInt(3) / 2, 4);
                 }*/
 
-                world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world) + p_149674_5_.nextInt(10));
+
 
                 if (!flag && !this.canNeighborBurn(world, x, y, z))
                 {
@@ -152,7 +152,7 @@ public class Balefire extends BlockFire {
             }
         }
         ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 0.5F);
-        world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
+        world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world) + p_149674_5_.nextInt(10));
     }
 
     private void tryCatchFire(World p_149841_1_, int p_149841_2_, int p_149841_3_, int p_149841_4_, int p_149841_5_, Random p_149841_6_, int p_149841_7_, ForgeDirection face)

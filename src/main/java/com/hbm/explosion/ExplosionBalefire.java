@@ -21,7 +21,7 @@ public class ExplosionBalefire
 	private int shell;
 	private int leg;
 	private int element;
-	
+
 	public void saveToNbt(NBTTagCompound nbt, String name) {
 		nbt.setInteger(name + "posX", posX);
 		nbt.setInteger(name + "posY", posY);
@@ -36,7 +36,7 @@ public class ExplosionBalefire
 		nbt.setInteger(name + "leg", leg);
 		nbt.setInteger(name + "element", element);
 	}
-	
+
 	public void readFromNbt(NBTTagCompound nbt, String name) {
 		posX = nbt.getInteger(name + "posX");
 		posY = nbt.getInteger(name + "posY");
@@ -51,31 +51,31 @@ public class ExplosionBalefire
 		leg = nbt.getInteger(name + "leg");
 		element = nbt.getInteger(name + "element");
 	}
-	
+
 	public ExplosionBalefire(int x, int y, int z, World world, int rad)
 	{
 		this.posX = x;
 		this.posY = y;
 		this.posZ = z;
-		
+
 		this.worldObj = world;
-		
+
 		this.radius = rad;
 		this.radius2 = this.radius * this.radius;
 
 		this.nlimit = this.radius2 * 4;
 	}
-	
+
 	public boolean update() {
-		
+
 		if(n == 0) return true;
-		
+
 		breakColumn(this.lastposX, this.lastposZ);
 		this.shell = (int) Math.floor((Math.sqrt(n) + 1) / 2);
 		int shell2 = this.shell * 2;
-		
+
 		if(shell2 == 0) return true;
-		
+
 		this.leg = (int) Math.floor((this.n - (shell2 - 1) * (shell2 - 1)) / shell2);
 		this.element = (this.n - (shell2 - 1) * (shell2 - 1)) - shell2 * this.leg - this.shell + 1;
 		this.lastposX = this.leg == 0 ? this.shell : this.leg == 1 ? -this.element : this.leg == 2 ? -this.shell : this.element;
@@ -87,34 +87,36 @@ public class ExplosionBalefire
 	private void breakColumn(int x, int z)
 	{
 		int dist = (int) (radius - Math.sqrt(x * x + z * z));
-		
+
 		if (dist > 0) {
 			int pX = posX + x;
 			int pZ = posZ + z;
-			
+
 			int y  = worldObj.getHeightValue(pX, pZ);
 			int maxdepth = (int) (10 + radius * 0.25);
 			int depth = (int) ((maxdepth * dist / radius) + (Math.sin(dist * 0.15 + 2) * 2));//
-			
+
 			depth = Math.max(y - depth, 0);
-			
+
 			while(y > depth) {
 
 				if(worldObj.getBlock(pX, y, pZ) == ModBlocks.block_schrabidium_cluster) {
-					
+
 					if(worldObj.rand.nextInt(10) == 0) {
 						worldObj.setBlock(pX, y + 1, pZ, ModBlocks.balefire);
 						worldObj.setBlock(pX, y, pZ, ModBlocks.block_euphemium_cluster, worldObj.getBlockMetadata(pX, y, pZ), 3);
 					}
 					return;
 				}
-			
-				
+
+				worldObj.setBlockToAir(pX, y, pZ);
+
+				y--;
 			}
-			
+
 			if(worldObj.rand.nextInt(10) == 0) {
 				worldObj.setBlock(pX, depth + 1, pZ, ModBlocks.balefire);
-				
+
 				if(worldObj.getBlock(pX, y, pZ) == ModBlocks.block_schrabidium_cluster)
 					worldObj.setBlock(pX, y, pZ, ModBlocks.block_euphemium_cluster, worldObj.getBlockMetadata(pX, y, pZ), 3);
 			}
