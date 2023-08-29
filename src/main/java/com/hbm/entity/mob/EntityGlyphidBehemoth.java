@@ -91,7 +91,6 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 		if (!worldObj.isRemote && entityToAttack instanceof EntityLivingBase) {
 			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 2 * 20, 6));
 			EntityChemical chem = new EntityChemical(worldObj, this);
-			chem.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
 			chem.setFluid(Fluids.ACID);
 			worldObj.spawnEntityInWorld(chem);
 		}
