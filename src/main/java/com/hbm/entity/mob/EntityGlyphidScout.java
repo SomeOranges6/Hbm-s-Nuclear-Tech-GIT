@@ -26,12 +26,14 @@ public class EntityGlyphidScout extends EntityGlyphid {
 	int timer;
 	int scoutingRange = 45;
 	int minDistanceToHive = 8;
-
+	boolean useLargeHive = false;
+	float largeHiveChance = MobConfig.largeHiveChance;
 	public EntityGlyphidScout(World world) {
 		super(world);
 		this.setSize(1.25F, 0.75F);
 	}
 
+	//extreme measures for anti-scout bullying
 	@Override
 	public boolean attackEntityAsMob(Entity victum) {
 		if(super.attackEntityAsMob(victum) && victum instanceof EntityLivingBase){
@@ -62,8 +64,6 @@ public class EntityGlyphidScout extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1.5D);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2D);
 	}
-	boolean useLargeHive = false;
-	float largeHiveChance = MobConfig.largeHiveChance;
 	@Override
 	public void onUpdate() {
 
@@ -113,13 +113,13 @@ public class EntityGlyphidScout extends EntityGlyphid {
 					useLargeHive = true;
 					this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 3));
 				}
-				if (expandHive(null)){
+				if (expandHive()){
 					this.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 180*20, 1));
 					hasTarget = true;
 				}
 			}
 
-			if (getCurrentTask() == 5 && super.isAtDestination()) {
+			if (getCurrentTask() == 5 && super.isAtDestination() && doubleCheckHive()) {
 				communicate(5, taskWaypoint);
 			}
 
@@ -151,9 +151,9 @@ public class EntityGlyphidScout extends EntityGlyphid {
 						 if(useLargeHive && worldObj.rand.nextInt((int)largeHiveChance) == 0){
 							 worldObj.newExplosion(this, posX, posY, posZ, 10F, false, false);
 							 GlyphidHive.generateBigFwatz(worldObj,
-									 (int) Math.floor(posX),
-									 (int) Math.floor(posY),
-									 (int) Math.floor(posZ));
+									 (int) Math.floor(posX-9),
+									 (int) Math.floor(posY-1),
+									 (int) Math.floor(posZ-9));
 							 this.setDead();
 						 } else {
 							 worldObj.newExplosion(this, posX, posY, posZ, 5F, false, false);
@@ -221,7 +221,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 	}
 
 	@Override
-	public boolean expandHive(@Nullable EntityWaypoint waypoint) {
+	public boolean expandHive() {
 
 	   int nestX = rand.nextInt((homeX + scoutingRange) - (homeX - scoutingRange)) + (homeX - scoutingRange);
 	   int nestZ = rand.nextInt((homeZ + scoutingRange) - (homeZ - scoutingRange)) + (homeZ - scoutingRange);

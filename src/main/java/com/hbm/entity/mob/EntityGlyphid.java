@@ -410,6 +410,11 @@ public class EntityGlyphid extends EntityMob {
 		return taskWaypoint;
 	}
 
+	/**
+	 * Sets a new task for the glyphid to do, a waypoint alongside with that task, and refreshes their waypoint coordinates
+	 * @param task The task the glyphid is to do, refer to carryOutTask()
+	 * @param waypoint The waypoint for the task, can be null
+	 */
 	public void setCurrentTask(int task, @Nullable EntityWaypoint waypoint){
 		currentTask =  task;
 		taskWaypoint = waypoint;
@@ -427,6 +432,9 @@ public class EntityGlyphid extends EntityMob {
 		carryOutTask();
 	}
 
+	/**
+	 * Handles the task system, used mainly for things that only need to be done once, such as setting targets
+	 */
 	public void carryOutTask(){
 		int task = getCurrentTask();
 
@@ -503,9 +511,9 @@ public class EntityGlyphid extends EntityMob {
 	}
 
     /** What each type of glyphid does when it is time to expand the hive.
-	 * Args: Whether there is a specific coordinate to expand to, can be null.
-	 * Returns: whether it has expanded successfully or not **/
-	public boolean expandHive(@Nullable EntityWaypoint waypoint){
+	 * @return Whether it has expanded successfully or not
+	 * **/
+	public boolean expandHive(){
 		return false;
 	}
 
