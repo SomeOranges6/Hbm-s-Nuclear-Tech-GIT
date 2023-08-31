@@ -9,6 +9,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo45ACP;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.main.MainRegistry;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.anim.BusAnimation;
@@ -38,17 +39,56 @@ public class Gun45ACPFactory {
 		config.ammoCap = 30;
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
-		config.crosshair = Crosshair.L_SPLIT;
+		config.crosshair = Crosshair.L_CLASSIC;
 		config.durability = 5000;
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.firingSound = "hbm:weapon.rifleShoot";
+		config.firingPitch = 0.9F;
 		config.reloadSoundEnd = false;
 
-		config.name = "tommy";
+		config.name = "M1A1";
 		config.manufacturer = EnumGunManufacturer.AUTO_ORDINANCE;
 
 		config.config = new ArrayList<Integer>();
 		config.config.addAll(HbmCollection.acp45);
+
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+				)
+		);
+		config.animations.put(AnimType.RELOAD, new BusAnimation()
+				.addBus("TILT", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 125))
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 750))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 125))
+				)
+				.addBus("MAG", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 200))
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 1, 200))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+				)
+		);
+
+		return config;
+	}
+
+	public static GunConfiguration getTypewriterConfig(){
+
+		GunConfiguration config = getThompsonConfig();
+
+		config.ammoCap = 100;
+		config.durability *= 3;
+		config.config = new ArrayList<Integer>();
+		config.config.addAll(HbmCollection.acp45drum);
+
+		config.name = "M1921";
+
+		config.comment.add("I LIVE... AGAIN");
+		if(MainRegistry.polaroidID == 13) {
+			config.comment.add("i bet i can transplant the brain of a duck into the body of a marketing manager...but what would be the point");
+		}
 
 		return config;
 	}
@@ -157,6 +197,42 @@ public class Gun45ACPFactory {
 		bullet.leadChance = 50;
 		
 		bullet.spentCasing = CASING45;
+
+		return bullet;
+	}
+
+	public static BulletConfiguration get45AutoDrumConfig(){
+
+		BulletConfiguration bullet = get45AutoConfig();
+
+		bullet.ammo = new ComparableStack(ModItems.ammo_45.stackFromEnum(Ammo45ACP.DRUM_STOCK));
+		bullet.ammoCount = 100;
+
+		return bullet;
+	}
+
+	public static BulletConfiguration get45AutoDrumAPConfig(){
+
+		BulletConfiguration bullet = get45AutoDrumConfig();
+
+		bullet.ammo = new ComparableStack(ModItems.ammo_45.stackFromEnum(Ammo45ACP.DRUM_AP));
+		bullet.dmgMax = 18;
+		bullet.dmgMin = 26;
+		bullet.wear = 15;
+		bullet.leadChance = 10;
+
+		return bullet;
+	}
+
+	public static BulletConfiguration get45AutoDrumDUConfig(){
+
+		BulletConfiguration bullet = get45AutoDrumConfig();
+
+		bullet.ammo = new ComparableStack(ModItems.ammo_45.stackFromEnum(Ammo45ACP.DRUM_DU));
+		bullet.dmgMax = 30;
+		bullet.dmgMin = 44;
+		bullet.wear = 25;
+		bullet.leadChance = 50;
 
 		return bullet;
 	}

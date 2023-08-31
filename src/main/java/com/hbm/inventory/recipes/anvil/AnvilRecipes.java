@@ -518,6 +518,16 @@ public class AnvilRecipes {
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
+						new ComparableStack(ModItems.gun_thompson, 1),
+						new ComparableStack(ModItems.hull_small_steel, 2),
+						new ComparableStack(ModItems.coil_tungsten, 1),
+						new ComparableStack(ModItems.cigarette, 3),
+				},
+				new AnvilOutput(new ItemStack(ModItems.gun_typewriter, 1))).setTier(3));
+
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
 						new ComparableStack(ModItems.mechanism_rifle_2, 1),
 						new OreDictStack(ANY_PLASTIC.ingot(), 4),
 						new OreDictStack(ALLOY.plate(), 2),
@@ -560,17 +570,20 @@ public class AnvilRecipes {
 		pullFromAssembler(new ComparableStack(ModItems.pellet_buckshot), 1);
 		pullFromAssembler(new ComparableStack(ModItems.pellet_cluster), 1);
 		pullFromAssembler(new ComparableStack(ModItems.pellet_chlorophyte), 1);
-
-		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(8, Ammo4Gauge.STOCK)), new OreDictStack(P_RED.dust()), new OreDictStack(AL.dust()),  new OreDictStack(KNO.dust())}, new AnvilOutput(ModItems.ammo_4gauge.stackFromEnum(8, Ammo4Gauge.LTBL))).setTier(3));
-		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(8, Ammo4Gauge.STOCK)), new ComparableStack(ModItems.wire_schrabidium), new OreDictStack(AL.dust()),  new OreDictStack(KNO.dust())}, new AnvilOutput(ModItems.ammo_4gauge.stackFromEnum(8, Ammo4Gauge.LTBL_SUPER))).setTier(3));
-
 		pullFromAssembler(new ComparableStack(ModItems.pellet_canister), 1);
 
 		constructionRecipes.add(new AnvilConstructionRecipe( new AStack[]{
 				new ComparableStack(ModItems.powder_chlorophyte, 1),
 				new OreDictStack(PB.nugget(), 12),},
 				new AnvilOutput(new ItemStack(ModItems.pellet_chlorophyte, 2))).setTier(1));
-		
+
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(8, Ammo4Gauge.STOCK)), new OreDictStack(P_RED.dust()), new OreDictStack(AL.dust()),  new OreDictStack(KNO.dust())}, new AnvilOutput(ModItems.ammo_4gauge.stackFromEnum(8, Ammo4Gauge.LTBL))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(8, Ammo4Gauge.STOCK)), new ComparableStack(ModItems.wire_schrabidium), new OreDictStack(AL.dust()),  new OreDictStack(KNO.dust())}, new AnvilOutput(ModItems.ammo_4gauge.stackFromEnum(8, Ammo4Gauge.LTBL_SUPER))).setTier(3));
+
+		constructionRecipes.add(new AnvilConstructionRecipe( new AStack[]{
+				new ComparableStack(ModItems.ammo_45, 100),
+				new OreDictStack(STEEL.plate(), 4),},
+				new AnvilOutput(ModItems.ammo_45.stackFromEnum(1, Ammo45ACP.DRUM_STOCK))).setTier(2));
 
 		Object[][] recs = new Object[][] {
 			{ModItems.ammo_12gauge.stackFromEnum(12, Ammo12Gauge.STOCK),	P_RED.dust(),										ModItems.ammo_12gauge.stackFromEnum(12, Ammo12Gauge.INCENDIARY),	2},
@@ -600,8 +613,11 @@ public class AnvilRecipes {
 			{ModItems.ammo_44.stackFromEnum(12, Ammo44Magnum.DU),			STAR.ingot(),					ModItems.ammo_44.stackFromEnum(12, Ammo44Magnum.STAR),			3},
 			{ModItems.ammo_44.stackFromEnum(24, Ammo44Magnum.STOCK),		ModItems.pellet_chlorophyte,	ModItems.ammo_44.stackFromEnum(24, Ammo44Magnum.CHLOROPHYTE),	3},
 
-			{ModItems.ammo_45.stackFromEnum(32, Ammo45ACP.STOCK),			DURA.ingot(),					ModItems.ammo_45.stackFromEnum(32, Ammo45ACP.AP),				3},
-			{ModItems.ammo_45.stackFromEnum(32, Ammo45ACP.STOCK),			U238.ingot(),					ModItems.ammo_45.stackFromEnum(32, Ammo45ACP.DU),				3},
+			{ModItems.ammo_45.stackFromEnum(32, Ammo45ACP.STOCK),			DURA.ingot(),					ModItems.ammo_45.stackFromEnum(32, Ammo45ACP.AP),				2},
+			{ModItems.ammo_45.stackFromEnum(32, Ammo45ACP.STOCK),			U238.ingot(),					ModItems.ammo_45.stackFromEnum(32, Ammo45ACP.DU),				2},
+
+			{ModItems.ammo_45.stackFromEnum(1, Ammo45ACP.DRUM_STOCK),			DURA.ingot(),					ModItems.ammo_45.stackFromEnum(1, Ammo45ACP.DRUM_AP),				2},
+			{ModItems.ammo_45.stackFromEnum(1, Ammo45ACP.DRUM_STOCK),			U238.ingot(),					ModItems.ammo_45.stackFromEnum(1, Ammo45ACP.DRUM_DU),				2},
 
 			{ModItems.ammo_5mm.stackFromEnum(128, Ammo5mm.STOCK),	ModItems.ingot_semtex,					ModItems.ammo_5mm.stackFromEnum(128, Ammo5mm.EXPLOSIVE),		2},
 			{ModItems.ammo_5mm.stackFromEnum(128, Ammo5mm.STOCK),	U238.ingot(),							ModItems.ammo_5mm.stackFromEnum(128, Ammo5mm.DU),				2},

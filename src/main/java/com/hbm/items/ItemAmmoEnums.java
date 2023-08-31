@@ -566,7 +566,10 @@ public class ItemAmmoEnums {
 	public enum Ammo45ACP implements IAmmoItemEnum {
 		STOCK("ammo_45"),
 		AP("ammo_45_ap", HbmCollection.APType),
-		DU("ammo_45_du", HbmCollection.DUType);
+		DU("ammo_45_du", HbmCollection.DUType),
+		DRUM_STOCK("ammo_45_drum"),
+		DRUM_AP("ammo_45_drum_ap", HbmCollection.APType),
+		DRUM_DU("ammo_45_drum_du", HbmCollection.DUType);
 		
 		private final Set<AmmoItemTrait> traits;
 		private final String unloc;

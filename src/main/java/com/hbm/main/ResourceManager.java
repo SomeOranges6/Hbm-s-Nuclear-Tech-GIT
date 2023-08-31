@@ -738,6 +738,7 @@ public class ResourceManager {
 	public static final IModelCustom sauergun = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/sauergun.obj"));
 	public static final IModelCustom vortex = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/vortex.obj"));
 	public static final IModelCustom thompson = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/thompson.obj"));
+	public static final IModelCustom typewriter = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/typewriter.obj"));
 	public static final IModelCustom bolter = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/bolter.obj"));
 	public static final IModelCustom ff_python = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/python.obj"));
 	public static final IModelCustom ff_maresleg = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/maresleg.obj"));

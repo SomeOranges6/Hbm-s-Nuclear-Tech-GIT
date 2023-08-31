@@ -70,6 +70,7 @@ public class ItemRenderWeaponFFBolt implements IItemRenderer {
 			if (item.getItem() != ModItems.gun_bolt_action_saturnite) {
 				//GL11.glRotated(75, 0, -1, 0);
 				GL11.glTranslated(-1, 0.6, -1.26);
+				GL11.glScaled(1.5, 1.5, 1.5);
 				GL11.glRotated(10.5, 0, 0, 1);
 				GL11.glRotated(14.68, 0, 1, 0);
 			} else {

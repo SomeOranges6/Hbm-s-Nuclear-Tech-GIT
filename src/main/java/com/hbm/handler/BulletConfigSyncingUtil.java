@@ -110,6 +110,10 @@ public class BulletConfigSyncingUtil {
 	public static int ACP_45_AP = i++;
 	public static int ACP_45_DU = i++;
 
+	public static int ACP_45_DRUM = i++;
+	public static int ACP_45_DRUM_AP = i++;
+	public static int ACP_45_DRUM_DU = i++;
+
 	public static int BMG50_NORMAL = i++;
 	public static int BMG50_INCENDIARY = i++;
 	public static int BMG50_EXPLOSIVE = i++;
@@ -416,6 +420,10 @@ public class BulletConfigSyncingUtil {
 		configSet.put(ACP_45, Gun45ACPFactory.get45AutoConfig());
 		configSet.put(ACP_45_AP, Gun45ACPFactory.get45AutoAPConfig());
 		configSet.put(ACP_45_DU, Gun45ACPFactory.get45AutoDUConfig());
+
+		configSet.put(ACP_45_DRUM, Gun45ACPFactory.get45AutoDrumConfig());
+		configSet.put(ACP_45_DRUM_AP, Gun45ACPFactory.get45AutoDrumAPConfig());
+		configSet.put(ACP_45_DRUM_DU, Gun45ACPFactory.get45AutoDrumDUConfig());
 		
 		configSet.put(BMG50_NORMAL, Gun50BMGFactory.get50BMGConfig());
 		configSet.put(BMG50_INCENDIARY, Gun50BMGFactory.get50BMGFireConfig());

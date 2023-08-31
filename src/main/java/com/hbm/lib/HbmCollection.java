@@ -43,6 +43,7 @@ public class HbmCollection {
 	public static final List<Integer> p9 = ImmutableList.of(BulletConfigSyncingUtil.P9_NORMAL, BulletConfigSyncingUtil.P9_AP, BulletConfigSyncingUtil.P9_DU, BulletConfigSyncingUtil.CHL_P9, BulletConfigSyncingUtil.P9_ROCKET);
 	/** .45 AUTOMATIC COLT PISTOL **/
 	public static final List<Integer> acp45 = ImmutableList.of(BulletConfigSyncingUtil.ACP_45, BulletConfigSyncingUtil.ACP_45_AP, BulletConfigSyncingUtil.ACP_45_DU);
+	public static final List<Integer> acp45drum = ImmutableList.of(BulletConfigSyncingUtil.ACP_45, BulletConfigSyncingUtil.ACP_45_AP, BulletConfigSyncingUtil.ACP_45_DU, BulletConfigSyncingUtil.ACP_45_DRUM, BulletConfigSyncingUtil.ACP_45_DRUM_AP, BulletConfigSyncingUtil.ACP_45_DRUM_DU);
 	// RIFLE CALIBER
 	/** .50 BROWNING MACHINE GUN **/
 	public static final List<Integer> bmg50 = ImmutableList.of(BulletConfigSyncingUtil.BMG50_NORMAL, BulletConfigSyncingUtil.BMG50_INCENDIARY, BulletConfigSyncingUtil.BMG50_PHOSPHORUS, BulletConfigSyncingUtil.BMG50_EXPLOSIVE, BulletConfigSyncingUtil.BMG50_AP, BulletConfigSyncingUtil.BMG50_DU, BulletConfigSyncingUtil.BMG50_STAR, BulletConfigSyncingUtil.CHL_BMG50, BulletConfigSyncingUtil.BMG50_SLEEK);
