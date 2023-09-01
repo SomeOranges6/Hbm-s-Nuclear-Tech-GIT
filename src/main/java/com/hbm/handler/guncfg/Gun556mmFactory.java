@@ -151,6 +151,7 @@ public class Gun556mmFactory {
 		config.ammoCap = 60;
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
+		config.altFireAnim = true;
 		config.crosshair = Crosshair.CLASSIC;
 		config.durability = 10000;
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
@@ -227,7 +228,8 @@ public class Gun556mmFactory {
 		GunConfiguration config = getMoritaConfig();
 		config.rateOfFire = 4;
 		config.firingMode = GunConfiguration.FIRE_BURST;
-		config.roundsPerCycle = 3;
+		config.roundsPerBurst = 3;
+		config.firingDuration = 1;
 		config.partialFire = true;
 		config.durability = 8000;
 		config.reloadDuration = 15;
