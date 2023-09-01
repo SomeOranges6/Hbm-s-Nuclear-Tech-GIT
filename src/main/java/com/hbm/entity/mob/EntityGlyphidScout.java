@@ -105,10 +105,11 @@ public class EntityGlyphidScout extends EntityGlyphid {
 				if(scoutingRange != 60 && findJohnson()){
 					setCurrentTask(5, null);
 				}
+
 				if(PollutionHandler.getPollution(worldObj,
 						(int) posX,
 						(int) posY,
-						(int) posZ, PollutionHandler.PollutionType.SOOT) <= MobConfig.largeHiveThreshold){
+						(int) posZ, PollutionHandler.PollutionType.SOOT) >= MobConfig.largeHiveThreshold){
 
 					useLargeHive = true;
 					this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 3));

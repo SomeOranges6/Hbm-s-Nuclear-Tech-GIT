@@ -88,6 +88,12 @@ public class BlockGlyphidSpawner extends BlockContainer {
 
 					List<EntityGlyphid> list = worldObj.getEntitiesWithinAABB(EntityGlyphid.class, AxisAlignedBB.getBoundingBox(xCoord - 6, yCoord + 1, zCoord - 6, xCoord + 7, yCoord + 9, zCoord + 7));
 
+					if (!initialSpawn && soot >= MobConfig.scoutThreshold && worldObj.rand.nextInt(MobConfig.scoutSwarmSpawnChance + 1) == 0) {
+						EntityGlyphidScout scout = new EntityGlyphidScout(worldObj);
+						scout.setLocationAndAngles(xCoord + 0.5, yCoord + 1, zCoord + 0.5, worldObj.rand.nextFloat() * 360.0F, 0.0F);
+						worldObj.spawnEntityInWorld(scout);
+					}
+
 					if (list.size() <= 3) {
 
 						ArrayList<EntityGlyphid> currentSwarm = createSwarm(soot);
@@ -99,14 +105,10 @@ public class BlockGlyphidSpawner extends BlockContainer {
 						}
 
 						initialSpawn = false;
-
-
-						if (worldObj.rand.nextInt(MobConfig.scoutSwarmSpawnChance + 1) == 0 && soot >= MobConfig.scoutThreshold) {
-							EntityGlyphidScout scout = new EntityGlyphidScout(worldObj);
-							scout.setLocationAndAngles(xCoord + 0.5, yCoord + 1, zCoord + 0.5, worldObj.rand.nextFloat() * 360.0F, 0.0F);
-							worldObj.spawnEntityInWorld(scout);
-						}
 					}
+
+
+
 				}
 			}
 		}
