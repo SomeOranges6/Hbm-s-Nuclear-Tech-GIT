@@ -273,7 +273,11 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 				bullets += world.rand.nextInt(config.bulletsMax - config.bulletsMin);
 			
 			for(int i = 0; i < bullets; i++) {
-				spawnProjectileAlt(world, player, stack, BulletConfigSyncingUtil.getKey(config));
+				if(mainConfig.altFireAnim) {
+					spawnProjectileAlt(world, player, stack, BulletConfigSyncingUtil.getKey(config));
+				} else {
+					spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
+				}
 			}
 			
 			useUpAmmo(player, stack, false);

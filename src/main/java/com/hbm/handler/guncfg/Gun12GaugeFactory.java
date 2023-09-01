@@ -108,24 +108,9 @@ public class Gun12GaugeFactory {
 		config.comment.add("Alt-fire with Mouse 2 (Right-click) to fire 2 shells at once");
 		
 		config.config = HbmCollection.g12;
-		
-		config.animations.put(AnimType.CYCLE, new BusAnimation()
-				.addBus("SPAS_RECOIL_TRANSLATE", new BusAnimationSequence()
-					.addKeyframe(new BusAnimationKeyframe(0, 0, -2, 100))
-					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
-					)
-				.addBus("SPAS_RECOIL_ROT", new BusAnimationSequence()
-					.addKeyframe(new BusAnimationKeyframe(-1, 0, 1, 100))
-					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
-					)
-				.addBus("SPAS_PUMP", new BusAnimationSequence()
-					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 450))
-					.addKeyframe(new BusAnimationKeyframe(0, 0, -1.8, 200))
-					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
-					)
-				);
 
-		config.animations.put(AnimType.ALT_CYCLE, new BusAnimation()
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+
 				.addBus("SPAS_RECOIL_TRANSLATE", new BusAnimationSequence()
 						.addKeyframe(new BusAnimationKeyframe(0, 0, -2, 100))
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
@@ -138,9 +123,10 @@ public class Gun12GaugeFactory {
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 450))
 						.addKeyframe(new BusAnimationKeyframe(0, 0, -1.8, 200))
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+
 				)
 		);
-		
+
 		config.ejector = EJECTOR_SPAS;
 		
 		return config;

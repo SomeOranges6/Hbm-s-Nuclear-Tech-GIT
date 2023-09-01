@@ -68,7 +68,9 @@ public class GunConfiguration implements Cloneable {
 	public boolean allowsInfinity;
 	//whether the ammo count should be displayed
 	public boolean showAmmo = true;
-	
+
+	/**Whether a gun has a unique alt-fire anim, if it doesn't, it will just play the normal animation **/
+	public boolean altFireAnim = false;
 	//for electrically powered weapons:
 	//the Maximum capacity of the gun
 	public long maxCharge;
