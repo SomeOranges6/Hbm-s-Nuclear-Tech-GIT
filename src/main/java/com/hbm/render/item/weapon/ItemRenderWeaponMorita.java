@@ -123,9 +123,9 @@ public class ItemRenderWeaponMorita implements IItemRenderer {
 
 			GL11.glEnable(GL11.GL_LIGHTING);
 			
-			double s = item.isItemEqual(new ItemStack(ModItems.gun_morita)) ? 1.45D : 1.7D;
+			double s = item.isItemEqual(new ItemStack(ModItems.gun_morita)) ? 1.4D : 1.7D;
 
-			GL11.glTranslated(6, 10, 0);
+			GL11.glTranslated(6, 9.5, 0);
 			GL11.glRotated(90, 0, 1, 0);
 			GL11.glRotated(135, 1, 0, 0);
 			GL11.glScaled(s, s, -s);
