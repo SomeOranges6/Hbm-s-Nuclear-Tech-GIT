@@ -678,10 +678,7 @@ abstract public class Component extends StructureComponent {
 		if(!enableInfestation)
 			return;
 
-		PollutionHandler.PollutionPerWorld ppw = PollutionHandler.perWorld.get(world);
-
-		int pollutedLocations = ppw == null ? 0 : ppw.pollution.size();
-		int infestChance = Math.max((int)MobConfig.baseInfestChance - (pollutedLocations/10), 1);
+		int infestChance = (int) MobConfig.baseInfestChance;
 
 		if(rand.nextInt(infestChance + 1) != 0 || getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
 			return;
@@ -699,7 +696,7 @@ abstract public class Component extends StructureComponent {
 					for(int y = minY; y <= maxY; y++) {
 						int posY = getYWithOffset(y);
 
-						if (rand.nextInt(1000) <= 8 + (pollutedLocations/10) - maxSize * 2 && hives.size() < maxSize) {
+						if (rand.nextInt(1000) <= 8 - maxSize * 2 && hives.size() < maxSize) {
                             if(hives.size() < 3 || hives.get(hives.size() - 1).squareDistanceTo(hives.get(hives.size() - 2)) <= 100) {
 								GlyphidHive.generateBigOrb(world, posX, posY, posZ, world.rand);
 								hives.add(Vec3.createVectorHelper(posX, posY, posZ));

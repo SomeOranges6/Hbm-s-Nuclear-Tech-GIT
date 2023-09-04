@@ -106,7 +106,7 @@ public class MobConfig {
 
 		//Infested structures
 		enableInfestation= CommonConfig.createConfigBool(config, CATEGORY, "12.I01_enableInfestation", "Whether structures infested with glyphids should spawn", true);
-		baseInfestChance = CommonConfig.createConfigDouble(config, CATEGORY, "12.I02_baseInfestChance", "The base chance for infested structures to spawn", 5);
+		baseInfestChance = CommonConfig.createConfigDouble(config, CATEGORY, "12.I02_baseInfestChance", "The chance for infested structures to spawn", 5);
 
 		//Glyphid spawn stuff
 		config.addCustomCategoryComment(CATEGORY,
