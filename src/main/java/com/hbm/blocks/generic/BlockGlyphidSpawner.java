@@ -22,6 +22,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
@@ -70,9 +71,8 @@ public class BlockGlyphidSpawner extends BlockContainer {
 
 			if(!worldObj.isRemote && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL) {
 
-				if (initialSpawn || worldObj.getTotalWorldTime() % 3600 == 0) {
+				if (initialSpawn || worldObj.getTotalWorldTime() % MobConfig.swarmCooldown == 0) {
 
-					soot = PollutionHandler.getPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT);
 					if (worldObj.getBlock(xCoord, yCoord + 1, zCoord) != Blocks.air) {
 						return;
 					}
@@ -85,14 +85,8 @@ public class BlockGlyphidSpawner extends BlockContainer {
 						}
 					}
 
-
 					List<EntityGlyphid> list = worldObj.getEntitiesWithinAABB(EntityGlyphid.class, AxisAlignedBB.getBoundingBox(xCoord - 6, yCoord + 1, zCoord - 6, xCoord + 7, yCoord + 9, zCoord + 7));
-
-					if (!initialSpawn && soot >= MobConfig.scoutThreshold && worldObj.rand.nextInt(MobConfig.scoutSwarmSpawnChance + 1) == 0) {
-						EntityGlyphidScout scout = new EntityGlyphidScout(worldObj);
-						scout.setLocationAndAngles(xCoord + 0.5, yCoord + 1, zCoord + 0.5, worldObj.rand.nextFloat() * 360.0F, 0.0F);
-						worldObj.spawnEntityInWorld(scout);
-					}
+					soot = PollutionHandler.getPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT);
 
 					if (list.size() <= 3) {
 
@@ -104,10 +98,15 @@ public class BlockGlyphidSpawner extends BlockContainer {
 							glyphid.moveEntity(worldObj.rand.nextGaussian(), 0, worldObj.rand.nextGaussian());
 						}
 
+						if (!initialSpawn && worldObj.rand.nextInt(MobConfig.scoutSwarmSpawnChance + 1) == 0 && soot >= MobConfig.scoutThreshold) {
+							EntityGlyphidScout scout = new EntityGlyphidScout(worldObj);
+							scout.setLocationAndAngles(xCoord + 0.5, yCoord + 1, zCoord + 0.5, worldObj.rand.nextFloat() * 360.0F, 0.0F);
+							worldObj.spawnEntityInWorld(scout);
+						}
+
 						initialSpawn = false;
+
 					}
-
-
 
 				}
 			}
@@ -133,6 +132,18 @@ public class BlockGlyphidSpawner extends BlockContainer {
 				 }
 			}
 			return currentSpawns;
+		}
+
+		@Override
+		public void writeToNBT(NBTTagCompound nbt) {
+			super.writeToNBT(nbt);
+			nbt.setBoolean("initialSpawn", initialSpawn);
+		}
+
+		@Override
+		public void readFromNBT(NBTTagCompound nbt) {
+			super.readFromNBT(nbt);
+			this.initialSpawn = nbt.getBoolean("initialSpawn");
 		}
 	}
 }

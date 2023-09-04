@@ -43,6 +43,7 @@ import javax.annotation.Nullable;
 public class EntityGlyphid extends EntityMob {
 
 	//I might have overdone it a little bit
+
 	public boolean hasHome = false;
 	public int homeX;
 	public int homeY;
@@ -258,7 +259,7 @@ public class EntityGlyphid extends EntityMob {
 
 	@Override
 	protected boolean canDespawn() {
-		return entityToAttack == null && getCurrentTask() == 0;
+		return ticksExisted > 3500 && entityToAttack == null && getCurrentTask() == 0;
 	}
 
 	@Override
@@ -287,9 +288,9 @@ public class EntityGlyphid extends EntityMob {
 		if(source.isFireDamage()) {
 			//you might be thinking, why would fire damage be nerfed?
 			//thing is, it bypasses glyphid chitin, making it unbelievably powerful, so this was the most reasonable solution
-			amount *= 0.6F;
+			amount *= 0.7F;
 		} else if(source.getDamageType().equals("player")) {
-			amount *= 2F;
+			amount *= 1.5F;
 		} else if(source == ModDamageSource.acid || source.equals(new DamageSource(ModDamageSource.s_acid))){
 			amount = 0;
 		}
@@ -302,7 +303,7 @@ public class EntityGlyphid extends EntityMob {
 	}
 
 	public boolean isArmorBroken(float amount) {
-		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.5, 2), 100);
+		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.6, 2), 100);
 	}
 
 	public float calculateDamage(float amount) {
@@ -595,4 +596,5 @@ public class EntityGlyphid extends EntityMob {
 
 		this.currentTask = nbt.getInteger("task");
 	}
+
 }

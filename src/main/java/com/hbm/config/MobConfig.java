@@ -35,6 +35,9 @@ public class MobConfig {
 	public static boolean waypointDebug = false;
 	public static int largeHiveChance = 5;
 	public static int largeHiveThreshold = 30;
+
+	public static int swarmCooldown = 120;
+
 	public static int baseSwarmSize = 5;
     public static double swarmScalingMult = 1.2;
 	public static int sootStep = 50;
@@ -124,7 +127,7 @@ public class MobConfig {
 		baseSwarmSize =  CommonConfig.createConfigInt(config, CATEGORY, "12.GS01_baseSwarmSize", "The basic, soot-less swarm size", 5);
 		swarmScalingMult =  CommonConfig.createConfigDouble(config, CATEGORY, "12.GS02_swarmScalingMult", "By how much should swarm size scale by per soot amount determined below", 1.2);
 		sootStep =  CommonConfig.createConfigInt(config, CATEGORY, "12.GS03_sootStep", "The soot amount the above multiplier applies to the swarm size", 50);
-
+		swarmCooldown =  CommonConfig.createConfigInt(config, CATEGORY, "12.GS04_swarmCooldown", "How often do glyphid swarms spawn, in seconds", 120) * 20;
 
 		glyphidChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC01_glyphidChance", "Base Spawn chance and soot modifier for a glyphid grunt", new int[]{50, -45});
 		brawlerChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC02_brawlerChance", "Base Spawn chance and soot modifier for a glyphid brawler", new int[]{10, 30});
