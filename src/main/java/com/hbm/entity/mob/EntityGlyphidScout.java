@@ -298,6 +298,10 @@ public class EntityGlyphidScout extends EntityGlyphid {
 		super.carryOutTask();
 
 	}
+	@Override
+	public boolean useExtendedTargeting() {
+		return false;
+	}
 
     ///RAMPANT MODE STUFFS
 
