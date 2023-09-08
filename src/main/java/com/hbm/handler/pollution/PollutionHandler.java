@@ -355,7 +355,7 @@ public class PollutionHandler {
 				&& event.type == EnumCreatureType.monster
 				&& event.world.canBlockSeeTheSky(event.x, event.y, event.z)) {
 
-					if (event.world.rand.nextInt(30) == 0) {
+					if (event.world.rand.nextInt(60) == 0) {
 
 						PollutionPerWorld ppw = perWorld.get(event.world);
 						int pollutedLocations = ppw == null ? 0 : ppw.pollution.size();
