@@ -114,6 +114,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 					useLargeHive = true;
 					this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 3));
 				}
+
 				if (expandHive()){
 					this.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 180*20, 1));
 					hasTarget = true;

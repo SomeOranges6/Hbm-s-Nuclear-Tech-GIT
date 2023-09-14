@@ -346,6 +346,7 @@ public class PollutionHandler {
 	public void rampantTargetSetter(PlayerSleepInBedEvent event){
 		if (MobConfig.rampantGlyphidGuidance) targetCoords = Vec3.createVectorHelper(event.x, event.y, event.z);
 	}
+
 	@SubscribeEvent
 	public void rampantScoutPopulator(WorldEvent.PotentialSpawns event){
 		//yell at me if this vertical formatting hurts your brain
@@ -357,10 +358,9 @@ public class PollutionHandler {
 
 					if (event.world.rand.nextInt(60) == 0) {
 
-						PollutionPerWorld ppw = perWorld.get(event.world);
-						int pollutedLocations = ppw == null ? 0 : ppw.pollution.size();
+						float soot = PollutionHandler.getPollution(event.world, event.x, event.y, event.z, PollutionType.SOOT);
 
-						if (pollutedLocations >= 40) {
+						if (soot >= 20) {
 							EntityGlyphidScout scout = new EntityGlyphidScout(event.world);
 							scout.setLocationAndAngles(event.x, event.y, event.z, event.world.rand.nextFloat() * 360.0F, 0.0F);
 							event.world.spawnEntityInWorld(scout);

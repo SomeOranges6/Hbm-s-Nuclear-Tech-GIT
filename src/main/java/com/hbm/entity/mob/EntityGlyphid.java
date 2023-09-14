@@ -117,10 +117,11 @@ public class EntityGlyphid extends EntityMob {
 
             if(getCurrentTask() == 4){
 
-				if(isAtDestination()) {
+				//incase the waypoint somehow doesn't exist and it got this task anyway
+				if(isAtDestination() && taskX == 0) {
 					setCurrentTask(0, null);
 				}
-
+			//the task cannot be 6 outside of rampant, so this is a non issue p much
 			} else if (getCurrentTask() == 6 && ticksExisted % 20 == 0 && isAtDestination()) {
 				swingItem();
 
@@ -426,7 +427,8 @@ public class EntityGlyphid extends EntityMob {
 			taskZ = (int) taskWaypoint.posZ;
 
 			if (taskWaypoint.highPriority) {
-				setTarget(taskWaypoint);
+				this.entityToAttack = null;
+				this.setPathToEntity(null);
 			}
 
 		}

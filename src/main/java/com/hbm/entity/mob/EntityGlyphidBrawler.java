@@ -33,7 +33,7 @@ public class EntityGlyphidBrawler extends EntityGlyphid {
 
 	@Override
 	public boolean isArmorBroken(float amount) {
-		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.2, 2), 100);
+		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.25, 2), 100);
 	}
 
 	@Override
