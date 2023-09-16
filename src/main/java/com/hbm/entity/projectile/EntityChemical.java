@@ -241,7 +241,7 @@ public class EntityChemical extends EntityThrowableNT {
 			FT_Corrosive trait = type.getTrait(FT_Corrosive.class);
 
 			if(living != null) {
-				EntityDamageUtil.attackEntityFromIgnoreIFrame(living, new DamageSource(ModDamageSource.s_acid), trait.getRating() / 50F);
+				EntityDamageUtil.attackEntityFromIgnoreIFrame(living, getDamage(ModDamageSource.s_acid), trait.getRating() / 50F);
 				for(int i = 0; i < 4; i++) {
 					ArmorUtil.damageSuit(living, i, trait.getRating() / 40);
 				}

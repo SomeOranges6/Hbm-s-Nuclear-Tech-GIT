@@ -40,7 +40,7 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(100D);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(130D);
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.8D);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(25D);
 	}
@@ -60,6 +60,7 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 					this.swingItem();
 				}
 				acidAttack();
+				rotationYaw = prevRotationYaw;
 				breathTime--;
 			} else if (--timer <= 0) {
 				breathTime = 120;
@@ -91,6 +92,7 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 		if (!worldObj.isRemote && entityToAttack instanceof EntityLivingBase) {
 			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 2 * 20, 6));
 			EntityChemical chem = new EntityChemical(worldObj, this);
+
 			chem.setFluid(Fluids.ACID);
 			worldObj.spawnEntityInWorld(chem);
 		}

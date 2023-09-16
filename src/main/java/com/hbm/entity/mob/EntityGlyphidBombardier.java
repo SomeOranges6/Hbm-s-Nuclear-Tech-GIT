@@ -78,6 +78,7 @@ public class EntityGlyphidBombardier extends EntityGlyphid {
 					
 					for(int i = 0; i < getBombCount(); i++) {
 						EntityAcidBomb bomb = new EntityAcidBomb(worldObj, posX, posY + 1, posZ);
+						bomb.setThrower(this);
 						bomb.setThrowableHeading(fireVec.xCoord, fireVec.yCoord, fireVec.zCoord, (float) v0, i * getSpreadMult());
 						bomb.damage = getBombDamage();
 						worldObj.spawnEntityInWorld(bomb);

@@ -118,7 +118,7 @@ public class BlockGlyphidSpawner extends BlockContainer {
 
 			ArrayList<EntityGlyphid> currentSpawns = new ArrayList<>();
 			
-			int swarmAmount = (int) (MobConfig.baseSwarmSize * Math.max(MobConfig.swarmScalingMult * (soot / MobConfig.sootStep), 1));
+			int swarmAmount = (int) Math.min(MobConfig.baseSwarmSize * Math.max(MobConfig.swarmScalingMult * (soot / MobConfig.sootStep), 1), 10);
 
 			while(currentSpawns.size() <= swarmAmount) {
 				 //(dys)functional programing

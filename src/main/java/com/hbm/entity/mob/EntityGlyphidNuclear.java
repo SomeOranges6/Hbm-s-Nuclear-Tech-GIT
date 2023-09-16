@@ -100,7 +100,7 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 	@Override
 	public boolean isArmorBroken(float amount) {
 		// amount < 5 ? 5 : amount < 10 ? 3 : 2;
-		return this.rand.nextInt(100) <= Math.min(Math.pow(amount/6, 2), 100);
+		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.12, 2), 100);
 	}
 
 	@Override
