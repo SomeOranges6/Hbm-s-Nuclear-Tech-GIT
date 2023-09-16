@@ -1208,17 +1208,6 @@ public class ModItems {
 	public static Item debris_element;
 
 	public static Item containment_box;
-
-	public static Item recycled_ground;
-	public static Item recycled_rock;
-	public static Item recycled_metal;
-	public static Item recycled_refined;
-	public static Item recycled_organic;
-	public static Item recycled_crystal;
-	public static Item recycled_explosive;
-	public static Item recycled_electronic;
-	public static Item recycled_nuclear;
-	public static Item recycled_misc;
 	
 	public static Item test_nuke_igniter;
 	public static Item test_nuke_propellant;
@@ -1998,6 +1987,10 @@ public class ModItems {
 	public static Item dns_plate;
 	public static Item dns_legs;
 	public static Item dns_boots;
+	public static Item trenchmaster_helmet;
+	public static Item trenchmaster_plate;
+	public static Item trenchmaster_legs;
+	public static Item trenchmaster_boots;
 	public static Item zirconium_legs;
 	public static Item robes_helmet;
 	public static Item robes_plate;
@@ -3479,17 +3472,6 @@ public class ModItems {
 		coin_worm = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_worm").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_worm");
 		coin_ufo = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_ufo").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_ufo");
 
-		recycled_ground = new Item().setUnlocalizedName("recycled_ground").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_ground");
-		recycled_rock = new Item().setUnlocalizedName("recycled_rock").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_rock");
-		recycled_metal = new Item().setUnlocalizedName("recycled_metal").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_metal");
-		recycled_refined = new Item().setUnlocalizedName("recycled_refined").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_refined");
-		recycled_organic = new Item().setUnlocalizedName("recycled_organic").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_organic");
-		recycled_crystal = new Item().setUnlocalizedName("recycled_crystal").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_crystal");
-		recycled_explosive = new Item().setUnlocalizedName("recycled_explosive").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_explosive");
-		recycled_electronic = new Item().setUnlocalizedName("recycled_electronic").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_electronic");
-		recycled_nuclear = new Item().setUnlocalizedName("recycled_nuclear").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_nuclear");
-		recycled_misc = new Item().setUnlocalizedName("recycled_misc").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_misc");
-		
 		rod_empty = new Item().setUnlocalizedName("rod_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_empty");
 		rod = (ItemEnumMulti) new ItemBreedingRod().setUnlocalizedName("rod").setContainerItem(ModItems.rod_empty).setCreativeTab(MainRegistry.controlTab);
 		rod_dual_empty = new Item().setUnlocalizedName("rod_dual_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_dual_empty");
@@ -4162,7 +4144,6 @@ public class ModItems {
 		gun_deagle = new ItemGunBase(Gun50AEFactory.getDeagleConfig()).setUnlocalizedName("gun_deagle").setFull3D().setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_deagle");
 		gun_bio_revolver = new ItemGunBio(Gun357MagnumFactory.getRevolverBioConfig()).setUnlocalizedName("gun_bio_revolver").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_bio_revolver");
 		gun_flechette = new ItemGunBase(Gun556mmFactory.getSPIWConfig(), Gun556mmFactory.getGLauncherConfig()).setUnlocalizedName("gun_flechette").setFull3D().setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_flechette");
-
 		gun_ar15 = new ItemGunBase(Gun50BMGFactory.getAR15Config(), Gun50BMGFactory.getAR15BurstConfig()).setUnlocalizedName("gun_ar15").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_ar15");
 		gun_calamity = new ItemGunBase(Gun762mmFactory.getCalamityConfig()).setUnlocalizedName("gun_calamity").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_calamity");
 		gun_minigun = new ItemGunLacunae(Gun5mmFactory.get53Config()).setUnlocalizedName("gun_minigun").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_minigun");
@@ -4242,9 +4223,11 @@ public class ModItems {
 		gun_glass_cannon = new ItemEnergyGunBase(GunPoweredFactory.getGlassCannonConfig()).setFull3D().setUnlocalizedName("gun_glass_cannon").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_darter");
 		gun_m2 = new  ItemGunBase(Gun50BMGFactory.getM2Config()).setFull3D().setUnlocalizedName("gun_m2").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_darter");
 		gun_lunatic_marksman = new ItemGunBase(Gun50BMGFactory.getLunaticMarksman()).setFull3D().setUnlocalizedName("gun_lunatic_marksman").setCreativeTab(MainRegistry.weaponTab);
+
 		gun_morita = new ItemGunBase(Gun556mmFactory.getMoritaConfig(), Gun556mmFactory.getMUnderbarrelConfig()).setUnlocalizedName("gun_morita").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_morita");
 		gun_morita_carbine = new ItemGunBase(Gun556mmFactory.getMoritaCarbineAutoConfig(), Gun556mmFactory.getMoritaCarbineBurstConfig()).setUnlocalizedName("gun_morita_carbine").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_morita");
 		gun_uac_pistol = new ItemGunBase(Gun45ACPFactory.getUACPistolConfig(), Gun45ACPFactory.getUACPistolBurstConfig()).setFull3D().setUnlocalizedName("gun_uac_pistol").setCreativeTab(MainRegistry.weaponTab);
+
 		ToolMaterial matCrucible = EnumHelper.addToolMaterial("CRUCIBLE", 10, 3, 50.0F, 100.0F, 0);
 		crucible = new ItemCrucible(5000, 1F, matCrucible).setUnlocalizedName("crucible").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":crucible");
 		
@@ -4950,7 +4933,7 @@ public class ModItems {
 		fau_plate = new ArmorDigamma(aMatFau, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 2500, 0).cloneStats((ArmorFSB) fau_helmet).setFullSetForHide().setUnlocalizedName("fau_plate").setTextureName(RefStrings.MODID + ":fau_plate");
 		fau_legs = new ArmorDigamma(aMatFau, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 10000000, 10000, 2500, 0).cloneStats((ArmorFSB) fau_helmet).hides(EnumPlayerPart.LEFT_LEG, EnumPlayerPart.RIGHT_LEG).setFullSetForHide().setUnlocalizedName("fau_legs").setTextureName(RefStrings.MODID + ":fau_legs");
 		fau_boots = new ArmorDigamma(aMatFau, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 2500, 0).cloneStats((ArmorFSB) fau_helmet).setUnlocalizedName("fau_boots").setTextureName(RefStrings.MODID + ":fau_boots");
-		
+
 		ArmorMaterial aMatDNS = EnumHelper.addArmorMaterial("HBM_DNT_NANO", 150, new int[] { 3, 8, 6, 3 }, 100);
 		aMatDNS.customCraftingMaterial = ModItems.plate_armor_dnt;
 		dns_helmet = new ArmorDNT(aMatDNS, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000000, 1000000, 100000, 115)
@@ -4970,6 +4953,23 @@ public class ModItems {
 		dns_plate = new ArmorDNT(aMatDNS, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000000, 1000000, 100000, 115).cloneStats((ArmorFSB) dns_helmet).setUnlocalizedName("dns_plate").setTextureName(RefStrings.MODID + ":dns_plate");
 		dns_legs = new ArmorDNT(aMatDNS, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 1000000000, 1000000, 100000, 115).cloneStats((ArmorFSB) dns_helmet).setUnlocalizedName("dns_legs").setTextureName(RefStrings.MODID + ":dns_legs");
 		dns_boots = new ArmorDNT(aMatDNS, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000000, 1000000, 100000, 115).cloneStats((ArmorFSB) dns_helmet).setUnlocalizedName("dns_boots").setTextureName(RefStrings.MODID + ":dns_boots");
+
+		ArmorMaterial aMatTrench = EnumHelper.addArmorMaterial("HBM_TRENCH", 150, new int[] { 3, 8, 6, 3 }, 100);
+		aMatTrench.customCraftingMaterial = ModItems.plate_iron;
+		trenchmaster_helmet = new ArmorTrenchmaster(aMatTrench, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png").setMod(0.25F).setThreshold(5.0F)
+				.addEffect(new PotionEffect(Potion.damageBoost.id, 20, 2))
+				.addEffect(new PotionEffect(Potion.digSpeed.id, 20, 1))
+				.addEffect(new PotionEffect(Potion.jump.id, 20, 1))
+				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 0))
+				.enableVATS(true)
+				.addResistance("fall", 0F)
+				.setFireproof(true)
+				.setStepSize(1)
+				.hides(EnumPlayerPart.HAT)
+				.setUnlocalizedName("trenchmaster_helmet").setTextureName(RefStrings.MODID + ":trenchmaster_helmet");
+		trenchmaster_plate = new ArmorTrenchmaster(aMatTrench, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png").cloneStats((ArmorFSB) trenchmaster_helmet).setUnlocalizedName("trenchmaster_plate").setTextureName(RefStrings.MODID + ":trenchmaster_plate");
+		trenchmaster_legs = new ArmorTrenchmaster(aMatTrench, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png").cloneStats((ArmorFSB) trenchmaster_helmet).setUnlocalizedName("trenchmaster_legs").setTextureName(RefStrings.MODID + ":trenchmaster_legs");
+		trenchmaster_boots = new ArmorTrenchmaster(aMatTrench, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png").cloneStats((ArmorFSB) trenchmaster_helmet).setUnlocalizedName("trenchmaster_boots").setTextureName(RefStrings.MODID + ":trenchmaster_boots");
 
 		jackt = new ModArmor(MainRegistry.aMatSteel, 1).setUnlocalizedName("jackt").setTextureName(RefStrings.MODID + ":jackt");
 		jackt2 = new ModArmor(MainRegistry.aMatSteel, 1).setUnlocalizedName("jackt2").setTextureName(RefStrings.MODID + ":jackt2");
@@ -6530,18 +6530,6 @@ public class ModItems {
 		GameRegistry.registerItem(laser_crystal_dnt, laser_crystal_dnt.getUnlocalizedName());
 		GameRegistry.registerItem(laser_crystal_digamma, laser_crystal_digamma.getUnlocalizedName());
 		
-		//Recycled Units
-		GameRegistry.registerItem(recycled_ground, recycled_ground.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_rock, recycled_rock.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_metal, recycled_metal.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_refined, recycled_refined.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_organic, recycled_organic.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_crystal, recycled_crystal.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_explosive, recycled_explosive.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_electronic, recycled_electronic.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_nuclear, recycled_nuclear.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_misc, recycled_misc.getUnlocalizedName());
-		
 		//Catalyst Rune Sigils
 		GameRegistry.registerItem(rune_blank, rune_blank.getUnlocalizedName());
 		GameRegistry.registerItem(rune_isa, rune_isa.getUnlocalizedName());
@@ -7870,6 +7858,10 @@ public class ModItems {
 		GameRegistry.registerItem(dns_plate, dns_plate.getUnlocalizedName());
 		GameRegistry.registerItem(dns_legs, dns_legs.getUnlocalizedName());
 		GameRegistry.registerItem(dns_boots, dns_boots.getUnlocalizedName());
+		GameRegistry.registerItem(trenchmaster_helmet, trenchmaster_helmet.getUnlocalizedName());
+		GameRegistry.registerItem(trenchmaster_plate, trenchmaster_plate.getUnlocalizedName());
+		GameRegistry.registerItem(trenchmaster_legs, trenchmaster_legs.getUnlocalizedName());
+		GameRegistry.registerItem(trenchmaster_boots, trenchmaster_boots.getUnlocalizedName());
 		
 		//Nobody will ever read this anyway, so it shouldn't matter.
 		GameRegistry.registerItem(chainsaw, chainsaw.getUnlocalizedName());

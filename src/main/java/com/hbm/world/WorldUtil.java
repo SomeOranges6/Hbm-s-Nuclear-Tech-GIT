@@ -2,10 +2,7 @@ package com.hbm.world;
 
 import com.hbm.packet.BiomeSyncPacket;
 import com.hbm.packet.PacketDispatcher;
-
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -43,8 +40,8 @@ public class WorldUtil {
 	/*fun fact: this is based off of joinEntityInSurroundings in World
 	  however, since mojang is staffed by field mice, that function is client side only and half-baked
 	 */
-	public static void loadAndSpawnEntityInWorld(Entity entity)
-	{
+
+	public static void loadAndSpawnEntityInWorld(Entity entity) {
 		World world = entity.worldObj;
 		int chunkX = MathHelper.floor_double(entity.posX / 16.0D);
 		int chunkZ = MathHelper.floor_double(entity.posZ / 16.0D);

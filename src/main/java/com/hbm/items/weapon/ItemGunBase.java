@@ -15,6 +15,8 @@ import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.IEquipReceiver;
+import com.hbm.items.ModItems;
+import com.hbm.items.armor.ArmorFSB;
 import com.hbm.lib.HbmCollection;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
@@ -117,7 +119,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 				if(GameSettings.isKeyDown(HbmKeybinds.reloadKey) && Minecraft.getMinecraft().currentScreen == null && (getMag(stack) < mainConfig.ammoCap || hasInfinity(stack, mainConfig))) {
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 2));
 					setIsReloading(stack, true);
-					resetReloadCycle(stack);
+					resetReloadCycle(entity, stack);
 				}
 			}
 		}
@@ -132,13 +134,17 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			setIsMouseDown(stack, false);
 		}
 
-		if(getBurstDuration(stack) > 0) {
+
+		int burstDuration = getBurstDuration(stack);
+		if(burstDuration > 0) {
+			
 			if(altConfig == null) {
-				if (world.getWorldTime() % mainConfig.firingDuration == 0 && tryShoot(stack, world, player, true)) {
+				if (burstDuration % mainConfig.firingDuration == 0 && tryShoot(stack, world, player, true)) {
 					fire(stack, world, player);
 				}
 			} else {
-				boolean canFire = altConfig.firingDuration == 1 ||  world.getWorldTime() % altConfig.firingDuration == 0;
+				boolean canFire = altConfig.firingDuration == 1 ||  burstDuration % altConfig.firingDuration == 0;
+
 				if (canFire && tryShoot(stack, world, player, false)) {
 					altFire(stack, world, player);
 				}
@@ -392,7 +398,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			if (getMag(stack) >= mainConfig.ammoCap)
 				setIsReloading(stack, false);
 			else
-				resetReloadCycle(stack);
+				resetReloadCycle(player, stack);
 			
 			if(hasLoaded && mainConfig.reloadSoundEnd)
 				world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
@@ -400,7 +406,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			if(mainConfig.ejector != null && mainConfig.ejector.getAfterReload())
 				queueCasing(player, mainConfig.ejector, prevCfg, stack);
 			
-			InventoryUtil.tryConsumeAStack(player.inventory.mainInventory, 0, player.inventory.mainInventory.length, ammo);
+			InventoryUtil.tryConsumeAStack(player.inventory.mainInventory, 0, player.inventory.mainInventory.length - 1, ammo);
 		} else {
 			setReloadCycle(stack, getReloadCycle(stack) - 1);
 		}
@@ -438,7 +444,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.RELOAD.ordinal()), (EntityPlayerMP) player);
 		
 		setIsReloading(stack, true);
-		resetReloadCycle(stack);
+		resetReloadCycle(player, stack);
 	}
 	
 	public boolean canReload(ItemStack stack, World world, EntityPlayer player) {
@@ -592,8 +598,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		if(!main)
 			config = altConfig;
 		
-		if(hasInfinity(stack, config))
-			return;
+		if(hasInfinity(stack, config)) return;
+		if(isTrenchMaster(player) && player.getRNG().nextInt(3) == 0) return;
 
 		if(config.reloadType != GunConfiguration.RELOAD_NONE) {
 			setMag(stack, getMag(stack) - 1);
@@ -607,8 +613,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	}
 	
 	/// sets reload cycle to config defult ///
-	public static void resetReloadCycle(ItemStack stack) {
-		writeNBT(stack, "reload", ((ItemGunBase)stack.getItem()).mainConfig.reloadDuration);
+	public static void resetReloadCycle(EntityPlayer player, ItemStack stack) {
+		writeNBT(stack, "reload", getReloadDuration(player, stack));
 	}
 	
 	/// if reloading routine is active ///
@@ -832,5 +838,15 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		data.setString("name", bullet.spentCasing.getName());
 		data.setInteger("ej", ejector.getId());
 		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ), new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 50));
+	}
+	
+	public static int getReloadDuration(EntityPlayer player, ItemStack stack) {
+		int cycle = ((ItemGunBase) stack.getItem()).mainConfig.reloadDuration;
+		if(isTrenchMaster(player)) return Math.max(1, cycle / 2);
+		return cycle;
+	}
+	
+	public static boolean isTrenchMaster(EntityPlayer player) {
+		return player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() == ModItems.trenchmaster_plate && ArmorFSB.hasFSBArmor(player);
 	}
 }

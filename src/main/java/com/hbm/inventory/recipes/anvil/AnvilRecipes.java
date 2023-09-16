@@ -212,7 +212,8 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new ComparableStack(ModItems.motor), new OreDictStack(ANY_PLASTIC.ingot(), 2), new OreDictStack(DESH.ingot(), 2), new ComparableStack(ModItems.coil_gold_torus)},
 				new AnvilOutput(new ItemStack(ModItems.motor_desh, 1))).setTier(3));
-		
+
+		pullFromAssembler(new ComparableStack(ModItems.filter_coal), 2);
 		pullFromAssembler(new ComparableStack(ModItems.thermo_element), 2);
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
@@ -232,6 +233,22 @@ public class AnvilRecipes {
 						new ComparableStack(ModItems.motor, 2 * ukModifier),
 						new ComparableStack(ModItems.circuit_aluminium, 1 * ukModifier)
 				}, new AnvilOutput(new ItemStack(ModBlocks.machine_assembler))).setTier(2));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+						new OreDictStack(KEY_COBBLESTONE, 8),
+						new OreDictStack(KEY_PLANKS, 16),
+						new OreDictStack(IRON.ingot(), 4),
+						new OreDictStack(CU.plate(), 8)
+				}, new AnvilOutput(new ItemStack(ModBlocks.pump_steam))).setTier(2));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+						new ComparableStack(Blocks.stonebrick, 8),
+						new OreDictStack(STEEL.plate(), 16),
+						new ComparableStack(ModItems.motor, 2),
+						new ComparableStack(ModItems.circuit_copper, 1)
+				}, new AnvilOutput(new ItemStack(ModBlocks.pump_electric))).setTier(3));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
@@ -444,9 +461,19 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
 						new OreDictStack(STEEL.plate(), 4),
-						new ComparableStack(Blocks.brick_block, 16)
+						new ComparableStack(Blocks.brick_block, 16),
+						new ComparableStack(ModBlocks.steel_grate, 2)
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.chimney_brick))).setTier(2));
+		
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+						new OreDictStack(STEEL.plate(), 16),
+						new OreDictStack(ANY_CONCRETE.any(), 64),
+						new ComparableStack(ModBlocks.steel_grate, 4),
+						new ComparableStack(ModItems.filter_coal, 4)
+				},
+				new AnvilOutput(new ItemStack(ModBlocks.chimney_industrial))).setTier(3));
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {

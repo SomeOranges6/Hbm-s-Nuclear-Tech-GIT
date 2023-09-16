@@ -157,6 +157,7 @@ public class Gun50BMGFactory {
 
 		return config;
 	}
+
 	public static GunConfiguration getAR15BurstConfig(){
 		GunConfiguration config = getAR15Config();
 		config.rateOfFire = 4;
@@ -167,6 +168,7 @@ public class Gun50BMGFactory {
 
 		return config;
 	}
+
 	public static GunConfiguration getM2Config() {
 		GunConfiguration config = getAR15Config();
 		

@@ -1,38 +1,37 @@
 package com.hbm.blocks;
 
-import com.hbm.blocks.generic.*;
-import com.hbm.blocks.generic.BlockHazard.ExtDisplayEffect;
-import com.hbm.blocks.generic.BlockMotherOfAllOres.ItemRandomOreBlock;
 import com.hbm.blocks.BlockEnums.*;
 import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.fluid.*;
 import com.hbm.blocks.gas.*;
+import com.hbm.blocks.generic.*;
+import com.hbm.blocks.generic.BlockHazard.ExtDisplayEffect;
+import com.hbm.blocks.generic.BlockMotherOfAllOres.ItemRandomOreBlock;
 import com.hbm.blocks.machine.*;
 import com.hbm.blocks.machine.pile.*;
 import com.hbm.blocks.machine.rbmk.*;
 import com.hbm.blocks.network.*;
-import com.hbm.blocks.rail.RailNarrowCurve;
-import com.hbm.blocks.rail.RailNarrowStraight;
-import com.hbm.blocks.rail.RailStandardBuffer;
-import com.hbm.blocks.rail.RailStandardCurve;
-import com.hbm.blocks.rail.RailStandardRamp;
-import com.hbm.blocks.rail.RailStandardStraight;
-import com.hbm.blocks.siege.*;
+import com.hbm.blocks.rail.*;
+import com.hbm.blocks.siege.SiegeCircuit;
+import com.hbm.blocks.siege.SiegeHole;
+import com.hbm.blocks.siege.SiegeInternal;
+import com.hbm.blocks.siege.SiegeShield;
 import com.hbm.blocks.test.*;
 import com.hbm.blocks.turret.*;
 import com.hbm.items.block.*;
-import com.hbm.items.bomb.*;
+import com.hbm.items.bomb.ItemPrototypeBlock;
 import com.hbm.items.special.ItemOreBlock;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.DoorDecl;
 import com.hbm.tileentity.machine.storage.TileEntityFileCabinet;
-
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
-import net.minecraft.block.material.*;
+import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fluids.Fluid;
@@ -663,6 +662,9 @@ public class ModBlocks {
 	public static Block nuke_n45;
 	public static Block nuke_fstbmb;
 	public static Block bomb_multi;
+
+	public static Block pump_steam;
+	public static Block pump_electric;
 	
 	public static Block heater_firebox;
 	public static Block heater_oven;
@@ -774,6 +776,7 @@ public class ModBlocks {
 	public static Block capacitor_gold;
 	public static Block capacitor_niobium;
 	public static Block capacitor_tantalium;
+	public static Block capacitor_schrabidate;
 	
 	public static Block machine_coal_off;
 	public static Block machine_coal_on;
@@ -802,8 +805,10 @@ public class ModBlocks {
 	public static Block radio_torch_sender;
 	public static Block radio_torch_receiver;
 	public static Block radio_torch_counter;
+	public static Block radio_telex;
 
 	public static Block conveyor;
+	public static Block conveyor_express;
 	//public static Block conveyor_classic;
 	public static Block conveyor_double;
 	public static Block conveyor_triple;
@@ -977,6 +982,7 @@ public class ModBlocks {
 
 	public static Block machine_flare;
 	public static Block chimney_brick;
+	public static Block chimney_industrial;
 	
 	public static Block machine_refinery;
 	public static Block machine_vacuum_distill;
@@ -1259,19 +1265,6 @@ public class ModBlocks {
 	public static Block ff;
 	
 	public static Material materialGas = new MaterialGas();
-	
-	public static Block.SoundType soundTypeGrate = new ModSoundType("metalBlock", 0.5F, 1.0F) {
-
-		@Override
-		public String func_150496_b() {
-			return Block.soundTypeMetal.func_150496_b();
-		}
-		
-		@Override
-		public String getBreakSound() {
-			return "dig.stone";
-		}
-	};
 	
 	private static void initializeBlock() {
 		
@@ -1679,33 +1672,33 @@ public class ModBlocks {
 		steel_roof = new DecoBlock(Material.iron).setBlockName("steel_roof").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":steel_roof");
 		steel_beam = new DecoBlock(Material.iron).setBlockName("steel_beam").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":steel_beam");
 		steel_scaffold = new BlockScaffold().setBlockName("steel_scaffold").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":deco_steel_orig");
-		steel_grate = new BlockGrate(Material.iron).setBlockName("steel_grate").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F);
-		steel_grate_wide = new BlockGrate(Material.iron).setBlockName("steel_grate_wide").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F);
+		steel_grate = new BlockGrate(Material.iron).setBlockName("steel_grate").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F);
+		steel_grate_wide = new BlockGrate(Material.iron).setBlockName("steel_grate_wide").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F);
 		
-		deco_pipe = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side", 0).setBlockName("deco_pipe").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top");
-		deco_pipe_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_rusty", 0).setBlockName("deco_pipe_rusted").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_rusty");
-		deco_pipe_green = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green", 0).setBlockName("deco_pipe_green").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green");
-		deco_pipe_green_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green_rusty", 0).setBlockName("deco_pipe_green_rusted").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green_rusty");
-		deco_pipe_red = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_red", 0).setBlockName("deco_pipe_red").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_red");
-		deco_pipe_marked = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_marked", 0).setBlockName("deco_pipe_marked").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_marked");
-		deco_pipe_rim = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side", 1).setBlockName("deco_pipe_rim").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top");
-		deco_pipe_rim_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_rusty", 1).setBlockName("deco_pipe_rim_rusted").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_rusty");
-		deco_pipe_rim_green = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green", 1).setBlockName("deco_pipe_rim_green").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green");
-		deco_pipe_rim_green_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green_rusty", 1).setBlockName("deco_pipe_rim_green_rusted").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green_rusty");
-		deco_pipe_rim_red = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_red", 1).setBlockName("deco_pipe_rim_red").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_red");
-		deco_pipe_rim_marked = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_marked", 1).setBlockName("deco_pipe_rim_marked").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_marked");
-		deco_pipe_framed = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side", 3).setBlockName("deco_pipe_framed").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top");
-		deco_pipe_framed_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_rusty", 3).setBlockName("deco_pipe_framed_rusted").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_rusty");
-		deco_pipe_framed_green = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green", 3).setBlockName("deco_pipe_framed_green").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green");
-		deco_pipe_framed_green_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green_rusty", 3).setBlockName("deco_pipe_framed_green_rusted").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green_rusty");
-		deco_pipe_framed_red = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_red", 3).setBlockName("deco_pipe_framed_red").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_red");
-		deco_pipe_framed_marked = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_marked", 3).setBlockName("deco_pipe_framed_marked").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_marked");
-		deco_pipe_quad = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side", 2).setBlockName("deco_pipe_quad").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top");
-		deco_pipe_quad_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_rusty", 2).setBlockName("deco_pipe_quad_rusted").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_rusty");
-		deco_pipe_quad_green = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green", 2).setBlockName("deco_pipe_quad_green").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green");
-		deco_pipe_quad_green_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green_rusty", 2).setBlockName("deco_pipe_quad_green_rusted").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green_rusty");
-		deco_pipe_quad_red = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_red", 2).setBlockName("deco_pipe_quad_red").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_red");
-		deco_pipe_quad_marked = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_marked", 2).setBlockName("deco_pipe_quad_marked").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_marked");
+		deco_pipe = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side", 0).setBlockName("deco_pipe").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top");
+		deco_pipe_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_rusty", 0).setBlockName("deco_pipe_rusted").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_rusty");
+		deco_pipe_green = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green", 0).setBlockName("deco_pipe_green").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green");
+		deco_pipe_green_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green_rusty", 0).setBlockName("deco_pipe_green_rusted").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green_rusty");
+		deco_pipe_red = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_red", 0).setBlockName("deco_pipe_red").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_red");
+		deco_pipe_marked = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_marked", 0).setBlockName("deco_pipe_marked").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_marked");
+		deco_pipe_rim = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side", 1).setBlockName("deco_pipe_rim").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top");
+		deco_pipe_rim_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_rusty", 1).setBlockName("deco_pipe_rim_rusted").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_rusty");
+		deco_pipe_rim_green = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green", 1).setBlockName("deco_pipe_rim_green").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green");
+		deco_pipe_rim_green_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green_rusty", 1).setBlockName("deco_pipe_rim_green_rusted").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green_rusty");
+		deco_pipe_rim_red = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_red", 1).setBlockName("deco_pipe_rim_red").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_red");
+		deco_pipe_rim_marked = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_marked", 1).setBlockName("deco_pipe_rim_marked").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_marked");
+		deco_pipe_framed = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side", 3).setBlockName("deco_pipe_framed").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top");
+		deco_pipe_framed_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_rusty", 3).setBlockName("deco_pipe_framed_rusted").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_rusty");
+		deco_pipe_framed_green = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green", 3).setBlockName("deco_pipe_framed_green").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green");
+		deco_pipe_framed_green_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green_rusty", 3).setBlockName("deco_pipe_framed_green_rusted").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green_rusty");
+		deco_pipe_framed_red = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_red", 3).setBlockName("deco_pipe_framed_red").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_red");
+		deco_pipe_framed_marked = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_marked", 3).setBlockName("deco_pipe_framed_marked").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_marked");
+		deco_pipe_quad = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side", 2).setBlockName("deco_pipe_quad").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top");
+		deco_pipe_quad_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_rusty", 2).setBlockName("deco_pipe_quad_rusted").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_rusty");
+		deco_pipe_quad_green = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green", 2).setBlockName("deco_pipe_quad_green").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green");
+		deco_pipe_quad_green_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_green_rusty", 2).setBlockName("deco_pipe_quad_green_rusted").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_green_rusty");
+		deco_pipe_quad_red = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_red", 2).setBlockName("deco_pipe_quad_red").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_red");
+		deco_pipe_quad_marked = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_marked", 2).setBlockName("deco_pipe_quad_marked").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_marked");
 		
 		broadcaster_pc = new PinkCloudBroadcaster(Material.iron).setBlockName("broadcaster_pc").setCreativeTab(MainRegistry.machineTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":broadcaster_pc");
 		geiger = new GeigerCounter(Material.iron).setBlockName("geiger").setCreativeTab(MainRegistry.machineTab).setHardness(15.0F).setResistance(0.25F).setBlockTextureName(RefStrings.MODID + ":geiger");
@@ -1830,6 +1823,9 @@ public class ModBlocks {
 		semtex = new BlockSemtex().setBlockName("semtex").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.nukeTab).setHardness(0.0F).setBlockTextureName(RefStrings.MODID + ":semtex");
 		c4 = new BlockC4().setBlockName("c4").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.nukeTab).setHardness(0.0F).setBlockTextureName(RefStrings.MODID + ":c4");
 		fissure_bomb = new BlockFissureBomb().setBlockName("fissure_bomb").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.nukeTab).setHardness(0.0F).setBlockTextureName(RefStrings.MODID + ":fissure_bomb");
+
+		pump_steam = new MachinePump().setBlockName("pump_steam").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_copper");
+		pump_electric = new MachinePump().setBlockName("pump_electric").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		heater_firebox = new HeaterFirebox().setBlockName("heater_firebox").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		heater_oven = new HeaterOven().setBlockName("heater_oven").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_fire");
@@ -1933,7 +1929,8 @@ public class ModBlocks {
 		capacitor_copper = new MachineCapacitor(Material.iron, 1_000_000L, "copper").setBlockName("capacitor_copper").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_copper");
 		capacitor_gold = new MachineCapacitor(Material.iron, 5_000_000L, "gold").setBlockName("capacitor_gold").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName("gold_block");
 		capacitor_niobium = new MachineCapacitor(Material.iron, 25_000_000L, "niobium").setBlockName("capacitor_niobium").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_niobium");
-		capacitor_tantalium = new MachineCapacitor(Material.iron, 100_000_000L, "tantalium").setBlockName("capacitor_tantalium").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_tantalium");
+		capacitor_tantalium = new MachineCapacitor(Material.iron, 150_000_000L, "tantalium").setBlockName("capacitor_tantalium").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_tantalium");
+		capacitor_schrabidate = new MachineCapacitor(Material.iron, 50_000_000_000L, "schrabidate").setBlockName("capacitor_schrabidate").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_schrabidate");
 		
 		machine_coal_off = new MachineCoal(false).setBlockName("machine_coal_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_coal_on = new MachineCoal(true).setBlockName("machine_coal_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
@@ -1972,9 +1969,9 @@ public class ModBlocks {
 		machine_detector = new PowerDetector(Material.iron).setBlockName("machine_detector").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_detector_off");
 		fluid_duct = new BlockFluidDuct(Material.iron).setBlockName("fluid_duct").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":fluid_duct_icon");
 		fluid_duct_solid = new BlockFluidDuctSolid(Material.iron).setBlockName("fluid_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":fluid_duct_solid");
-		fluid_duct_neo = new FluidDuctStandard(Material.iron).setBlockName("fluid_duct_neo").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pipe_neo");
-		fluid_duct_box = new FluidDuctBox(Material.iron).setBlockName("fluid_duct_box").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fluid_duct_box");
-		fluid_duct_exhaust = new FluidDuctBoxExhaust(Material.iron).setBlockName("fluid_duct_exhaust").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fluid_duct_box");
+		fluid_duct_neo = new FluidDuctStandard(Material.iron).setBlockName("fluid_duct_neo").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pipe_neo");
+		fluid_duct_box = new FluidDuctBox(Material.iron).setBlockName("fluid_duct_box").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fluid_duct_box");
+		fluid_duct_exhaust = new FluidDuctBoxExhaust(Material.iron).setBlockName("fluid_duct_exhaust").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fluid_duct_box");
 		fluid_duct_paintable = new FluidDuctPaintable().setBlockName("fluid_duct_paintable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_duct_gauge = new FluidDuctGauge().setBlockName("fluid_duct_gauge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_valve = new FluidValve(Material.iron).setBlockName("fluid_valve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -1982,8 +1979,10 @@ public class ModBlocks {
 		radio_torch_sender = new RadioTorchSender().setBlockName("radio_torch_sender").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		radio_torch_receiver = new RadioTorchReceiver().setBlockName("radio_torch_receiver").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		radio_torch_counter = new RadioTorchCounter().setBlockName("radio_torch_counter").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rtty_counter");
+		radio_telex = new RadioTelex().setBlockName("radio_telex").setHardness(3F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":radio_telex");
 		
 		conveyor = new BlockConveyor().setBlockName("conveyor").setHardness(2.0F).setResistance(2.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":conveyor");
+		conveyor_express = new BlockConveyorExpress().setBlockName("conveyor_express").setHardness(2.0F).setResistance(2.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":conveyor_express");
 		//conveyor_classic = new BlockConveyorClassic().setBlockName("conveyor_classic").setHardness(2.0F).setResistance(2.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":conveyor");
 		conveyor_double = new BlockConveyorDouble().setBlockName("conveyor_double").setHardness(2.0F).setResistance(2.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":conveyor_double");
 		conveyor_triple = new BlockConveyorTriple().setBlockName("conveyor_triple").setHardness(2.0F).setResistance(2.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":conveyor_triple");
@@ -2250,6 +2249,7 @@ public class ModBlocks {
 		oil_pipe = new BlockNoDrop(Material.iron).setBlockName("oil_pipe").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":oil_pipe");
 		machine_flare = new MachineGasFlare(Material.iron).setBlockName("machine_flare").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		chimney_brick = new MachineChimneyBrick(Material.iron).setBlockName("chimney_brick").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_fire");
+		chimney_industrial = new MachineChimneyIndustrial(Material.iron).setBlockName("chimney_industrial").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":concrete_colored_ext.machine");
 		machine_refinery = new MachineRefinery(Material.iron).setBlockName("machine_refinery").setHardness(5.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_refinery");
 		machine_vacuum_distill = new MachineVacuumDistill(Material.iron).setBlockName("machine_vacuum_distill").setHardness(5.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_fraction_tower = new MachineFractionTower(Material.iron).setBlockName("machine_fraction_tower").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -2281,7 +2281,7 @@ public class ModBlocks {
 		reactor_research = new ReactorResearch(Material.iron).setBlockName("machine_reactor_small").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_reactor_small");
 		reactor_zirnox = new ReactorZirnox(Material.iron).setBlockName("machine_zirnox").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		zirnox_destroyed = new ZirnoxDestroyed(Material.iron).setBlockName("zirnox_destroyed").setHardness(100.0F).setResistance(800.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		machine_controller = new MachineReactorControl(Material.iron).setBlockName("machine_controller").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		machine_controller = new MachineReactorControl(Material.iron).setBlockName("machine_controller").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
 
 		machine_boiler_off = new MachineBoiler(false).setBlockName("machine_boiler_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_boiler_off");
 		machine_boiler_on = new MachineBoiler(true).setBlockName("machine_boiler_on").setHardness(5.0F).setResistance(10.0F).setLightLevel(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":machine_boiler_on");
@@ -3101,6 +3101,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_press, machine_press.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_epress, machine_epress.getUnlocalizedName());
 		register(machine_conveyor_press);
+		register(pump_steam);
+		register(pump_electric);
 		register(heater_firebox);
 		register(heater_oven);
 		register(machine_ashpit);
@@ -3243,6 +3245,7 @@ public class ModBlocks {
 		register(radio_torch_sender);
 		register(radio_torch_receiver);
 		register(radio_torch_counter);
+		register(radio_telex);
 
 		register(crane_extractor);
 		register(crane_inserter);
@@ -3251,6 +3254,7 @@ public class ModBlocks {
 		register(crane_boxer);
 		register(crane_unboxer);
 		register(conveyor);
+		register(conveyor_express);
 		register(conveyor_double);
 		register(conveyor_triple);
 		register(conveyor_chute);
@@ -3288,6 +3292,7 @@ public class ModBlocks {
 		register(capacitor_gold);
 		register(capacitor_niobium);
 		register(capacitor_tantalium);
+		register(capacitor_schrabidate);
 		GameRegistry.registerBlock(machine_transformer, machine_transformer.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_transformer_20, machine_transformer_20.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_transformer_dnt, machine_transformer_dnt.getUnlocalizedName());
@@ -3334,6 +3339,7 @@ public class ModBlocks {
 		register(machine_fracking_tower);
 		register(machine_flare);
 		register(chimney_brick);
+		register(chimney_industrial);
 		register(machine_refinery);
 		register(machine_vacuum_distill);
 		register(machine_fraction_tower);

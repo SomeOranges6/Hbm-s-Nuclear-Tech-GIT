@@ -1,37 +1,51 @@
 ## Added
-* Conveyor press
-  * An upgraded version of the electric press that can be integrated directly into conveyor belts
-  * Each pressing operation will process however many items happen to be at the belt at the time, so given enough conveyor infrastructure it can be much faster than a normal electric press
-  * Has no GUI, stamps are installed either by hand or via automation
-  * Stamps can be removed with a screwdriver
-  * Can only stamp single items to avoid issues with stack limits, so it's best to use ejection speed instead of stack ejection upgrades for the conveyor ejectors
+* Telex
+  * A basic message system using redstone over radio
+  * Allows messages to be sent at a rate of 20 characters per second
+  * Features things like text formatting, printing and the terminal bell
+* Ground water pumps
+  * Come in steam-powered and electric variants
+  * Faster than their infinite barrel counterpart
+  * Need to be placed below Y:70 and on solid ground to work
+  * Compatible floor blocks include all dirt variants and sand, the pump will not work when placed on pure rock
+* Schrabidate capacitor
+  * Can store 50GHE
+* Express conveyor belts
+  * Work like regular single-lane conveyor belts but 3x faster
+* Industrial smokestack
+  * An even larger smokestack, matching the size of the coker unit
+  * Reduced pollution by 90%, as opposed to the brick smokestack's 75%
 
 ## Changed
-* Chlorophyte rounds now deal 2x more damage than their standard counterparts instead of 1.5x
-* Chlorophyte rounds now penetrate multiple enemies
-* Decreased chlorophyte targeting range from 200 to 30 blocks
-* Josh now has recoil and reload animations
-* Anvil recipes for upgrading ammo types have been adjusted to match the crafting batch size
-* Adjusted the corium block destruction function to be more in line with the recent concrete nerfs
-* Reduced the blast resistance threshold for FEL, making concrete once again resistant to lasers
-* Crafting bullet assemblies now only yields one item, it's that one assembly that turns into a full set of bullets after being pressed once. This should reduce the amount of press operations by up to a factor of 64.
-* 5mm assemblies now yield 64 instead of 32 bullets
-* The production complexity and time for making thermoelectric elements in the assembler has been reduced
-* Thermoelectric elements can now also be made in a tier 2 anvil
-* Changed electric press recipe, crafting complexity has been reduced and the press now uses hydraulic pistons
-* Removed DFC emitter beam cap again since the core already imposes a natural limit due to fuel consumption
-  * I don't know why anyone would need a DFC that strong anyway, but now you can have them again
-* The UAC pistol now has a crafting recipe and can also be found in structures
+* Updated russian localization
+* The UAC pistol's UV now looks prettier
+* The UAC pistol now fires a burst on right click
+* CCGTs can no longer have smoke removed from them, on the count of there not being enough connections anyway. The pollution rate is now equivalent to three small furnaces
+* The DFC receiver is now crafted with a block of DNT instead of sellafite corium, on the count of sellafite corium being near impossible to get
+* Fireclay now has a third recipe, being craftable from clay, limestone and sand
+* A whole clay block can now be combination smelted into a block of bricks
+* The pipe clanking sound is now also used when placing regular pipes as opposed to only when pre-defined pipe items are used
+* Josh now has a burst fire mode using RMB
+* The smokestack's recipe has changed, now requiring a steel grate for catching ashes
+* Simplified the decorated cobalt tool recipes, they now only require one cobalt tool and one hot bar of meteorite in an anvil
+* Changed the starmetal tool recipes
+* Cobalt armor is now crafted with steel armor and cobalt billets, making the armor substantially cheaper
+* Sightly increased protection levels for the security armor and cobalt gear
+* Cobalt, decorated cobalt and starmetal gear is now a lot more enchantable
+* The ashpit now has a NEI handler, showing roughly how ash types are made
+* Smokestacks now capture fly ash and are now compatible with ashpits
+* Industrial smokestacks can also capture fine soot
+* Reduced strings required for making coal filters, filters are now also available in tier 2 anvils
 
 ## Fixed
-* Fixed logspam when pollution handler tries to save the pollution data for dimensions that have never been loaded before
-* Fixed dead leaves layer not being replacable by other blocks
-* Fixed rock layers like schist, hematite and sulfur caves not spawning at all
-* Fixed rock layers replacing end portal frames or bedrock
-* Fixed FEnSU instantly voiding all energy when sending
-* Fixed some conflict causing the nuke flash to be applied permanently
-* Fixed flux level not resetting when rods are above melting point with meltdowns disabled
-* Fixed crash caused by express delivery shells
-* Fixed 4 gauge solid steel slugs not being made from steel
-* Fixed missing lang entry for fluorite ore
-* Fixed UAC pistol UV
+* Fixed the bomber not spawning if the chunkloading radios is too small
+* Fixed a couple spelling mistakes like BFB fuel being called ZFB and the broken ZIRNOX
+* Potentially fixed a compat issue where galacticraft moon soil isn't shreddable into NTM moon turf
+* Hopefully fixed the disappearing fluid bug once and for all
+* Fixed lag caused by the radiation system needlessly loading chunks
+* Fixed secret folders giving volatile templates instead of persistent ones
+* Fixed the ore dict registry happening in a later loading phase instead of PreInit which should fix some compatibility issues
+* Hopefully fixed issue where the tom impact effects will last even when switching worlds
+* Fixed logspam caused by custom machine crafting handler
+* Fixed issue with the assemblers and chemplants where recipes with larger input requirements would break the input funnel
+* Fixed crash caused by reloading when the ammo item is in the last slot

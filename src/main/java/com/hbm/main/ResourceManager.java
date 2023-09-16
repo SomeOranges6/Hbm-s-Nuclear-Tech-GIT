@@ -83,6 +83,7 @@ public class ResourceManager {
 	//Flare Stack
 	public static final IModelCustom oilflare = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/flare_stack.obj"));
 	public static final IModelCustom chimney_brick = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/chimney_brick.obj"));
+	public static final IModelCustom chimney_industrial = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/chimney_industrial.obj"));
 
 	//Tank
 	public static final IModelCustom fluidtank = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/fluidtank.obj"));
@@ -95,6 +96,9 @@ public class ResourceManager {
 	
 	//Gas Turbine
 	public static final IModelCustom turbinegas = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/turbinegas.obj"));
+	
+	//Pumps
+	public static final IModelCustom pump = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/pump.obj")).asDisplayList();
 	
 	//Large Turbine
 	public static final IModelCustom steam_engine = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/steam_engine.obj")).asDisplayList();
@@ -346,6 +350,9 @@ public class ResourceManager {
 	//DecoContainer (File Cabinet for now)
 	public static final IModelCustom file_cabinet = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/file_cabinet.obj"));
 	
+	//TELEX
+	public static final IModelCustom telex = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/telex.obj"));
+	
 	////Textures TEs
 	
 	public static final ResourceLocation universal = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
@@ -431,6 +438,7 @@ public class ResourceManager {
 	//Flare Stack
 	public static final ResourceLocation oilflare_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/flare_stack.png");
 	public static final ResourceLocation chimney_brick_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/chimney_brick.png");
+	public static final ResourceLocation chimney_industrial_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/chimney_industrial.png");
 	
 	//Tank
 	public static final ResourceLocation tank_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank.png");
@@ -446,6 +454,10 @@ public class ResourceManager {
 	
 	//Gas Turbine
 	public static final ResourceLocation turbinegas_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/turbinegas.png");
+	
+	//Pumps
+	public static final ResourceLocation pump_steam_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/pump_steam.png");
+	public static final ResourceLocation pump_electric_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/pump_electric.png");
 
 	//Large Turbine
 	public static final ResourceLocation steam_engine_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/steam_engine.png");
@@ -715,6 +727,9 @@ public class ResourceManager {
 	public static final ResourceLocation file_cabinet_tex = new ResourceLocation(RefStrings.MODID, "textures/models/file_cabinet.png");
 	public static final ResourceLocation file_cabinet_steel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/file_cabinet_steel.png");
 	
+	//TELEX
+	public static final ResourceLocation telex_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/telex.png");
+	
 	////Obj Items
 	
 	//Shimmer Sledge
@@ -794,6 +809,7 @@ public class ResourceManager {
 	public static final IModelCustom armor_solstice = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/solstice.obj"));
 	public static final IModelCustom player_manly_af = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/armor/player_fem.obj"));
 	public static final IModelCustom armor_envsuit = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/envsuit.obj"));
+	public static final IModelCustom armor_trenchmaster = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/trenchmaster.obj"));
 	
 	////Texture Items
 
@@ -941,6 +957,11 @@ public class ResourceManager {
 	public static final ResourceLocation rpa_leg = new ResourceLocation(RefStrings.MODID, "textures/armor/rpa_leg.png");
 	public static final ResourceLocation rpa_chest = new ResourceLocation(RefStrings.MODID, "textures/armor/rpa_chest.png");
 	public static final ResourceLocation rpa_arm = new ResourceLocation(RefStrings.MODID, "textures/armor/rpa_arm.png");
+
+	public static final ResourceLocation trenchmaster_helmet = new ResourceLocation(RefStrings.MODID, "textures/armor/trenchmaster_helmet.png");
+	public static final ResourceLocation trenchmaster_leg = new ResourceLocation(RefStrings.MODID, "textures/armor/trenchmaster_leg.png");
+	public static final ResourceLocation trenchmaster_chest = new ResourceLocation(RefStrings.MODID, "textures/armor/trenchmaster_chest.png");
+	public static final ResourceLocation trenchmaster_arm = new ResourceLocation(RefStrings.MODID, "textures/armor/trenchmaster_arm.png");
 
 	public static final ResourceLocation mod_tesla = new ResourceLocation(RefStrings.MODID, "textures/armor/mod_tesla.png");
 	
