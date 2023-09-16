@@ -374,32 +374,6 @@ public class RenderScreenOverlay {
 	
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
-	public static void renderFlashbangOverlay(ScaledResolution resolution) {
-
-      
-		ResourceLocation tex = new ResourceLocation (RefStrings.MODID + ":textures/misc/overlay_flashbang.png");
-
-		Minecraft.getMinecraft().getTextureManager().bindTexture(tex);
-
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glDepthMask(false);
-		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
-
-		Tessellator tessellator = Tessellator.instance;
-		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(0.0D, (double) resolution.getScaledHeight(), -90.0D, 0.0D, 1.0D);
-		tessellator.addVertexWithUV((double) resolution.getScaledWidth(), (double) resolution.getScaledHeight(), -90.0D, 1.0D, 1.0D);
-		tessellator.addVertexWithUV((double) resolution.getScaledWidth(), 0.0D, -90.0D, 1.0D, 0.0D);
-		tessellator.addVertexWithUV(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
-		tessellator.draw();
-		GL11.glDepthMask(true);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-	}
 	public enum Crosshair {
 
 		NONE(0, 0, 0),

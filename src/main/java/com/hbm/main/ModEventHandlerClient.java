@@ -335,9 +335,10 @@ public class ModEventHandlerClient {
 		}
 		
 		/// HANDLE FLASHBANG OVERLAY///
-		if(player.isPotionActive(HbmPotion.flashbang)) {		
-			RenderScreenOverlay.renderFlashbangOverlay(event.resolution);
+		if(player.isPotionActive(HbmPotion.flashbang) && System.currentTimeMillis() - flashTimestamp > 1_000) {
+			ModEventHandlerClient.flashTimestamp = System.currentTimeMillis();
 		}
+
 		/// HANDLE FSB HUD ///
 		ItemStack helmet = player.inventory.armorInventory[3];
 		

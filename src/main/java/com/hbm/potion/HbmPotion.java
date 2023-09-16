@@ -175,9 +175,8 @@ public class HbmPotion extends Potion {
 		}
 		if(this == flashbang && !entity.worldObj.isRemote){
 			if(entity instanceof EntityZombie || entity instanceof EntitySkeleton){
-				entity.setFire(20);
-				}
-			entity.addPotionEffect(new PotionEffect(moveSlowdown.id,5,10));
+				entity.setFire(60);
+			}
 		}
 	}
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.entity.grenade.EntityGrenadeFlare;
+import com.hbm.entity.mob.EntityGlyphid;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.entity.projectile.EntityBulletBaseNT.*;
@@ -386,7 +387,17 @@ public class BulletConfigFactory {
 							if (ArmorRegistry.hasAllProtection(entity, 3, HazardClass.LIGHT) && !isSuper) {
 								continue;
 							}
-							PotionEffect eff = new PotionEffect(HbmPotion.flashbang.id, duration, 0, true);
+							if(isSuper){
+								entity.setFire(15);
+							}
+							PotionEffect eff;
+
+							if(entity instanceof EntityGlyphid){
+								eff = new PotionEffect(HbmPotion.blindness.id, duration, 0, true);
+							} else {
+								eff = new PotionEffect(HbmPotion.flashbang.id, duration, 0, true);
+							}
+
 							((EntityLivingBase)e).addPotionEffect(eff);
 						}
 					}
