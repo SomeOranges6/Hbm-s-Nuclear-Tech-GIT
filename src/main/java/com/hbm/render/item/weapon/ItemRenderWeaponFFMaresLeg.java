@@ -55,7 +55,7 @@ public class ItemRenderWeaponFFMaresLeg implements IItemRenderer {
 		case EQUIPPED_FIRST_PERSON:
 			
 			double s0 = 1.25D;
-			GL11.glTranslated(0.75, 0.5, 0);
+			GL11.glTranslated(0.8, 0.5, 0);
 			GL11.glScaled(s0, s0, s0);
 			
 			if(!player.isSneaking()) {
@@ -76,9 +76,11 @@ public class ItemRenderWeaponFFMaresLeg implements IItemRenderer {
 			GL11.glTranslated(0, 0, recoil[0] * 0.5);
 			
 			double[] rotation = HbmAnimations.getRelevantTransformation("LEVER_ROTATE");
+			double[] SPIN = HbmAnimations.getRelevantTransformation("LEVER_SPIN");
 			lever = rotation[2];
+
 			GL11.glTranslated(0, 0, 0.5);
-			GL11.glRotated(Math.min(lever, 30), 1, 0, 0);
+			GL11.glRotated(SPIN[2], 1, 0, 0);
 			GL11.glTranslated(0, 0, -0.5);
 			
 			break;

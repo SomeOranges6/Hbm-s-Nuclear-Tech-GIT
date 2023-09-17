@@ -349,7 +349,7 @@ public class Gun44MagnumFactory {
 		bullet.wear = 25;
 		bullet.doesPenetrate = false;
 		bullet.headshotMult = 2;
-		
+
 		bullet.bntHit = (bulletnt, hit) -> {
 				
 			if(!bulletnt.worldObj.isRemote) {

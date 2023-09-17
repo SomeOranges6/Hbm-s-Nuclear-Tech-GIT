@@ -36,11 +36,11 @@ public class Gun20GaugeFactory {
 		
 		GunConfiguration config = new GunConfiguration();
 		
-		config.rateOfFire = 25;
+		config.rateOfFire = 20;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
-		config.reloadDuration = 10;
+		config.reloadDuration = 5;
 		config.firingDuration = 0;
 		config.ammoCap = 6;
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
@@ -54,6 +54,10 @@ public class Gun20GaugeFactory {
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 45, 500))
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500))
 						)
+				.addBus("LEVER_SPIN", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 360, 500))
+				)
 				.addBus("LEVER_RECOIL", new BusAnimationSequence()
 						.addKeyframe(new BusAnimationKeyframe(0.5, 0, 0, 50))
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 50))

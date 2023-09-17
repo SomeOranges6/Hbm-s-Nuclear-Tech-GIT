@@ -92,7 +92,7 @@ public class Gun12GaugeFactory {
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
-		config.reloadDuration = 10;
+		config.reloadDuration = 7;
 		config.firingDuration = 5;
 		config.ammoCap = 8;
 		config.durability = 2500;
@@ -107,7 +107,7 @@ public class Gun12GaugeFactory {
 		config.comment.add("\"Here, I have a more suitable gun for you. You'll need it - Catch!\"");
 		config.comment.add("Alt-fire with Mouse 2 (Right-click) to fire 2 shells at once");
 		
-		config.config = HbmCollection.g12;
+		config.config = HbmCollection.g12hs;
 
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 
