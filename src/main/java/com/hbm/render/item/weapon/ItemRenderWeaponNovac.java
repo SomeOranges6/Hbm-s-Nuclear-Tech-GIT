@@ -1,5 +1,6 @@
 package com.hbm.render.item.weapon;
 
+import com.hbm.render.anim.HbmAnimations;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
@@ -58,7 +59,10 @@ public class ItemRenderWeaponNovac implements IItemRenderer {
 			GL11.glRotatef(180, 0.0F, 1.0F, 0.0F);
 			GL11.glTranslatef(-0.0F, 0.0F, -1.25F);
 			GL11.glScaled(s0, s0, s0);
-			
+
+			double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
+			GL11.glTranslated(-recoil[0], -recoil[1], -recoil[2]);
+			GL11.glRotated(-recoil[2] * 10, 1, 0, 0);
 			break;
 			
 		case EQUIPPED:

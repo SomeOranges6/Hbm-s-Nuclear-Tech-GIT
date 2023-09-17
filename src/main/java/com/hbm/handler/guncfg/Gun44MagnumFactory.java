@@ -21,6 +21,10 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationKeyframe;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -56,9 +60,17 @@ public class Gun44MagnumFactory {
 		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.reloadSoundEnd = false;
-		
+
 		config.config.addAll(HbmCollection.m44Normal);
-		
+
+		config.animations.put(HbmAnimations.AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 50))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, -3, 50))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250))
+				)
+		);
+
 		config.ejector = EJECTOR_PIP;
 		
 		return config;
@@ -69,10 +81,11 @@ public class Gun44MagnumFactory {
 		GunConfiguration config = getBaseConfig();
 		
 		config.durability = 2500;
-		
+		config.equipSound = "hbm:weapon.yeehaw";
 		config.name = "ifHorseshoe";
 		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Fallout New Vegas wasn't THAT good.");
+
 		
 		return config;
 	}
@@ -84,7 +97,7 @@ public class Gun44MagnumFactory {
 		GunConfiguration config = getBaseConfig();
 		
 		config.durability = 4000;
-		
+		config.equipSound = "hbm:weapon.yeehaw";
 		config.name = "ifScope";
 		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Poppin' mentats like tic tacs");
@@ -171,7 +184,7 @@ public class Gun44MagnumFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.STOCK));
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 26;
-		
+		bullet.headshotMult = 2;
 		bullet.spentCasing = CASING44.clone().register("44NoPip");
 		
 		return bullet;
@@ -186,7 +199,8 @@ public class Gun44MagnumFactory {
 		bullet.dmgMax = 32;
 		bullet.wear = 15;
 		bullet.leadChance = 10;
-		
+		bullet.headshotMult = 2;
+
 		bullet.spentCasing = CASING44.clone().register("44AP");
 		
 		return bullet;
@@ -201,7 +215,8 @@ public class Gun44MagnumFactory {
 		bullet.dmgMax = 40;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
-		
+		bullet.headshotMult = 2;
+
 		bullet.spentCasing = CASING44.clone().register("44DU");
 		
 		return bullet;
@@ -217,7 +232,8 @@ public class Gun44MagnumFactory {
 		bullet.wear = 15;
 		bullet.incendiary = 5;
 		bullet.doesPenetrate = false;
-		
+		bullet.headshotMult = 2;
+
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
 		bullet.effects = new ArrayList();
@@ -248,7 +264,8 @@ public class Gun44MagnumFactory {
 		bullet.dmgMax = 50;
 		bullet.wear = 25;
 		bullet.leadChance = 100;
-		
+		bullet.headshotMult = 2;
+
 		bullet.spentCasing = CASING44.clone().register("44Star");
 		
 		return bullet;
@@ -263,7 +280,8 @@ public class Gun44MagnumFactory {
 		bullet.dmgMax = 36;
 		bullet.wear = 25;
 		bullet.doesPenetrate = false;
-		
+		bullet.headshotMult = 2;
+
 		bullet.bntHit = (bulletnt, hit) -> {
 				
 			if(!bulletnt.worldObj.isRemote) {
@@ -296,7 +314,8 @@ public class Gun44MagnumFactory {
 		bullet.dmgMax = 36;
 		bullet.wear = 25;
 		bullet.doesPenetrate = false;
-		
+		bullet.headshotMult = 2;
+
 		bullet.bntHit = (bulletnt, hit) -> {
 				
 			if(!bulletnt.worldObj.isRemote) {
@@ -329,6 +348,7 @@ public class Gun44MagnumFactory {
 		bullet.dmgMax = 36;
 		bullet.wear = 25;
 		bullet.doesPenetrate = false;
+		bullet.headshotMult = 2;
 		
 		bullet.bntHit = (bulletnt, hit) -> {
 				
