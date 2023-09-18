@@ -19,6 +19,7 @@ import com.hbm.blocks.machine.MachineCapacitor.TileEntityCapacitor;
 import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
 import com.hbm.blocks.machine.WatzPump.TileEntityWatzPump;
+import com.hbm.blocks.network.BlockCableGauge.TileEntityCableGauge;
 import com.hbm.blocks.network.BlockCablePaintable.TileEntityCablePaintable;
 import com.hbm.blocks.network.CableDiode.TileEntityDiode;
 import com.hbm.blocks.network.FluidDuctGauge.TileEntityPipeGauge;
@@ -190,6 +191,7 @@ public class TileMappings {
 		put(TileEntityDeaerator.class, "tileentity_deaerator");
 		put(TileEntityCableBaseNT.class, "tileentity_ohgod"); // what?
 		put(TileEntityCablePaintable.class, "tileentity_cable_paintable");
+		put(TileEntityCableGauge.class, "tileentity_cable_gauge");
 		put(TileEntityPipeBaseNT.class, "tileentity_pipe_base");
 		put(TileEntityPipePaintable.class, "tileentity_pipe_paintable");
 		put(TileEntityPipeGauge.class, "tileentity_pipe_gauge");
@@ -389,6 +391,8 @@ public class TileMappings {
 		put(TileEntityRadioTorchReceiver.class, "tileentity_rtty_rec");
 		put(TileEntityRadioTorchCounter.class, "tileentity_rtty_counter");
 		put(TileEntityRadioTelex.class, "tileentity_rtty_telex");
+		
+		put(TileEntityDroneWaypoint.class, "tileentity_drone_waypoint");
 	}
 	
 	private static void put(Class<? extends TileEntity> clazz, String... names) {
