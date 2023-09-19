@@ -111,7 +111,54 @@ public class Gun20GaugeFactory {
 		
 		return config;
 	}
-	
+
+	//this config is of utmost importance
+	public static GunConfiguration getMareAkimboConfig() {
+
+		GunConfiguration config = getMareDarkConfig();
+		config.name = "Bill & Ted";
+		config.offsetOverride = -0.16F;
+        config.animations.clear();
+
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("LEVER_ROTATE", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 45, 500))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500))
+				)
+				.addBus("LEVER_SPIN", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 150))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 360, 300))
+				)
+				.addBus("LEVER_RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0.5, 0, 0, 50))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 50))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 150))
+						.addKeyframe(new BusAnimationKeyframe(0, -0.5, 0, 500))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500))
+				)
+		);
+		config.animations.put(AnimType.ALT_CYCLE, new BusAnimation()
+				.addBus("LEVER_ROTATE_A", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 45, 500))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500))
+				)
+				.addBus("LEVER_SPIN_A", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 150))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 360, 300))
+				)
+				.addBus("LEVER_RECOIL_A", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0.5, 0, 0, 50))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 50))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 150))
+						.addKeyframe(new BusAnimationKeyframe(0, -0.5, 0, 500))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500))
+				)
+		);
+
+		return config;
+	}
 	public static BulletConfiguration get20GaugeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();

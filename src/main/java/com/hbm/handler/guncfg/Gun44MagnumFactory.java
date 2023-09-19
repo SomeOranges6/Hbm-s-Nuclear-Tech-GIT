@@ -66,7 +66,7 @@ public class Gun44MagnumFactory {
 		config.animations.put(HbmAnimations.AnimType.CYCLE, new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 50))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, -3, 50))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, -1.5, 50))
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250))
 				)
 		);
@@ -159,9 +159,9 @@ public class Gun44MagnumFactory {
 	public static GunConfiguration getRedConfig() {
 		
 		GunConfiguration config = getBaseConfig();
-		
-		config.durability = 4000;
-		config.ammoCap = 8;
+		config.rateOfFire = 5;
+		config.durability = 8000;
+		config.ammoCap = 64;
 
 		config.allowsInfinity = false;
 		config.name = "ifPit";

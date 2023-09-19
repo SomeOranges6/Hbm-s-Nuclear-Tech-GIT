@@ -16,6 +16,7 @@ import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.items.weapon.ItemGunAkimboBase;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -65,6 +66,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 	public double prevRenderX;
 	public double prevRenderY;
 	public double prevRenderZ;
+	public double offsetOverride;
 	public final List<Pair<Vec3, Double>> trailNodes = new ArrayList();
 	
 	public BulletConfiguration getConfig() {
@@ -103,9 +105,9 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		
 		ItemStack gun = entity.getHeldItem();
 		boolean offsetShot = true;
-		
+		GunConfiguration cfg = null;
 		if(gun != null && gun.getItem() instanceof ItemGunBase) {
-			GunConfiguration cfg = ((ItemGunBase) gun.getItem()).mainConfig;
+			 cfg = ((ItemGunBase) gun.getItem()).mainConfig;
 			
 			if(cfg != null && cfg.hasSights && entity.isSneaking()) {
 				offsetShot = false;
@@ -115,8 +117,15 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		this.setLocationAndAngles(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, entity.rotationYaw, entity.rotationPitch);
 		
 		if(offsetShot) {
-			double sideOffset = 0.16D;
-			
+			double sideOffset = 0.16;
+			if (cfg != null && cfg.offsetOverride != 0)
+				if (gun.getItem() instanceof ItemGunAkimboBase) {
+					if (ItemGunBase.getMag(gun) % 2 != 0)
+						sideOffset = cfg.offsetOverride;
+				}  else {
+					sideOffset = offsetOverride;
+				}
+
 			this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * sideOffset;
 			this.posY -= 0.1D;
 			this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * sideOffset;

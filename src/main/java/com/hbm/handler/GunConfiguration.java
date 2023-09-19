@@ -33,7 +33,9 @@ public class GunConfiguration implements Cloneable {
 	public int firingMode;
 	//weapon won't fire after weapon breaks (main only)
 	public int durability;
-	
+	/**Override used for positioning **/
+	public float offsetOverride;
+
 	//animations!
 	public HashMap<AnimType, BusAnimation> animations = new HashMap();
 	//when sneaking, disables crosshair and centers the bullet spawn point
@@ -115,7 +117,7 @@ public class GunConfiguration implements Cloneable {
 	public static final String RSOUND_GRENADE = "hbm:weapon.hkReload";
 	public static final String RSOUND_GRENADE_NEW = "hbm:weapon.glReload";
 	public static final String RSOUND_FATMAN = "hbm:weapon.fatmanReload";
-	
+
 	public GunConfiguration silenced() {
 		this.firingSound = "hbm:weapon.silencerShoot";
 		return this;
