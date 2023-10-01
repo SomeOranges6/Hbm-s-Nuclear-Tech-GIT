@@ -125,7 +125,7 @@ public class BlockGlyphidSpawner extends BlockContainer {
 				 for (Pair<Function<World, EntityGlyphid>, int[]> glyphid : spawnMap) {
 
 					 int[] chance = glyphid.getValue();
-					 int adjustedChance = (int) (chance[0] + (chance[1] - chance[1] / Math.max(((soot + 1)/10 ), 1)));
+					 int adjustedChance = (int) (chance[0] + (chance[1] - chance[1] / Math.max(((soot + 1)/3 ), 1)));
 					 if (rand.nextInt(100) <= adjustedChance) {
 						 currentSpawns.add(glyphid.getKey().apply(worldObj));
 					 }

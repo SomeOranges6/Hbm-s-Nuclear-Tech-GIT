@@ -62,6 +62,7 @@ public class MobConfig {
 	public static boolean rampantDig = false;
 	public static boolean rampantGlyphidGuidance = false;
 	public static double rampantSmokeStackOverride = 0.4;
+	public static double pollutionMult = 3;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -132,7 +133,7 @@ public class MobConfig {
 		glyphidChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC01_glyphidChance", "Base Spawn chance and soot modifier for a glyphid grunt", new int[]{50, -45});
 		brawlerChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC02_brawlerChance", "Base Spawn chance and soot modifier for a glyphid brawler", new int[]{10, 30});
 		bombardierChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC03_bombardierChance", "Base Spawn chance and soot modifier for a glyphid bombardier", new int[]{20, -15});
-		blasterChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC04_blasterChance", "Base Spawn chance and soot modifier for a glyphid blaster", new int[]{-15, 40});
+		blasterChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC04_blasterChance", "Base Spawn chance and soot modifier for a glyphid blaster", new int[]{-5, 40});
 		behemothChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC05_behemothChance", "Base Spawn chance and soot modifier for a glyphid behemoth", new int[]{-30, 45});
 		brendaChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC06_brendaChance", "Base Spawn chance and soot modifier for a glyphid brenda", new int[]{-50, 60});
 		johnsonChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC07_johnsonChance", "Base Spawn chance and soot modifier for Big Man Johnson", new int[]{-50, 60});
@@ -159,6 +160,7 @@ public class MobConfig {
 		rampantGlyphidGuidance = CommonConfig.createConfigBool(config, CATEGORY,"12.R05_rampantGlyphidGuidance", "Whether Glyphids should always expand toward a player's spawnpoint", false);
 		rampantSmokeStackOverride = CommonConfig.createConfigDouble(config, CATEGORY, "12.R06_rampantSmokeStackOverride", "How much should the smokestack multiply soot by when on rampant mode", 0.4);
 		scoutInitialSpawn = CommonConfig.createConfigBool(config, CATEGORY,"12.R07_scoutInitialSpawn", "Whether glyphid scouts should be able to spawn on the first swarm of a hive, causes glyphids to expand significantly faster", false);
+		pollutionMult = CommonConfig.createConfigDouble(config, CATEGORY, "12.R06_rampantSmokeStackOverride", "A multiplier for soot emitted, whether you want to increase or decrease it", 1);
 
 		if(rampantMode){
 			rampantNaturalScoutSpawn = true;
@@ -166,7 +168,9 @@ public class MobConfig {
 			rampantDig = true;
 			rampantGlyphidGuidance = true;
 			scoutSwarmSpawnChance = 1;
-			scoutThreshold = 0;
+			if(pollutionMult == 1)
+				pollutionMult = 3;
+			scoutThreshold = 0.1;
 		}
 	}
 }

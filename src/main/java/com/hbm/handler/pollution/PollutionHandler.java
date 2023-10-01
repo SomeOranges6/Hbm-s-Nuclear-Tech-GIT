@@ -59,7 +59,7 @@ public class PollutionHandler {
 			data = new PollutionData();
 			ppw.pollution.put(pos, data);
 		}
-		data.pollution[type.ordinal()] = MathHelper.clamp_float(data.pollution[type.ordinal()] + amount, 0F, 10_000F);
+		data.pollution[type.ordinal()] = MathHelper.clamp_float((float) (data.pollution[type.ordinal()] + amount * MobConfig.pollutionMult), 0F, 10_000F);
 	}
 	
 	public static void decrementPollution(World world, int x, int y, int z, PollutionType type, float amount) {
