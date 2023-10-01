@@ -256,7 +256,6 @@ public class Gun762mmFactory {
 		final BulletConfiguration bullet = get762NATOConfig();
 
 		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.AP));
-		bullet.doesPenetrate = true;
 
 		bullet.dmgMax = 28;
 		bullet.dmgMin = 20;

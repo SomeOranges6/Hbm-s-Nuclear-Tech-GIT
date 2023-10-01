@@ -160,6 +160,7 @@ public class Gun44MagnumFactory {
 		
 		GunConfiguration config = getBaseConfig();
 		config.rateOfFire = 5;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
 		config.durability = 8000;
 		config.ammoCap = 64;
 

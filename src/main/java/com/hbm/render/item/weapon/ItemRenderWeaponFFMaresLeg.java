@@ -155,7 +155,7 @@ public class ItemRenderWeaponFFMaresLeg implements IItemRenderer {
 			double s = 9D;
 			for (int i = 2 - amount; i < 2; i++) {
 				GL11.glPushMatrix();
-				int trans = i == 0 ? 1 : -1;
+				int trans = i == 0 ? -1 : 1;
 
 				GL11.glTranslated(8, 9, 0);
 				GL11.glRotated(-135, 0, 0, trans);

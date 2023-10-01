@@ -37,7 +37,7 @@ public class BulletConfiguration implements Cloneable {
 	//damage bounds
 	public float dmgMin;
 	public float dmgMax;
-	public float headshotMult = 1.0F;
+	public float headshotMult = 1.3F;
 	
 	//acceleration torwards neg Y
 	public double gravity;
