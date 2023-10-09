@@ -80,7 +80,7 @@ public class Gun44MagnumFactory {
 		
 		GunConfiguration config = getBaseConfig();
 		
-		config.durability = 2500;
+		config.durability = 4000;
 		config.equipSound = "hbm:weapon.yeehaw";
 		config.name = "ifHorseshoe";
 		config.manufacturer = EnumGunManufacturer.IF;
@@ -96,7 +96,7 @@ public class Gun44MagnumFactory {
 		
 		GunConfiguration config = getBaseConfig();
 		
-		config.durability = 4000;
+		config.durability = 5000;
 		config.equipSound = "hbm:weapon.yeehaw";
 		config.name = "ifScope";
 		config.manufacturer = EnumGunManufacturer.IF;
@@ -119,7 +119,7 @@ public class Gun44MagnumFactory {
 		
 		GunConfiguration config = getBaseConfig();
 		
-		config.durability = 4000;
+		config.durability = 3000;
 		config.ammoCap = 5;
 
 		config.allowsInfinity = false;
@@ -140,7 +140,7 @@ public class Gun44MagnumFactory {
 		
 		GunConfiguration config = getBaseConfig();
 		
-		config.durability = 4000;
+		config.durability = 1500;
 		config.ammoCap = 6;
 
 		config.allowsInfinity = false;
