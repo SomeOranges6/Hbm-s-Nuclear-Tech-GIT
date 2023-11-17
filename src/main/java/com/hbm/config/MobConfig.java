@@ -160,7 +160,7 @@ public class MobConfig {
 		rampantGlyphidGuidance = CommonConfig.createConfigBool(config, CATEGORY,"12.R05_rampantGlyphidGuidance", "Whether Glyphids should always expand toward a player's spawnpoint", false);
 		rampantSmokeStackOverride = CommonConfig.createConfigDouble(config, CATEGORY, "12.R06_rampantSmokeStackOverride", "How much should the smokestack multiply soot by when on rampant mode", 0.4);
 		scoutInitialSpawn = CommonConfig.createConfigBool(config, CATEGORY,"12.R07_scoutInitialSpawn", "Whether glyphid scouts should be able to spawn on the first swarm of a hive, causes glyphids to expand significantly faster", false);
-		pollutionMult = CommonConfig.createConfigDouble(config, CATEGORY, "12.R06_rampantSmokeStackOverride", "A multiplier for soot emitted, whether you want to increase or decrease it", 1);
+		pollutionMult = CommonConfig.createConfigDouble(config, CATEGORY, "12.R08_pollutionMult", "A multiplier for soot emitted, whether you want to increase or decrease it", 1);
 
 		if(rampantMode){
 			rampantNaturalScoutSpawn = true;
@@ -168,9 +168,15 @@ public class MobConfig {
 			rampantDig = true;
 			rampantGlyphidGuidance = true;
 			scoutSwarmSpawnChance = 1;
-			if(pollutionMult == 1)
-				pollutionMult = 3;
 			scoutThreshold = 0.1;
+			RadiationConfig.pollutionSpreadThreshold = 25;
+			if(pollutionMult == 1) {
+				pollutionMult = 2;
+				RadiationConfig.pollutionSpreadEfficiency = 0.2 / pollutionMult;
+			}
+			else RadiationConfig.pollutionSpreadEfficiency = 0.1 / pollutionMult;
+			RadiationConfig.sootFogThreshold *= pollutionMult;
+
 		}
 	}
 }
