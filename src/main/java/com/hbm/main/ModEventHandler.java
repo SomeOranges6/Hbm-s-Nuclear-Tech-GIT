@@ -20,8 +20,6 @@ import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.RadiationConfig;
-import com.hbm.entity.missile.EntityMissileBaseAdvanced;
-import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityCreeperNuclear;
@@ -66,6 +64,7 @@ import com.hbm.packet.PermaSyncPacket;
 import com.hbm.packet.PlayerInformPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
+import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.tileentity.network.RequestNetwork;
 import com.hbm.util.AchievementHandler;
@@ -824,7 +823,7 @@ public class ModEventHandler {
 		EntityPlayer player = event.entityPlayer;
 		ItemStack chestplate = player.inventory.armorInventory[2];
 		
-		if(player.getHeldItem() == null && chestplate != null && ArmorModHandler.hasMods(chestplate)) {
+		if(!player.worldObj.isRemote && player.getHeldItem() == null && chestplate != null && ArmorModHandler.hasMods(chestplate)) {
 			ItemStack[] mods = ArmorModHandler.pryMods(chestplate);
 			ItemStack servo = mods[ArmorModHandler.servos];
 			
@@ -1100,19 +1099,20 @@ public class ModEventHandler {
 		if(event.phase == event.phase.START) {
 			RTTYSystem.updateBroadcastQueue();
 			RequestNetwork.updateEntries();
+			TileEntityMachineRadarNT.updateSystem();
 		}
 	}
 	
 	@SubscribeEvent
 	public void enteringChunk(EnteringChunk evt) {
 		
-		if(evt.entity instanceof EntityMissileBaseAdvanced) {
-			((EntityMissileBaseAdvanced) evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
+		/*if(evt.entity instanceof EntityMissileBaseNT) {
+			((EntityMissileBaseNT) evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
 		}
 
 		if(evt.entity instanceof EntityMissileCustom) {
 			((EntityMissileCustom) evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
-		}
+		}*/
 	}
 	
 	@SubscribeEvent

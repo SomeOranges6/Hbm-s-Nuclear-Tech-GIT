@@ -1,5 +1,6 @@
 package api.hbm.entity;
 
+@Deprecated //Use IRadarDetectableNT instead, old interface will still work though
 public interface IRadarDetectable {
 
 	public static enum RadarTargetType {

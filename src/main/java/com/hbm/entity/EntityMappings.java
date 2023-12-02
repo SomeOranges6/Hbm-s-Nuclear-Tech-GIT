@@ -9,6 +9,11 @@ import com.hbm.entity.grenade.*;
 import com.hbm.entity.item.*;
 import com.hbm.entity.logic.*;
 import com.hbm.entity.missile.*;
+import com.hbm.entity.missile.EntityMissileTier0.*;
+import com.hbm.entity.missile.EntityMissileTier1.*;
+import com.hbm.entity.missile.EntityMissileTier2.*;
+import com.hbm.entity.missile.EntityMissileTier3.*;
+import com.hbm.entity.missile.EntityMissileTier4.*;
 import com.hbm.entity.mob.*;
 import com.hbm.entity.mob.botprime.*;
 import com.hbm.entity.mob.siege.*;
@@ -217,6 +222,7 @@ public class EntityMappings {
 		addEntity(EntityMist.class, "entity_mist", 250, false);
 		addEntity(EntityAcidBomb.class, "entity_acid_bomb", 1000);
 		addEntity(EntityFallingBlockNT.class, "entity_falling_block_nt", 1000);
+		addEntity(EntityBoatRubber.class, "entity_rubber_boat", 250, false);
 
 		addEntity(EntityItemWaste.class, "entity_item_waste", 100);
 		addEntity(EntityItemBuoyant.class, "entity_item_buoyant", 100);

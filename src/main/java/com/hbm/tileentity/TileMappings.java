@@ -90,6 +90,7 @@ public class TileMappings {
 		put(TileEntityPartEmitter.class, "tileentity_partemitter");
 		put(TileEntityDummy.class, "tileentity_dummy");
 		put(TileEntityMachineCyclotron.class, "tileentity_cyclotron");
+		put(TileEntityMachineExposureChamber.class, "tileentity_exposure_chamber");
 		put(TileEntityMachineRTG.class, "tileentity_machine_rtg");
 		put(TileEntityStructureMarker.class, "tileentity_structure_marker");
 		put(TileEntityMachineMiningDrill.class, "tileentity_mining_drill");
@@ -112,7 +113,8 @@ public class TileMappings {
 		put(TileEntityMachineSPP.class, "tileentity_spp");
 		put(TileEntityMachineRadGen.class, "tileentity_radgen");
 		put(TileEntityMachineTransformer.class, "tileentity_transformer");
-		put(TileEntityMachineRadar.class, "tileentity_radar");
+		put(TileEntityMachineRadarNT.class, "tileentity_radar");
+		put(TileEntityMachineRadarScreen.class, "tileentity_radar_screen");
 		put(TileEntityBroadcaster.class, "tileentity_pink_cloud_broadcaster");
 		put(TileEntityMachineSeleniumEngine.class, "tileentity_selenium_engine");
 		put(TileEntityMachineSatLinker.class, "tileentity_satlinker");
@@ -231,6 +233,9 @@ public class TileMappings {
 		putMachines();
 		putPile();
 		putRBMK();
+
+		TileEntityMachineRadarNT.registerEntityClasses();
+		TileEntityMachineRadarNT.registerConverters();
 	}
 	
 	private static void putBombs() {
