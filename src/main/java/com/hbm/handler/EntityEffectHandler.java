@@ -7,6 +7,7 @@ import java.util.Random;
 import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
+import com.hbm.entity.mob.EntityGlyphid;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
@@ -27,14 +28,17 @@ import com.hbm.saveddata.AuxSavedData;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.PlanetaryTraitUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
+import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -97,7 +101,8 @@ public class EntityEffectHandler {
 		handleLungDisease(entity);
 		handleOil(entity);
 		handlePollution(entity);
-
+		handleTemperature(entity);
+		handleOxy(entity);
 		handleDashing(entity);
 		handlePlinking(entity);
 	}
@@ -137,6 +142,14 @@ public class EntityEffectHandler {
 	
 			float rad = ChunkRadiationManager.proxy.getRadiation(world, ix, iy, iz);
 	
+			float neut = HbmLivingProps.getNeutronActivation(entity);
+			
+			if(neut > 0 && !RadiationConfig.disableNeutron) {
+				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.RAD_BYPASS, neut / 20F);
+				HbmLivingProps.setNeutronActivation(entity,neut*0.998816f);//20 minute half life
+			}
+			if(neut<1e-5)
+				HbmLivingProps.setNeutronActivation(entity,0);
 			if(world.provider.isHellWorld && RadiationConfig.hellRad > 0 && rad < RadiationConfig.hellRad)
 				rad = (float) RadiationConfig.hellRad;
 	
@@ -158,7 +171,7 @@ public class EntityEffectHandler {
 			
 			if(HbmLivingProps.getRadiation(entity) > 600) {
 				
-				if((world.getTotalWorldTime() + r600) % 600 < 20) {
+				if((world.getTotalWorldTime() + r600) % 600 < 20 && canVomit(entity)) {
 					NBTTagCompound nbt = new NBTTagCompound();
 					nbt.setString("type", "vomit");
 					nbt.setString("mode", "blood");
@@ -172,7 +185,7 @@ public class EntityEffectHandler {
 					}
 				}
 				
-			} else if(HbmLivingProps.getRadiation(entity) > 200 && (world.getTotalWorldTime() + r1200) % 1200 < 20) {
+			} else if(HbmLivingProps.getRadiation(entity) > 200 && (world.getTotalWorldTime() + r1200) % 1200 < 20 && canVomit(entity)) {
 				
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString("type", "vomit");
@@ -210,7 +223,17 @@ public class EntityEffectHandler {
 			}
 		}
 	}
-	
+	private static void handleOxy(EntityLivingBase entity) {
+
+		if(!ArmorUtil.checkForOxy(entity) && PlanetaryTraitUtil.isDimensionWithTraitNT(entity.worldObj, Hospitality.OXYNEG) && !(entity instanceof EntityGlyphid))
+		{
+			HbmLivingProps.SsetOxy(entity, HbmLivingProps.getOxy(entity) - 1);
+			return;
+			
+			
+		}
+		
+	}
 	private static void handleDigamma(EntityLivingBase entity) {
 		
 		if(!entity.worldObj.isRemote) {
@@ -328,7 +351,7 @@ public class EntityEffectHandler {
 					entity.attackEntityFrom(ModDamageSource.mku, 2F);
 				}
 				
-				if(contagion < 30 * minute && (contagion + entity.getEntityId()) % 200 < 20) {
+				if(contagion < 30 * minute && (contagion + entity.getEntityId()) % 200 < 20 && canVomit(entity)) {
 					NBTTagCompound nbt = new NBTTagCompound();
 					nbt.setString("type", "vomit");
 					nbt.setString("mode", "blood");
@@ -368,6 +391,8 @@ public class EntityEffectHandler {
 		double blacklung = Math.min(HbmLivingProps.getBlackLung(entity), HbmLivingProps.maxBlacklung);
 		double asbestos = Math.min(HbmLivingProps.getAsbestos(entity), HbmLivingProps.maxAsbestos);
 		double soot = PollutionHandler.getPollution(entity.worldObj, (int) Math.floor(entity.posX), (int) Math.floor(entity.posY + entity.getEyeHeight()), (int) Math.floor(entity.posZ), PollutionType.SOOT);
+		
+		if(!(entity instanceof EntityPlayer)) soot = 0;
 		
 		if(ArmorRegistry.hasProtection(entity, 3, HazardClass.PARTICLE_COARSE)) soot = 0;
 		
@@ -444,7 +469,7 @@ public class EntityEffectHandler {
 				nbt.setInteger("count", 1);
 				nbt.setInteger("block", Block.getIdFromBlock(Blocks.coal_block));
 				nbt.setInteger("entity", entity.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0), new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 			}
 		}
 	}
@@ -483,6 +508,43 @@ public class EntityEffectHandler {
 					entity.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 2));
 				}
 			}
+		}
+	}
+	
+	private static void handleTemperature(Entity entity) {
+		
+		if(!(entity instanceof EntityLivingBase)) return;
+		if(entity.worldObj.isRemote) return;
+		
+		EntityLivingBase living = (EntityLivingBase) entity;
+		int temp = HbmLivingProps.getTemperature(living);
+
+		if(temp < 0) HbmLivingProps.setTemperature(living, temp + Math.min(-temp, 5));
+		if(temp > 0) HbmLivingProps.setTemperature(living, temp - Math.min(temp, 5));
+		
+		if(HbmLivingProps.isFrozen(living)) {
+			living.motionX = 0;
+			living.motionZ = 0;
+			living.motionY = Math.min(living.motionY, 0);
+			
+			if(entity.ticksExisted % 5 == 0) {
+				NBTTagCompound nbt0 = new NBTTagCompound();
+				nbt0.setString("type", "sweat");
+				nbt0.setInteger("count", 1);
+				nbt0.setInteger("block", Block.getIdFromBlock(Blocks.snow));
+				nbt0.setInteger("entity", entity.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt0, 0, 0, 0), new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+				
+				if(entity instanceof EntityPlayerMP) {
+					NBTTagCompound nbt1 = new NBTTagCompound();
+					nbt1.setString("type", "frozen");
+					PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(nbt1, 0, 0, 0), (EntityPlayerMP) entity);
+				}
+			}
+		}
+		
+		if(HbmLivingProps.isBurning(living)) {
+			living.setFire(1);
 		}
 	}
 	
@@ -592,5 +654,10 @@ public class EntityEffectHandler {
 			if(props.plinkCooldown > 0)
 				props.plinkCooldown--;
 		}
+	}
+	
+	private static boolean canVomit(Entity e) {
+		if(e.isCreatureType(EnumCreatureType.waterCreature, false)) return false;
+		return true;
 	}
 }

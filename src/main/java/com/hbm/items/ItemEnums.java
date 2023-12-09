@@ -23,6 +23,15 @@ public class ItemEnums {
 		PARAFFIN
 	}
 
+	public static enum EnumAshType {
+		WOOD,
+		COAL,
+		MISC,
+		FLY,
+		SOOT,
+		FULLERENE
+	}
+
 	public static enum EnumBriquetteType {
 		COAL,
 		LIGNITE,
@@ -38,7 +47,7 @@ public class ItemEnums {
 	public static enum EnumPlantType {
 		TOBACCO,
 		ROPE,
-		MUSTARDWILLOW
+		MUSTARDWILLOW,
 	}
 
 	public static enum EnumAchievementType {

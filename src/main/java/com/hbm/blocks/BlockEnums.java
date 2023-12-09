@@ -8,7 +8,8 @@ public class BlockEnums {
 		HEMATITE,
 		MALACHITE,
 		LIMESTONE,
-		BAUXITE
+		BAUXITE,
+		CONGLOMERATE
 	}
 
 	public static enum EnumBiomeType {
@@ -19,6 +20,27 @@ public class BlockEnums {
 	public static enum EnumStalagmiteType {
 		SULFUR,
 		ASBESTOS
+	}
+
+	public static enum EnumCMMaterials {
+		STEEL,
+		ALLOY,
+		DESH,
+		TCALLOY
+	}
+
+	public static enum EnumCMEngines {
+		STANDARD,
+		DESH,
+		BISMUTH
+	}
+
+	public static enum EnumCMCircuit {
+		ALUMINIUM,
+		COPPER,
+		RED_COPPER,
+		GOLD,
+		SCHRABIDIUM
 	}
 	
 	/** DECO / STRUCTURE ENUMS */

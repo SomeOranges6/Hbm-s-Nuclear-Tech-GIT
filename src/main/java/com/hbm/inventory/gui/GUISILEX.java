@@ -6,6 +6,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerSILEX;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.SILEXRecipes;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
@@ -18,6 +20,7 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class GUISILEX extends GuiInfoContainer {
@@ -78,14 +81,14 @@ public class GUISILEX extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(silex.mode != EnumWavelengths.NULL) {
-			float freq = 0.1F * (float)Math.pow(2, silex.mode.ordinal());
+			float freq = 0.05F * (float)Math.pow(2, silex.mode.ordinal());
 			int color = (silex.mode != EnumWavelengths.VISIBLE) ? silex.mode.guiColor : Color.HSBtoRGB(silex.getWorldObj().getTotalWorldTime() / 50.0F, 0.5F, 1F) & 16777215;
 			drawWave(81, 46, 16, 84, 0.5F, freq, color, 3F, 1F);
 		}
 		
 		if(silex.tank.getFill() > 0) {
 			
-			if(silex.tank.getTankType() == Fluids.ACID || silex.fluidConversion.containsKey(silex.tank.getTankType())) {
+			if(silex.tank.getTankType() == Fluids.ACID || silex.fluidConversion.containsKey(silex.tank.getTankType()) || SILEXRecipes.getOutput(new ItemStack(ModItems.fluid_icon, 1, silex.tank.getTankType().getID())) != null) {
 				drawTexturedModalRect(guiLeft + 7, guiTop + 41, 176, 118, 54, 9);
 			} else {
 				drawTexturedModalRect(guiLeft + 7, guiTop + 41, 176, 109, 54, 9);

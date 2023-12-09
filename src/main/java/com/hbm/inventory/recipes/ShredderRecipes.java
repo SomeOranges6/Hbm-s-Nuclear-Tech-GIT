@@ -21,6 +21,7 @@ import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Compat;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -45,6 +46,8 @@ public class ShredderRecipes extends SerializableRecipe {
 			//if the dict contains invalid names, skip
 			if(name == null || name.isEmpty())
 				continue;
+			
+			if(name.contains("Any")) continue;
 			
 			List<ItemStack> matches = OreDictionary.getOres(name);
 			
@@ -93,10 +96,6 @@ public class ShredderRecipes extends SerializableRecipe {
 		if(name.length() > len && name.substring(0, len).equals(prefix)) {
 			
 			String matName = name.substring(len);
-			
-			//skip over genericized names so we don't accidentally convert item groups
-			if(matName.startsWith("Any"))
-				return;
 			
 			ItemStack dust = getDustByName(matName);
 			
@@ -201,6 +200,37 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(Items.reeds, new ItemStack(Items.sugar, 3));
 		ShredderRecipes.setRecipe(Items.apple, new ItemStack(Items.sugar, 1));
 		ShredderRecipes.setRecipe(Items.carrot, new ItemStack(Items.sugar, 1));
+		ShredderRecipes.setRecipe(ModItems.crystal_cleaned, new ItemStack(ModItems.mineral_dust, 4));
+		
+		ShredderRecipes.setRecipe(ModBlocks.moon_nickel, new ItemStack(ModItems.powder_nickel, 4));
+		ShredderRecipes.setRecipe(ModBlocks.moon_titanium, new ItemStack(ModItems.powder_titanium, 4));
+		ShredderRecipes.setRecipe(ModBlocks.moon_aluminium, new ItemStack(ModItems.powder_aluminium, 4));
+		ShredderRecipes.setRecipe(ModBlocks.moon_lithium, new ItemStack(ModItems.powder_lithium, 4));
+		ShredderRecipes.setRecipe(ModBlocks.ore_mineral, new ItemStack(ModItems.mineral_dust, 1)); // it was deserved
+
+		
+		ShredderRecipes.setRecipe(ModItems.bean_roast,  new ItemStack(ModItems.powder_coffee, 1));
+		
+		//BYPRODUCTS
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 0), new ItemStack(ModItems.powder_iron, 10));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 1), new ItemStack(ModItems.powder_copper, 10));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 2), new ItemStack(ModItems.powder_lithium, 10));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 3), new ItemStack(ModItems.powder_quartz, 8));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 4), new ItemStack(ModItems.powder_lead, 6));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 5), new ItemStack(ModItems.powder_titanium, 9));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 6), new ItemStack(ModItems.powder_aluminium, 12));
+	//	ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 7), new ItemStack(ModItems.sulfur, 6));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 8), new ItemStack(Items.bone, 4));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 2, 9), new ItemStack(ModItems.nugget_bismuth, 1));
+		
+		//space
+		ShredderRecipes.setRecipe(ModBlocks.duna_iron, new ItemStack(ModItems.powder_iron, 4));
+		ShredderRecipes.setRecipe(ModBlocks.duna_zinc, new ItemStack(ModItems.powder_zinc, 4));
+		ShredderRecipes.setRecipe(ModBlocks.ike_asbestos, new ItemStack(ModItems.powder_asbestos, 3));
+		ShredderRecipes.setRecipe(ModBlocks.ike_copper, new ItemStack(ModItems.powder_copper, 4));
+		ShredderRecipes.setRecipe(ModBlocks.ike_iron, new ItemStack(ModItems.powder_iron, 4));
+
+		ShredderRecipes.setRecipe(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), new ItemStack(ModItems.powder_calcium, 4));
 		
 		List<ItemStack> logs = OreDictionary.getOres("logWood");
 		List<ItemStack> planks = OreDictionary.getOres("plankWood");
@@ -352,17 +382,17 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModItems.debris_graphite, new ItemStack(ModItems.powder_coal, 1));
 		
 		/* GC COMPAT */
-		Item gcMoonBlock = Compat.tryLoadItem(Compat.MOD_GCC, "moonBlock");
-		if(gcMoonBlock != null) {
+		Block gcMoonBlock = Compat.tryLoadBlock(Compat.MOD_GCC, "moonBlock");
+		if(gcMoonBlock != null && gcMoonBlock != Blocks.air) {
 			ShredderRecipes.setRecipe(new ItemStack(gcMoonBlock, 1, 3), new ItemStack(ModBlocks.moon_turf)); //Moon dirt
 			ShredderRecipes.setRecipe(new ItemStack(gcMoonBlock, 1, 5), new ItemStack(ModBlocks.moon_turf)); //Moon topsoil
 		}
 		
 		/* AR COMPAT */
-		Item arMoonTurf = Compat.tryLoadItem(Compat.MOD_AR, "turf");
-		if(arMoonTurf != null) ShredderRecipes.setRecipe(arMoonTurf, new ItemStack(ModBlocks.moon_turf)); //i assume it's moon turf
-		Item arMoonTurfDark = Compat.tryLoadItem(Compat.MOD_AR, "turfDark");
-		if(arMoonTurfDark != null) ShredderRecipes.setRecipe(arMoonTurfDark, new ItemStack(ModBlocks.moon_turf)); //probably moon dirt? would have helped if i had ever played AR for more than 5 seconds
+		Block arMoonTurf = Compat.tryLoadBlock(Compat.MOD_AR, "turf");
+		if(arMoonTurf != null && gcMoonBlock != Blocks.air) ShredderRecipes.setRecipe(arMoonTurf, new ItemStack(ModBlocks.moon_turf)); //i assume it's moon turf
+		Block arMoonTurfDark = Compat.tryLoadBlock(Compat.MOD_AR, "turfDark");
+		if(arMoonTurfDark != null && gcMoonBlock != Blocks.air) ShredderRecipes.setRecipe(arMoonTurfDark, new ItemStack(ModBlocks.moon_turf)); //probably moon dirt? would have helped if i had ever played AR for more than 5 seconds
 	}
 	
 	/**

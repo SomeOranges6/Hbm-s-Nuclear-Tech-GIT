@@ -54,26 +54,36 @@ public class FluidContainerRegistry {
 
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.iv_blood), new ItemStack(ModItems.iv_empty), Fluids.BLOOD, 100));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.iv_xp), new ItemStack(ModItems.iv_xp_empty), Fluids.XPJUICE, 100));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.iv_blood), new ItemStack(ModItems.iv_empty), Fluids.BLOOD, 100));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.experience_bottle), new ItemStack(Items.glass_bottle), Fluids.XPJUICE, 100));
-
+	
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.glass_smilk), new ItemStack(ModItems.glass_empty), Fluids.SMILK, 100));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.can_mug), new ItemStack(ModItems.can_empty), Fluids.MUG, 100));
-		
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.milk_bucket), new ItemStack(Items.bucket), Fluids.MILK, 1000));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.coffee), new ItemStack(ModItems.cmug_empty), Fluids.COFFEE, 100));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.teacup), new ItemStack(ModItems.teacup_empty), Fluids.TEA, 100));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bottle_honey), new ItemStack(Items.glass_bottle), Fluids.HONEY, 100));
+
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.dry_ice), null, Fluids.CARBONDIOXIDE, 1000)); //literal block of carbon dioxide
+		//will be useful to heat up atmospheres, trust me.
+
 		FluidType[] fluids = Fluids.getAll();
 		for(int i = 1; i < fluids.length; i++) {
 			
 			FluidType type = fluids[i];
+			int id = type.getID();
 			
-			if(type.getContainer(CD_Canister.class) != null) FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_full, 1, i), new ItemStack(ModItems.canister_empty), Fluids.fromID(i), 1000));
-			if(type.getContainer(CD_Gastank.class) != null) FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_full, 1, i), new ItemStack(ModItems.gas_empty), Fluids.fromID(i), 1000));
+			if(type.getContainer(CD_Canister.class) != null) FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_full, 1, id), new ItemStack(ModItems.canister_empty), type, 1000));
+			if(type.getContainer(CD_Gastank.class) != null) FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_full, 1, id), new ItemStack(ModItems.gas_empty), type, 1000));
 			
 			if(type.hasNoContainer()) continue;
 
-			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_lead_full, 1, i), new ItemStack(ModItems.fluid_tank_lead_empty), Fluids.fromID(i), 1000));
+			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_lead_full, 1, id), new ItemStack(ModItems.fluid_tank_lead_empty), type, 1000));
 			
 			if(type.needsLeadContainer()) continue;
 			
-			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_full, 1, i), new ItemStack(ModItems.fluid_tank_empty), Fluids.fromID(i), 1000));
-			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_barrel_full, 1, i), new ItemStack(ModItems.fluid_barrel_empty), Fluids.fromID(i), 16000));
+			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_full, 1, id), new ItemStack(ModItems.fluid_tank_empty), type, 1000));
+			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_barrel_full, 1, id), new ItemStack(ModItems.fluid_barrel_empty), type, 16000));
 		}
 		
 		Compat.registerCompatFluidContainers();

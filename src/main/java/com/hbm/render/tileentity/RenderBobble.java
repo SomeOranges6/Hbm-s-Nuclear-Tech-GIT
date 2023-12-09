@@ -45,7 +45,11 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public static final ResourceLocation bobble_nos = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/nos.png");
 	public static final ResourceLocation bobble_drillgon = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/drillgon200.png");
 	public static final ResourceLocation bobble_cirno = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/cirno.png");
+	public static final ResourceLocation bobble_gwen = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/gwen.png");
+	public static final ResourceLocation bobble_juice = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/Juicy_Lad.png");
+	public static final ResourceLocation bobble_jamesh_2= new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/JamesH_2.png");	
 	public static final ResourceLocation bobble_microwave = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/microwave.png");
+	public static final ResourceLocation bobble_peep = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/peep.png");
 
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float intero) {
@@ -95,7 +99,11 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case VAER:		bindTexture(bobble_vaer); break;
 		case NOS:		bindTexture(bobble_nos); break;
 		case DRILLGON:	bindTexture(bobble_drillgon); break;
-		case MICROWAVE: bindTexture(bobble_microwave); break;
+		case GWEN:		bindTexture(bobble_gwen); break;
+		case JUICE:		bindTexture(bobble_juice); break;
+		case JAMESH_2:	bindTexture(bobble_jamesh_2); break;
+		case MICROWAVE:	bindTexture(bobble_microwave); break;
+		case PEEP:		bindTexture(bobble_peep); break;
 		default:		bindTexture(ResourceManager.universal);
 		}
 		
@@ -199,6 +207,9 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case VAER:
 			rotLeftArm = new double[]{0, -5, 45};
 			rotRightArm = new double[]{0, 15, 45};
+		case PEEP:
+			rotLeftArm = new double[]{0, 0, 1};
+			rotRightArm = new double[]{0, 0, 1};
 			break;
 		}
 	}
@@ -210,6 +221,8 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 
 		GL11.glPushMatrix();
 		GL11.glRotated(rotBody, 0, 1, 0);
+		
+		if(type == BobbleType.PEEP) bobble.renderPart("PeepTail");
 		
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		
@@ -280,9 +293,9 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		
 		GL11.glTranslated(0, -1.75, 0);
 		bobble.renderPart("Head" + suffix);
-		
-		if(type == BobbleType.VT)
-			bobble.renderPart("Horn");
+
+		if(type == BobbleType.VT) bobble.renderPart("Horn");
+		if(type == BobbleType.PEEP) bobble.renderPart("PeepHat");
 		
 		if(type == BobbleType.VAER) {
 			GL11.glTranslated(0.25, 1.9, 0.075);
@@ -397,9 +410,9 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			renderItem(new ItemStack(ModItems.coin_maskman, 1, 5));
 			break;
 		case ADAM29:
-			GL11.glTranslated(0.45, 1.15, 0.4);
+			GL11.glTranslated(0.4, 1.15, 0.4);
 			GL11.glScaled(0.5, 0.5, 0.5);
-			renderItem(new ItemStack(ModItems.coffee));
+			renderItem(new ItemStack(ModItems.can_redbomb));
 			break;
 		case PHEO:
 			GL11.glTranslated(0.5, 1.15, 0.45);

@@ -33,6 +33,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
@@ -75,6 +76,7 @@ public class Library {
 	public static String Barnaby99_x = "b04cf173-cff0-4acd-aa19-3d835224b43d";
 	public static String Ma118 = "1121cb7a-8773-491f-8e2b-221290c93d81";
 	public static String Adam29Adam29 = "bbae7bfa-0eba-40ac-a0dd-f3b715e73e61";
+	public static String DUODEC_ = "85d54b8c-1862-4c86-b351-5ef1b998aa32";
 
 	public static Set<String> contributors = Sets.newHashSet(new String[] {
 			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf
@@ -182,6 +184,18 @@ public class Library {
 		
 		return false;
 	}
+	
+	public static boolean checkInventory(EntityPlayer player, Item item, int slot)
+	{
+		if(player.inventory.mainInventory[slot] != null &&
+				player.inventory.mainInventory[slot].getItem() == item) 
+		{
+			return true;
+		}
+		
+		return false;
+	}
+
 	
 	public static boolean checkUnionListForFluids(List<UnionOfTileEntitiesAndBooleansForFluids> list, IFluidSource that) {
 		
@@ -528,7 +542,18 @@ public class Library {
 		
 		return flag;
 	}
-	
+
+	// Added for sake of doors
+	// Original: Drillgon200: https://thebookofshaders.com/glossary/?search=smoothstep
+	public static double smoothstep(double t, double edge0, double edge1){
+		t = MathHelper.clamp_double((t - edge0) / (edge1 - edge0), 0.0, 1.0);
+		return t * t * (3.0 - 2.0 * t);
+	}
+	public static float smoothstep(float t, float edge0, float edge1){
+		t = MathHelper.clamp_float((t - edge0) / (edge1 - edge0), 0.0F, 1.0F);
+		return t * t * (3.0F - 2.0F * t);
+	}
+
 	public static boolean isObstructed(World world, double x, double y, double z, double a, double b, double c) {
 		MovingObjectPosition pos = world.rayTraceBlocks(Vec3.createVectorHelper(x, y, z), Vec3.createVectorHelper(a, b, c));
 		return pos != null;

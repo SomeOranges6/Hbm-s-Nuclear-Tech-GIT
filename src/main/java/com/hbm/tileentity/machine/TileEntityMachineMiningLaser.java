@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.crypto.Data;
+
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -375,6 +377,18 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 				item.setDead();
 				continue;
 			}
+			if(item.getEntityItem().getItem() == Item.getItemFromBlock(ModBlocks.duna_oil)) {
+				
+				tank.setTankType(Fluids.OIL); //just to be sure
+				
+				tank.setFill(tank.getFill() + 200);
+				if(tank.getFill() > tank.getMaxFill())
+					tank.setFill(tank.getMaxFill());
+				
+				item.setDead();
+				continue;
+			}
+			
 			
 			ItemStack stack = InventoryUtil.tryAddItemToInventory(slots, 9, 29, item.getEntityItem().copy());
 			
@@ -671,7 +685,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+		this.power = nbt.getLong("power");
 		tank.readFromNBT(nbt, "oil");
 		isOn = nbt.getBoolean("isOn");
 	}
@@ -679,7 +693,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+		nbt.setLong("power", power);
 		tank.writeToNBT(nbt, "oil");
 		nbt.setBoolean("isOn", isOn);
 	}

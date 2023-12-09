@@ -110,6 +110,15 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
 	}
 
 	@Override
+	public void clearSystem(World world) {
+		ThreeDimRadiationPerWorld radWorld = perWorld.get(world);
+		
+		if(radWorld != null) {
+			radWorld.radiation.clear();
+		}
+	}
+
+	@Override
 	public void receiveWorldLoad(WorldEvent.Load event) {
 		if(!event.world.isRemote)
 			perWorld.put(event.world, new ThreeDimRadiationPerWorld());
@@ -159,13 +168,14 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
 		}
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public void receiveChunkUnload(ChunkEvent.Unload event) {
 		
 		if(!event.world.isRemote) {
 			ThreeDimRadiationPerWorld radWorld = perWorld.get(event.world);
 			
-			if(radWorld != null) {
+			if(radWorld != null) { 
 				radWorld.radiation.remove(event.getChunk());
 			}
 		}

@@ -18,7 +18,7 @@ public class HbmCollection {
 	public static final Set<AmmoItemTrait> ExplosiveType = ImmutableSet.of(AmmoItemTrait.PRO_EXPLOSIVE, AmmoItemTrait.PRO_DAMAGE, AmmoItemTrait.CON_HEAVY_WEAR);
 	public static final Set<AmmoItemTrait> DUType = ImmutableSet.of(AmmoItemTrait.PRO_HEAVY_DAMAGE, AmmoItemTrait.NEU_HEAVY_METAL, AmmoItemTrait.CON_HEAVY_WEAR);
 	public static final Set<AmmoItemTrait> StarmetalType = ImmutableSet.of(AmmoItemTrait.PRO_HEAVY_DAMAGE, AmmoItemTrait.NEU_STARMETAL, AmmoItemTrait.CON_HEAVY_WEAR);
-	public static final Set<AmmoItemTrait> ChlorophyteType = ImmutableSet.of(AmmoItemTrait.PRO_DAMAGE, AmmoItemTrait.PRO_WEAR, AmmoItemTrait.NEU_CHLOROPHYTE, AmmoItemTrait.NEU_HOMING, AmmoItemTrait.CON_PENETRATION);
+	public static final Set<AmmoItemTrait> ChlorophyteType = ImmutableSet.of(AmmoItemTrait.PRO_DAMAGE, AmmoItemTrait.PRO_WEAR, AmmoItemTrait.PRO_PENETRATION, AmmoItemTrait.NEU_CHLOROPHYTE, AmmoItemTrait.NEU_HOMING, AmmoItemTrait.CON_SPEED);
 	
 	/// BULLET COLLECTIONS
 	// SHOTGUNS
@@ -28,7 +28,7 @@ public class HbmCollection {
 	/** 20 GAUGE **/
 	public static final List<Integer> g20 = ImmutableList.of(BulletConfigSyncingUtil.G20_NORMAL, BulletConfigSyncingUtil.G20_SLUG, BulletConfigSyncingUtil.G20_FLECHETTE, BulletConfigSyncingUtil.G20_FIRE, BulletConfigSyncingUtil.G20_SHRAPNEL, BulletConfigSyncingUtil.G20_EXPLOSIVE, BulletConfigSyncingUtil.G20_CAUSTIC, BulletConfigSyncingUtil.G20_SHOCK, BulletConfigSyncingUtil.G20_WITHER, BulletConfigSyncingUtil.G20_SLEEK);
 	/** 4 GAUGE **/
-	public static final List<Integer> g4 = ImmutableList.of(BulletConfigSyncingUtil.G4_NORMAL, BulletConfigSyncingUtil.G4_SLUG, BulletConfigSyncingUtil.G4_FLECHETTE, BulletConfigSyncingUtil.G4_FLECHETTE_PHOSPHORUS, BulletConfigSyncingUtil.G4_EXPLOSIVE, BulletConfigSyncingUtil.G4_SEMTEX, BulletConfigSyncingUtil.G4_BALEFIRE, BulletConfigSyncingUtil.G4_KAMPF, BulletConfigSyncingUtil.G4_CANISTER, BulletConfigSyncingUtil.G4_CLAW, BulletConfigSyncingUtil.G4_VAMPIRE, BulletConfigSyncingUtil.G4_VOID, BulletConfigSyncingUtil.G4_TITAN, BulletConfigSyncingUtil.G4_SLEEK);
+	public static final List<Integer> g4 = ImmutableList.of(BulletConfigSyncingUtil.G4_NORMAL, BulletConfigSyncingUtil.G4_SLUG, BulletConfigSyncingUtil.G4_FLECHETTE, BulletConfigSyncingUtil.G4_FLECHETTE_PHOSPHORUS, BulletConfigSyncingUtil.G4_EXPLOSIVE, BulletConfigSyncingUtil.G4_SEMTEX, BulletConfigSyncingUtil.G4_BALEFIRE, BulletConfigSyncingUtil.G4_KAMPF, BulletConfigSyncingUtil.G4_CANISTER, BulletConfigSyncingUtil.G4_CLAW, BulletConfigSyncingUtil.G4_VAMPIRE, BulletConfigSyncingUtil.G4_VOID, BulletConfigSyncingUtil.G4_TITAN, BulletConfigSyncingUtil.G4_SLEEK, BulletConfigSyncingUtil.G4_LTBL,BulletConfigSyncingUtil.G4_LTBL_SUPER, BulletConfigSyncingUtil.BUTTER);
 	// PISTOL CALIBER
 	/** .22 LONG RIFLE **/
 	public static final List<Integer> lr22 = ImmutableList.of(BulletConfigSyncingUtil.LR22_NORMAL, BulletConfigSyncingUtil.LR22_AP, BulletConfigSyncingUtil.CHL_LR22);
@@ -54,6 +54,8 @@ public class HbmCollection {
 	public static final List<Integer> r556Flechette = ImmutableList.of(BulletConfigSyncingUtil.R556_FLECHETTE, BulletConfigSyncingUtil.R556_FLECHETTE_INCENDIARY, BulletConfigSyncingUtil.R556_FLECHETTE_PHOSPHORUS, BulletConfigSyncingUtil.R556_FLECHETTE_DU, BulletConfigSyncingUtil.CHL_R556_FLECHETTE, BulletConfigSyncingUtil.R556_FLECHETTE_SLEEK, BulletConfigSyncingUtil.R556_K);
 	/** 7.62x51mm NATO **/
 	public static final List<Integer> r762 = ImmutableList.of(BulletConfigSyncingUtil.R762_NORMAL, BulletConfigSyncingUtil.R762_PHOSPHORUS, BulletConfigSyncingUtil.R762_AP, BulletConfigSyncingUtil.R762_DU, BulletConfigSyncingUtil.R762_TRACER, BulletConfigSyncingUtil.R762_K);
+	public static final List<Integer> r762_hs = ImmutableList.of(BulletConfigSyncingUtil.R762_NORMAL_HS, BulletConfigSyncingUtil.R762_PHOSPHORUS_HS, BulletConfigSyncingUtil.R762_AP_HS, BulletConfigSyncingUtil.R762_DU_HS, BulletConfigSyncingUtil.R762_TRACER_HS, BulletConfigSyncingUtil.R762_K_HS);
+
 	/** 5MM **/
 	public static final List<Integer> r5 = ImmutableList.of(BulletConfigSyncingUtil.R5_NORMAL, BulletConfigSyncingUtil.R5_EXPLOSIVE, BulletConfigSyncingUtil.R5_DU, BulletConfigSyncingUtil.R5_STAR, BulletConfigSyncingUtil.CHL_R5);
 	/** 5MM LACUNAE **/
@@ -70,7 +72,7 @@ public class HbmCollection {
 	/** MIRV MINI-NUKES **/
 	public static final List<Integer> fatmanMIRV = ImmutableList.of(BulletConfigSyncingUtil.NUKE_MIRV_NORMAL, BulletConfigSyncingUtil.NUKE_MIRV_LOW, BulletConfigSyncingUtil.NUKE_MIRV_HIGH, BulletConfigSyncingUtil.NUKE_MIRV_SAFE, BulletConfigSyncingUtil.NUKE_MIRV_SPECIAL);
 	/** 40MM GRENADE **/
-	public static final List<Integer> grenade = ImmutableList.of(BulletConfigSyncingUtil.GRENADE_NORMAL, BulletConfigSyncingUtil.GRENADE_HE, BulletConfigSyncingUtil.GRENADE_INCENDIARY, BulletConfigSyncingUtil.GRENADE_PHOSPHORUS, BulletConfigSyncingUtil.GRENADE_CHEMICAL, BulletConfigSyncingUtil.GRENADE_CONCUSSION, BulletConfigSyncingUtil.GRENADE_FINNED, BulletConfigSyncingUtil.GRENADE_SLEEK, BulletConfigSyncingUtil.GRENADE_NUCLEAR, BulletConfigSyncingUtil.GRENADE_TRACER, BulletConfigSyncingUtil.GRENADE_KAMPF);
+	public static final List<Integer> grenade = ImmutableList.of(BulletConfigSyncingUtil.GRENADE_NORMAL, BulletConfigSyncingUtil.GRENADE_HE, BulletConfigSyncingUtil.GRENADE_INCENDIARY, BulletConfigSyncingUtil.GRENADE_PHOSPHORUS, BulletConfigSyncingUtil.GRENADE_CHEMICAL, BulletConfigSyncingUtil.GRENADE_CONCUSSION, BulletConfigSyncingUtil.GRENADE_FINNED, BulletConfigSyncingUtil.GRENADE_SLEEK, BulletConfigSyncingUtil.GRENADE_NUCLEAR, BulletConfigSyncingUtil.GRENADE_TRACER, BulletConfigSyncingUtil.GRENADE_KAMPF, BulletConfigSyncingUtil.GRENADE_LEADBURSTER);
 	/** 84MM ROCKET **/
 	public static final List<Integer> rocket = ImmutableList.of(BulletConfigSyncingUtil.ROCKET_NORMAL, BulletConfigSyncingUtil.ROCKET_HE, BulletConfigSyncingUtil.ROCKET_INCENDIARY, BulletConfigSyncingUtil.ROCKET_PHOSPHORUS, BulletConfigSyncingUtil.ROCKET_SHRAPNEL, BulletConfigSyncingUtil.ROCKET_EMP, BulletConfigSyncingUtil.ROCKET_GLARE, BulletConfigSyncingUtil.ROCKET_TOXIC, BulletConfigSyncingUtil.ROCKET_CANISTER, BulletConfigSyncingUtil.ROCKET_SLEEK, BulletConfigSyncingUtil.ROCKET_NUKE, BulletConfigSyncingUtil.ROCKET_CHAINSAW);
 		
@@ -95,6 +97,8 @@ public class HbmCollection {
 		COMBINE,
 		/**Cube 2: Sauerbraten**/
 		CUBE,
+		/**Deep Rock Galactic**/
+		DRG,
 		/**Enzinger Union**/
 		ENZINGER,
 		/**Equestria Missile Systems**/
@@ -131,8 +135,10 @@ public class HbmCollection {
 		METRO,
 		/**MWT Prototype Labs**/
 		MWT,
+		/**Naval Air Weapons Station**/
+		NAWS,
 		/**Erfurter Maschinenfabrik Geipel**/
-		NAZI,
+		ERFURT,
 		/**No manufacturer, just puts "-" **/
 		NONE,
 		/**OxfordEM Technologies**/

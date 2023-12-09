@@ -84,6 +84,10 @@ public class CrucibleRecipes extends SerializableRecipe {
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 5), new MaterialStack(Mats.MAT_TUNGSTEN, n * 3), new MaterialStack(Mats.MAT_COBALT, n * 1))
 				.outputs(new MaterialStack(Mats.MAT_DURA, n * 9)));
 		
+		recipes.add(new CrucibleRecipe(14, "crucible.hsss", 12, new ItemStack(ModItems.ingot_dura_steel))
+				.inputs(new MaterialStack(Mats.MAT_STAINLESS, n * 5), new MaterialStack(Mats.MAT_TUNGSTEN, n * 3), new MaterialStack(Mats.MAT_COBALT, n * 1))
+				.outputs(new MaterialStack(Mats.MAT_DURA, i * 2)));
+		
 		recipes.add(new CrucibleRecipe(4, "crucible.ferro", 3, new ItemStack(ModItems.ingot_ferrouranium))
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 2), new MaterialStack(Mats.MAT_U238, n))
 				.outputs(new MaterialStack(Mats.MAT_FERRO, n * 3)));
@@ -91,12 +95,16 @@ public class CrucibleRecipes extends SerializableRecipe {
 		recipes.add(new CrucibleRecipe(5, "crucible.tcalloy", 9, new ItemStack(ModItems.ingot_tcalloy))
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_TECHNIETIUM, n))
 				.outputs(new MaterialStack(Mats.MAT_TCALLOY, i)));
+				
+		recipes.add(new CrucibleRecipe(12, "crucible.conglomerate", 6, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.CONGLOMERATE))
+				.inputs(new MaterialStack(Mats.MAT_CONGLOMERATE, i * 2), new MaterialStack(Mats.MAT_TECHNIETIUM, 0))
+				.outputs(new MaterialStack(Mats.MAT_IRON, n * 7), new MaterialStack(Mats.MAT_NICKEL, n * 2)));
 		
-		recipes.add(new CrucibleRecipe(12, "crucible.cdalloy", 9, new ItemStack(ModItems.ingot_cdalloy))
+		recipes.add(new CrucibleRecipe(13, "crucible.cdalloy", 9, new ItemStack(ModItems.ingot_cdalloy))
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_CADMIUM, n))
 				.outputs(new MaterialStack(Mats.MAT_CDALLOY, i)));
 		
-		recipes.add(new CrucibleRecipe(13, "crucible.cmb", 3, new ItemStack(ModItems.ingot_combine_steel))
+		recipes.add(new CrucibleRecipe(15, "crucible.cmb", 3, new ItemStack(ModItems.ingot_combine_steel))
 				.inputs(new MaterialStack(Mats.MAT_MAGTUNG, n * 6), new MaterialStack(Mats.MAT_MUD, n * 3))
 				.outputs(new MaterialStack(Mats.MAT_CMB, i)));
 		

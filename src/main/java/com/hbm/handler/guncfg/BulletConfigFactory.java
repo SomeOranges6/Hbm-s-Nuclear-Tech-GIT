@@ -3,14 +3,14 @@ package com.hbm.handler.guncfg;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.entity.grenade.EntityGrenadeFlare;
 import com.hbm.entity.particle.EntityBSmokeFX;
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
+import com.hbm.entity.projectile.EntityBulletBaseNT.*;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.explosion.ExplosionNukeSmall.MukeParams;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.interfaces.IBulletImpactBehavior;
-import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ModItems;
@@ -25,6 +25,9 @@ import com.hbm.util.BobMathUtil;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
@@ -84,6 +87,7 @@ public class BulletConfigFactory {
 		bullet.ricochetAngle = 5;
 		bullet.HBRC = 2;
 		bullet.LBRC = 95;
+		bullet.headshotMult = 1.25F;
 		bullet.bounceMod = 0.8;
 		bullet.doesPenetrate = true;
 		bullet.doesBreakGlass = true;
@@ -144,10 +148,10 @@ public class BulletConfigFactory {
 		bullet.leadChance = 0;
 		bullet.vPFX = "reddust";
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				
 				if(bullet.worldObj.isRemote)
 					return;
@@ -164,9 +168,10 @@ public class BulletConfigFactory {
 					Vec3 motion = Vec3.createVectorHelper(bullet.posX - dx, bullet.posY - dy, bullet.posZ - dz);
 					motion = motion.normalize();
 					
-					EntityBulletBase bolt = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.R556_FLECHETTE_DU);
+					EntityBulletBaseNT bolt = new EntityBulletBaseNT(bullet.worldObj, BulletConfigSyncingUtil.R556_FLECHETTE_DU);
 					bolt.setPosition(dx, dy, dz);
 					bolt.setThrowableHeading(motion.xCoord, motion.yCoord, motion.zCoord, 0.5F, 0.1F);
+					bolt.setThrower(bullet.getThrower());
 					bullet.worldObj.spawnEntityInWorld(bolt);
 					
 					if(i < 30) {
@@ -310,12 +315,19 @@ public class BulletConfigFactory {
 		}
 	}
 	
-	public static IBulletImpactBehavior getPhosphorousEffect(final int radius, final int duration, final int count, final double motion, float hazeChance) {
+	public static void makeFlechette(BulletConfiguration bullet) {
+
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
+			bulletnt.getStuck(x, y, z, sideHit);
+		};
+	}
+	
+	public static IBulletImpactBehaviorNT getPhosphorousEffect(final int radius, final int duration, final int count, final double motion, float hazeChance) {
 		
-		IBulletImpactBehavior impact = new IBulletImpactBehavior() {
+		IBulletImpactBehaviorNT impact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				
 				List<Entity> hit = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet, AxisAlignedBB.getBoundingBox(bullet.posX - radius, bullet.posY - radius, bullet.posZ - radius, bullet.posX + radius, bullet.posY + radius, bullet.posZ + radius));
 				
@@ -351,13 +363,85 @@ public class BulletConfigFactory {
 		
 		return impact;
 	}
-	
-	public static IBulletImpactBehavior getGasEffect(final int radius, final int duration) {
-		
-		IBulletImpactBehavior impact = new IBulletImpactBehavior() {
+	public static IBulletImpactBehaviorNT getFlashbangEffect(final int radius, final int duration, boolean isSuper) {
+
+		IBulletImpactBehaviorNT impact = new IBulletImpactBehaviorNT() {
+
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
+				bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "hbm:weapon.flashbang", 1F,1F);
+				
+				List<Entity> hit = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet, AxisAlignedBB.getBoundingBox(bullet.posX - radius, bullet.posY - radius, bullet.posZ - radius, bullet.posX + radius, bullet.posY + radius, bullet.posZ + radius));
+				
+				EntityGrenadeFlare flash = new EntityGrenadeFlare(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ );
+				bullet.worldObj.spawnEntityInWorld(flash);
+				
+				for(Entity e : hit) {
+
+					if(!Library.isObstructed(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, e.posX, e.posY + e.getEyeHeight(), e.posZ)) {
+
+						if(e instanceof EntityLivingBase) {
+							EntityLivingBase entity = (EntityLivingBase) e;
+							if (ArmorRegistry.hasAllProtection(entity, 3, HazardClass.LIGHT) && !isSuper) {
+								continue;
+							}
+							PotionEffect eff = new PotionEffect(HbmPotion.flashbang.id, duration, 0, true);
+							((EntityLivingBase)e).addPotionEffect(eff);
+						}
+					}
+				}
+			}
+			
+		};
+
+		return impact;
+	}
+	public static IBulletImpactBehaviorNT getButterBulletImpactBehaviorNT(final int radius, final int duration, boolean isSuper) {
+
+		IBulletImpactBehaviorNT impact = new IBulletImpactBehaviorNT() {
+
+
+			@Override
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
+				bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "hbm:weapon.splort", 1F,1F);
+				
+				List<Entity> hit = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet, AxisAlignedBB.getBoundingBox(bullet.posX - radius, bullet.posY - radius, bullet.posZ - radius, bullet.posX + radius, bullet.posY + radius, bullet.posZ + radius));
+
+				
+				for(Entity e : hit) {
+
+					if(!Library.isObstructed(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, e.posX, e.posY + e.getEyeHeight(), e.posZ)) {
+
+						if(e instanceof EntityLivingBase) {
+							EntityLivingBase entity = (EntityLivingBase) e;
+							PotionEffect eff = new PotionEffect(HbmPotion.slippery.id, duration, 0, true);
+							((EntityLivingBase)e).addPotionEffect(eff);
+							
+							if(e instanceof EntitySquid) {
+								double ex = e.posX;
+								double ey = e.posY;
+								double ez = e.posZ;
+								
+								e.worldObj.createExplosion(bullet, ex, ey, ez, 2, e.addedToChunk);
+								
+							}
+						}
+					}
+				}
+			}
+			
+		};
+
+		return impact;
+	}
+	
+	public static IBulletImpactBehaviorNT getGasEffect(final int radius, final int duration) {
+		
+		IBulletImpactBehaviorNT impact = new IBulletImpactBehaviorNT() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				
 				List<Entity> hit = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet, AxisAlignedBB.getBoundingBox(bullet.posX - radius, bullet.posY - radius, bullet.posZ - radius, bullet.posX + radius, bullet.posY + radius, bullet.posZ + radius));
 				
@@ -401,20 +485,20 @@ public class BulletConfigFactory {
 		return impact;
 	}
 	
-	public static IBulletUpdateBehavior getLaserSteering() {
+	public static IBulletUpdateBehaviorNT getLaserSteering() {
 		
-		IBulletUpdateBehavior onUpdate = new IBulletUpdateBehavior() {
+		IBulletUpdateBehaviorNT onUpdate = new IBulletUpdateBehaviorNT() {
 
 			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
+			public void behaveUpdate(EntityBulletBaseNT bullet) {
 				
-				if(bullet.shooter == null || !(bullet.shooter instanceof EntityPlayer))
+				if(bullet.getThrower() == null || !(bullet.getThrower() instanceof EntityPlayer))
 					return;
 				
-				if(Vec3.createVectorHelper(bullet.posX - bullet.shooter.posX, bullet.posY - bullet.shooter.posY, bullet.posZ - bullet.shooter.posZ).lengthVector() > 100)
+				if(Vec3.createVectorHelper(bullet.posX - bullet.getThrower().posX, bullet.posY - bullet.getThrower().posY, bullet.posZ - bullet.getThrower().posZ).lengthVector() > 100)
 					return;
 				
-				MovingObjectPosition mop = Library.rayTrace((EntityPlayer)bullet.shooter, 200, 1);
+				MovingObjectPosition mop = Library.rayTrace((EntityPlayer)bullet.getThrower(), 200, 1);
 				
 				if(mop == null || mop.hitVec == null)
 					return;
@@ -438,12 +522,12 @@ public class BulletConfigFactory {
 		return onUpdate;
 	}
 	
-	public static IBulletUpdateBehavior getHomingBehavior(final double range, final double angle) {
-		
-		IBulletUpdateBehavior onUpdate = new IBulletUpdateBehavior() {
+	public static IBulletUpdateBehaviorNT getHomingBehavior(final double range, final double angle) {
+
+		IBulletUpdateBehaviorNT onUpdate = new IBulletUpdateBehaviorNT() {
 
 			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
+			public void behaveUpdate(EntityBulletBaseNT bullet) {
 				
 				if(bullet.worldObj.isRemote)
 					return;
@@ -458,7 +542,6 @@ public class BulletConfigFactory {
 					
 					Vec3 delta = Vec3.createVectorHelper(target.posX - bullet.posX, target.posY + target.height / 2 - bullet.posY, target.posZ - bullet.posZ);
 					delta = delta.normalize();
-					
 					double vel = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ).lengthVector();
 
 					bullet.motionX = delta.xCoord * vel;
@@ -467,7 +550,7 @@ public class BulletConfigFactory {
 				}
 			}
 			
-			private void chooseTarget(EntityBulletBase bullet) {
+			private void chooseTarget(EntityBulletBaseNT bullet) {
 				
 				List<EntityLivingBase> entities = bullet.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bullet.boundingBox.expand(range, range, range));
 				
@@ -478,7 +561,7 @@ public class BulletConfigFactory {
 				
 				for(EntityLivingBase e : entities) {
 					
-					if(!e.isEntityAlive() || e == bullet.shooter)
+					if(!e.isEntityAlive() || e == bullet.getThrower())
 						continue;
 					
 					Vec3 delta = Vec3.createVectorHelper(e.posX - bullet.posX, e.posY + e.height / 2 - bullet.posY, e.posZ - bullet.posZ);
@@ -493,6 +576,10 @@ public class BulletConfigFactory {
 						double deltaAngle = BobMathUtil.getCrossAngle(mot, delta);
 					
 						if(deltaAngle < targetAngle) {
+							//Checks if the bullet is not already inside the entity's bounding box, so it doesn't pick the same target
+							if(bullet.getConfig().doesPenetrate && bullet.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bullet.boundingBox.expand(2, 2, 2)) == null) {
+								continue;
+							}
 							target = e;
 							targetAngle = deltaAngle;
 						}
@@ -507,4 +594,9 @@ public class BulletConfigFactory {
 		
 		return onUpdate;
 	}
+	/** Resets the bullet's target **/
+	public static IBulletHurtBehaviorNT getPenHomingBehavior(){
+		return (bullet, hit) -> bullet.getEntityData().setInteger("homingTarget", 0);
+	}
+
 }

@@ -2,14 +2,13 @@ package com.hbm.handler;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
-import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.IItemAbility;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
-import com.hbm.util.WeightedRandomObject;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
@@ -27,6 +26,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -35,7 +35,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.WeightedRandom;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public abstract class WeaponAbility {
@@ -86,6 +87,7 @@ public abstract class WeaponAbility {
 				EntityLivingBase living = (EntityLivingBase) victim;
 				
 				living.setHealth(living.getHealth() - amount);
+				if(living.getHealth() <= 0) living.onDeath(DamageSource.magic);
 				player.heal(amount);
 			}
 		}
@@ -129,6 +131,49 @@ public abstract class WeaponAbility {
 		@Override
 		public String getFullName() {
 			return I18n.format(getName()) + " (" + duration + ")";
+		}
+	}
+	public static class BlendAbility extends WeaponAbility {
+		
+		int divider;
+		
+		public BlendAbility(int divider) {
+			this.divider = divider;
+		}
+
+		@Override
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
+			
+			if(victim instanceof EntityLivingBase) {
+				
+				EntityLivingBase living = (EntityLivingBase) victim;
+				
+				
+				if(living.getHealth() <= 0.0F) {
+					int count = Math.min((int)Math.ceil(living.getMaxHealth() / divider), 250); //safeguard to prevent funnies from bosses with obscene health
+					world.playSoundEffect(living.posX, living.posY + living.height * 0.5, living.posZ, "mob.zombie.woodbreak", 0.5F, 1.0F);
+					victim.attackEntityFrom(ModDamageSource.turbofan, 100);
+						NBTTagCompound data = new NBTTagCompound();
+						data.setString("type", "giblets");
+						data.setInteger("count", count * 4);
+						data.setInteger("ent", victim.getEntityId());
+						data.setInteger("cDiv", 5);
+						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, victim.posX, victim.posY + victim.height * 0.5, victim.posZ), new TargetPoint(victim.dimension, victim.posX, victim.posY + victim.height * 0.5, victim.posZ, 150));
+						living.entityDropItem(new ItemStack(ModItems.flesh, 10, 0), 0.0F);
+			    }
+			}
+		}
+	
+
+				
+		@Override
+		public String getName() {
+			return "weapon.ability.blender";
+		}
+
+		@Override
+		public String getFullName() {
+			return I18n.format(getName()) + " (1:" + divider + ")";
 		}
 	}
 	
@@ -206,28 +251,10 @@ public abstract class WeaponAbility {
 				
 				if(living.getHealth() <= 0.0F) {
 					
-					WeightedRandomObject[] ammo = new WeightedRandomObject[] {
-							new WeightedRandomObject(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.STOCK), 10),
-							new WeightedRandomObject(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.SHRAPNEL), 5),
-							new WeightedRandomObject(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.STOCK), 10),
-							new WeightedRandomObject(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.FLECHETTE), 5),
-							new WeightedRandomObject(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.SLUG), 5),
-							new WeightedRandomObject(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.STOCK), 10),
-							new WeightedRandomObject(ModItems.ammo_5mm.stackFromEnum(Ammo5mm.STOCK), 10),
-							new WeightedRandomObject(ModItems.ammo_556.stackFromEnum(Ammo556mm.STOCK), 10),
-							new WeightedRandomObject(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE), 10),
-							new WeightedRandomObject(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.STOCK), 3),
-							new WeightedRandomObject(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.STOCK), 3),
-							new WeightedRandomObject(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.STOCK), 1),
-							new WeightedRandomObject(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.GLARE), 1),
-							new WeightedRandomObject(new ItemStack(ModItems.syringe_metal_stimpak), 20),
-					};
-					
 					int count = Math.min((int)Math.ceil(living.getMaxHealth() / divider), 250); //safeguard to prevent funnies from bosses with obscene health
 					
 					for(int i = 0; i < count; i++) {
-						
-						living.entityDropItem(((WeightedRandomObject)WeightedRandom.getRandomItem(living.getRNG(), ammo)).asStack(), 1);
+						living.entityDropItem(new ItemStack(ModItems.nitra_small), 1);
 						world.spawnEntityInWorld(new EntityXPOrb(world, living.posX, living.posY, living.posZ, 1));
 					}
 					
@@ -298,6 +325,7 @@ public abstract class WeaponAbility {
 				}
 			}
 		}
+		
 
 		@Override
 		public String getName() {
@@ -310,6 +338,8 @@ public abstract class WeaponAbility {
 		}
 	}
 	
+
+
 	public static class BobbleAbility extends WeaponAbility {
 
 		@Override
@@ -341,3 +371,4 @@ public abstract class WeaponAbility {
 		}
 	}
 }
+

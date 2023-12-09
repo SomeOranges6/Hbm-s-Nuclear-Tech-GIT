@@ -98,7 +98,6 @@ public class BlockBedrockOreTE extends BlockContainer implements ILookOverlay, I
 		return Blocks.bedrock.getIcon(0, 0);
 	}
 
-	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
 
@@ -145,7 +144,7 @@ public class BlockBedrockOreTE extends BlockContainer implements ILookOverlay, I
 		text.add("Tier: " + ore.tier);
 		
 		if(ore.acidRequirement != null) {
-			text.add("Requires: " + ore.acidRequirement.fill + "mB " + I18nUtil.resolveKey(ore.acidRequirement.type.getUnlocalizedName()));
+			text.add("Requires: " + ore.acidRequirement.fill + "mB " + ore.acidRequirement.type.getLocalizedName());
 		}
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);

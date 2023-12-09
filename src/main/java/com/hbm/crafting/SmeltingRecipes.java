@@ -32,6 +32,8 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_nether_plutonium), new ItemStack(ModItems.ingot_plutonium), 24.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_titanium), new ItemStack(ModItems.ingot_titanium), 3.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_copper), new ItemStack(ModItems.ingot_copper), 2.5F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_nickel), new ItemStack(ModItems.ingot_nickel), 2.5F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_zinc), new ItemStack(ModItems.ingot_zinc), 2.5F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_tungsten), new ItemStack(ModItems.ingot_tungsten), 6.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_nether_tungsten), new ItemStack(ModItems.ingot_tungsten), 12.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_aluminium), new ItemStack(ModItems.ingot_aluminium), 2.5F);
@@ -42,6 +44,11 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_uranium), new ItemStack(ModItems.ingot_uranium, 2), 12.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_thorium), new ItemStack(ModItems.ingot_th232, 2), 6.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_titanium), new ItemStack(ModItems.ingot_titanium, 3), 6.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.moon_nickel), new ItemStack(ModItems.ingot_nickel, 2), 6.0F );
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.moon_titanium), new ItemStack(ModItems.ingot_titanium, 2), 6.0F );
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.moon_aluminium), new ItemStack(ModItems.ingot_aluminium, 2), 6.0F );
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.moon_lithium), new ItemStack(ModItems.lithium, 1), 6.0F );
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_iron), new ItemStack(Items.iron_ingot, 3), 6.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_copper), new ItemStack(ModItems.ingot_copper, 3), 5.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_tungsten), new ItemStack(ModItems.ingot_tungsten, 3), 12.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_aluminium), new ItemStack(ModItems.ingot_aluminium, 3), 5.0F);
@@ -50,6 +57,13 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_starmetal), new ItemStack(ModItems.ingot_starmetal), 50.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_cobalt), new ItemStack(ModItems.ingot_cobalt), 2.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_nether_cobalt), new ItemStack(ModItems.ingot_cobalt), 2.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.duna_iron), new ItemStack(Items.iron_ingot, 2), 20.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.duna_zinc), new ItemStack(ModItems.ingot_zinc, 2), 20.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ike_asbestos), new ItemStack(ModItems.ingot_asbestos, 1), 20.0F); //we
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ike_iron), new ItemStack(Items.iron_ingot, 3), 20.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ike_copper), new ItemStack(ModItems.ingot_copper, 3), 20.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.moon_palladium), new ItemStack(ModItems.ingot_palladium, 1), 20.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.moon_copper), new ItemStack(ModItems.ingot_copper, 3), 20.0F);
 
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_gneiss_iron), new ItemStack(Items.iron_ingot), 5.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_gneiss_gold), new ItemStack(Items.gold_ingot), 5.0F);
@@ -75,6 +89,10 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(ModItems.powder_aluminium, new ItemStack(ModItems.ingot_aluminium), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_beryllium, new ItemStack(ModItems.ingot_beryllium), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_copper, new ItemStack(ModItems.ingot_copper), 1.0F);
+		GameRegistry.addSmelting(ModItems.powder_nickel, new ItemStack(ModItems.ingot_nickel), 1.0F);
+		GameRegistry.addSmelting(ModItems.powder_zinc, new ItemStack(ModItems.ingot_zinc), 1.0F);
+		GameRegistry.addSmelting(ModItems.powder_platnium, new ItemStack(ModItems.ingot_platnium), 1.0F);
+		GameRegistry.addSmelting(ModItems.powder_gallium, new ItemStack(ModItems.ingot_gallium), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_gold, new ItemStack(Items.gold_ingot), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_iron, new ItemStack(Items.iron_ingot), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_titanium, new ItemStack(ModItems.ingot_titanium), 1.0F);
@@ -108,11 +126,15 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(ModItems.powder_bismuth, new ItemStack(ModItems.ingot_bismuth), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_calcium, new ItemStack(ModItems.ingot_calcium), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_cadmium, new ItemStack(ModItems.ingot_cadmium), 1.0F);
+		
+		GameRegistry.addSmelting(ModItems.bean_raw, new ItemStack(ModItems.bean_roast), 1.0F);
+		GameRegistry.addSmelting(ModItems.ball_resin, new ItemStack(ModItems.ingot_biorubber), 0.1F);
 
 		GameRegistry.addSmelting(ModItems.combine_scrap, new ItemStack(ModItems.ingot_combine_steel), 1.0F);
 		GameRegistry.addSmelting(ModItems.rag_damp, new ItemStack(ModItems.rag), 0.1F);
 		GameRegistry.addSmelting(ModItems.rag_piss, new ItemStack(ModItems.rag), 0.1F);
 		GameRegistry.addSmelting(DictFrame.fromOne(ModBlocks.plant_flower, EnumFlowerType.TOBACCO), DictFrame.fromOne(ModItems.plant_item, EnumPlantType.TOBACCO), 0.1F);
+		GameRegistry.addSmelting(ModItems.flesh_wafer, new ItemStack(ModItems.grilled_flesh), 1.0F);
 		GameRegistry.addSmelting(ModItems.ball_fireclay, new ItemStack(ModItems.ingot_firebrick), 0.1F);
 		
 		//GameRegistry.addSmelting(Items.bone, new ItemStack(Items.slime_ball, 3), 0.0F);
@@ -183,7 +205,7 @@ public class SmeltingRecipes {
 		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
 			int i = ore.ordinal();
-			GameRegistry.addSmelting(new ItemStack(ModBlocks.ore_bedrock, 1, i), new ItemStack(Blocks.cobblestone, 16), 0.1F);
+			GameRegistry.addSmelting(new ItemStack(ModItems.ore_bedrock, 1, i), new ItemStack(Blocks.cobblestone, 16), 0.1F);
 		}
 		
 		for(int i = 0; i < 10; i++)

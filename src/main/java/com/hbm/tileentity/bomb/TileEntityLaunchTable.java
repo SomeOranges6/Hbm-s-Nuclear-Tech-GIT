@@ -2,6 +2,8 @@ package com.hbm.tileentity.bomb;
 
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.handler.MissileStruct;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -11,6 +13,8 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineLaunchTable;
+import com.hbm.items.ItemVOTVdrive;
+import com.hbm.items.ItemVOTVdrive.DestinationType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomMissile;
 import com.hbm.items.weapon.ItemMissile;
@@ -28,24 +32,32 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.item.IDesignatorItem;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider, SimpleComponent {
 
-	private ItemStack slots[];
+	public ItemStack slots[];
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -223,8 +235,9 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 					boolean dir = worldObj.rand.nextBoolean();
 					float moX = (float) (dir ? 0 : worldObj.rand.nextGaussian() * 0.65F);
 					float moZ = (float) (!dir ? 0 : worldObj.rand.nextGaussian() * 0.65F);
-					
+					if (slots[1] != null && !(slots[1].getItem() instanceof ItemVOTVdrive)) {
 					MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] {moX, 0, moZ});
+					}
 				}
 			}
 		}
@@ -257,14 +270,21 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	
 	public void launch() {
 
-		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
+		//worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
+
 
 		int tX = slots[1].stackTagCompound.getInteger("xCoord");
 		int tZ = slots[1].stackTagCompound.getInteger("zCoord");
-		
+			
 		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX, tZ, getStruct(slots[0]));
 		worldObj.spawnEntityInWorld(missile);
+		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
+
 		
+		if(slots[1].stackTagCompound.getBoolean("Processed")) {
+			missile.setPayload(slots[1]);
+		}
+
 		subtractFuel();
 		
 		slots[0] = null;
@@ -303,6 +323,9 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				tanks[0].setFill(tanks[0].getFill() - fuel);
 				tanks[1].setFill(tanks[1].getFill() - fuel);
 				break;
+			case HYDRAZINE:
+				tanks[0].setFill(tanks[0].getFill() - fuel);
+				break;
 			case SOLID:
 				this.solid -= fuel; break;
 			default: break;
@@ -332,6 +355,11 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		
 		if(slots[1] != null && slots[1].getItem() instanceof IDesignatorItem && ((IDesignatorItem)slots[1].getItem()).isReady(worldObj, slots[1], xCoord, yCoord, zCoord)) {
 			return true;
+		}
+		else {
+			if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive && slots[1].getItemDamage() != DestinationType.BLANK.ordinal() && slots[1].stackTagCompound.getBoolean("Processed") == true) {
+				return true;
+			}
 		}
 		
 		return false;
@@ -371,6 +399,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 			case HYDROGEN:
 			case XENON:
 			case BALEFIRE:
+			case HYDRAZINE:
 				
 				if(tanks[0].getFill() >= (Float)fuselage.attributes[1])
 					return 1;
@@ -430,6 +459,9 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 			case BALEFIRE:
 				tanks[0].setTankType(Fluids.BALEFIRE);
 				tanks[1].setTankType(Fluids.ACID);
+				break;
+			case HYDRAZINE:
+				tanks[0].setTankType(Fluids.HYDRAZINE);
 				break;
 			default: break;
 		}
@@ -595,6 +627,74 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return tanks;
+	}
+
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "large_launch_pad";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getContents(Context context, Arguments args) {
+		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[0].getTankType().getName(), tanks[1].getFill(), tanks[1].getMaxFill(), tanks[1].getTankType().getName(), solid, maxSolid};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getLaunchInfo(Context context, Arguments args) {
+		return new Object[] {canLaunch(), isMissileValid(), hasDesignator(), hasFuel()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCoords(Context context, Arguments args) {
+		if (slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
+			int xCoord2;
+			int zCoord2;
+			if (slots[1].stackTagCompound != null) {
+				xCoord2 = slots[1].stackTagCompound.getInteger("xCoord");
+				zCoord2 = slots[1].stackTagCompound.getInteger("zCoord");
+			} else
+				return new Object[] {false};
+
+			// Not sure if i should have this
+			/*
+			if(xCoord2 == xCoord && zCoord2 == zCoord) {
+				xCoord2 += 1;
+			}
+			*/
+
+			return new Object[] {xCoord2, zCoord2};
+		}
+		return new Object[] {false, "Designator not found"};
+	}
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setCoords(Context context, Arguments args) {
+		if (slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
+			slots[1].stackTagCompound = new NBTTagCompound();
+			slots[1].stackTagCompound.setInteger("xCoord", args.checkInteger(0));
+			slots[1].stackTagCompound.setInteger("zCoord", args.checkInteger(1));
+
+			return new Object[] {true};
+		}
+		return new Object[] {false, "Designator not found"};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] launch(Context context, Arguments args) {
+		//worldObj.getBlock(xCoord, yCoord, zCoord).explode(worldObj, xCoord, yCoord, zCoord);
+		((LaunchPad) ModBlocks.launch_pad).explode(worldObj, xCoord, yCoord, zCoord);
+		return new Object[] {};
 	}
 
 	@Override

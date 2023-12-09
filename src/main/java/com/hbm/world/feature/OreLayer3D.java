@@ -2,6 +2,8 @@ package com.hbm.world.feature;
 
 import java.util.Random;
 
+import com.hbm.world.generator.DungeonToolbox;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -60,6 +62,11 @@ public class OreLayer3D {
 		if(this.noiseX == null) this.noiseX = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 101), 4);
 		if(this.noiseY == null) this.noiseY = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 102), 4);
 		if(this.noiseZ == null) this.noiseZ = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 103), 4);
+
+		//World world = event.world;
+		
+		if(world.provider.dimensionId != 0 && world.provider.dimensionId != 15)//& world.provider.dimensionId != 15
+			return;
 		
 		int cX = event.chunkX;
 		int cZ = event.chunkZ;
@@ -74,7 +81,7 @@ public class OreLayer3D {
 					if(nX * nY * nZ > threshold) {
 						Block target = world.getBlock(x, y, z);
 						
-						if(target.isNormalCube() && target.getMaterial() == Material.rock) {
+						if(target.isNormalCube() && target.getMaterial() == Material.rock && DungeonToolbox.allowedToReplace(target)) {
 							world.setBlock(x, y, z, block, meta, 2);
 						}
 					}

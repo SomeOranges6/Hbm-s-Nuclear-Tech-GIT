@@ -86,7 +86,8 @@ public class ItemMissile extends Item {
 		SCHRAB,
 		TAINT,
 		CLOUD,
-		TURBINE
+		TURBINE,
+		APOLLO 
 	}
 	
 	public enum FuelType {
@@ -95,7 +96,8 @@ public class ItemMissile extends Item {
 		SOLID,
 		HYDROGEN,
 		XENON,
-		BALEFIRE
+		BALEFIRE, 
+		HYDRAZINE
 	}
 	
 	public enum Rarity {
@@ -289,6 +291,8 @@ public class ItemMissile extends Item {
 			return EnumChatFormatting.DARK_PURPLE + "Xenon Gas";
 		case BALEFIRE:
 			return EnumChatFormatting.GREEN + "BF Rocket Fuel / Peroxide";
+		case HYDRAZINE:
+			return EnumChatFormatting.BLUE + "Hydrazine";
 		default:
 			return EnumChatFormatting.BOLD + "N/A";
 		}

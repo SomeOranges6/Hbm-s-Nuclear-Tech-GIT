@@ -38,6 +38,8 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	protected static int gasPerBedrockDepositMin = 10;
 	protected static int gasPerBedrockDepositMax = 50;
 	protected static int destructionRange = 75;
+	protected static int oilPerDunaDepsoit = 300;
+	protected static double DunadrainChance = 0.05D; //Duna should yield less oil due to it being mostly a meme and also a dead planet
 
 	public TileEntityMachineFrackingTower() {
 		super();
@@ -111,6 +113,14 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 			
 			if(worldObj.rand.nextDouble() < drainChance) {
 				worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty);
+			}
+		}
+		if(b == ModBlocks.duna_oil) {
+			oil = oilPerDunaDepsoit;
+			//gas = gasPerDepositMin + worldObj.rand.nextInt(gasPerDepositMax - gasPerDepositMin + 1);
+			//no gas because again, duna.
+			if(worldObj.rand.nextDouble() < DunadrainChance) {
+				worldObj.setBlock(x, y, z, ModBlocks.duna_oil_empty);
 			}
 		}
 		if(b == ModBlocks.ore_bedrock_oil) {

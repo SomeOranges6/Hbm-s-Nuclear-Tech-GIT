@@ -24,6 +24,7 @@ public abstract class FluidTrait {
 		traitNameMap.put("poison", FT_Poison.class);				// x
 		traitNameMap.put("toxin", FT_Toxin.class);					// x
 		traitNameMap.put("ventradiation", FT_VentRadiation.class);	// x
+		traitNameMap.put("pwrmoderator", FT_PWRModerator.class);	// x
 
 		traitNameMap.put("gaseous", FT_Gaseous.class);
 		traitNameMap.put("gaseous_art", FT_Gaseous_ART.class);
@@ -36,6 +37,9 @@ public abstract class FluidTrait {
 		traitNameMap.put("leaded", FT_Leaded.class);
 		traitNameMap.put("noid", FT_NoID.class);
 		traitNameMap.put("nocontainer", FT_NoContainer.class);
+		traitNameMap.put("explosive", FT_EXPLOSIVE.class);	// x
+		traitNameMap.put("uk", FT_ULTRAKILL.class);	// x
+
 	}
 
 	/** Important information that should always be displayed */

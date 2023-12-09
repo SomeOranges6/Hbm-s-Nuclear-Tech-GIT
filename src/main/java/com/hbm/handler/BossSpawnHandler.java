@@ -9,6 +9,8 @@ import com.hbm.config.WorldConfig;
 import com.hbm.entity.mob.EntityFBI;
 import com.hbm.entity.mob.EntityFBIDrone;
 import com.hbm.entity.mob.EntityGhost;
+import com.hbm.particle.ParticleRadiationFog;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.entity.mob.EntityMaskMan;
 import com.hbm.entity.mob.EntityRADBeast;
 import com.hbm.entity.projectile.EntityMeteor;
@@ -18,6 +20,9 @@ import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.relauncher.Side;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -39,13 +44,15 @@ public class BossSpawnHandler {
 	
 	public static void rollTheDice(World world) {
 		
+		TomSaveData data = TomSaveData.forWorld(world);
+		
 		/*
 		 * Spawns every 3 hours with a 33% chance if
 		 * - the player is 3 blocks below the surface
 		 * - the player has at least 50 RAD
 		 * - the player has either crafted or placed an ore acidizer before
 		 */
-		if(MobConfig.enableMaskman) {
+		if(MobConfig.enableMaskman && !data.impact) {
 			
 			if(world.getTotalWorldTime() % MobConfig.maskmanDelay == 0) {
 				
@@ -76,7 +83,7 @@ public class BossSpawnHandler {
 			}
 		}
 		
-		if(MobConfig.enableRaids) {
+		if(MobConfig.enableRaids && !data.impact) {
 			
 			if(world.getTotalWorldTime() % MobConfig.raidDelay == 0) {
 				
@@ -169,6 +176,9 @@ public class BossSpawnHandler {
 		}
 	}
 	
+
+	
+	
 	private static void trySpawn(World world, float x, float y, float z, EntityLiving e) {
 
 		e.setLocationAndAngles(x, y, z, world.rand.nextFloat() * 360.0F, 0.0F);
@@ -216,7 +226,7 @@ public class BossSpawnHandler {
 					}
 					
 					if(strike)
-						spawnMeteorAtPlayer(p, repell);
+						spawnMeteorAtPlayer(p, repell, false);
 				}
 			}
 		}
@@ -235,7 +245,7 @@ public class BossSpawnHandler {
 		}
 	}
 	
-	public static void spawnMeteorAtPlayer(EntityPlayer player, boolean repell) {
+	public static void spawnMeteorAtPlayer(EntityPlayer player, boolean repell, boolean osmiridic) {
 
 		EntityMeteor meteor = new EntityMeteor(player.worldObj);
 		meteor.setPositionAndRotation(player.posX + meteorRand.nextInt(201) - 100, 384, player.posZ + meteorRand.nextInt(201) - 100, 0, 0);
@@ -250,7 +260,10 @@ public class BossSpawnHandler {
 			vec = Vec3.createVectorHelper(meteorRand.nextDouble() - 0.5D, 0, 0);
 			vec.rotateAroundY((float) (Math.PI * meteorRand.nextDouble()));
 		}
-		
+		if(osmiridic)
+		{
+			meteor.osmiridium = true;
+		}
 		meteor.motionX = vec.xCoord;
 		meteor.motionY = -2.5;
 		meteor.motionZ = vec.zCoord;

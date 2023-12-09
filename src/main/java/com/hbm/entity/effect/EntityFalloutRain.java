@@ -4,12 +4,12 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.FalloutConfigJSON.FalloutEntry;
+import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.saveddata.AuxSavedData;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
@@ -22,7 +22,7 @@ import java.util.*;
 
 public class EntityFalloutRain extends Entity {
 	private boolean firstTick = true; // Of course Vanilla has it private in Entity...
-
+	private boolean salted = false;
 	public EntityFalloutRain(World p_i1582_1_) {
 		super(p_i1582_1_);
 		this.setSize(4, 20);
@@ -142,14 +142,22 @@ public class EntityFalloutRain extends Entity {
 			if(b.getMaterial() == Material.air)
 				continue;
 
-			if(b != ModBlocks.fallout && (ab == Blocks.air || (ab.isReplaceable(worldObj, x, y + 1, z) && !ab.getMaterial().isLiquid()))) {
+			if((b != ModBlocks.fallout && b != ModBlocks.salted_fallout )&& (ab == Blocks.air || (ab.isReplaceable(worldObj, x, y + 1, z) && !ab.getMaterial().isLiquid()))) {
 
 				double d = dist / 100;
 
 				double chance = 0.1 - Math.pow((d - 0.7) * 1.0, 2);
-
-				if(chance >= rand.nextDouble() && ModBlocks.fallout.canPlaceBlockAt(worldObj, x, y + 1, z))
-					setBlock(x, y + 1, z, ModBlocks.fallout);
+				//double chance = 1-d;
+				if(this.salted)
+				{
+					if(chance >= rand.nextDouble() && ModBlocks.fallout.canPlaceBlockAt(worldObj, x, y + 1, z))
+						setBlock(x, y + 1, z, ModBlocks.salted_fallout);	
+				}
+				else
+				{
+					if(chance >= rand.nextDouble() && ModBlocks.fallout.canPlaceBlockAt(worldObj, x, y + 1, z))
+						setBlock(x, y + 1, z, ModBlocks.fallout);
+				}
 			}
 
 			if(dist < 65 && b.isFlammable(worldObj, x, y, z, ForgeDirection.UP)) {
@@ -178,7 +186,8 @@ public class EntityFalloutRain extends Entity {
 					for(int i = 0; i <= depth; i++) {
 						hardness = worldObj.getBlock(x, y + i, z).getBlockHardness(worldObj, x, y + i, z);
 						if(hardness <= Blocks.stonebrick.getExplosionResistance(null) && hardness >= 0) {
-							EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldObj, x + 0.5D, y + 0.5D + i, z + 0.5D, worldObj.getBlock(x, y + i, z), worldObj.getBlockMetadata(x, y + i, z));
+							EntityFallingBlockNT entityfallingblock = new EntityFallingBlockNT(worldObj, x + 0.5D, y + 0.5D + i, z + 0.5D, worldObj.getBlock(x, y + i, z), worldObj.getBlockMetadata(x, y + i, z));
+							entityfallingblock.canDrop = false; //turn off block drops because block dropping was coded by a mule with dementia
 							worldObj.spawnEntityInWorld(entityfallingblock);
 						}
 					}
@@ -207,6 +216,7 @@ public class EntityFalloutRain extends Entity {
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound tag) {
 		setScale(tag.getInteger("scale"));
+		this.salted = tag.getBoolean("salt");
 		chunksToProcess.addAll(readChunksFromIntArray(tag.getIntArray("chunks")));
 		outerChunksToProcess.addAll(readChunksFromIntArray(tag.getIntArray("outerChunks")));
 	}
@@ -226,6 +236,7 @@ public class EntityFalloutRain extends Entity {
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound tag) {
 		tag.setInteger("scale", getScale());
+		tag.setBoolean("salt", this.salted);
 		tag.setIntArray("chunks", writeChunksToIntArray(chunksToProcess));
 		tag.setIntArray("outerChunks", writeChunksToIntArray(outerChunksToProcess));
 	}
@@ -246,5 +257,13 @@ public class EntityFalloutRain extends Entity {
 	public int getScale() {
 		int scale = this.dataWatcher.getWatchableObjectInt(16);
 		return scale == 0 ? 1 : scale;
+	}
+	public void setSalted(boolean salt) {
+		this.salted = salt;
+	}
+
+	public boolean getSalted() {
+		boolean salt = this.salted;
+		return salt;
 	}
 }

@@ -14,6 +14,9 @@ public class WorldConfig {
 	public static int sulfurSpawn = 5;
 	public static int aluminiumSpawn = 7;
 	public static int copperSpawn = 12;
+	public static int nickelSpawn = 9;
+	public static int zincSpawn = 8;
+	public static int mineralSpawn = 5;
 	public static int fluoriteSpawn = 6;
 	public static int niterSpawn = 6;
 	public static int tungstenSpawn = 10;
@@ -26,14 +29,16 @@ public class WorldConfig {
 	public static int cinnebarSpawn = 1;
 	public static int oilcoalSpawn = 128;
 	public static int gassshaleSpawn = 5;
-	public static int gasbubbleSpawn = 4;
-	public static int explosivebubbleSpawn = 8;
+	public static int gasbubbleSpawn = 12;
+	public static int explosivebubbleSpawn = 0;
 	public static int cobaltSpawn = 2;
 	public static int oilSpawn = 100;
 	public static int bedrockOilSpawn = 200;
 	public static int meteoriteSpawn = 500;
 
-	public static int bedrockIronSpawn = 100;
+	public static int dunaoilSpawn = 100;
+	
+	public static int bedrockIronSpawn = 200;
 	public static int bedrockCopperSpawn = 200;
 	public static int bedrockBoraxSpawn = 50;
 	public static int bedrockChlorocalciteSpawn = 35;
@@ -48,6 +53,11 @@ public class WorldConfig {
 	public static int bedrockNiterSpawn = 50;
 	public static int bedrockFluoriteSpawn = 50;
 	public static int bedrockRedstoneSpawn = 50;
+	public static int bedrockBismuthSpawn = 400;
+	public static int bedrockCadmiumSpawn = 300;
+	public static int bedrockGlowstoneSpawn = 100;
+	public static int bedrockPhosphorusSpawn = 50;
+	public static int bedrockQuartzSpawn = 100;
 
 	public static int ironClusterSpawn = 4;
 	public static int titaniumClusterSpawn = 2;
@@ -104,6 +114,7 @@ public class WorldConfig {
 	public static int meteorStrikeChance = 20 * 60 * 180;
 	public static int meteorShowerChance = 20 * 60 * 5;
 	public static int meteorShowerDuration = 6000;
+
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -130,14 +141,18 @@ public class WorldConfig {
 		rareSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.14_rareEarthSpawnRate", "Amount of rare earth ore veins per chunk", 6);
 		oilcoalSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.15_oilCoalSpawnRate", "Spawns an oily coal vein every nTH chunk", 128);
 		gassshaleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.16_gasShaleSpawnRate", "Amount of oil shale veins per chunk", 5);
-		gasbubbleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.17_gasBubbleSpawnRate", "Spawns a gas bubble every nTH chunk", 4);
+		gasbubbleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.17_gasBubbleSpawnRate", "Spawns a gas bubble every nTH chunk", 12);
 		cinnebarSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.18_cinnebarSpawnRate", "Amount of cinnebar ore veins per chunk", 1);
 		cobaltSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.18_cobaltSpawnRate", "Amount of cobalt ore veins per chunk", 2);
-		explosivebubbleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.19_explosiveBubbleSpawnRate", "Spawns an explosive gas bubble every nTH chunk", 8);
+		explosivebubbleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.19_explosiveBubbleSpawnRate", "Spawns an explosive gas bubble every nTH chunk", 0);
 		alexandriteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.20_alexandriteSpawnRate", "Spawns an alexandrite vein every nTH chunk", 100);
 		oilSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.21_oilSpawnRate", "Spawns an oil bubble every nTH chunk", 100);
 		bedrockOilSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.22_bedrockOilSpawnRate", "Spawns a bedrock oil node every nTH chunk", 200);
 		meteoriteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.23_meteoriteSpawnRate", "Spawns a fallen meteorite every nTH chunk", 200);
+		nickelSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.24_nickelSpawnrate", "Amount of nickel ore veins per chunk", 12);
+		zincSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.25_zincSpawnrate", "Amount of zinc ore veins per chunk", 8);
+		mineralSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.26_mineralSpawnrate", "Amount of mineral ore veins per chunk", 4);
+		dunaoilSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.27S_oilSpawnRate", "Spawns an oil bubble every nTH chunk (on duna)", 100);
 
 		bedrockIronSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B00_bedrockIronWeight", "Spawn weight for iron bedrock ore", 100);
 		bedrockCopperSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B01_bedrockCopperWeight", "Spawn weight for copper bedrock ore", 200);
@@ -153,7 +168,15 @@ public class WorldConfig {
 		bedrockNiterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B11_bedrockNiterWeight", "Spawn weight for niter bedrock ore", 50);
 		bedrockFluoriteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B12_bedrockFluoriteWeight", "Spawn weight for fluorite bedrock ore", 50);
 		bedrockRedstoneSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B13_bedrockRedstoneWeight", "Spawn weight for redstone bedrock ore", 50);
+		bedrockBismuthSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B08_bedrockBismuthSpawn", "Spawns a bedrock bismuth deposit every nTH chunk", 400);
+		bedrockCadmiumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B09_bedrockCadmiumSpawn", "Spawns a bedrock cadmium deposit every nTH chunk", 400);
+		// JESUS CHRIST....
 		bedrockChlorocalciteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B14_bedrockbChlorocalciteWeight", "Spawn weight for chlorocalcite bedrock ore", 35);
+		bedrockChlorocalciteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B14_bedrockChlorocalciteWeight", "Spawn weight for chlorocalcite bedrock ore", 35);
+
+		bedrockGlowstoneSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.BN00_bedrockGlowstoneWeight", "Spawn weight for glowstone bedrock ore", 100);
+		bedrockPhosphorusSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.BN01_bedrockPhosphorusWeight", "Spawn weight for phosphorus bedrock ore", 50);
+		bedrockQuartzSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.BN01_bedrockQuartzWeight", "Spawn weight for quartz bedrock ore", 100);
 
 		ironClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C00_ironClusterSpawn", "Amount of iron cluster veins per chunk", 4);
 		titaniumClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C01_titaniumClusterSpawn", "Amount of titanium cluster veins per chunk", 2);
@@ -211,6 +234,8 @@ public class WorldConfig {
 		meteorShowerChance = CommonConfig.createConfigInt(config, CATEGORY_METEOR, "5.04_meteorShowerChance", "The probability of a meteor spawning during meteor shower (an average of once every nTH ticks)", 20 * 60 * 15);
 		meteorShowerDuration = CommonConfig.createConfigInt(config, CATEGORY_METEOR, "5.05_meteorShowerDuration", "Max duration of meteor shower in ticks", 20 * 60 * 30);
 
+	
+		
 		radioStructure = CommonConfig.setDefZero(radioStructure, 1000);
 		antennaStructure = CommonConfig.setDefZero(antennaStructure, 1000);
 		atomStructure = CommonConfig.setDefZero(atomStructure, 1000);
@@ -234,6 +259,8 @@ public class WorldConfig {
 		jungleStructure = CommonConfig.setDefZero(jungleStructure, 1000);
 		capsuleStructure = CommonConfig.setDefZero(capsuleStructure, 100);
 		arcticStructure = CommonConfig.setDefZero(arcticStructure, 500);
+		
+
 		
 		meteorStrikeChance = CommonConfig.setDef(meteorStrikeChance, 1000);
 		meteorShowerChance = CommonConfig.setDef(meteorShowerChance, 1000);

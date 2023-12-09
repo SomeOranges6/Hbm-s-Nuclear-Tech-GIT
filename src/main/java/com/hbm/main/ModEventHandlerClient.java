@@ -1,7 +1,6 @@
 package com.hbm.main;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -12,12 +11,11 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.gas.BlockGasAir;
 import com.hbm.blocks.generic.BlockAshes;
-import com.hbm.blocks.rail.IRailNTM;
-import com.hbm.blocks.rail.IRailNTM.MoveContext;
-import com.hbm.blocks.rail.IRailNTM.RailCheckType;
-import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.SpaceConfig;
+import com.hbm.dim.eve.WorldProviderEve;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
@@ -29,7 +27,9 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.ImpactWorldHandler;
+import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
@@ -38,6 +38,7 @@ import com.hbm.inventory.gui.GUIArmorTable;
 import com.hbm.items.ISyncButtons;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
+import com.hbm.items.armor.ArmorFSBOxy;
 import com.hbm.items.armor.ArmorFSBPowered;
 import com.hbm.items.armor.ArmorNo9;
 import com.hbm.items.armor.ItemArmorMod;
@@ -49,6 +50,7 @@ import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.SyncButtonsPacket;
+import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.ct.CTStitchReceiver;
@@ -70,12 +72,14 @@ import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
-import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.PlanetaryTraitUtil;
+import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 import com.hbm.wiaj.GuiWorldInAJar;
 import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.FogMessage;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
@@ -86,10 +90,12 @@ import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
@@ -97,6 +103,7 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -111,11 +118,14 @@ import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0CPacketInput;
 import net.minecraft.potion.Potion;
@@ -130,6 +140,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderSurface;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.IRenderHandler;
+import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
+import net.minecraftforge.client.event.EntityViewRenderEvent.RenderFogEvent;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.MouseEvent;
@@ -147,10 +159,38 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public class ModEventHandlerClient {
 	
+	public static final int flashDuration = 5_000;
+	public static long flashTimestamp;
+	
 	@SubscribeEvent
 	public void onOverlayRender(RenderGameOverlayEvent.Pre event) {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		
+		/// NUKE FLASH ///
+		if(event.type == ElementType.CROSSHAIRS && (flashTimestamp + flashDuration - System.currentTimeMillis()) > 0) {
+			int width = event.resolution.getScaledWidth();
+			int height = event.resolution.getScaledHeight();
+			Tessellator tess = Tessellator.instance;
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+			GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.0F);
+			GL11.glDepthMask(false);
+			tess.startDrawingQuads();
+			float brightness = (flashTimestamp + flashDuration - System.currentTimeMillis()) / (float) flashDuration;
+			tess.setColorRGBA_F(1F, 1F, 1F, brightness * 0.8F);
+			tess.addVertex(width, 0, 0);
+			tess.addVertex(0, 0, 0);
+			tess.addVertex(0, height, 0);
+			tess.addVertex(width, height, 0);
+			tess.draw();
+			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+			GL11.glDepthMask(true);
+			return;
+		}
 		
 		/// HANDLE GUN OVERLAYS ///
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemHUD) {
@@ -170,6 +210,7 @@ public class ModEventHandlerClient {
 				}
 			}
 		}
+
 
 		/// DODD DIAG HOOK FOR RBMK
 		if(event.type == ElementType.CROSSHAIRS) {
@@ -194,18 +235,6 @@ public class ModEventHandlerClient {
 						((ILookOverlay) entity).printHook(event, world, 0, 0, 0);
 					}
 				}
-			}
-			
-			List<EntityNukeTorex> torex = world.getEntitiesWithinAABB(EntityNukeTorex.class, player.boundingBox.expand(100, 100, 100));
-			
-			if(!torex.isEmpty()) {
-				EntityNukeTorex t = torex.get(0);
-				List<String> text = new ArrayList();
-				text.add("Speed: " + t.getSimulationSpeed());
-				text.add("Alpha: " + t.getAlpha());
-				text.add("Age: " + t.ticksExisted + " / " + t.getMaxAge());
-				text.add("Clouds: " + t.cloudlets.size());
-				ILookOverlay.printGeneric(event, "DEBUG", 0xff0000, 0x4040000, text);
 			}
 			
 			/*List<String> text = new ArrayList();
@@ -324,6 +353,10 @@ public class ModEventHandlerClient {
 			}
 		}
 		
+		/// HANDLE FLASHBANG OVERLAY///
+		if(player.isPotionActive(HbmPotion.flashbang)) {		
+			RenderScreenOverlay.renderFlashbangOverlay(event.resolution);
+		}
 		/// HANDLE FSB HUD ///
 		ItemStack helmet = player.inventory.armorInventory[3];
 		
@@ -335,9 +368,19 @@ public class ModEventHandlerClient {
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
 			if(props.getDashCount() > 0) {
 				RenderScreenOverlay.renderDashBar(event.resolution, Minecraft.getMinecraft().ingameGUI, props);
-					
+
 			}
 		}
+	}
+	@SubscribeEvent
+	public void onPlayerChangeDimension(PlayerChangedDimensionEvent event) {
+	    if(event.toDim == SpaceConfig.mohoDimension) {
+	        NBTTagCompound data = new NBTTagCompound();
+	        data.setFloat("r", 0.5f);
+	        data.setFloat("g", 0.6f);
+	        data.setFloat("b", 0.7f);
+	        MainRegistry.network.sendTo(new FogMessage(data), (EntityPlayerMP) event.player);
+	    }
 	}
 	
 	@SubscribeEvent
@@ -353,8 +396,18 @@ public class ModEventHandlerClient {
 			if(props.maxShield > 0) {
 				RenderScreenOverlay.renderShieldBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
 			}
+			if(player.isPotionActive(HbmPotion.nitan)) {
+				RenderScreenOverlay.renderTaintBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
+			}
 		}
-		
+        if (!event.isCanceled() && event.type == event.type.ALL)
+        {
+        	long time = ImpactWorldHandler.getTimeForClient(player.worldObj);
+        	if(time>0)
+        	{
+        		RenderScreenOverlay.renderCountdown(event.resolution, Minecraft.getMinecraft().ingameGUI, Minecraft.getMinecraft().theWorld);	
+        	}        	
+        }
 		if(!event.isCanceled() && event.type == event.type.ARMOR) {
 			
 			if(ForgeHooks.getTotalArmorValue(player) == 0/* && GuiIngameForge.left_height == 59*/) {
@@ -364,7 +417,33 @@ public class ModEventHandlerClient {
 			int width = event.resolution.getScaledWidth();
 			int height = event.resolution.getScaledHeight();
 			int left = width / 2 - 91;
+			if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSBOxy) {
+				
 
+				ItemStack stack = player.inventory.armorInventory[2];
+
+				float tot = (float) ((ArmorFSBOxy) stack.getItem()).getFill(stack) / (float) ((ArmorFSBOxy) stack.getItem()).getMaxFill(stack);
+				
+				int top = height - GuiIngameForge.left_height + 3;
+
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+				tess.startDrawingQuads();
+				tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
+				tess.addVertex(left - 0.5, top - 0.5, 0);
+				tess.addVertex(left - 0.5, top + 4.5, 0);
+				tess.addVertex(left + 81.5, top + 4.5, 0);
+				tess.addVertex(left + 81.5, top - 0.5, 0);
+
+				tess.setColorOpaque_F(1F - tot, tot, 0F);
+				tess.addVertex(left, top, 0);
+				tess.addVertex(left, top + 4, 0);
+				tess.addVertex(left + 81 * tot, top + 4, 0);
+				tess.addVertex(left + 81 * tot, top, 0);
+				tess.draw();
+
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+
+			}
 			if(ArmorFSB.hasFSBArmorIgnoreCharge(player)) {
 				ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
 				boolean noHelmet = chestplate.noHelmet;
@@ -428,7 +507,6 @@ public class ModEventHandlerClient {
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
 
 			}
-
 		}
 	}
 	
@@ -626,6 +704,8 @@ public class ModEventHandlerClient {
 				e.result = null;
 				return;
 			}
+
+
 		}
 		
 		ResourceLocation r = e.sound.getPositionedSoundLocation();
@@ -758,6 +838,27 @@ public class ModEventHandlerClient {
 			} else {
 				list.add(EnumChatFormatting.RED + "No Ore Dict data!");
 			}
+		}
+		
+		///NEUTRON ACTIVATION
+		float level = 0;
+		float rads = HazardSystem.getHazardLevelFromStack(stack, HazardRegistry.RADIATION);
+		if(HazardSystem.getHazardLevelFromStack(stack, HazardRegistry.RADIATION)==0)
+		{
+			if(stack.hasTagCompound() && stack.stackTagCompound.hasKey("ntmNeutron")) {
+				level += stack.stackTagCompound.getFloat("ntmNeutron");
+			}
+			
+			if(level < 1e-5)
+				return;
+			
+			list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey("trait.radioactive") + "]");
+			String rads2 = "" + (Math.floor(level* 1000) / 1000);
+			list.add(EnumChatFormatting.YELLOW + (rads2 + "RAD/s"));
+			
+			if(stack.stackSize > 1) {
+				list.add(EnumChatFormatting.YELLOW + "Stack: " + ((Math.floor(level * 1000 * stack.stackSize) / 1000) + "RAD/s"));
+			}	
 		}
 		
 		/// NUCLEAR FURNACE FUELS ///
@@ -944,6 +1045,25 @@ public class ModEventHandlerClient {
 				}
 			}
 		}
+		
+		if(event.phase == Phase.START) {
+			EntityPlayer player = mc.thePlayer;
+			
+			float discriminator = 0.003F;
+			float defaultStepSize = 0.5F;
+			int newStepSize = 0;
+			
+			if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSB) {
+				ArmorFSB plate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
+				if(plate.hasFSBArmor(player)) newStepSize = plate.stepSize;
+			}
+			
+			if(newStepSize > 0) {
+				player.stepHeight = newStepSize + discriminator;
+			} else {
+				for(int i = 1; i < 4; i++) if(player.stepHeight == i + discriminator) player.stepHeight = defaultStepSize;
+			}
+		}
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -959,16 +1079,13 @@ public class ModEventHandlerClient {
 			
 			if(world.provider instanceof WorldProviderSurface) {
 				
-				if(ImpactWorldHandler.getDustForClient(world) > 0 || ImpactWorldHandler.getFireForClient(world) > 0) {
+				/*if(ImpactWorldHandler.getDustForClient(world) > 0 || ImpactWorldHandler.getFireForClient(world) > 0) {
 
 					//using a chainloader isn't necessary since none of the sky effects should render anyway
-					if(!(sky instanceof RenderNTMSkyboxImpact)) {
+					if(!(sky instanceof RenderNTMSkyboxImpact)) {*/
 						world.provider.setSkyRenderer(new RenderNTMSkyboxImpact());
 						return;
 					}
-				}
-			}
-			
 			if(world.provider.dimensionId == 0) {
 				
 				if(!(sky instanceof RenderNTMSkyboxChainloader)) {
@@ -976,6 +1093,8 @@ public class ModEventHandlerClient {
 				}
 			}
 		}
+		
+		
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -1157,18 +1276,24 @@ public class ModEventHandlerClient {
 		}
 	}
 	
-	/*@SubscribeEvent
+	@SubscribeEvent
 	public void setupFog(RenderFogEvent event) {
-		event.setResult(Result.DENY);
+		if(event.entity.worldObj.provider instanceof WorldProviderEve)
+		{
+			event.setResult(Result.DENY);
+		}
 	}
 	
 	@SubscribeEvent
 	public void thickenFog(FogDensity event) {
-		event.density = 0.05F;
-		event.setCanceled(true);
+		if(event.entity.worldObj.provider instanceof WorldProviderEve)
+		{
+			event.density = 0.045F;
+			event.setCanceled(true);
+		}
 	}
 	
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public void tintFog(FogColors event) {
 		event.red = 0.5F;
 		event.green = 0.0F;
@@ -1177,6 +1302,10 @@ public class ModEventHandlerClient {
 
 	public static IIcon particleBase;
 	public static IIcon particleLeaf;
+	public static IIcon particleSwen;
+	public static IIcon particleLen;
+
+
 
 	@SubscribeEvent
 	public void onTextureStitch(TextureStitchEvent.Pre event) {
@@ -1184,6 +1313,9 @@ public class ModEventHandlerClient {
 		if(event.map.getTextureType() == 0) {
 			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
 			particleLeaf = event.map.registerIcon(RefStrings.MODID + ":particle/dead_leaf");
+			particleSwen = event.map.registerIcon(RefStrings.MODID + ":particle/particlenote2");
+			particleLen = event.map.registerIcon(RefStrings.MODID + ":particle/particlenote1");
+
 		}
 	}
 
@@ -1263,17 +1395,19 @@ public class ModEventHandlerClient {
 			case 0: main.splashText = "Floppenheimer!"; break;
 			case 1: main.splashText = "i should dip my balls in sulfuric acid"; break;
 			case 2: main.splashText = "All answers are popbob!"; break;
-			case 3: main.splashText = "None shall enter The Orb!"; break;
+			case 3: main.splashText = "None may enter The Orb!"; break;
 			case 4: main.splashText = "Wacarb was here"; break;
 			case 5: main.splashText = "SpongeBoy me Bob I am overdosing on keramine agagagagaga"; break;
-			case 6: main.splashText = "I know where you live, " + System.getProperty("user.name"); break;
+			case 6: main.splashText = EnumChatFormatting.RED + "I know where you live, " + System.getProperty("user.name"); break;
 			case 7: main.splashText = "Nice toes, now hand them over."; break;
 			case 8: main.splashText = "I smell burnt toast!"; break;
 			case 9: main.splashText = "There are bugs under your skin!"; break;
 			case 10: main.splashText = "Fentanyl!"; break;
 			case 11: main.splashText = "Do drugs!"; break;
-			case 12: main.splashText = "post this on r/feedthememes for free internet points!"; break;
+			case 12: main.splashText = "Imagine being scared by splash texts!"; break;
 			}
+			
+			if(Math.random() < 0.1) main.splashText = "Redditors aren't people!";
 		}
 	}
 }

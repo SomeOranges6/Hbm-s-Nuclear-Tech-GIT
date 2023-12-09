@@ -51,6 +51,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		addRecipe(IRON.ore(),	ANY_COKE,									new ItemStack(ModItems.ingot_steel, 3));
 		addRecipe(IRON.ore(),	new ComparableStack(ModItems.powder_flux),	new ItemStack(ModItems.ingot_steel, 3));
 		
+		addRecipe(NI,			STEEL,										new ItemStack(ModItems.ingot_stainless, 2));
 		addRecipe(CU,									REDSTONE,										new ItemStack(ModItems.ingot_red_copper, 2));
 		addRecipe(STEEL,								MINGRADE,										new ItemStack(ModItems.ingot_advanced_alloy, 2));
 		addRecipe(W,									COAL,											new ItemStack(ModItems.neutron_reflector, 2));
@@ -63,7 +64,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		addRecipe(CO,									ModBlocks.block_meteor,							new ItemStack(ModItems.ingot_meteorite));
 		addRecipe(ModItems.meteorite_sword_hardened,	CO,												new ItemStack(ModItems.meteorite_sword_alloyed));
 		addRecipe(ModBlocks.block_meteor,				CO,												new ItemStack(ModItems.ingot_meteorite));
-		
+
 		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) {
 			addRecipe(ModItems.canister_empty, COAL, new ItemStack(ModItems.canister_full, 1, Fluids.OIL.getID()));
 		}

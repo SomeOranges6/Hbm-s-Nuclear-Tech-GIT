@@ -42,6 +42,7 @@ public class FT_Heatable extends FluidTrait {
 
 	@Override
 	public void addInfoHidden(List<String> info) {
+		info.add(EnumChatFormatting.AQUA + "Thermal capacity: " + this.getFirstStep().heatReq + " TU");
 		for(HeatingType type : HeatingType.values()) {
 			
 			double eff = getEfficiency(type);
@@ -69,7 +70,8 @@ public class FT_Heatable extends FluidTrait {
 	
 	public static enum HeatingType {
 		BOILER("Boilable"),
-		HEATEXCHANGER("Heatable");
+		HEATEXCHANGER("Heatable"),
+		PWR("PWR Coolant");
 		
 		public String name;
 		
@@ -85,7 +87,7 @@ public class FT_Heatable extends FluidTrait {
 		
 		for(HeatingStep step : steps) {
 			writer.beginObject();
-			writer.name("typeProduced").value(step.typeProduced.getUnlocalizedName());
+			writer.name("typeProduced").value(step.typeProduced.getName());
 			writer.name("amountReq").value(step.amountReq);
 			writer.name("amountProd").value(step.amountProduced);
 			writer.name("heatReq").value(step.heatReq);

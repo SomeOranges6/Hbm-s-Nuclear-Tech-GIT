@@ -65,6 +65,7 @@ public class ItemAmmo extends ItemEnumMulti {
 		NEU_STARMETAL,
 		NEU_TRACER,
 		NEU_UHH,
+		NEU_LEADBURSTER,
 		NEU_WARCRIME1,
 		NEU_WARCRIME2,
 		PRO_ACCURATE1,
@@ -93,6 +94,7 @@ public class ItemAmmo extends ItemEnumMulti {
 		PRO_PERCUSSION,
 		PRO_PHOSPHORUS,
 		PRO_PHOSPHORUS_SPLASH,
+		PRO_FLASH,
 		PRO_POISON_GAS,
 		PRO_RADIUS,
 		PRO_RADIUS_HIGH,
@@ -104,7 +106,8 @@ public class ItemAmmo extends ItemEnumMulti {
 		PRO_STUNNING,
 		PRO_TOXIC,
 		PRO_WEAR,
-		PRO_WITHERING;
+		PRO_WITHERING,
+		PRO_BUTTER;
 		
 		public String key = "desc.item.ammo.";
 		

@@ -3,6 +3,7 @@ package com.hbm.crafting;
 import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.*;
+import com.hbm.items.machine.ItemPWRFuel.EnumPWRFuel;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 import com.hbm.main.CraftingManager;
@@ -12,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraft.stats.StatList;
 
 /**
  * For the loading and unloading of fuel rods
@@ -108,6 +110,7 @@ public class RodRecipes {
 		addRBMKRod(AMRG, ModItems.rbmk_fuel_mea);
 		addRBMKRod(AM241, ModItems.rbmk_fuel_hea241);
 		addRBMKRod(AM242, ModItems.rbmk_fuel_hea242);
+		addRBMKRod(BK247, ModItems.rbmk_fuel_bk247);
 		addRBMKRod(ModItems.billet_neptunium_fuel, ModItems.rbmk_fuel_men);
 		addRBMKRod(NP237, ModItems.rbmk_fuel_hen);
 		addRBMKRod(ModItems.billet_po210be, ModItems.rbmk_fuel_po210be);
@@ -125,7 +128,10 @@ public class RodRecipes {
 		addRBMKRod(ModItems.billet_zfb_pu241, ModItems.rbmk_fuel_zfb_pu241);
 		addRBMKRod(ModItems.billet_zfb_am_mix, ModItems.rbmk_fuel_zfb_am_mix);
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rbmk_fuel_drx, 1), new Object[] { ModItems.rbmk_fuel_balefire, ModItems.particle_digamma });
-
+		addRBMKRod(ModItems.billet_cm_fuel, ModItems.rbmk_fuel_lecm);
+		addRBMKRod(CMRG, ModItems.rbmk_fuel_mecm);
+		addRBMKRod(CM245, ModItems.rbmk_fuel_hecm);
+		
 		addPellet(SA326,							EnumWatzType.SCHRABIDIUM);
 		addPellet(ModItems.ingot_hes,				EnumWatzType.HES);
 		addPellet(ModItems.ingot_schrabidium_fuel,	EnumWatzType.MES);
@@ -136,12 +142,40 @@ public class RodRecipes {
 		addPellet(PB,								EnumWatzType.LEAD);
 		addPellet(B,								EnumWatzType.BORON);
 		addPellet(U238,								EnumWatzType.DU);
+		addPellet(PU241,							EnumWatzType.PU241);
+		addPellet(AMF,								EnumWatzType.AMF);
+		addPellet(AMRG,								EnumWatzType.AMRG);
+		addPellet(CMRG,								EnumWatzType.CMRG);
+		addPellet(CMF,								EnumWatzType.CMF);
+		addPellet(BK247,							EnumWatzType.BK247);
+		addPellet(CF252,							EnumWatzType.CF252);
+		addPellet(CF251,							EnumWatzType.CF251);
+		addPellet(ES253,							EnumWatzType.ES253);
+		
+		//PWR fuel
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.MEU), new Object[] { "F", "I", "F", 'F', ModItems.billet_uranium_fuel, 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.HEU233), new Object[] { "F", "I", "F", 'F', U233.billet(), 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.HEU235), new Object[] { "F", "I", "F", 'F', U235.billet(), 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.MEN), new Object[] { "F", "I", "F", 'F', ModItems.billet_neptunium_fuel, 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.HEN237), new Object[] { "F", "I", "F", 'F', NP237.billet(), 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.MOX), new Object[] { "F", "I", "F", 'F', ModItems.billet_mox_fuel, 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.MEP), new Object[] { "F", "I", "F", 'F', ModItems.billet_pu_mix, 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.HEP239), new Object[] { "F", "I", "F", 'F', PU239.billet(), 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.HEP241), new Object[] { "F", "I", "F", 'F', PU241.billet(), 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.MEA), new Object[] { "F", "I", "F", 'F', ModItems.billet_am_mix, 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.HEA242), new Object[] { "F", "I", "F", 'F', AM242.billet(), 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.HES326), new Object[] { "F", "I", "F", 'F', SA326.billet(), 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.HES327), new Object[] { "F", "I", "F", 'F', SA327.billet(), 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.BFB_AM_MIX), new Object[] { "F", "I", "B", 'F', ModItems.billet_am_mix, 'I', ModItems.plate_polymer, 'B', BI.billet() });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.BFB_PU241), new Object[] { "F", "I", "B", 'F', PU241.billet(), 'I', ModItems.plate_polymer, 'B', BI.billet() });
 	}
 	
 	public static void registerInit() {
 		/* GT6 */
 		if(OreDictionary.doesOreNameExist("ingotNaquadah-Enriched"))	addPellet(new DictFrame("Naquadah-Enriched"),	EnumWatzType.NQD);
 		if(OreDictionary.doesOreNameExist("ingotNaquadria"))			addPellet(new DictFrame("Naquadria"),			EnumWatzType.NQR);
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rbmk_fuel_drx, 1), new Object[] { ModItems.rbmk_fuel_balefire, ModItems.particle_digamma });
+
 	}
 	
 	//Fill rods with one billet. For fuels only, therefore no unloading or ore dict
