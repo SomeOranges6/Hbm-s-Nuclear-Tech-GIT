@@ -108,7 +108,6 @@ public class Gun12GaugeFactory {
 		config.comment.add("Alt-fire with Mouse 2 (Right-click) to fire 2 shells at once");
 		
 		config.config = HbmCollection.g12hs;
-
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 
 				.addBus("SPAS_RECOIL_TRANSLATE", new BusAnimationSequence()
