@@ -21,7 +21,6 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
-import cpw.mods.fml.common.Mod;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -414,8 +413,8 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(103, "MEAT_PROCESSING", 200)
 				.inputItems(new OreDictStack(KEY_GLYPHID_MEAT, 3))
 				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 1000))
-				.outputItems(new ItemStack(ModItems.sulfur, 2),
-						new ItemStack(ModItems.niter, 2))
+				.outputItems(new ItemStack(ModItems.sulfur, 4),
+						new ItemStack(ModItems.niter, 3))
 				.outputFluids(new FluidStack(Fluids.SALIENT, 250)));
 
 	}

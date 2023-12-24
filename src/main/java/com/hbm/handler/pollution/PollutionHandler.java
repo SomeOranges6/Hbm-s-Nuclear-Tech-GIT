@@ -180,8 +180,6 @@ public class PollutionHandler {
 		
 		if(event.side == Side.SERVER && event.phase == Phase.END) {
 
-			int spreadThreshold = RadiationConfig.pollutionSpreadThreshold;
-			double spreadEff = RadiationConfig.pollutionSpreadEfficiency;
 			eggTimer++;
 			if(eggTimer < 60) return;
 			eggTimer = 0;
@@ -200,11 +198,11 @@ public class PollutionHandler {
 					int P = PollutionType.POISON.ordinal();
 					
 					/* CALCULATION */
-					if(data.pollution[S] > spreadThreshold) {
-						pollutionForNeightbors[S] = (float) (data.pollution[S] * spreadEff);
-						data.pollution[S] *= 1-spreadEff*4;
+					if(data.pollution[S] > 15) {
+						pollutionForNeightbors[S] = (float) (data.pollution[S] * 0.05F);
+						data.pollution[S] *= 0.8F;
 					} else {
-						data.pollution[S] *= 0.8;
+						data.pollution[S] *= 0.99F;
 					}
 
 					data.pollution[H] *= 0.9995F;
@@ -358,11 +356,11 @@ public class PollutionHandler {
 				&& event.type == EnumCreatureType.monster
 				&& event.world.canBlockSeeTheSky(event.x, event.y, event.z)) {
 
-					if (event.world.rand.nextInt(1000) == 0) {
+					if (event.world.rand.nextInt(MobConfig.rampantScoutSpawnChance) == 0) {
 
 						float soot = PollutionHandler.getPollution(event.world, event.x, event.y, event.z, PollutionType.SOOT);
 
-						if (soot >= 20) {
+						if (soot >= MobConfig.rampantScoutSpawnThresh) {
 							EntityGlyphidScout scout = new EntityGlyphidScout(event.world);
 							scout.setLocationAndAngles(event.x, event.y, event.z, event.world.rand.nextFloat() * 360.0F, 0.0F);
 							event.world.spawnEntityInWorld(scout);

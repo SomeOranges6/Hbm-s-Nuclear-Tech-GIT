@@ -3,15 +3,12 @@ package com.hbm.entity.mob;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockGlyphidSpawner;
 import com.hbm.config.MobConfig;
 import com.hbm.entity.logic.EntityWaypoint;
 import com.hbm.entity.pathfinder.PathFinderUtils;
 import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.explosion.vanillant.interfaces.IExplosionSFX;
 import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
@@ -22,6 +19,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.potion.HbmPotion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
@@ -33,9 +31,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -58,30 +57,42 @@ public class EntityGlyphid extends EntityMob {
 	public int taskZ;
 
 	//used for digging, bigger glyphids have a longer reach
-	public int blastSize = Math.min((int) (3 * (getScale()))/2, 5);
-    public int blastResToDig = Math.min((int) (50 * (getScale() * 2)), 150);
+	public int blastSize = Math.min((int) (3 * (getScale())) / 2, 5);
+	public int blastResToDig = Math.min((int) (50 * (getScale() * 2)), 150);
 	public boolean shouldDig;
 
 	// Tasks
 
-	public static final int none = 0;
-	public static final int comm = 1;
-	public static final int expand = 2;
-	public static final int reinforcements = 3;
-	public static final int follow = 4;
-	public static final int terraform = 5;
-	public static final int dig = 6;
-	EntityWaypoint taskWaypoint = null;
+	/** Idle state, only makes glpyhids wander around randomly */
+	public static final int TASK_IDLE = 0;
+	/** Causes the glyphid to walk to the waypoint, then communicate the FOLLOW task to nearby glyphids */
+	public static final int TASK_RETREAT_FOR_REINFORCEMENTS = 1;
+	/** Task used by scouts, if the waypoint is reached it will construct a new hive */
+	public static final int TASK_BUILD_HIVE = 2;
+	/** Creates a waypoint at the home position and then immediately initiates the RETREAT_FOR_REINFORCEMENTS task */
+	public static final int TASK_INITIATE_RETREAT = 3;
+	/** Will simply walk to the waypoint and enter IDLE once it is reached */
+	public static final int TASK_FOLLOW = 4;
+	/** Causes nuclear glyphids to immediately self-destruct, also signaling nearby scouts to retreat */
+	public static final int TASK_TERRAFORM = 5;
+	/** If any task other than IDLE is interrupted by an obstacle, initiates digging behavior which is also communicated to nearby glyohids */
+	public static final int TASK_DIG = 6;
+	
+	protected boolean hasWaypoint = false;
+	/** Yeah, fuck, whatever, anything goes now */
+	protected EntityWaypoint taskWaypoint = null;
+
+	//subtypes
+	public static final int TYPE_NORMAL = 0;
+	public static final int TYPE_INFECTED = 1;
+
+	//data watcher keys
+	public static final int DW_WALL = 16;
+	public static final int DW_ARMOR = 17;
+	public static final int DW_SUBTYPE = 18;
+	
 	public EntityGlyphid(World world) {
 		super(world);
-		/*this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
-		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
-		this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		this.tasks.addTask(8, new EntityAILookIdle(this));
-		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));*/
 		this.setSize(1.75F, 1F);
 	}
 
@@ -96,8 +107,9 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		this.dataWatcher.addObject(16, new Byte((byte) 0)); //wall climbing
-		this.dataWatcher.addObject(17, new Byte((byte) 0b11111)); //armor
+		this.dataWatcher.addObject(DW_WALL, new Byte((byte) 0));			//wall climbing
+		this.dataWatcher.addObject(DW_ARMOR, new Byte((byte) 0b11111));	//armor
+		this.dataWatcher.addObject(DW_SUBTYPE, new Byte((byte) 0));			//subtype (i.e. normal, infected, etc)
 	}
 
 	@Override
@@ -124,14 +136,14 @@ public class EntityGlyphid extends EntityMob {
 				onBlinded();
 			}
 
-            if(getCurrentTask() == follow){
+			if(getCurrentTask() == TASK_FOLLOW){
 
 				//incase the waypoint somehow doesn't exist and it got this task anyway
-				if(isAtDestination() && taskX == none) {
-					setCurrentTask(none, null);
+				if(isAtDestination() && !hasWaypoint) {
+					setCurrentTask(TASK_IDLE, null);
 				}
 			//the task cannot be 6 outside of rampant, so this is a non issue p much
-			} else if (getCurrentTask() == dig && ticksExisted % 20 == 0 && isAtDestination()) {
+			} else if (getCurrentTask() == TASK_DIG && ticksExisted % 20 == 0 && isAtDestination()) {
 				swingItem();
 
 				ExplosionVNT vnt = new ExplosionVNT(worldObj, taskX, taskY + 2, taskZ, blastSize, this);
@@ -156,21 +168,21 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	protected void dropFewItems(boolean byPlayer, int looting) {
 		super.dropFewItems(byPlayer, looting);
-        Item drop = isBurning() ? ModItems.glyphid_meat_grilled : ModItems.glyphid_meat;
-		if(rand.nextInt(2) == 0) this.entityDropItem(new ItemStack(drop, ((int)getScale()*2)  + looting), 0F);
+		Item drop = isBurning() ? ModItems.glyphid_meat_grilled : ModItems.glyphid_meat;
+		if(rand.nextInt(2) == 0) this.entityDropItem(new ItemStack(drop, ((int) getScale() * 2) + looting), 0F);
 	}
 
 	@Override
 	protected Entity findPlayerToAttack() {
 		if(this.isPotionActive(Potion.blindness)) return null;
 
-		EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, useExtendedTargeting() && getCurrentTask() != 0 ? 128D : 16D);
-		return entityplayer != null && (MobConfig.rampantExtendedTargetting || canEntityBeSeen(entityplayer)) ? entityplayer : null;
+		EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, useExtendedTargeting() ? 128D : 16D);
+		return entityplayer;
 	}
 
 	@Override
 	protected void updateWanderPath() {
-		if(getCurrentTask() == none) {
+		if(getCurrentTask() == TASK_IDLE) {
 			super.updateWanderPath();
 		}
 	}
@@ -183,9 +195,9 @@ public class EntityGlyphid extends EntityMob {
 			if (!this.hasPath()) {
 
 				// hell yeah!!
-				if (useExtendedTargeting() && this.entityToAttack != null) {
+				if(useExtendedTargeting() && this.entityToAttack != null) {
 					this.setPathToEntity(PathFinderUtils.getPathEntityToEntityPartial(worldObj, this, this.entityToAttack, 16F, true, false, true, true));
-				} else if (getCurrentTask() != none) {
+				} else if (getCurrentTask() != TASK_IDLE) {
 
 					this.worldObj.theProfiler.startSection("stroll");
 
@@ -203,11 +215,12 @@ public class EntityGlyphid extends EntityMob {
 
 						}
 
-						if (taskX != none) {
-                            if(MobConfig.rampantDig) {
+						if(hasWaypoint) {
+							
+							if(canDig()) {
 
 								MovingObjectPosition obstacle = findWaypointObstruction();
-								if (getScale() >= 1 && getCurrentTask() != dig && obstacle != null) {
+								if (getScale() >= 1 && getCurrentTask() != TASK_DIG && obstacle != null) {
 									digToWaypoint(obstacle);
 								} else {
 									Vec3 vec = Vec3.createVectorHelper(posX, posY, posZ);
@@ -222,19 +235,21 @@ public class EntityGlyphid extends EntityMob {
 							}
 						}
 					}
+					
 					this.worldObj.theProfiler.endSection();
-
 				}
 			}
 		}
-
 	}
 
+	protected boolean canDig() {
+		return MobConfig.rampantDig;
+	}
 
 	public void onBlinded(){
 		this.entityToAttack = null;
 		this.setPathToEntity(null);
-		fleeingTick = 80;
+		this.fleeingTick = 80;
 
 		if(getScale() >= 1.25){
 			if(ticksExisted % 20 == 0) {
@@ -253,8 +268,6 @@ public class EntityGlyphid extends EntityMob {
 						if (block == ModBlocks.lantern) {
 							rotationYaw = 360F / 16 * i;
 							swingItem();
-							//this function is incredibly useful for breaking blocks naturally but obfuscated
-							//jesus fucking christ who the fuck runs forge?
 							worldObj.func_147480_a(mop.blockX, mop.blockY, mop.blockZ, false);
 						}
 
@@ -270,14 +283,18 @@ public class EntityGlyphid extends EntityMob {
 
 	@Override
 	protected boolean canDespawn() {
-		return ticksExisted > 3500 && entityToAttack == null && getCurrentTask() == none;
+		return entityToAttack == null && getCurrentTask() == TASK_IDLE && this.ticksExisted > 100;
 	}
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
+		
+		if(source.getEntity() instanceof EntityGlyphid) {
+			return false;
+		}
 
 		if(!source.isDamageAbsolute() && !source.isUnblockable() && !worldObj.isRemote && !source.isFireDamage() && !source.getDamageType().equals(ModDamageSource.s_cryolator)) {
-			byte armor = this.dataWatcher.getWatchableObjectByte(17);
+			byte armor = this.dataWatcher.getWatchableObjectByte(DW_ARMOR);
 
 			if(armor != 0) { //if at least one bit of armor is present
 
@@ -297,20 +314,45 @@ public class EntityGlyphid extends EntityMob {
 		}
 
 		if(source.isFireDamage()) {
-			//you might be thinking, why would fire damage be nerfed?
-			//thing is, it bypasses glyphid chitin, making it unbelievably powerful, so this was the most reasonable solution
 			amount *= 0.7F;
 		} else if(source.getDamageType().equals("player")) {
 			amount *= 1.5F;
 		} else if(source == ModDamageSource.acid || source.equals(new DamageSource(ModDamageSource.s_acid))){
 			amount = 0;
+		} else if(source == DamageSource.inWall) {
+			amount *= 15F;
 		}
 
 		if(this.isPotionActive(HbmPotion.phosphorus.getId())){
 			amount *= 1.5F;
 		}
+		
+		boolean alive = this.getHealth() > 0;
+		boolean wasAttacked = super.attackEntityFrom(source, amount);
+		
+		if(alive && this.getHealth() <= 0) {
+			if(doesInfectedSpawnMaggots() && this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE) == TYPE_INFECTED) {
 
-		return super.attackEntityFrom(source, amount);
+				int j = 2 + this.rand.nextInt(3);
+
+				for(int k = 0; k < j; ++k) {
+					float f = ((float) (k % 2) - 0.5F) * 0.5F;
+					float f1 = ((float) (k / 2) - 0.5F) * 0.5F;
+					EntityParasiteMaggot maggot = new EntityParasiteMaggot(worldObj);
+					maggot.setLocationAndAngles(this.posX + (double) f, this.posY + 0.5D, this.posZ + (double) f1, this.rand.nextFloat() * 360.0F, 0.0F);
+					maggot.motionX = f;
+					maggot.motionZ = f1;
+					maggot.velocityChanged = true;
+					this.worldObj.spawnEntityInWorld(maggot);
+				}
+			}
+		}
+
+		return wasAttacked;
+	}
+	
+	public boolean doesInfectedSpawnMaggots() {
+		return true;
 	}
 
 	public boolean isArmorBroken(float amount) {
@@ -319,7 +361,7 @@ public class EntityGlyphid extends EntityMob {
 
 	public float calculateDamage(float amount) {
 
-		byte armor = this.dataWatcher.getWatchableObjectByte(17);
+		byte armor = this.dataWatcher.getWatchableObjectByte(DW_ARMOR);
 		int divisor = 1;
 
 		for(int i = 0; i < 5; i++) {
@@ -338,7 +380,7 @@ public class EntityGlyphid extends EntityMob {
 	}
 
 	public void breakOffArmor() {
-		byte armor = this.dataWatcher.getWatchableObjectByte(17);
+		byte armor = this.dataWatcher.getWatchableObjectByte(DW_ARMOR);
 		List<Integer> indices = Arrays.asList(0, 1, 2, 3, 4);
 		Collections.shuffle(indices);
 
@@ -347,7 +389,7 @@ public class EntityGlyphid extends EntityMob {
 			if((armor & bit) > 0) {
 				armor &= ~bit;
 				armor = (byte) (armor & 0b11111);
-				this.dataWatcher.updateObject(17, armor);
+				this.dataWatcher.updateObject(DW_ARMOR, armor);
 				worldObj.playSoundAtEntity(this, "mob.zombie.woodbreak", 1.0F, 1.25F);
 				break;
 			}
@@ -385,11 +427,11 @@ public class EntityGlyphid extends EntityMob {
 	}
 
 	public boolean isBesideClimbableBlock() {
-		return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
+		return (this.dataWatcher.getWatchableObjectByte(DW_WALL) & 1) != 0;
 	}
 
 	public void setBesideClimbableBlock(boolean climbable) {
-		byte watchable = this.dataWatcher.getWatchableObjectByte(16);
+		byte watchable = this.dataWatcher.getWatchableObjectByte(DW_WALL);
 
 		if(climbable) {
 			watchable = (byte) (watchable | 1);
@@ -397,14 +439,20 @@ public class EntityGlyphid extends EntityMob {
 			watchable &= -2;
 		}
 
-		this.dataWatcher.updateObject(16, Byte.valueOf(watchable));
+		this.dataWatcher.updateObject(DW_WALL, Byte.valueOf(watchable));
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity victum) {
+	public boolean attackEntityAsMob(Entity victim) {
 		if(this.isSwingInProgress) return false;
 		this.swingItem();
-		return super.attackEntityAsMob(victum);
+		
+		if(this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE) == TYPE_INFECTED && victim instanceof EntityLivingBase) {
+			((EntityLivingBase) victim).addPotionEffect(new PotionEffect(Potion.poison.id, 100, 2));
+			((EntityLivingBase) victim).addPotionEffect(new PotionEffect(Potion.confusion.id, 100, 0));
+		}
+		
+		return super.attackEntityAsMob(victim);
 	}
 
 
@@ -428,15 +476,16 @@ public class EntityGlyphid extends EntityMob {
 	 * @param waypoint The waypoint for the task, can be null
 	 */
 	public void setCurrentTask(int task, @Nullable EntityWaypoint waypoint){
-		currentTask =  task;
-		taskWaypoint = waypoint;
-		if (taskWaypoint != null) {
+		this.currentTask = task;
+		this.taskWaypoint = waypoint;
+		this.hasWaypoint = waypoint != null;
+		if(taskWaypoint != null) {
 
 			taskX = (int) taskWaypoint.posX;
 			taskY = (int) taskWaypoint.posY;
 			taskZ = (int) taskWaypoint.posZ;
 
-			if (taskWaypoint.highPriority) {
+			if(taskWaypoint.highPriority) {
 				this.entityToAttack = null;
 				this.setPathToEntity(null);
 			}
@@ -453,77 +502,65 @@ public class EntityGlyphid extends EntityMob {
 
 		switch(task){
 
-			//call for reinforcements
-			case comm: if(taskWaypoint != null){
-				communicate(follow, taskWaypoint);
-				setCurrentTask(follow, taskWaypoint);
-			}  break;
-
-			//expand the hive, used by the scout
-			//case 2: expandHive(null);
-
-			//retreat
-			case reinforcements:
-
-				if (!worldObj.isRemote && taskWaypoint == null) {
-
-					//Then, Come back later
-					EntityWaypoint additional =  new EntityWaypoint(worldObj);
-					additional.setLocationAndAngles(posX, posY, posZ, 0 , 0);
-
-					//First, go home and get reinforcements
-					EntityWaypoint home = new EntityWaypoint(worldObj);
-					home.setWaypointType(comm);
- 					home.setAdditionalWaypoint(additional);
-					home.setHighPriority();
-					home.setLocationAndAngles(homeX, homeY, homeZ, 0, 0);
-					worldObj.spawnEntityInWorld(home);
-
-					this.taskWaypoint = home;
-					communicate(follow, home);
-					setCurrentTask(follow, taskWaypoint);
-
-					break;
-				}
-
+		case TASK_RETREAT_FOR_REINFORCEMENTS:
+			if(taskWaypoint != null) {
+				communicate(TASK_FOLLOW, taskWaypoint);
+				setCurrentTask(TASK_FOLLOW, taskWaypoint);
+			}
 			break;
 
-			//the fourth task (case 4) is to just follow the waypoint path
-			//fifth task is used only in the scout and big man johnson, for terraforming
+		case TASK_INITIATE_RETREAT:
 
-			//dig
-			case dig:
-				shouldDig = true;
+			if(!worldObj.isRemote && taskWaypoint == null) {
+
+				// Then, Come back later
+				EntityWaypoint additional = new EntityWaypoint(worldObj);
+				additional.setLocationAndAngles(posX, posY, posZ, 0, 0);
+
+				// First, go home and get reinforcements
+				EntityWaypoint home = new EntityWaypoint(worldObj);
+				home.setWaypointType(TASK_RETREAT_FOR_REINFORCEMENTS);
+				home.setAdditionalWaypoint(additional);
+				home.setHighPriority();
+				home.setLocationAndAngles(homeX, homeY, homeZ, 0, 0);
+				worldObj.spawnEntityInWorld(home);
+
+				this.taskWaypoint = home;
+				communicate(TASK_FOLLOW, home);
+				setCurrentTask(TASK_FOLLOW, taskWaypoint);
+
 				break;
+			}
 
-			default: break;
+			break;
+			
+		case TASK_DIG:
+			shouldDig = true;
+			break;
+
+		default:
+			break;
 			
 		}
 
 	}
 
-    public void communicate(int task, @Nullable EntityWaypoint waypoint) {
+	/** Copies tasks and waypoint to nearby glyphids. Does not work on glyphid scouts */
+	public void communicate(int task, @Nullable EntityWaypoint waypoint) {
 		int radius = waypoint != null ? waypoint.radius : 4;
-
-		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
-				this.posX - radius,
-				this.posY - radius,
-				this.posZ - radius,
-				this.posX + radius,
-				this.posY + radius,
-				this.posZ + radius);
+		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(this.posX, this.posY, this.posZ, this.posX, this.posY, this.posZ).expand(radius, radius, radius);
 
 		List<Entity> bugs = worldObj.getEntitiesWithinAABBExcludingEntity(this, bb);
-		for (Entity e: bugs){
-			if(e instanceof EntityGlyphid && !(e instanceof EntityGlyphidScout)){
-				if(((EntityGlyphid) e).getCurrentTask() != task){
+		for(Entity e : bugs) {
+			if(e instanceof EntityGlyphid && !(e instanceof EntityGlyphidScout)) {
+				if(((EntityGlyphid) e).getCurrentTask() != task) {
 					((EntityGlyphid) e).setCurrentTask(task, waypoint);
 				}
 			}
 		}
 	}
 
-    /** What each type of glyphid does when it is time to expand the hive.
+	/** What each type of glyphid does when it is time to expand the hive.
 	 * @return Whether it has expanded successfully or not
 	 * **/
 	public boolean expandHive(){
@@ -532,10 +569,9 @@ public class EntityGlyphid extends EntityMob {
 
 	public boolean isAtDestination() {
 		int destinationRadius = taskWaypoint != null ? (int) Math.pow(taskWaypoint.radius, 2) : 25;
-
 		return this.getDistanceSq(taskX, taskY, taskZ) <= destinationRadius;
 	}
-    ///TASK SYSTEM END
+	///TASK SYSTEM END
 
 	///DIGGING SYSTEM START
 
@@ -564,27 +600,29 @@ public class EntityGlyphid extends EntityMob {
 		previousTask = getCurrentTask();
 		previousWaypoint =  getWaypoint();
 
-		setCurrentTask(dig, target);
+		setCurrentTask(TASK_DIG, target);
 
 		Vec3 vec = Vec3.createVectorHelper(posX, posY, posZ);
 		int maxDist = (int) (Math.sqrt(vec.squareDistanceTo(taskX, taskY, taskZ)) * 1.2);
 		this.setPathToEntity(PathFinderUtils.getPathEntityToCoordPartial(worldObj, this, taskX, taskY, taskZ, maxDist, true, false, true, true));
 
-		communicate(dig, target);
+		communicate(TASK_DIG, target);
 
 	}
 	///DIGGING END
-
+	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 		super.writeEntityToNBT(nbt);
-		nbt.setByte("armor", this.dataWatcher.getWatchableObjectByte(17));
+		nbt.setByte("armor", this.dataWatcher.getWatchableObjectByte(DW_ARMOR));
+		nbt.setByte("subtype", this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE));
 
 		nbt.setBoolean("hasHome", hasHome);
 		nbt.setInteger("homeX", homeX);
 		nbt.setInteger("homeY", homeY);
 		nbt.setInteger("homeZ", homeZ);
 
+		nbt.setBoolean("hasWaypoint", hasWaypoint);
 		nbt.setInteger("taskX", taskX);
 		nbt.setInteger("taskY", taskY);
 		nbt.setInteger("taskZ", taskZ);
@@ -595,13 +633,15 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt) {
 		super.readEntityFromNBT(nbt);
-		this.dataWatcher.updateObject(17, nbt.getByte("armor"));
+		this.dataWatcher.updateObject(DW_ARMOR, nbt.getByte("armor"));
+		this.dataWatcher.updateObject(DW_SUBTYPE, nbt.getByte("subtype"));
 
 		this.hasHome = nbt.getBoolean("hasHome");
 		this.homeX = nbt.getInteger("homeX");
 		this.homeY = nbt.getInteger("homeY");
 		this.homeZ = nbt.getInteger("homeZ");
 
+		this.hasWaypoint = nbt.getBoolean("hasWaypoint");
 		this.taskX = nbt.getInteger("taskX");
 		this.taskY = nbt.getInteger("taskY");
 		this.taskZ = nbt.getInteger("taskZ");
@@ -609,4 +649,8 @@ public class EntityGlyphid extends EntityMob {
 		this.currentTask = nbt.getInteger("task");
 	}
 
+	@Override
+	public boolean getCanSpawnHere() {
+		return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && this.worldObj.checkNoEntityCollision(this.boundingBox) && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(this.boundingBox);
+	}
 }

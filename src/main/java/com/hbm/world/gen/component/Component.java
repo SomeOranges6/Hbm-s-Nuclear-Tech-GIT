@@ -698,7 +698,7 @@ abstract public class Component extends StructureComponent {
 
 						if (rand.nextInt(1000) <= 8 - maxSize * 2 && hives.size() < maxSize) {
                             if(hives.size() < 3 || hives.get(hives.size() - 1).squareDistanceTo(hives.get(hives.size() - 2)) <= 100) {
-								GlyphidHive.generateBigOrb(world, posX, posY, posZ, world.rand);
+								GlyphidHive.generateSmall(world, posX, posY, posZ, world.rand, true, true);
 								hives.add(Vec3.createVectorHelper(posX, posY, posZ));
 							}
 						}

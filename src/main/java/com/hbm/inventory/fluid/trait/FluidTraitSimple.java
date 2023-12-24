@@ -49,23 +49,12 @@ public class FluidTraitSimple {
 			info.add(EnumChatFormatting.DARK_RED + "[Requires hazardous material tank to hold]");
 		}
 	}
-	public static class FT_NoDispersable extends FluidTrait {
-		@Override public void addInfo(List<String> info) {
-			info.add(EnumChatFormatting.DARK_RED + "[Cannot be thrown from Disperser Canister]");
-		}
-	}
+
 	public static class FT_Delicious extends FluidTrait {
 		@Override public void addInfoHidden(List<String> info) {
 			info.add(EnumChatFormatting.DARK_GREEN + "[Delicious]");
 		}
 	}
-
-	public static class FT_Caulking extends FluidTrait {
-		@Override public void addInfoHidden(List<String> info) {
-			info.add(EnumChatFormatting.WHITE + "[Caulking]");
-		}
-	}
-
 	
 	public static class FT_Leaded extends FluidTrait {
 		@Override public void addInfoHidden(List<String> info) {

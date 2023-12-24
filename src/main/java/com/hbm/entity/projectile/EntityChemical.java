@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.mob.EntityGlyphid;
-import com.hbm.entity.mob.EntityGlyphidBehemoth;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.fluid.FluidType;
@@ -412,23 +411,6 @@ public class EntityChemical extends EntityThrowableNT {
 					ChunkRadiationManager.proxy.incrementRad(worldObj, mop.blockX, mop.blockY, mop.blockZ, trait.getRadPerMB() * 5);
 				}
 
-				if(type.hasTrait(FluidTraitSimple.FT_Caulking.class)) {
-
-					for(int i = -1; i <= 1; i++) {
-						for(int j = -1; j <= 1; j++) {
-							for(int k = -1; k <= 1; k++) {
-
-								if(worldObj.getBlock(x + i, y + j, z + k) == ModBlocks.concrete_debris) {
-									worldObj.setBlock(x + i, y + j, z + k, ModBlocks.concrete_smooth);
-								}
-								if(worldObj.getBlock(x + i, y + j, z + k) == ModBlocks.ducrete_debris) {
-									worldObj.setBlock(x + i, y + j, z + k, ModBlocks.ducrete_smooth);
-								}
-							}
-						}
-					}
-
-				}
 				ChemicalStyle style = getStyle();
 				
 				if(style == ChemicalStyle.BURNING || style == ChemicalStyle.GASFLAME) {

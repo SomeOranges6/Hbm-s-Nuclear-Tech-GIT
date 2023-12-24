@@ -1,7 +1,6 @@
 package com.hbm.entity.mob;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.effect.EntityMist;
 import com.hbm.entity.logic.EntityWaypoint;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
@@ -9,7 +8,6 @@ import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -50,22 +48,22 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		if (ticksExisted % 20 == 0) {
-			if (isAtDestination() && getCurrentTask() == follow) {
-				setCurrentTask(none, null);
+		if(ticksExisted % 20 == 0) {
+			if(isAtDestination() && getCurrentTask() == TASK_FOLLOW) {
+				setCurrentTask(TASK_IDLE, null);
 			}
 
-			if(getCurrentTask() == expand && getAITarget() == null){
+			if(getCurrentTask() == TASK_BUILD_HIVE && getAITarget() == null) {
 				this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 10 * 20, 3));
 			}
 
-			if (getCurrentTask() == terraform) {
+			if(getCurrentTask() == TASK_TERRAFORM) {
 				this.setHealth(0);
 			}
-
 		}
 	}
 
+	/** Communicates only with glyphid scouts, unlike the super implementation which does the opposite */
 	@Override
 	public void communicate(int task, @Nullable EntityWaypoint waypoint) {
 		int radius = waypoint != null ? waypoint.radius : 4;
@@ -99,7 +97,6 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 
 	@Override
 	public boolean isArmorBroken(float amount) {
-		// amount < 5 ? 5 : amount < 10 ? 3 : 2;
 		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.12, 2), 100);
 	}
 
@@ -125,24 +122,25 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 		return 10F;
 	}
 
+	@Override
+	public boolean doesInfectedSpawnMaggots() {
+		return false;
+	}
+
 	public boolean hasWaypoint = false;
 	@Override
 	protected void onDeathUpdate() {
 		++this.deathTicks;
 
 		if(!hasWaypoint) {
-			communicate(reinforcements, null);
+			// effectively causes neighboring EntityGlyphidScout to retreat
+			communicate(TASK_INITIATE_RETREAT, null);
 			hasWaypoint = true;
 		}
+		
 		if(deathTicks == 90){
 			int radius = 8;
-			AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
-					this.posX - radius,
-					this.posY - radius,
-					this.posZ - radius,
-					this.posX + radius,
-					this.posY + radius,
-					this.posZ + radius);
+			AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(this.posX, this.posY, this.posZ, this.posX, this.posY, this.posZ).expand(radius, radius, radius);
 
 			List<Entity> bugs = worldObj.getEntitiesWithinAABBExcludingEntity(this, bb);
 			for (Entity e: bugs){
@@ -155,10 +153,25 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 		if(this.deathTicks == 100) {
 			
 			if(!worldObj.isRemote) {
-
 				ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY, posZ, 25, this);
-				vnt.setBlockAllocator(new BlockAllocatorStandard(24));
-				vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorDebris(ModBlocks.volcanic_lava_block, 0)).setNoDrop());
+
+				if(this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE) == TYPE_INFECTED) {
+					int j = 15 + this.rand.nextInt(6);
+					for(int k = 0; k < j; ++k) {
+						float f = ((float) (k % 2) - 0.5F) * 0.5F;
+						float f1 = ((float) (k / 2) - 0.5F) * 0.5F;
+						EntityParasiteMaggot maggot = new EntityParasiteMaggot(worldObj);
+						maggot.setLocationAndAngles(this.posX + (double) f, this.posY + 0.5D, this.posZ + (double) f1, this.rand.nextFloat() * 360.0F, 0.0F);
+						maggot.motionX = f;
+						maggot.motionZ = f1;
+						maggot.velocityChanged = true;
+						this.worldObj.spawnEntityInWorld(maggot);
+					}
+				} else {
+					vnt.setBlockAllocator(new BlockAllocatorStandard(24));
+					vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorDebris(ModBlocks.volcanic_lava_block, 0)).setNoDrop());
+				}
+				
 				vnt.setEntityProcessor(new EntityProcessorStandard());
 				vnt.setPlayerProcessor(new PlayerProcessorStandard());
 				vnt.explode();
