@@ -24,6 +24,7 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -48,7 +49,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IEnergyUser, IFluidStandardReceiver, IGUIProvider {
+public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IEnergyUser, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
 
 	public ItemStack slots[];
 
@@ -208,7 +209,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 				for(int z = -1; z <= 1; z++) {
 						
 					if(worldObj.isBlockIndirectlyGettingPowered(xCoord + x, yCoord, zCoord + z) && canLaunch()) {
-						launch();
+						launchFromDesignator();
 						break outer;
 					}
 				}
@@ -269,31 +270,26 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 		
 		return false;
 	}
-	
-	public void launch() {
 
-		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
+	@Override
+	public boolean sendCommandEntity(Entity target) {
+		return sendCommandPosition((int) Math.floor(target.posX), yCoord, (int) Math.floor(target.posX));
+	}
+
+	@Override
+	public boolean sendCommandPosition(int x, int y, int z) {
+		if(!canLaunch()) return false;
+		this.launchTo(x, z);
+		return true;
+	}
+	
+	public void launchFromDesignator() {
 
 		if(slots[1].stackTagCompound != null) {
 			int tX = slots[1].stackTagCompound.getInteger("xCoord");
 			int tZ = slots[1].stackTagCompound.getInteger("zCoord");
 			
-			ItemMissile chip = (ItemMissile) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "chip"));
-			float c = (Float)chip.attributes[0];
-			float f = 1.0F;
-			
-			if(getStruct(slots[0]).fins != null) {
-				ItemMissile fins = (ItemMissile) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "stability"));
-				f = (Float) fins.attributes[0];
-			}
-			
-			Vec3 target = Vec3.createVectorHelper(xCoord - tX, 0, zCoord - tZ);
-			target.xCoord *= c * f;
-			target.zCoord *= c * f;
-			
-			target.rotateAroundY(worldObj.rand.nextFloat() * 360);
-			EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX + (int)target.xCoord, tZ + (int)target.zCoord, getStruct(slots[0]));
-			subtractFuel();
+			this.launchTo(tX, tZ);
 		}
 		
 		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, 0, 0, getStruct(slots[0]));
@@ -305,6 +301,33 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 		
 		slots[0] = null;
 	}
+	public void launchTo(int tX, int tZ) {
+
+		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
+		
+		ItemMissile chip = (ItemMissile) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "chip"));
+		float c = (Float)chip.attributes[0];
+		float f = 1.0F;
+		
+		if(getStruct(slots[0]).fins != null) {
+			ItemMissile fins = (ItemMissile) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "stability"));
+			f = (Float) fins.attributes[0];
+		}
+		
+		Vec3 target = Vec3.createVectorHelper(xCoord - tX, 0, zCoord - tZ);
+		target.xCoord *= c * f;
+		target.zCoord *= c * f;
+		
+		target.rotateAroundY(worldObj.rand.nextFloat() * 360);
+		
+		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX + (int)target.xCoord, tZ + (int)target.zCoord, getStruct(slots[0]));
+		worldObj.spawnEntityInWorld(missile);
+		
+		subtractFuel();
+		
+		slots[0] = null;
+	}
+	
 	
 	private boolean hasFuel() {
 

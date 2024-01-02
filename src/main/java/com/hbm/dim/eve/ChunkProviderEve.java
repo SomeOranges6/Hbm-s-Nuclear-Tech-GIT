@@ -31,12 +31,11 @@ import net.minecraftforge.event.terraingen.TerrainGen;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+//i just want to put this out there, i have no idea how this fucking class works
 public class ChunkProviderEve implements IChunkProvider
 {
     /** RNG. */
-    //private final BiomeDecoratorPluto plutoBiomeDecorator = new BiomeDecoratorPluto();
-//    private final MapGenCaveVenus cavernGenerator = new MapGenCavePluto();
+
     private Random rand;
     private NoiseGeneratorOctaves noiseGen1;
     private NoiseGeneratorOctaves noiseGen2;
@@ -76,7 +75,6 @@ public class ChunkProviderEve implements IChunkProvider
     double[] field_147425_f;
     double[] field_147426_g;
     int[][] field_73219_j = new int[32][32];
-    private static final String __OBFID = "CL_00000396";
 
     public ChunkProviderEve(World par1World, long seed, boolean mapFeaturesEnabled)
     {
