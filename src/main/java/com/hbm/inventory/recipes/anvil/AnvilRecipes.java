@@ -635,11 +635,11 @@ public class AnvilRecipes {
 			{ModItems.ammo_12gauge.stackFromEnum(12, Ammo12Gauge.STOCK),	U238.ingot(),										ModItems.ammo_12gauge.stackFromEnum(12, Ammo12Gauge.DU),			3},
 			{ModItems.ammo_12gauge.stackFromEnum(120, Ammo12Gauge.STOCK),	ModItems.coin_maskman,								ModItems.ammo_12gauge.stackFromEnum(120, Ammo12Gauge.SLEEK),		4},
 
-			{ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.STOCK),	P_RED.dust(),										ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.INCENDIARY),	2},
-			{ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.STOCK),	Item.getItemFromBlock(ModBlocks.gravel_obsidian),	ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.SHRAPNEL),		2},
-			{ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.STOCK),	ModItems.powder_poison,								ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.CAUSTIC),		2},
-			{ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.STOCK),	DIAMOND.dust(),										ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.SHOCK),			2},
-			{ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.STOCK),	Item.getItemFromBlock(Blocks.soul_sand),			ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.WITHER),		3},
+			{ModItems.ammo_20gauge.stackFromEnum(24, Ammo20Gauge.STOCK),	P_RED.dust(),										ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.INCENDIARY),	2},
+			{ModItems.ammo_20gauge.stackFromEnum(24, Ammo20Gauge.STOCK),	Item.getItemFromBlock(ModBlocks.gravel_obsidian),	ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.SHRAPNEL),		2},
+			{ModItems.ammo_20gauge.stackFromEnum(24, Ammo20Gauge.STOCK),	ModItems.powder_poison,								ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.CAUSTIC),		2},
+			{ModItems.ammo_20gauge.stackFromEnum(24, Ammo20Gauge.STOCK),	DIAMOND.dust(),										ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.SHOCK),			2},
+			{ModItems.ammo_20gauge.stackFromEnum(24, Ammo20Gauge.STOCK),	Item.getItemFromBlock(Blocks.soul_sand),			ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.WITHER),		3},
 			{ModItems.ammo_20gauge.stackFromEnum(120, Ammo20Gauge.STOCK),	ModItems.coin_maskman,								ModItems.ammo_20gauge.stackFromEnum(120, Ammo20Gauge.SLEEK),		4},
 
 			{ModItems.ammo_4gauge.stackFromEnum(12, Ammo4Gauge.FLECHETTE),	P_WHITE.ingot(),				ModItems.ammo_4gauge.stackFromEnum(12, Ammo4Gauge.FLECHETTE_PHOSPHORUS),	2},
