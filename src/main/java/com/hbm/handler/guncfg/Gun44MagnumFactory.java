@@ -95,9 +95,8 @@ public class Gun44MagnumFactory {
 	public static GunConfiguration getMacintoshConfig() {
 		
 		GunConfiguration config = getBaseConfig();
-		
-		config.durability = 5000;
-		config.equipSound = "hbm:weapon.yeehaw";
+
+		config.durability = 31_000;
 		config.name = "ifScope";
 		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Poppin' mentats like tic tacs");
