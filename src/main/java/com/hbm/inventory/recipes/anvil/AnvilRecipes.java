@@ -548,7 +548,7 @@ public class AnvilRecipes {
 						new ComparableStack(ModItems.mechanism_rifle_2, 2),
 						new OreDictStack(ANY_PLASTIC.ingot(), 6),
 						new OreDictStack(ALLOY.plate(), 4),
-						new ComparableStack(ModItems.bolt_dura_steel, 3),
+						new OreDictStack(DURA.bolt(), 3),
 				},
 				new AnvilOutput(new ItemStack(ModItems.gun_morita, 1))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(
@@ -558,7 +558,7 @@ public class AnvilRecipes {
 						new ComparableStack(ModItems.mechanism_rifle_2, 1),
 						new OreDictStack(ANY_PLASTIC.ingot(), 2),
 						new OreDictStack(ALLOY.plate(), 2),
-						new ComparableStack(ModItems.bolt_dura_steel, 2),
+						new OreDictStack(DURA.bolt(), 2),
 				},
 				new AnvilOutput(new ItemStack(ModItems.gun_morita, 1))).setTier(3));
 
@@ -575,7 +575,7 @@ public class AnvilRecipes {
 						new ComparableStack(ModItems.mechanism_rifle_2, 1),
 						new OreDictStack(ANY_PLASTIC.ingot(), 4),
 						new OreDictStack(ALLOY.plate(), 2),
-						new ComparableStack(ModItems.bolt_dura_steel, 1),
+						new OreDictStack(DURA.bolt(), 1),
 				},
 				new AnvilOutput(new ItemStack(ModItems.gun_morita_carbine, 1))).setTier(2));
 
