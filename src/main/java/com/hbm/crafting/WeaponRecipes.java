@@ -164,6 +164,7 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_glass_cannon, 1), new Object[] { "GGC", "GTM", 'G', Item.getItemFromBlock(ModBlocks.glass_quartz), 'C', ModItems.battery_lithium_cell, 'T', ModItems.crt_display, 'M', ModItems.mechanism_special });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_remington, 1), new Object[] { "PPM", "S L", 'P', STEEL.plate(), 'M', ModItems.mechanism_rifle_1, 'S', KEY_SLAB, 'L', KEY_LOG });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_benelli), new Object[] { "HHP", "SSM", "AAP", 'H', ModItems.ingot_dura_steel, 'S', ModItems.hull_small_steel, 'A', ModItems.hull_small_aluminium, 'P', ModItems.ingot_polymer, 'M', ModItems.mechanism_rifle_2 });
+
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_coilgun), new Object[] { "CCC", "SSM", "  P", 'C', ModBlocks.capacitor_copper, 'S', BIGMT.plate(), 'M', ModItems.mechanism_special, 'P', ANY_PLASTIC.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_coilgun, 16, 0), new Object[] { " T ", "TST", " T ", 'T', W.ingot(), 'S', BIGMT.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_coilgun, 16, 1), new Object[] { " T ", "TST", " T ", 'T', FERRO.ingot(), 'S', BIGMT.ingot() });
