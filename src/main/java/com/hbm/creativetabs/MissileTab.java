@@ -97,5 +97,11 @@ public class MissileTab extends CreativeTabs {
 				ModItems.mp_fuselage_15_20_kerosene_magnusson,
 				null,
 				ModItems.mp_thruster_20_kerosene).setStackDisplayName(EnumChatFormatting.GREEN + "Hightower Missile"));
+		list.add(ItemCustomMissile.buildMissile(
+				ModItems.mp_chip_5,
+				ModItems.mp_warhead_15_mirv,
+				ModItems.mp_fuselage_15_hydrogen,
+				ModItems.mp_stability_15_soyuz,
+				ModItems.mp_thruster_15_hydrogen).setStackDisplayName(EnumChatFormatting.BLUE+ "7 For 1 Package Deal"));
 	}
 }

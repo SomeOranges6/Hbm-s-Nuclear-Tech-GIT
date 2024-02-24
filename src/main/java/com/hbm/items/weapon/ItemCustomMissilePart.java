@@ -260,6 +260,8 @@ public class ItemCustomMissilePart extends Item {
 			return EnumChatFormatting.DARK_GREEN + "Nuclear";
 		case TX:
 			return EnumChatFormatting.DARK_PURPLE + "Thermonuclear (TX)";
+		case MIRV:
+			return EnumChatFormatting.DARK_AQUA + "MIRV";
 		case N2:
 			return EnumChatFormatting.RED + "N²";
 		case BALEFIRE:

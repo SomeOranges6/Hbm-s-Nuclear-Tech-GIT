@@ -33,8 +33,8 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 
 	protected float fuel;
 	protected float consumption;
-	ItemCustomMissilePart part1 = (ItemCustomMissilePart) Item.getItemById(this.dataWatcher.getWatchableObjectInt(9));
-	WarheadType type1 = (WarheadType) part1.attributes[0];
+
+	WarheadType type1;
 
 	public EntityMissileCustom(World world) {
 		super(world);
@@ -72,6 +72,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		} else {
 			this.dataWatcher.updateObject(11, Integer.valueOf(0));
 		}
+		type1 = (WarheadType) ((ItemCustomMissilePart) Item.getItemById(this.dataWatcher.getWatchableObjectInt(9))).attributes[0];
 
 		ItemCustomMissilePart fuselage = (ItemCustomMissilePart) template.fuselage;
 		ItemCustomMissilePart thruster = (ItemCustomMissilePart) template.thruster;
@@ -153,7 +154,6 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 	public void mirvSplit(){
 		int targetHeight = worldObj.getHeightValue((int)this.posX,(int)this.posZ) + 250;
 		if((motionY <= 0) && this.posY<targetHeight) {
-			MainRegistry.logger.log(Level.INFO, targetHeight + "was the target height");
 
 			if(worldObj.isRemote)
 				return;
@@ -162,7 +162,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 
 			double modX = 0;
 			double modZ = 0;
-			for(int i = 0; i < 8; i++) {
+			for(int i = 0; i < 5; i++) {
 				EntityMIRV warhead = new EntityMIRV(this.worldObj);
 				warhead.setPosition(posX,posY,posZ);
 				// This fella sets the targets
@@ -171,9 +171,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 					case 2: modX = 1;  modZ = -1; break; //top right
 					case 3: modX = -1; modZ = 1; break; //bottom left
 					case 4: modX = -1; modZ = -1; break; //bottom right
-					case 5: modX = 0; modZ = 2; break; //middle left
-					case 6: modX = 0; modZ = -2; break; //middle right
-					// The seventh warhead is dead center, no modification needed
+					// The  warhead is dead center, no modification needed
 				}
 
 				warhead.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1F, 0.1F);

@@ -6,6 +6,7 @@ import java.util.List;
 import api.hbm.entity.IRadarDetectable;
 import api.hbm.entity.IRadarDetectable.RadarTargetType;
 
+import api.hbm.entity.IRadarDetectableNT;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
@@ -29,7 +30,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 
-public class EntityMIRV extends EntityThrowableNT implements IChunkLoader, IRadarDetectable {
+public class EntityMIRV extends EntityThrowableNT implements IChunkLoader, IRadarDetectableNT {
 	
 	private Ticket loaderTicket;
 	public int health = 25;
@@ -117,21 +118,28 @@ public class EntityMIRV extends EntityThrowableNT implements IChunkLoader, IRada
 	protected void onImpact(MovingObjectPosition p_70184_1_) {
 
 	}
-
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean isInRangeToRenderDist(double distance) {
 		return distance < 500000;
 	}
 
+	@Override public String getUnlocalizedName() { return "radar.target.tier4"; }
+	@Override public int getBlipLevel() { return IRadarDetectableNT.TIER4; }
 	@Override
-	public RadarTargetType getTargetType() {
-		return RadarTargetType.MIRVLET;
+	public boolean canBeSeenBy(Object radar) {
+		return true;
 	}
 
+	@Override
+	public boolean paramsApplicable(RadarScanParams params) {
+		return params.scanMissiles;
+	}
 
-
-
+	@Override
+	public boolean suppliesRedstone(RadarScanParams params) {
+		return true;
+	}
 
 	@Override
     public void init(Ticket ticket) {
@@ -152,30 +160,26 @@ public class EntityMIRV extends EntityThrowableNT implements IChunkLoader, IRada
    }
 
    List<ChunkCoordIntPair> loadedChunks = new ArrayList<ChunkCoordIntPair>();
-   public void loadNeighboringChunks(int newChunkX, int newChunkZ)
-   {
-       if(!worldObj.isRemote && loaderTicket != null)
-       {
-           for(ChunkCoordIntPair chunk : loadedChunks)
-           {
-            ForgeChunkManager.unforceChunk(loaderTicket, chunk);
-           }
+	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
+		if(!worldObj.isRemote && loaderTicket != null) {
 
-            loadedChunks.clear();
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ + 1));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ - 1));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ - 1));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ + 1));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ + 1));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ - 1));
+			clearChunkLoader();
 
-        for(ChunkCoordIntPair chunk : loadedChunks)
-        {
-            ForgeChunkManager.forceChunk(loaderTicket, chunk);
-        }
-    }
-}
+			loadedChunks.clear();
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
+			//loadedChunks.add(new ChunkCoordIntPair(newChunkX + (int) Math.floor((this.posX + this.motionX * this.motionMult()) / 16D), newChunkZ + (int) Math.floor((this.posZ + this.motionZ * this.motionMult()) / 16D)));
+
+			for(ChunkCoordIntPair chunk : loadedChunks) {
+				ForgeChunkManager.forceChunk(loaderTicket, chunk);
+			}
+		}
+	}
+
+	public void clearChunkLoader() {
+		if(!worldObj.isRemote && loaderTicket != null) {
+			for(ChunkCoordIntPair chunk : loadedChunks) {
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
+		}
+	}
 }
