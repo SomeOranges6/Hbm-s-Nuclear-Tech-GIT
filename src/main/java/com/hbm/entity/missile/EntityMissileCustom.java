@@ -27,14 +27,26 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.Level;
 
 public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLoader {
 
 	protected float fuel;
 	protected float consumption;
+	ItemCustomMissilePart part1 = (ItemCustomMissilePart) Item.getItemById(this.dataWatcher.getWatchableObjectInt(9));
+	WarheadType type1 = (WarheadType) part1.attributes[0];
 
 	public EntityMissileCustom(World world) {
 		super(world);
+	}
+
+	public void killMissile() {
+		if(type1 == WarheadType.MIRV){
+			mirvSplit();
+		}
+		ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
+		ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
+
 	}
 
 	public EntityMissileCustom(World world, float x, float y, float z, int a, int b, MissileStruct template) {
@@ -71,21 +83,14 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 	}
 
 	@Override
-	protected void killMissile() {
-		if(!this.isDead) {
-			this.setDead();
-			ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
-			ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
-		}
-	}
-	
-	@Override
 	public void onUpdate() {
-		
+
 		if(!worldObj.isRemote) {
 			if(this.hasPropulsion()) this.fuel -= this.consumption;
 		}
-		
+		if(type1 == WarheadType.MIRV){
+			mirvSplit();
+		}
 		super.onUpdate();
 	}
 
@@ -125,7 +130,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		nbt.setInteger("fins", this.dataWatcher.getWatchableObjectInt(11));
 		nbt.setInteger("thruster", this.dataWatcher.getWatchableObjectInt(12));
 	}
-	
+
 	@Override
 	protected void spawnContrail() {
 
@@ -145,6 +150,42 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		if(!smoke.isEmpty()) for(int i = 0; i < velocity; i++) MainRegistry.proxy.spawnParticle(posX - v.xCoord * i, posY - v.yCoord * i, posZ - v.zCoord * i, smoke, null);
 	}
 
+	public void mirvSplit(){
+		int targetHeight = worldObj.getHeightValue((int)this.posX,(int)this.posZ) + 250;
+		if((motionY <= 0) && this.posY<targetHeight) {
+			MainRegistry.logger.log(Level.INFO, targetHeight + "was the target height");
+
+			if(worldObj.isRemote)
+				return;
+
+			this.setDead();
+
+			double modX = 0;
+			double modZ = 0;
+			for(int i = 0; i < 8; i++) {
+				EntityMIRV warhead = new EntityMIRV(this.worldObj);
+				warhead.setPosition(posX,posY,posZ);
+				// This fella sets the targets
+				switch(i){
+					case 1: modX = 1;  modZ = 1; break; //top left
+					case 2: modX = 1;  modZ = -1; break; //top right
+					case 3: modX = -1; modZ = 1; break; //bottom left
+					case 4: modX = -1; modZ = -1; break; //bottom right
+					case 5: modX = 0; modZ = 2; break; //middle left
+					case 6: modX = 0; modZ = -2; break; //middle right
+					// The seventh warhead is dead center, no modification needed
+				}
+
+				warhead.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1F, 0.1F);
+				warhead.motionX = this.motionX+modX;
+				warhead.motionY = this.motionY;
+				warhead.motionZ = this.motionZ+modZ;
+				this.worldObj.spawnEntityInWorld(warhead);
+
+			}
+
+		}
+	}
 	@Override
 	public void onImpact() { //TODO: demolish this steaming pile of shit
 
@@ -233,7 +274,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_15) return "radar.target.custom15";
 		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_20) return "radar.target.custom1520";
 		if(top == PartSize.SIZE_20 && bottom == PartSize.SIZE_20) return "radar.target.custom20";
-		
+
 		return "radar.target.custom";
 	}
 
@@ -249,7 +290,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_15) return IRadarDetectableNT.TIER15;
 		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_20) return IRadarDetectableNT.TIER15_20;
 		if(top == PartSize.SIZE_20 && bottom == PartSize.SIZE_20) return IRadarDetectableNT.TIER20;
-		
+
 		return IRadarDetectableNT.TIER1;
 	}
 

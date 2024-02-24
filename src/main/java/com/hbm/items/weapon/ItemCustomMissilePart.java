@@ -81,6 +81,7 @@ public class ItemCustomMissilePart extends Item {
 		CLUSTER,
 		NUCLEAR,
 		TX,
+		MIRV,
 		N2,
 		BALEFIRE,
 		SCHRAB,

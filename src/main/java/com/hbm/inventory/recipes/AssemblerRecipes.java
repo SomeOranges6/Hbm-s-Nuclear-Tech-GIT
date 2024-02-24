@@ -41,7 +41,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class AssemblerRecipes extends SerializableRecipe {
-	
+
 	public static HashMap<ComparableStack, AssemblerRecipe> recipes = new HashMap();
 	public static List<ComparableStack> recipeList = new ArrayList();
 
@@ -49,7 +49,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 	public void registerDefaults() {
 		
 		boolean exp = GeneralConfig.enableExpensiveMode;
-		
+
 		makeRecipe(new ComparableStack(ModItems.plate_iron, 2), new AStack[] {new OreDictStack(IRON.ingot(), 3), },30);
 		makeRecipe(new ComparableStack(ModItems.plate_gold, 2), new AStack[] {new OreDictStack(GOLD.ingot(), 3), },30);
 		makeRecipe(new ComparableStack(ModItems.plate_titanium, 2), new AStack[] {new OreDictStack(TI.ingot(), 3), },30);
@@ -309,6 +309,25 @@ public class AssemblerRecipes extends SerializableRecipe {
 		makeRecipe(new ComparableStack(ModItems.mp_warhead_15_balefire, 1), new AStack[] {new ComparableStack(ModItems.seg_15, 1), new OreDictStack(OreDictManager.getReflector(), 16), new ComparableStack(ModItems.powder_magic, 6), new ComparableStack(ModItems.egg_balefire_shard, 4), new OreDictStack(ANY_HIGHEXPLOSIVE.ingot(), 8), new ComparableStack(ModItems.circuit_targeting_tier4, 1), }, 60, ModItems.journal_bj);
 		makeRecipe(new ComparableStack(ModItems.missile_soyuz, 1), new AStack[] {new ComparableStack(ModItems.rocket_fuel, 40), new ComparableStack(ModBlocks.det_cord, 20), new ComparableStack(ModItems.thruster_medium, 12), new ComparableStack(ModItems.thruster_small, 12), new ComparableStack(ModItems.tank_steel, 10), new ComparableStack(ModItems.circuit_targeting_tier4, 2), new ComparableStack(ModItems.circuit_targeting_tier3, 8), new OreDictStack(RUBBER.ingot(), 64), new ComparableStack(ModItems.fins_small_steel, 4), new ComparableStack(ModItems.hull_big_titanium, 32), new ComparableStack(ModItems.hull_big_steel, 18), new OreDictStack(FIBER.ingot(), 64), },600, ModItems.journal_bj);
 		makeRecipe(new ComparableStack(ModItems.missile_soyuz_lander, 1), new AStack[] {new ComparableStack(ModItems.rocket_fuel, 10), new ComparableStack(ModItems.thruster_small, 3), new ComparableStack(ModItems.tank_steel, 2), new ComparableStack(ModItems.circuit_targeting_tier3, 4), new OreDictStack(ANY_RUBBER.ingot(), 32), new ComparableStack(ModItems.hull_big_aluminium, 2), new ComparableStack(ModItems.sphere_steel, 1), new OreDictStack(FIBER.ingot(), 12), },600, ModItems.journal_bj);
+		
+	    makeRecipe(new ComparableStack(ModItems.mp_warhead_15_mirv, 1), new AStack[] {
+		   new ComparableStack(ModItems.seg_15, 1),
+		   new OreDictStack(TI.plate(), 16),
+		   new OreDictStack(STEEL.plate(), 12),
+		   new ComparableStack(ModItems.warhead_mirvlet, 7),
+		   new ComparableStack(ModItems.circuit_targeting_tier4,  3), },500);
+
+		makeRecipe(new ComparableStack(ModItems.warhead_mirvlet, 1), new AStack[] {
+			new OreDictStack(TI.plate(), 4),
+			new OreDictStack(PU239.billet(), 1),
+			new ComparableStack(ModItems.ball_tatb, 2),
+			new OreDictStack(BE.ingot(), 4),
+			new OreDictStack(LI.ingot(), 4),
+			new OreDictStack(U235.billet(), 1),
+			new ComparableStack(ModItems.cell_deuterium, 2),
+			new ComparableStack(ModItems.cell_tritium, 2),
+			new ComparableStack(ModItems.hull_small_steel, 1), },500);
+
 		makeRecipe(new ComparableStack(ModItems.fusion_shield_tungsten, 1), new AStack[] {new OreDictStack(W.block(), 32), new OreDictStack(OreDictManager.getReflector(), 96)}, 600);
 		makeRecipe(new ComparableStack(ModItems.fusion_shield_desh, 1), new AStack[] {new OreDictStack(DESH.block(), 16), new OreDictStack(CO.block(), 16), new OreDictStack(BIGMT.plate(), 96)}, 600);
 		makeRecipe(new ComparableStack(ModItems.fusion_shield_chlorophyte, 1), new AStack[] {new OreDictStack(W.block(), 16), new OreDictStack(DURA.block(), 16), new OreDictStack(OreDictManager.getReflector(), 48), new ComparableStack(ModItems.powder_chlorophyte, 48)}, 600);
@@ -459,7 +478,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.bolt_compound, 16),
 				new ComparableStack(ModItems.pipes_steel, 3)
 			}, 600);
-		
+
 		makeRecipe(new ComparableStack(ModBlocks.machine_condenser_powered, 1), new AStack[] {
 				!exp ? new OreDictStack(STEEL.plateWelded(), 8) : new OreDictStack(STEEL.heavyComp(), 3),
 				new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 4),
@@ -927,7 +946,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModBlocks.capacitor_tantalium, 1),
 				new ComparableStack(ModBlocks.glass_quartz, 16)
 			}, 200);
-		
+
 
 		makeRecipe(new ComparableStack(ModBlocks.launch_pad_large, 1), new AStack[] {
 				new OreDictStack(STEEL.plateCast(), 6),
@@ -942,7 +961,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(ANY_HARDPLASTIC.ingot(), 16),
 				new ComparableStack(ModItems.circuit_gold, 1)
 			}, 400);
-		
+
 		makeRecipe(new ComparableStack(ModItems.euphemium_capacitor, 1), new AStack[]
 				{
 						new OreDictStack(NB.ingot(), 4),
@@ -1143,7 +1162,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 		makeRecipe(new ComparableStack(ModBlocks.sliding_seal_door, 1), new AStack[]{new OreDictStack(STEEL.plate(), 12), new ComparableStack(ModItems.plate_polymer, 4), new ComparableStack(ModItems.motor, 2), new OreDictStack(DURA.bolt(), 4), new OreDictStack("dyeWhite", 2)}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.silo_hatch, 1), new AStack[]{new OreDictStack(STEEL.plateWelded(), 4), new ComparableStack(ModItems.plate_polymer, 4), new ComparableStack(ModItems.motor, 2), new OreDictStack(STEEL.bolt(), 16), new OreDictStack(KEY_GREEN, 4)}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.silo_hatch_large, 1), new AStack[]{new OreDictStack(STEEL.plateWelded(), 6), new ComparableStack(ModItems.plate_polymer, 8), new ComparableStack(ModItems.motor, 2), new OreDictStack(STEEL.bolt(), 16), new OreDictStack(KEY_GREEN, 8)}, 200);
-		
+
 		if(Loader.isModLoaded("Mekanism")) {
 			
 			Block mb = (Block) Block.blockRegistry.getObject("Mekanism:MachineBlock");
@@ -1177,9 +1196,9 @@ public class AssemblerRecipes extends SerializableRecipe {
 	public static void makeRecipe(ComparableStack out, AStack[] in, int duration) {
 		makeRecipe(out, in, duration, ModItems.template_folder);
 	}
-	
+
 	public static void makeRecipe(ComparableStack out, AStack[] in, int duration, Item... folder) {
-		
+
 		if(out == null || Item.itemRegistry.getNameForObject(out.item) == null) {
 			MainRegistry.logger.error("Canceling assembler registration, item was null!");
 			return;
@@ -1209,11 +1228,11 @@ public class AssemblerRecipes extends SerializableRecipe {
 	@Override
 	public void readRecipe(JsonElement recipe) {
 		JsonObject obj = recipe.getAsJsonObject();
-		
+
 		ItemStack output = this.readItemStack(obj.get("output").getAsJsonArray());
 		AStack[] input = this.readAStackArray(obj.get("input").getAsJsonArray());
 		int duration = obj.get("duration").getAsInt();
-		
+
 		if(obj.has("folders")) {
 			JsonArray array = obj.get("folders").getAsJsonArray();
 			List<Item> items = new ArrayList();
@@ -1230,46 +1249,46 @@ public class AssemblerRecipes extends SerializableRecipe {
 	@Override
 	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
 		Entry<ComparableStack, AssemblerRecipe> entry = (Entry<ComparableStack, AssemblerRecipe>) recipe;
-		
+
 		writer.name("output");
 		this.writeItemStack(entry.getKey().toStack(), writer);
 		writer.name("input").beginArray();
 		for(AStack stack : entry.getValue().ingredients) this.writeAStack(stack, writer);
 		writer.endArray();
 		writer.name("duration").value(entry.getValue().time);
-		
+
 		if(entry.getValue().folders.size() != 1 || !entry.getValue().folders.contains(ModItems.template_folder)) {
 			writer.name("folders").beginArray();
 			for(Item folder : entry.getValue().folders) writer.value(Item.itemRegistry.getNameForObject(folder));
 			writer.endArray();
 		}
 	}
-	
+
 	public static ItemStack getOutputFromTempate(ItemStack stack) {
-		
+
 		if(stack != null && stack.getItem() instanceof ItemAssemblyTemplate) {
-			
+
 			ComparableStack comp = ItemAssemblyTemplate.readType(stack);
-			
+
 			//NEW
 			if(comp != null) {
 				return comp.toStack();
 			}
-			
+
 			//LEGACY
 			int i = stack.getItemDamage();
 			if(i >= 0 && i < recipeList.size()) {
 				return recipeList.get(i).toStack();
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public static List<AStack> getRecipeFromTempate(ItemStack stack) {
-		
+
 		if(stack != null && stack.getItem() instanceof ItemAssemblyTemplate) {
-			
+
 			//NEW
 			ComparableStack compStack = ItemAssemblyTemplate.readType(stack);
 			if(compStack != null) {
@@ -1277,12 +1296,12 @@ public class AssemblerRecipes extends SerializableRecipe {
 				AStack[] ret = recipe.ingredients;
 				return ret == null ? null : Arrays.asList(ret);
 			}
-			
+
 			//LEGACY
 			int i = stack.getItemDamage();
 			if(i >= 0 && i < recipeList.size()) {
 				ItemStack out = recipeList.get(i).toStack();
-				
+
 				if(out != null) {
 					ComparableStack comp = new ComparableStack(out);
 					AssemblerRecipe recipe = recipes.get(comp);
@@ -1291,21 +1310,21 @@ public class AssemblerRecipes extends SerializableRecipe {
 				}
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public static void addTantalium(ComparableStack out, int amount) {
-		
+
 		AssemblerRecipe recipe = recipes.get(out);
-		
+
 		if(recipe != null) {
 			
 			AStack[] news = new AStack[recipe.ingredients.length + 1];
-			
+
 			for(int i = 0; i < recipe.ingredients.length; i++)
 				news[i] = recipe.ingredients[i];
-			
+
 			news[news.length - 1] = new ComparableStack(ModItems.circuit_tantalium, amount);
 			recipe.ingredients = news;
 		}
@@ -1319,7 +1338,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 			
 			List<Object> value = new ArrayList();
 			AssemblerRecipe recipe = entry.getValue();
-			
+
 			for(AStack o : recipe.ingredients) {
 				value.add(o.extractForNEI());
 			}
@@ -1329,17 +1348,17 @@ public class AssemblerRecipes extends SerializableRecipe {
 		
 		return recipes;
 	}
-	
+
 	public static class AssemblerRecipe {
-		
+
 		public AStack[] ingredients;
 		public int time;
 		public HashSet<Item> folders;
-		
+
 		public AssemblerRecipe(AStack[] ingredients, int time) {
 			this(ingredients, time, ModItems.template_folder);
 		}
-		
+
 		public AssemblerRecipe(AStack[] ingredients, int time, Item... folder) {
 			this.ingredients = ingredients;
 			this.time = time;
