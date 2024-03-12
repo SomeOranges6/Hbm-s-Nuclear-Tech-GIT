@@ -1,19 +1,17 @@
 ## Changed
-* Updated chinese localization
-* Tweaked super shotgun animations, added config for changing the animation style
-* The benelli now has reloading animations and the drum mag as advertised
-* Tom will now explode close to bedrock even when not hitting a block
-* The assembler recipe config now uses the same system as all other recipe configs, the file has moved into the `hbmRecipes` folder
-  * Old files are still compatible if moved to the new folder, since the base structure of the recipe file is the same
-  * Recipes should work as expected with the `/ntmreload` command
-  * Recipes now have an optional list for specifying which template folder they are made in
-* Electrolyzing heavy water now has the same yields as regular water, I don't remember why this incsonsistency existed and there was probably a reason for it but I don't care
-* Electrolyzing fluids now only takes 20 ticks instead of 60
-  * Batch sizes for water and heavy water have been doubled, effectively increasing throughout 6x
-  * The throughput for electrolysis on chemical plants has been halved (but heavy water still has the output buff, effectively remaining unchanged)
-* Custom machines now have an optional localization field which allows translations to be added within the config
+* After three quarters of a decade, three separate models, countless rebalances and hours of senseless yapping, the industrial generator has finally met its end. Suddenly, yet not unsurprisingly, on this here day the industrial generator has closed its eyes for the final time. It was a long and eventful journey, but as with all things in life, it too had to come to an end.
+  * And this is why we can't ever have anything nice
+* Rebalanced glyphids
+  * We'll see how it goes
+* Did some spring cleaning
+  * Removed cloud residue (looked horrible, allowed for weird dupes and made no sense overall)
+  * Bottlecap blocks now use a single block ID and metadata instead of using one ID per type. This change however will delete all existing bottlecap blocks in the world
+  * Removed the config option for silos (the option no longer works anyway since the new silos use the structure component system)
+  * Removed a few other minor things that won't be mentioned because nobody's gonna even notice their absence anyway
+* Retextured the laser detonator to look more like the old detonator, but keeping the 3D model
+* Bedrock ores can now be customized in creative mode. Using a drillbit sets the tier, a fluid container sets the borefluid requirement and any other item sets the resource.
+  * The texture used is random, and the color applied is based on the auto detect system. The system doesn't work with layered items, so the resulting color won't be the same as naturally generated bedrock ore. The bedrock ore item in particular will always result in a white ore, no matter the type
 
 ## Fixed
-* Fixed the structure toggle on the world creation screen not working correctly on most world types
-* Fixed antiknock having a broken sprite and localization
-* Fixed crash caused by fallout affecting spotlight blocks, crashing the game
+* WarTec should now be compatible again
+* Fixed the "Hold shift for more info" line appearing on fluid info when shift is held, and disappearing otherwise
