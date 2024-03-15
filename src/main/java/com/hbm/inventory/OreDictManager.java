@@ -695,8 +695,9 @@ public class OreDictManager {
 		public String[] ores() {		return appendToAll(ORE); }
 		
 		/** Returns cast (triple) plates if 528 mode is enabled or normal plates if not */
-		public String plate528() { return GeneralConfig.enable528 ? plateCast() : plate(); }
-		
+		public String plate528() { return GeneralConfig.enable528 || GeneralConfig.enableExpensiveMode ? plateCast() : plate(); }
+		/** Returns welded (sextuple) plates if 528 mode is enabled or cast (triple) plates if not */
+		public String plateAdv528() { return GeneralConfig.enable528 || GeneralConfig.enableExpensiveMode ? plateWelded() : plateCast(); }
 		private String[] appendToAll(String... prefix) {
 			
 			String[] names = new String[mats.length * prefix.length];
