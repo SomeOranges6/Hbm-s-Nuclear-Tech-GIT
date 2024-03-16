@@ -175,6 +175,7 @@ public class Fluids {
 	public static FluidType THORIUM_SALT_HOT;
 	public static FluidType THORIUM_SALT_DEPLETED;
 	public static FluidType FULLERENE;
+	public static FluidType COMP_AIR;
 	
 	public static List<FluidType> customFluids = new ArrayList();
 
@@ -368,7 +369,8 @@ public class Fluids {
 		NAPHTHA_DS =			new FluidType("NAPHTHA_DS",			0x63614E, 2, 1, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x5F6D44)).addTraits(LIQUID, VISCOUS, P_FUEL);
 		LIGHTOIL_DS =			new FluidType("LIGHTOIL_DS",	0x63543E, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xB46B52)).addTraits(LIQUID, P_FUEL);
 		MONAZITE_MUD = 			new FluidType("MONAZITE_MUD", 0xFF8A4D, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_Corrosive(60));
-		MONAZITE_SOLUTION = 	new FluidType(140,"MONAZITE_SOLUTION", 0x8F8F5F, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+		MONAZITE_SOLUTION = 	new FluidType("MONAZITE_SOLUTION", 0x8F8F5F, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+		COMP_AIR =				new FluidType(141, "COMP_AIR",	0x808080, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -507,6 +509,7 @@ public class Fluids {
 		metaOrder.add(POTASSIUM_CHLORIDE);
 		metaOrder.add(CALCIUM_CHLORIDE);
 		metaOrder.add(CALCIUM_SOLUTION);
+		metaOrder.add(COMP_AIR);
 		//solutions and working fluids
 		metaOrder.add(FRACKSOL);
 		//the fun guys
