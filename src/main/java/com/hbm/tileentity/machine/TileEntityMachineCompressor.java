@@ -204,7 +204,7 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 			return tanks[0].getFill() >= 1000 && tanks[1].getFill() + 1000 <= tanks[1].getMaxFill();
 		}
 		
-		return tanks[0].getFill() > recipe.inputAmount && tanks[1].getFill() + recipe.output.fill <= tanks[1].getMaxFill();
+		return tanks[0].getFill() >= recipe.inputAmount && tanks[1].getFill() + recipe.output.fill <= tanks[1].getMaxFill();
 	}
 	
 	public void process() {
