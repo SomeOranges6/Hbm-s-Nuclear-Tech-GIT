@@ -73,6 +73,8 @@ public class ArcWelderRecipes extends SerializableRecipe {
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_STEEL.id), 50, 250L, new FluidStack(Fluids.OXYGEN, 100),
 				new OreDictStack(STEEL.plateCast(), 2)));
 		if(enabled528) {
+			recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.motor_desh, 2), 100, 1_000L, new FluidStack(Fluids.PETROLEUM, 250),
+					new OreDictStack(DESH.ingot(), 4), new ComparableStack(ModItems.coil_gold, 4), new ComparableStack(ModItems.motor, 1)));
 			recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_COPPER.id), 200, 1_000L, new FluidStack(Fluids.OXYGEN, 250),
 					new OreDictStack(CU.plateCast(), 2)));
 			recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_TITANIUM.id), 300, 10_000L, new FluidStack(Fluids.XENON, 100),
@@ -92,6 +94,8 @@ public class ArcWelderRecipes extends SerializableRecipe {
 			recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_TUNGSTEN.id), 1_200, 250_000L, new FluidStack(Fluids.XENON, 750),
 					new OreDictStack(W.plateCast(), 2)));
 		} else {
+			recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.motor_desh, 2), 100, 1_000L,
+					new OreDictStack(DESH.ingot(), 4), new ComparableStack(ModItems.coil_gold, 4), new ComparableStack(ModItems.motor, 1)));
 			//literally just the strand caster(for now)(not in 528)
 			recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_COPPER.id), 200, 1_000L,
 					new OreDictStack(CU.plateCast(), 2)));
