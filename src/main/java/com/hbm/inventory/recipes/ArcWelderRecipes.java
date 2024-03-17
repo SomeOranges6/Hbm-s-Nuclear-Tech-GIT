@@ -35,18 +35,32 @@ public class ArcWelderRecipes extends SerializableRecipe {
 		boolean enabled528 = GeneralConfig.enable528;
 
 		//Parts
-		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.motor, 2), 100, 200L,
-				new OreDictStack(IRON.plate(), 2), new ComparableStack(ModItems.coil_copper), new ComparableStack(ModItems.coil_copper_torus)));
-		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.motor, 2), 100, 400L,
-				new OreDictStack(STEEL.plate(), 1), new ComparableStack(ModItems.coil_copper), new ComparableStack(ModItems.coil_copper_torus)));
+
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.coil_copper_torus, 2), 100, 1_000L,
 				new ComparableStack(ModItems.coil_copper, 2), new OreDictStack(STEEL.plate(), 2)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.coil_advanced_torus, 1), 100, 2_000L,
 				new ComparableStack(ModItems.coil_advanced_alloy, 2), new OreDictStack(STEEL.plate(), 2)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.coil_gold_torus, 1), 100, 2_000L,
 				new ComparableStack(ModItems.coil_gold, 2), new OreDictStack(STEEL.plate(), 2)));
+
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.tank_steel, 6), 200, 2_000L,
 				new OreDictStack(STEEL.plateCast(), 3), new OreDictStack(AL.plateCast(), 1)));
+
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.motor, 2), 100, 200L,
+				new OreDictStack(IRON.plate(), 3), new ComparableStack(ModItems.coil_copper, 3)));
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.motor, 2), 100, 400L,
+				new OreDictStack(STEEL.plate(), 2), new ComparableStack(ModItems.coil_copper, 3)));
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.motor_desh, 2), 100, 2_000L, new FluidStack(Fluids.PETROLEUM, 100),
+				new OreDictStack(DESH.ingot(), 4), new ComparableStack(ModItems.coil_gold, 4), new ComparableStack(ModItems.motor, 1)));
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.motor_bismuth, 2), 100, 10_000L, new FluidStack(Fluids.UNSATURATEDS, 100),
+				new OreDictStack(BI.nugget(), 4), new ComparableStack(ModBlocks.hadron_coil_gold, 4), new ComparableStack(ModItems.motor, 1)));
+
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.hull_big_steel, 1), 100, 500L,
+				new OreDictStack(STEEL.ingot(), 6)));
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.hull_big_aluminium, 1), 50, 2_000L,
+				new OreDictStack(AL.ingot(), 6)));
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.hull_big_titanium, 1), 50, 2_000L,
+				new OreDictStack(TI.ingot(), 6)));
 
 		//Dense Wires
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.wire_dense, 1, Mats.MAT_ALLOY.id), 100, 10_000L,
