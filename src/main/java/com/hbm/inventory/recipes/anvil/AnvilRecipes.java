@@ -11,6 +11,7 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.inventory.recipes.AssemblerRecipes.AssemblerRecipe;
 import com.hbm.items.ItemAmmoEnums.*;
@@ -191,10 +192,6 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new OreDictStack(DNT.ingot(), 4), new ComparableStack(ModBlocks.depth_brick)},
 				new AnvilOutput(new ItemStack(ModBlocks.depth_dnt))).setTier(1916169));
-
-		constructionRecipes.add(new AnvilConstructionRecipe(
-				new OreDictStack(CU.plate(), 4),
-				new AnvilOutput(new ItemStack(ModItems.board_copper))).setTier(1));
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new OreDictStack(STEEL.plate(), 2),
 				new AnvilOutput(new ItemStack(ModItems.hull_small_steel))).setTier(1));
@@ -225,7 +222,7 @@ public class AnvilRecipes {
 				new AStack[] {
 						new ComparableStack(Blocks.stonebrick, 4),
 						new ComparableStack(ModItems.ingot_firebrick, 4),
-						new ComparableStack(ModItems.board_copper, 2)
+						new OreDictStack(CU.plate(), 4)
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_difurnace_off))).setTier(1));
 		
@@ -432,7 +429,7 @@ public class AnvilRecipes {
 						new OreDictStack(STEEL.plate528(), 4),
 						new OreDictStack(AL.plate528(), 2),
 						new ComparableStack(ModItems.hull_small_steel, 4),
-						new ComparableStack(ModItems.board_copper, 1),
+						new OreDictStack(CU.plate528(), 6),
 						new ComparableStack(ModItems.turbine_titanium, 1),
 						new ComparableStack(ModItems.circuit_aluminium, 1)
 				},
@@ -1039,7 +1036,7 @@ public class AnvilRecipes {
 			constructionRecipes.add(new AnvilConstructionRecipe(
 					new ComparableStack(ModBlocks.rbmk_boiler), new AnvilOutput[] {
 							new AnvilOutput(new ItemStack(ModBlocks.rbmk_blank, 1)),
-							new AnvilOutput(new ItemStack(ModItems.board_copper, 6)),
+							new AnvilOutput(new ItemStack(ModItems.plate_cast, 6, Mats.MAT_COPPER.id)),
 							new AnvilOutput(new ItemStack(ModItems.pipes_steel, 2))
 					}).setTier(4));
 			constructionRecipes.add(new AnvilConstructionRecipe(

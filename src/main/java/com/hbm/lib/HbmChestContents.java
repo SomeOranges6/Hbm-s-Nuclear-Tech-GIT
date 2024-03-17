@@ -57,7 +57,7 @@ public class HbmChestContents {
 			weighted(ModItems.plate_polymer, 0, 1, 6, 5),
 			weighted(ModItems.bolt, Mats.MAT_STEEL.id, 4, 16, 3),
 			weighted(ModItems.bolt, Mats.MAT_TUNGSTEN.id, 4, 16, 3),
-			weighted(ModItems.board_copper, 0, 1, 2, 4),
+			weighted(ModItems.plate_copper, 0, 6, 12, 4),
 			weighted(ModItems.coil_tungsten, 0, 1, 2, 5),
 			weighted(ModItems.motor, 0, 1, 2, 4),
 			weighted(ModItems.tank_steel, 0, 1, 2, 3),
