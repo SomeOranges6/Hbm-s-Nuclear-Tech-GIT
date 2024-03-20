@@ -179,12 +179,12 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.coil_copper, 1), new Object[] { "WWW", "WIW", "WWW", 'W', ModItems.wire_red_copper, 'I', IRON.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.coil_advanced_alloy, 1), new Object[] { "WWW", "WIW", "WWW", 'W', ModItems.wire_advanced_alloy, 'I', IRON.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.coil_gold, 1), new Object[] { "WWW", "WIW", "WWW", 'W',  ModItems.wire_gold, 'I', STEEL.ingot() });
-		addRecipeAuto(new ItemStack(ModItems.coil_copper_torus, 2), new Object[] { "   ", "CPC", "   ", 'P', IRON.plate(), 'C', ModItems.coil_copper });
-		addRecipeAuto(new ItemStack(ModItems.coil_advanced_torus, 2), new Object[] { "   ", "CPC", "   ", 'P', IRON.plate(), 'C', ModItems.coil_advanced_alloy });
-		addRecipeAuto(new ItemStack(ModItems.coil_gold_torus, 2), new Object[] { "   ", "CPC", "   ", 'P', IRON.plate(), 'C', ModItems.coil_gold });
-		addRecipeAuto(new ItemStack(ModItems.coil_copper_torus, 2), new Object[] { "   ", "CPC", "   ", 'P', STEEL.plate(), 'C', ModItems.coil_copper });
-		addRecipeAuto(new ItemStack(ModItems.coil_advanced_torus, 2), new Object[] { "   ", "CPC", "   ", 'P', STEEL.plate(), 'C', ModItems.coil_advanced_alloy });
-		addRecipeAuto(new ItemStack(ModItems.coil_gold_torus, 2), new Object[] { "   ", "CPC", "   ", 'P', STEEL.plate(), 'C', ModItems.coil_gold });
+		addRecipeAuto(new ItemStack(ModItems.coil_copper_torus, 2), new Object[] { " C ", "CPC", " C ", 'P', IRON.plate(), 'C', ModItems.coil_copper });
+		addRecipeAuto(new ItemStack(ModItems.coil_advanced_torus, 2), new Object[] { " C ", "CPC", " C ", 'P', IRON.plate(), 'C', ModItems.coil_advanced_alloy });
+		addRecipeAuto(new ItemStack(ModItems.coil_gold_torus, 2), new Object[] { " C ", "CPC", " C ", 'P', IRON.plate(), 'C', ModItems.coil_gold });
+		addRecipeAuto(new ItemStack(ModItems.coil_copper_torus, 2), new Object[] { " C ", "CPC", " C ", 'P', STEEL.plate(), 'C', ModItems.coil_copper });
+		addRecipeAuto(new ItemStack(ModItems.coil_advanced_torus, 2), new Object[] { " C ", "CPC", " C ", 'P', STEEL.plate(), 'C', ModItems.coil_advanced_alloy });
+		addRecipeAuto(new ItemStack(ModItems.coil_gold_torus, 2), new Object[] { " C ", "CPC", " C ", 'P', STEEL.plate(), 'C', ModItems.coil_gold });
 		addRecipeAuto(new ItemStack(ModItems.coil_tungsten, 1), new Object[] { "WWW", "WIW", "WWW", 'W', ModItems.wire_tungsten, 'I', IRON.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.coil_magnetized_tungsten, 1), new Object[] { "WWW", "WIW", "WWW", 'W', ModItems.wire_magnetized_tungsten, 'I', IRON.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.tank_steel, 2), new Object[] { "STS", "S S", "STS", 'S', STEEL.plate(), 'T', TI.plate() });
