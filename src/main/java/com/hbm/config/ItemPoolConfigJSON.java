@@ -13,7 +13,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.itempool.ItemPool;
-import com.hbm.itempool.ItemPoolsLegacy;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -27,9 +26,12 @@ import net.minecraft.util.WeightedRandomChestContent;
 public class ItemPoolConfigJSON {
 
 	public static final Gson gson = new Gson();
-	public static HashMap<String, ItemPool> pools = new HashMap();
 	
 	public static void initialize() {
+		
+		//writes the defaults
+		ItemPool.initialize();
+		
 		File folder = MainRegistry.configHbmDir;
 
 		File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmItemPools.json");
@@ -40,14 +42,6 @@ public class ItemPoolConfigJSON {
 		} else {
 			readConfig(config);
 		}
-		
-		for(Entry<String, ItemPool> entry : pools.entrySet()) {
-			System.out.println(entry.getKey());
-			
-			for(WeightedRandomChestContent item : entry.getValue().pool) {
-				System.out.println(item.theItemId + " " + item.theItemId.stackTagCompound + " " + item.theMinimumChanceToGenerateItem + " " + item.theMaximumChanceToGenerateItem + " " + item.itemWeight);
-			}
-		}
 	}
 	
 	private static void writeDefault(File file) {
@@ -56,9 +50,10 @@ public class ItemPoolConfigJSON {
 			JsonWriter writer = new JsonWriter(new FileWriter(file));
 			writer.setIndent("  ");
 			writer.beginObject();
+			writer.name("description").value("Format is as follows: First object is an array representing the itemstack in question, same rules apply here as they do for recipe configs but with one difference: Stacks accept NBT. NBT is contained in {curly brackets}, the format is the same as it is for the /give command. After the stack comes the minimum amount of items, then the maximum (the stack's own stacksize value is ignored). The final number is the weight, an item with a weight of 3 is 3x as likely to appear than an item with a weight of 1.");
 			writer.name("pools").beginObject();
 			
-			for(Entry<String, ItemPool> entry : pools.entrySet()) {
+			for(Entry<String, ItemPool> entry : ItemPool.pools.entrySet()) {
 				writer.name(entry.getKey()).beginArray();
 				
 				for(WeightedRandomChestContent content : entry.getValue().pool) {
@@ -110,7 +105,7 @@ public class ItemPoolConfigJSON {
 				newPools.put(poolName, pool);
 			}
 			
-			ItemPoolConfigJSON.pools = newPools;
+			ItemPool.pools = newPools;
 			
 		} catch(Exception ex) {
 			ex.printStackTrace();
