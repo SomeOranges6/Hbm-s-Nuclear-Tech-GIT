@@ -420,7 +420,6 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.tile_lab_broken, 6), new Object[] { " C " , "C C", " C ", 'C', ModBlocks.tile_lab_cracked });
 		addShapelessAuto(new ItemStack(ModBlocks.asphalt_light, 1), new Object[] { ModBlocks.asphalt, Items.glowstone_dust });
 		addShapelessAuto(new ItemStack(ModBlocks.asphalt, 1), new Object[] { ModBlocks.asphalt_light });
-		addRecipeAuto(new ItemStack(ModBlocks.block_niter_reinforced, 1), new Object[] { "TCT", "CNC", "TCT", 'T', ANY_RESISTANTALLOY.ingot(), 'C', ModBlocks.concrete, 'N', KNO.block() });
 		
 		String[] dyes = { "Black", "Red", "Green", "Brown", "Blue", "Purple", "Cyan", "LightGray", "Gray", "Pink", "Lime", "Yellow", "LightBlue", "Magenta", "Orange", "White" };
 		
@@ -1056,6 +1055,8 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.mold_base), new Object[] { " B ", "BIB", " B ", 'B', ModItems.ingot_firebrick, 'I', IRON.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.brick_fire), new Object[] { "BB", "BB", 'B', ModItems.ingot_firebrick });
 		addShapelessAuto(new ItemStack(ModItems.ingot_firebrick, 4), new Object[] { ModBlocks.brick_fire });
+
+		addRecipeAuto(new ItemStack(ModBlocks.machine_drain), new Object[] { "PPP", "T  ", "PPP", 'P', STEEL.plateCast(), 'T', ModItems.tank_steel });
 		
 		addRecipeAuto(new ItemStack(ModBlocks.filing_cabinet, 1, DecoCabinetEnum.STEEL.ordinal()), new Object[] { " P ", "PIP", " P ", 'P', STEEL.plate(), 'I', ModItems.plate_polymer });
 		

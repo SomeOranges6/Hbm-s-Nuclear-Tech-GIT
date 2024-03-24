@@ -66,7 +66,6 @@ import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
@@ -862,6 +861,7 @@ public class MainRegistry {
 		RadiolysisRecipes.registerRadiolysis();
 		
 		FalloutConfigJSON.initialize();
+		ItemPoolConfigJSON.initialize();
 
 		TileEntityNukeCustom.registerBombItems();
 		ArmorUtil.register();
@@ -932,7 +932,6 @@ public class MainRegistry {
 	public void serverStart(FMLServerStartingEvent event) {
 		World world = event.getServer().getEntityWorld();
 		RBMKDials.createDials(world);
-		SiegeOrchestrator.createGameRules(world);
 		event.registerServerCommand(new CommandReloadRecipes());
 		event.registerServerCommand(new CommandDebugChunkLoad());
 		event.registerServerCommand(new CommandSatellites());
@@ -1237,6 +1236,24 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.block_cap_fritz");
 		ignoreMappings.add("hbm:tile.block_cap_sunset");
 		ignoreMappings.add("hbm:tile.block_cap_star");
+		ignoreMappings.add("hbm:tile.machine_deaerator");
+		ignoreMappings.add("hbm:item.bottle2_sunset");
+		ignoreMappings.add("hbm:item.cap_sunset");
+		ignoreMappings.add("hbm:item.cap_star");
+		ignoreMappings.add("hbm:tile.test_render");
+		ignoreMappings.add("hbm:tile.test_bomb");
+		ignoreMappings.add("hbm:tile.test_bomb_advanced");
+		ignoreMappings.add("hbm:tile.test_nuke");
+		ignoreMappings.add("hbm:tile.test_pipe");
+		ignoreMappings.add("hbm:tile.test_ct");
+		ignoreMappings.add("hbm:tile.test_rail");
+		ignoreMappings.add("hbm:tile.block_niter_reinforced");
+		ignoreMappings.add("hbm:tile.siege_shield");
+		ignoreMappings.add("hbm:tile.siege_internal");
+		ignoreMappings.add("hbm:tile.siege_circuit");
+		ignoreMappings.add("hbm:tile.siege_emergency");
+		ignoreMappings.add("hbm:tile.siege_hole");
+		ignoreMappings.add("hbm:tile.machine_shredder_large");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
