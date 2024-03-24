@@ -187,13 +187,13 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 				this.log[i - 1] = this.log[i];
 			}
 			
-			if(GeneralConfig.enable528) {
+			if(GeneralConfig.enable528 || GeneralConfig.enable528PingPongDeath) {
 				long threshold = this.getMaxPower() / 3;
 				if(Math.abs(prevPower - power) > threshold && Math.abs(prevPower - prevPowerState) > threshold) {
 					this.pingPongTicks++;
 					if(this.pingPongTicks > 10) {
 						worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
-						worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 10F, false, false);
+						worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 3F, false, false);
 					}
 				} else {
 					if(this.pingPongTicks > 0) this.pingPongTicks--;
