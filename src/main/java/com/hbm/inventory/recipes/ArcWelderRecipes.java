@@ -55,8 +55,6 @@ public class ArcWelderRecipes extends SerializableRecipe {
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.motor_bismuth, 2), 100, 10_000L, new FluidStack(Fluids.UNSATURATEDS, 100),
 				new OreDictStack(BI.nugget(), 4), new ComparableStack(ModBlocks.hadron_coil_gold, 4), new ComparableStack(ModItems.motor, 1)));
 
-		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.hull_big_steel, 1), 100, 500L,
-				new OreDictStack(STEEL.ingot(), 6)));
 
 		//Dense Wires
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.wire_dense, 1, Mats.MAT_ALLOY.id), 100, 10_000L,
@@ -83,11 +81,7 @@ public class ArcWelderRecipes extends SerializableRecipe {
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_STEEL.id), 50, 250L, new FluidStack(Fluids.OXYGEN, 100),
 				new OreDictStack(STEEL.plateCast(), 2)));
 		if(!enabled528) {
-			//Shells
-			recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.hull_big_aluminium, 1), 50, 2_000L,
-					new OreDictStack(AL.ingot(), 6)));
-			recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.hull_big_titanium, 1), 50, 2_000L,
-					new OreDictStack(TI.ingot(), 6)));
+
 			//literally just the strand caster(for now)(not in 528)
 			recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_COPPER.id), 200, 1_000L,
 					new OreDictStack(CU.plateCast(), 2)));
@@ -111,10 +105,6 @@ public class ArcWelderRecipes extends SerializableRecipe {
 			recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_TUNGSTEN.id), 1_200, 250_000L, new FluidStack(Fluids.OXYGEN, 1_000),
 					new OreDictStack(W.plateCast(), 2)));
 		} else {
-			recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.hull_big_aluminium, 1), 50, 2_000L, new FluidStack(Fluids.XENON, 200),
-					new OreDictStack(AL.ingot(), 6)));
-			recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.hull_big_titanium, 1), 50, 2_000L,new FluidStack(Fluids.XENON, 200),
-					new OreDictStack(TI.ingot(), 6)));
 			recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_TCALLOY.id), 1_200, 1_000_000L, new FluidStack(Fluids.OXYGEN, 16_000),
 					new OreDictStack(TCALLOY.plateCast(), 2)));
 			recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_CDALLOY.id), 1_200, 1_000_000L, new FluidStack(Fluids.OXYGEN, 16_000),
