@@ -44,7 +44,7 @@ public class ArcWelderRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.coil_gold, 2), new OreDictStack(STEEL.plate(), 2)));
 
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.tank_steel, 6), 200, 2_000L,
-				new OreDictStack(STEEL.plateCast(), 3), new OreDictStack(AL.plateCast(), 1)));
+				new OreDictStack(STEEL.plateCast(), 3), new OreDictStack(TI.plateCast(), 1)));
 
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.motor, 2), 100, 200L,
 				new OreDictStack(IRON.plate(), 3), new ComparableStack(ModItems.coil_copper, 3)));

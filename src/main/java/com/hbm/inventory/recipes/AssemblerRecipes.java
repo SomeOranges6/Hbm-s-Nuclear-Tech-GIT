@@ -429,24 +429,24 @@ public class AssemblerRecipes extends SerializableRecipe {
 			}, 100);
 		
 		makeRecipe(new ComparableStack(ModBlocks.machine_large_turbine, 1), new AStack[] {
-				!exp ? new OreDictStack(STEEL.plate528(), 12) : new OreDictStack(STEEL.heavyComp(), 1),
+				!exp ? new OreDictStack(STEEL.plate528(), 12) : new OreDictStack(STEEL.heavyComp(), 2),
 				new OreDictStack(RUBBER.ingot(), 4),
 				new ComparableStack(ModItems.turbine_titanium, 3),
-				new OreDictStack(GOLD.wireDense(), 6),
-				new OreDictStack(DURA.pipe(), 3),
-				new OreDictStack(STEEL.pipe(), 4),
+				new OreDictStack(GOLD.wireDense(), !exp ? 6 : 24),
+				new OreDictStack(DURA.pipe(), !exp ? 3 : 12),
+				new OreDictStack(STEEL.pipe(), !exp ? 4 : 12),
 				new ComparableStack(ModItems.circuit_aluminium, 1),
 			}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.machine_chungus, 1), new AStack[] {
 				new OreDictStack(STEEL.shell(), 6),
-				!exp ? new OreDictStack(STEEL.plateWelded(), 16) : new OreDictStack(STEEL.heavyComp(), 3),
-				!exp ? new OreDictStack(TI.plate528(), 12) : new OreDictStack(TI.heavyComp(), 1),
+				!exp ? new OreDictStack(STEEL.plateWelded(), 16) : new OreDictStack(STEEL.heavyComp(), 4),
+				!exp ? new OreDictStack(TI.plate528(), 12) : new OreDictStack(TI.heavyComp(), 3),
 				new OreDictStack(ANY_RESISTANTALLOY.ingot(), 16),
 				new ComparableStack(ModItems.turbine_tungsten, 5),
 				new ComparableStack(ModItems.turbine_titanium, 3),
 				new ComparableStack(ModItems.flywheel_beryllium, 1),
-				new OreDictStack(GOLD.wireDense(), 48),
-				new OreDictStack(DURA.pipe(), 16),
+				new OreDictStack(GOLD.wireDense(), !exp ? 48 : 128),
+				new OreDictStack(DURA.pipe(), !exp ? 16 : 48),
 				new OreDictStack(STEEL.pipe(), 16)
 			}, 600);
 		
@@ -783,7 +783,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				!exp ? new OreDictStack(STEEL.plate528(), 8) : new OreDictStack(STEEL.heavyComp(), 1),
 				new OreDictStack(DESH.ingot(), 2),
 				new ComparableStack(ModItems.tank_steel, 1),
-				new OreDictStack(STEEL.pipe(), 12),
+				!exp ? new OreDictStack(STEEL.pipe(), 12) : new OreDictStack(DURA.pipe(), 12),
 				new ComparableStack(ModItems.crystal_diamond, 1)
 			}, 400);
 		makeRecipe(new ComparableStack(Item.getItemFromBlock(ModBlocks.machine_fel), 1), new AStack[] {
