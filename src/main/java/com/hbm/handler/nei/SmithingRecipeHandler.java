@@ -25,13 +25,14 @@ public class SmithingRecipeHandler extends TemplateRecipeHandler implements ICom
 	@Override
 	public ItemStack[] getMachinesForRecipe() {
 		return new ItemStack[]{
-				new ItemStack(ModBlocks.anvil_lead),
 				new ItemStack(ModBlocks.anvil_iron),
+				new ItemStack(ModBlocks.anvil_lead),
 				new ItemStack(ModBlocks.anvil_steel),
-				new ItemStack(ModBlocks.anvil_starmetal),
-				new ItemStack(ModBlocks.anvil_meteorite),
+				new ItemStack(ModBlocks.anvil_desh),
+				new ItemStack(ModBlocks.anvil_saturnite),
 				new ItemStack(ModBlocks.anvil_ferrouranium),
-				new ItemStack(ModBlocks.anvil_bismuth),
+				new ItemStack(ModBlocks.anvil_bismuth_bronze),
+				new ItemStack(ModBlocks.anvil_arsenic_bronze),
 				new ItemStack(ModBlocks.anvil_schrabidate),
 				new ItemStack(ModBlocks.anvil_dnt),
 				new ItemStack(ModBlocks.anvil_osmiridium),
