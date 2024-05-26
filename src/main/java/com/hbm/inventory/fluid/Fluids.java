@@ -176,6 +176,7 @@ public class Fluids {
 	public static FluidType THORIUM_SALT_DEPLETED;
 	public static FluidType FULLERENE;
 	public static FluidType COMP_AIR;
+	public static FluidType STELLAR_FLUX;
 	
 	public static List<FluidType> customFluids = new ArrayList();
 
@@ -373,7 +374,9 @@ public class Fluids {
 		LIGHTOIL_DS =			new FluidType("LIGHTOIL_DS",	0x63543E, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xB46B52)).addTraits(LIQUID, P_FUEL);
 		MONAZITE_MUD = 			new FluidType("MONAZITE_MUD", 0xFF8A4D, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_Corrosive(60));
 		MONAZITE_SOLUTION = 	new FluidType("MONAZITE_SOLUTION", 0x8F8F5F, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
-		COMP_AIR =				new FluidType(141, "COMP_AIR",	0x808080, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+		COMP_AIR =				new FluidType("COMP_AIR",	0x808080, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+		LIGHTOIL_DS =			new FluidType("LIGHTOIL_DS",		0x63543E, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xB46B52)).addTraits(LIQUID, P_FUEL);
+		STELLAR_FLUX =			new FluidType(143, "STELLAR_FLUX",	0xE300FF, 0, 4, 4, EnumSymbol.ANTIMATTER).addTraits(ANTI, GASEOUS);
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -529,6 +532,8 @@ public class Fluids {
 		//garbage
 		metaOrder.add(XPJUICE);
 		metaOrder.add(ENDERJUICE);
+		//plasma-esque
+		metaOrder.add(STELLAR_FLUX);
 		//plasma
 		metaOrder.add(PLASMA_DT);
 		metaOrder.add(PLASMA_HD);
@@ -583,19 +588,19 @@ public class Fluids {
 		HOTCRACKOIL.addTraits(new FT_Coolable(CRACKOIL, 1, 1, 10).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 		HOTCRACKOIL_DS.addTraits(new FT_Coolable(CRACKOIL_DS, 1, 1, 10).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 
-		COOLANT.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).setEff(HeatingType.PWR, 1.0D).addStep(300, 1, COOLANT_HOT, 1));
+		COOLANT.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).setEff(HeatingType.PWR, 1.0D).setEff(HeatingType.ICF, 1.0D).addStep(300, 1, COOLANT_HOT, 1));
 		COOLANT_HOT.addTraits(new FT_Coolable(COOLANT, 1, 1, 300).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 		
-		MUG.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).setEff(HeatingType.PWR, 1.0D).addStep(400, 1, MUG_HOT, 1), new FT_PWRModerator(1.15D));
+		MUG.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).setEff(HeatingType.PWR, 1.0D).setEff(HeatingType.ICF, 1.25D).addStep(400, 1, MUG_HOT, 1), new FT_PWRModerator(1.15D));
 		MUG_HOT.addTraits(new FT_Coolable(MUG, 1, 1, 400).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 		
-		BLOOD.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(500, 1, BLOOD_HOT, 1));
+		BLOOD.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).setEff(HeatingType.ICF, 1.25D).addStep(500, 1, BLOOD_HOT, 1));
 		BLOOD_HOT.addTraits(new FT_Coolable(BLOOD, 1, 1, 500).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 		
 		HEAVYWATER.addTraits(new FT_Heatable().setEff(HeatingType.PWR, 1.0D).addStep(300, 1, HEAVYWATER_HOT, 1), new FT_PWRModerator(1.25D));
 		HEAVYWATER_HOT.addTraits(new FT_Coolable(HEAVYWATER, 1, 1, 300).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 		
-		SODIUM.addTraits(new FT_Heatable().setEff(HeatingType.PWR, 2.5D).addStep(400, 1, SODIUM_HOT, 1));
+		SODIUM.addTraits(new FT_Heatable().setEff(HeatingType.PWR, 2.5D).setEff(HeatingType.ICF, 3D).addStep(400, 1, SODIUM_HOT, 1));
 		SODIUM_HOT.addTraits(new FT_Coolable(SODIUM, 1, 1, 400).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 		
 		THORIUM_SALT.addTraits(new FT_Heatable().setEff(HeatingType.PWR, 1.0D).addStep(400, 1, THORIUM_SALT_HOT, 1), new FT_PWRModerator(2.5D));
