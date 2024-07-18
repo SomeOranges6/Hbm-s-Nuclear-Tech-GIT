@@ -121,7 +121,7 @@ public class ItemBedrockOreNew extends Item {
 		LIGHT_METAL(	0xFFFFFF, 0x353535, "light",	IRON, CU,					TI, AL, AL,						TI, LI, NA,			CD, LI, NA),
 		HEAVY_METAL(	0x868686, 0x000000, "heavy",	W, PB,						GOLD, GOLD, BE,					W, PB, BE,					TA, GOLD, BI),
 		RARE_EARTH(		0xE6E6B6, 0x1C1C00, "rare",		CO, EnumChunkType.RARE,		B, LA, NB,						ND, B, ZR,						NB, ND, SR),
-		ACTINIDE(		0xC1C7BD, 0x2B3227, "actinide",	U, TH232,					RA226, RA226, U,			RA226, PO210, PO210,			BI, NP237, NP237),
+		ACTINIDE(		0xC1C7BD, 0x2B3227, "actinide",	U, TH232,					RA226, RA226, U,			RA226, PO210, PO210,			BI, NP237, PU),
 		NON_METAL(		0xAFAFAF, 0x0F0F0F, "nonmetal",	COAL, S,					LIGNITE, KNO, F,				P_RED, F, KNO,					CHLOROCALCITE, BR, I),
 		CRYSTALLINE(	0xE2FFFA, 0x1E8A77, "crystal",	REDSTONE, CINNABAR,			SODALITE, ASBESTOS, DIAMOND,	CINNABAR, ASBESTOS, EMERALD,	BORAX, MOLYSITE, SODALITE);
 		//sediment
