@@ -1,8 +1,8 @@
 package com.hbm.saveddata.satellites;
 
-import com.hbm.entity.projectile.EntityTom;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.SatelliteSavedData;
+import com.hbm.saveddata.TomSaveData;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,7 +10,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkProvider;
 
 public class SatelliteHorizons extends Satellite {
 	
@@ -42,13 +41,14 @@ public class SatelliteHorizons extends Satellite {
 		used = true;
 		SatelliteSavedData.getData(world).markDirty();
 		
-		EntityTom tom = new EntityTom(world);
-		tom.setPosition(x + 0.5, 600, z + 0.5);
-		
-		IChunkProvider provider = world.getChunkProvider();
-		provider.loadChunk(x >> 4, z >> 4);
-		
-		world.spawnEntityInWorld(tom);
+		long finalDecent = (600-world.getHeightValue(x, z));
+		long w = world.getWorldTime()%24000;
+		long delay = (30*24000)+3460;
+		TomSaveData data = TomSaveData.forWorld(world);
+		data.dtime = finalDecent * 2;
+		data.time = (world.getWorldTime()-w)+delay;//24000;//One MC day before impact
+		data.x = x;
+		data.z = z;
 
 		for(Object p : world.playerEntities)
 			((EntityPlayer)p).triggerAchievement(MainRegistry.horizonsEnd);
@@ -59,4 +59,10 @@ public class SatelliteHorizons extends Satellite {
 			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(EnumChatFormatting.RED + "Horizons has been activated."));
 		}
 	}
+
+	@Override
+	public float[] getColor() {
+		return new float[] { 0.0F, 0.0F, 0.0F };
+	}
+
 }

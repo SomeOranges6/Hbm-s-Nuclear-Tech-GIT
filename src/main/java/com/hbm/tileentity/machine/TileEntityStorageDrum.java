@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.config.VersatileConfig;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.hazard.type.HazardTypeNeutron;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.container.ContainerStorageDrum;
@@ -63,7 +64,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 		if(!worldObj.isRemote) {
 			
 			float rad = 0;
-			
+			float digamma = 0;
 			int liquid = 0;
 			int gas = 0;
 			
@@ -75,6 +76,11 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 					
 					if(worldObj.getTotalWorldTime() % 20 == 0) {
 						rad += HazardSystem.getHazardLevelFromStack(slots[i], HazardRegistry.RADIATION);
+						digamma += HazardSystem.getHazardLevelFromStack(slots[i], HazardRegistry.DIGAMMA);
+						if(item == ModItems.particle_digamma)
+						{
+							digamma+=0.333f;
+						}
 					}
 					
 					int meta = slots[i].getItemDamage();
@@ -120,12 +126,15 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 					if(item == ModItems.nugget_pb209 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 50) == 0) {
 						slots[i] = new ItemStack(ModItems.nugget_bismuth, 1, meta);
 					}
+					if(slots[i] != null) {
+						HazardTypeNeutron.decay(slots[i], 0.9899916F);
 
-					if(item == ModItems.powder_sr90 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 10) == 0) {
-						slots[i] = new ItemStack(ModItems.powder_zirconium, 1, meta);
-					}
-					if(item == ModItems.nugget_sr90 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 50) == 0) {
-						slots[i] = new ItemStack(ModItems.nugget_zirconium, 1, meta);
+						if(item == ModItems.powder_sr90 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 10) == 0) {
+							slots[i] = new ItemStack(ModItems.powder_zirconium, 1, meta);
+						}
+						if(item == ModItems.nugget_sr90 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 50) == 0) {
+							slots[i] = new ItemStack(ModItems.nugget_zirconium, 1, meta);
+						}
 					}
 				}
 			}
@@ -161,13 +170,14 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 			tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			tanks[1].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
-			if(rad > 0) {
-				radiate(worldObj, xCoord, yCoord, zCoord, rad);
+			if(rad > 0 || digamma > 0) {
+				radiate(worldObj, xCoord, yCoord, zCoord, rad, digamma);
 			}
 		}
+		
 	}
 	
-	private void radiate(World world, int x, int y, int z, float rads) {
+	private void radiate(World world, int x, int y, int z, float rads, float digamma) {
 		
 		double range = 32D;
 		

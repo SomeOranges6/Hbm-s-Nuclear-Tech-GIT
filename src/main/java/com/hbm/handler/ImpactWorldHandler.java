@@ -106,6 +106,7 @@ public class ImpactWorldHandler {
 	public static World lastSyncWorld = null;
 	public static float fire = 0F;
 	public static float dust = 0F;
+	public static long time = 0;
 	public static boolean impact = false;
 
 	@SideOnly(Side.CLIENT)
@@ -125,4 +126,19 @@ public class ImpactWorldHandler {
 		if(world != lastSyncWorld) return false;
 		return impact;
 	}
+	
+	@SideOnly(Side.CLIENT)
+	public static long getTimeForClient(World world) {
+		if(world != lastSyncWorld) return 0;
+		return time;
+	}
+	public static int ctime = 0;
+	
+	@SideOnly(Side.CLIENT)
+	public static int getCTimeForClient(World world) {
+		if(world != lastSyncWorld) return 0;
+		return ctime;
+	}
+
+	
 }
