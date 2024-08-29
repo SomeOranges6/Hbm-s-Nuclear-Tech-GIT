@@ -12,6 +12,7 @@ import com.hbm.inventory.gui.GUIMachineAssembler;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IItemCopiable;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
@@ -31,7 +32,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase implements IUpgradeInfoProvider {
+public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase implements IUpgradeInfoProvider, IItemCopiable {
 	
 	public int recipe = -1;
 
@@ -295,5 +296,10 @@ public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase i
 		if(type == UpgradeType.POWER) return 3;
 		if(type == UpgradeType.OVERDRIVE) return 9;
 		return 0;
+	}
+
+	@Override
+	public int[] getCopySlots() {
+		return new int[]{1,4};
 	}
 }
