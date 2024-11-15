@@ -4,10 +4,8 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMachineGasFlare;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
@@ -33,7 +31,6 @@ import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -44,7 +41,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineGasFlare extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidContainer, IFluidStandardReceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable {
+public class TileEntityMachineGasFlare extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidStandardReceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -56,7 +53,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 
 	public TileEntityMachineGasFlare() {
 		super(6);
-		tank = new FluidTank(Fluids.GAS, 64000, 0);
+		tank = new FluidTank(Fluids.GAS, 64000);
 	}
 
 	@Override
@@ -113,7 +110,6 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 
 			tank.setType(3, slots);
 			tank.loadTank(1, 2, slots);
-			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			int maxVent = 50;
 			int maxBurn = 10;
@@ -187,6 +183,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 			data.setLong("power", this.power);
 			data.setBoolean("isOn", isOn);
 			data.setBoolean("doesBurn", doesBurn);
+			tank.writeToNBT(data, "t");
 			this.networkPack(data, 50);
 
 		} else {
@@ -251,6 +248,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 		this.power = nbt.getLong("power");
 		this.isOn = nbt.getBoolean("isOn");
 		this.doesBurn = nbt.getBoolean("doesBurn");
+		tank.readFromNBT(nbt, "t");
 	}
 
 	@Override
@@ -280,16 +278,6 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 	}
 
 	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
-	}
-
-	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { tank };
 	}
@@ -306,7 +294,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineGasFlare(player.inventory, this);
 	}
 

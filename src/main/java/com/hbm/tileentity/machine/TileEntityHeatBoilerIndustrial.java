@@ -27,7 +27,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.World;
 
 public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardTransceiver, IConfigurableMachine, IFluidCopiable {
 
@@ -45,8 +44,8 @@ public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase impleme
 	public TileEntityHeatBoilerIndustrial() {
 		this.tanks = new FluidTank[2];
 
-		this.tanks[0] = new FluidTank(Fluids.WATER, 64_000, 0);
-		this.tanks[1] = new FluidTank(Fluids.STEAM, 64_000 * 100, 1);
+		this.tanks[0] = new FluidTank(Fluids.WATER, 64_000);
+		this.tanks[1] = new FluidTank(Fluids.STEAM, 64_000 * 100);
 	}
 	
 	@Override

@@ -23,7 +23,6 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -45,8 +44,8 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase imp
 	public TileEntityMachineChemfac() {
 		super(77);
 
-		water = new FluidTank(Fluids.WATER, 64_000, tanks.length);
-		steam = new FluidTank(Fluids.SPENTSTEAM, 64_000, tanks.length + 1);
+		water = new FluidTank(Fluids.WATER, 64_000);
+		steam = new FluidTank(Fluids.SPENTSTEAM, 64_000);
 	}
 
 	@Override
@@ -358,7 +357,7 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase imp
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIChemfac(player.inventory, this);
 	}
 

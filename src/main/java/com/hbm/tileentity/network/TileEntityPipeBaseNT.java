@@ -1,6 +1,5 @@
 package com.hbm.tileentity.network;
 
-import com.hbm.blocks.network.FluidDuctBase;
 import com.hbm.blocks.network.IBlockFluidDuct;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.HbmKeybinds;
@@ -12,6 +11,8 @@ import api.hbm.fluid.IPipeNet;
 import api.hbm.fluid.PipeNet;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.IFluidCopiable;
+import com.hbm.util.Compat;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -36,7 +37,7 @@ public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor,
 			lastType = type;
 		}
 		
-		if(!worldObj.isRemote && canUpdate()) {
+		if(!worldObj.isRemote && shouldConnect()) {
 			
 			//we got here either because the net doesn't exist or because it's not valid, so that's safe to assume
 			this.setPipeNet(type, null);
@@ -75,7 +76,7 @@ public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor,
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 			
-			TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+			TileEntity te = Compat.getTileStandard(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
 			
 			if(te instanceof IFluidConductor) {
 				
@@ -109,8 +110,7 @@ public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor,
 	/**
 	 * Only update until a power net is formed, in >99% of the cases it should be the first tick. Everything else is handled by neighbors and the net itself.
 	 */
-	@Override
-	public boolean canUpdate() {
+	public boolean shouldConnect() {
 		return (this.network == null || !this.network.isValid()) && !this.isInvalid();
 	}
 

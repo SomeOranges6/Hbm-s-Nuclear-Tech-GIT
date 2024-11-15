@@ -1,9 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.handler.CompatHandler;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.container.ContainerCoreInjector;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUICoreInjector;
@@ -18,7 +16,6 @@ import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,7 +25,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreInjector extends TileEntityMachineBase implements IFluidContainer, IFluidStandardReceiver, SimpleComponent, IGUIProvider, CompatHandler.OCComponent {
+public class TileEntityCoreInjector extends TileEntityMachineBase implements IFluidStandardReceiver, SimpleComponent, IGUIProvider, CompatHandler.OCComponent {
 	
 	public FluidTank[] tanks;
 	public static final int range = 15;
@@ -37,8 +34,8 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 	public TileEntityCoreInjector() {
 		super(4);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.DEUTERIUM, 128000, 0);
-		tanks[1] = new FluidTank(Fluids.TRITIUM, 128000, 1);
+		tanks[0] = new FluidTank(Fluids.DEUTERIUM, 128000);
+		tanks[1] = new FluidTank(Fluids.TRITIUM, 128000);
 	}
 
 	@Override
@@ -103,11 +100,10 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 			
 			this.markDirty();
 
-			tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			tanks[1].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("beam", beam);
+			tanks[0].writeToNBT(data, "t0");
+			tanks[1].writeToNBT(data, "t1");
 			this.networkPack(data, 250);
 		}
 	}
@@ -115,29 +111,18 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 	public void networkUnpack(NBTTagCompound data) {
 		super.networkUnpack(data);
 		beam = data.getInteger("beam");
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setTankType(type);
+		tanks[0].readFromNBT(data, "t0");
+		tanks[1].readFromNBT(data, "t1");
 	}
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
 	
@@ -199,7 +184,7 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICoreInjector(player.inventory, this);
 	}
 }

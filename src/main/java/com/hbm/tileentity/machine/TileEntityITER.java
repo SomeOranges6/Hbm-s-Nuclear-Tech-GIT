@@ -9,7 +9,6 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.handler.CompatHandler;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.container.ContainerITER;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -22,8 +21,8 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemFusionShield;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
@@ -42,7 +41,6 @@ import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -53,7 +51,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityITER extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidContainer, IFluidStandardTransceiver, IGUIProvider, IInfoProviderEC, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable {
+public class TileEntityITER extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IGUIProvider, IInfoProviderEC, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable {
 	
 	public long power;
 	public static final long maxPower = 10000000;
@@ -79,9 +77,9 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 	public TileEntityITER() {
 		super(5);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.WATER, 1280000, 0);
-		tanks[1] = new FluidTank(Fluids.ULTRAHOTSTEAM, 128000, 1);
-		plasma = new FluidTank(Fluids.PLASMA_DT, 16000, 2);
+		tanks[0] = new FluidTank(Fluids.WATER, 1280000);
+		tanks[1] = new FluidTank(Fluids.ULTRAHOTSTEAM, 128000);
+		plasma = new FluidTank(Fluids.PLASMA_DT, 16000);
 	}
 
 	@Override
@@ -153,9 +151,6 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 			/// END Processing part ///
 
 			/// START Notif packets ///
-			for(int i = 0; i < tanks.length; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			plasma.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			for(DirPos pos : getConPos()) {
 				if(tanks[1].getFill() > 0) {
@@ -167,6 +162,9 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 			data.setBoolean("isOn", isOn);
 			data.setLong("power", power);
 			data.setInteger("progress", progress);
+			tanks[0].writeToNBT(data, "t0");
+			tanks[1].writeToNBT(data, "t1");
+			plasma.writeToNBT(data, "t2");
 			
 			if(slots[3] == null) {
 				data.setInteger("blanket", 0);
@@ -387,6 +385,9 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 		this.power = data.getLong("power");
 		this.blanket = data.getInteger("blanket");
 		this.progress = data.getInteger("progress"); //
+		tanks[0].readFromNBT(data, "t0");
+		tanks[1].readFromNBT(data, "t1");
+		plasma.readFromNBT(data, "t2");
 	}
 
 	@Override
@@ -399,24 +400,6 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 	@Override public void setPower(long i) { this.power = i; }
 	@Override public long getPower() { return power; }
 	@Override public long getMaxPower() { return maxPower; }
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setFill(fill);
-		
-		if(index == 2)
-			plasma.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setTankType(type);
-		
-		if(index == 2)
-			plasma.setTankType(type);
-	}
 
 	@Override
 	public void onChunkUnload() {
@@ -562,7 +545,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIITER(player.inventory, this);
 	}
 

@@ -1,10 +1,9 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.ICopiable;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.util.CrucibleUtil;
 
@@ -19,7 +18,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 
-public class TileEntityFoundryOutlet extends TileEntityFoundryBase implements ICopiable {
+public class TileEntityFoundryOutlet extends TileEntityFoundryBase{
 
 	public NTMMaterial filter = null;
 	public NTMMaterial lastFilter = null;
@@ -146,7 +145,7 @@ public class TileEntityFoundryOutlet extends TileEntityFoundryBase implements IC
 		if(nbt.hasKey("invertFilter")) this.invertFilter = nbt.getBoolean("invertFilter");
 		if(nbt.hasKey("matFilter")) {
 			int[] ids = nbt.getIntArray("matFilter");
-			if(ids.length > 0)
+			if(ids.length > 0 && index < ids.length)
 				this.filter = Mats.matById.get(ids[index]);
 		}
 
@@ -155,8 +154,8 @@ public class TileEntityFoundryOutlet extends TileEntityFoundryBase implements IC
 	@Override
 	public String[] infoForDisplay(World world, int x, int y, int z) {
 		ArrayList<String> info = new ArrayList<>();
-		info.add("copyTool.invertRedstone");
-		info.add("copyTool.invertFilter");
+		info.add("copytool.invertRedstone");
+		info.add("copytool.invertFilter");
 		if (filter != null) info.add(filter.getUnlocalizedName());
 		return info.toArray(new String[0]);
 	}

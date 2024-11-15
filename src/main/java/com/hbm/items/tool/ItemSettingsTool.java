@@ -4,9 +4,11 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PlayerInformPacket;
+import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.Either;
+import com.hbm.util.I18nUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,9 +50,12 @@ public class ItemSettingsTool extends Item {
 			if(displayInfo.tagCount() > 0){
 				for (int j = 0; j < displayInfo.tagCount(); j++) {
 					NBTTagCompound nbt = displayInfo.getCompoundTagAt(j);
-					String info = nbt.getString("info");
 					EnumChatFormatting format = stack.stackTagCompound.getInteger("copyIndex") == j ? EnumChatFormatting.AQUA : EnumChatFormatting.YELLOW;
-					PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(format + info, 897 + j, 4000 ), (EntityPlayerMP) entity);
+					PacketDispatcher.wrapper.sendTo(
+							new PlayerInformPacket(ChatBuilder.startTranslation(nbt.getString("info"))
+									.color(format)
+									.flush()
+							, 897 + j, 4000 ), (EntityPlayerMP) entity);
 				}
 			}
 		}
@@ -61,12 +66,16 @@ public class ItemSettingsTool extends Item {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		list.add("Can copy the settings (filters, fluid ID, etc) of machines");
 		list.add("Shift right-click to copy, right click to paste");
+		list.add("Ctrl click on pipes to paste settings to multiple pipes");
 		if(stack.stackTagCompound != null) {
 			NBTTagCompound nbt = stack.stackTagCompound;
-			list.add(EnumChatFormatting.YELLOW + "Current machine:"
-					+ (nbt.hasKey("tileName") ? EnumChatFormatting.BLUE + " " + nbt.getString("tileName") : EnumChatFormatting.RED + " None "));
-		}
+			if (nbt.hasKey("tileName")){
+				list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey(nbt.getString("tileName") + ".name"));
+			} else {
+				list.add(EnumChatFormatting.RED + " None ");
+			}
 
+		}
 	}
 	@Override
 	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fX, float fY, float fZ) {
@@ -76,25 +85,33 @@ public class ItemSettingsTool extends Item {
 
 		if(player.isSneaking()) {
 			stack.stackTagCompound = copiable.getSettings(world, x, y, z);
-			stack.stackTagCompound.setString("tileName", copiable.getSettingsSourceID(schrodinger));
-			stack.stackTagCompound.setInteger("copyIndex", 0);
-			stack.stackTagCompound.setInteger("inputDelay", 0);
-			String[] info = copiable.infoForDisplay(world, x, y, z);
-			if(info != null) {
-				NBTTagList displayInfo = new NBTTagList();
-				for (String str : info) {
-					NBTTagCompound nbt = new NBTTagCompound();
-					nbt.setString("info", str);
-					displayInfo.appendTag(nbt);
-				}
-				stack.stackTagCompound.setTag("displayInfo", displayInfo);
-			}
+			if(stack.stackTagCompound != null) {
 
-			if(world.isRemote) {
+				stack.stackTagCompound.setString("tileName", copiable.getSettingsSourceID(schrodinger));
+				stack.stackTagCompound.setInteger("copyIndex", 0);
+				stack.stackTagCompound.setInteger("inputDelay", 0);
+				String[] info = copiable.infoForDisplay(world, x, y, z);
+				if (info != null) {
+					NBTTagList displayInfo = new NBTTagList();
+					for (String str : info) {
+						NBTTagCompound nbt = new NBTTagCompound();
+						nbt.setString("info", str);
+						displayInfo.appendTag(nbt);
+					}
+					stack.stackTagCompound.setTag("displayInfo", displayInfo);
+				}
+
+				if (world.isRemote) {
+					player.addChatMessage(ChatBuilder.start("[").color(EnumChatFormatting.DARK_AQUA)
+							.nextTranslation(this.getUnlocalizedName() + ".name").color(EnumChatFormatting.DARK_AQUA)
+							.next("] ").color(EnumChatFormatting.DARK_AQUA)
+							.next("Copied settings of " + copiable.getSettingsSourceDisplay(schrodinger)).color(EnumChatFormatting.AQUA).flush());
+				}
+			} else {
 				player.addChatMessage(ChatBuilder.start("[").color(EnumChatFormatting.DARK_AQUA)
-					.nextTranslation(this.getUnlocalizedName() + ".name").color(EnumChatFormatting.DARK_AQUA)
-					.next("] ").color(EnumChatFormatting.DARK_AQUA)
-					.next("Copied settings of " + copiable.getSettingsSourceDisplay(schrodinger)).color(EnumChatFormatting.AQUA).flush());
+						.nextTranslation(this.getUnlocalizedName() + ".name").color(EnumChatFormatting.DARK_AQUA)
+						.next("] ").color(EnumChatFormatting.DARK_AQUA)
+						.next("Copy failed, machine has no settings tool support: " + copiable.getSettingsSourceDisplay(schrodinger)).color(EnumChatFormatting.RED).flush());
 			}
 
 		} else if(stack.hasTagCompound()) {

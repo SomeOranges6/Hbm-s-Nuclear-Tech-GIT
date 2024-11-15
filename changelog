@@ -1,32 +1,73 @@
+## Gun rework
+* Place holder place holder place hooooooooooldeeeeeeeer
+
 ## Added
-* Plushies
+* `/ntmclient`
+  * Allows some client-only config options to be edited while ingame
+  * Config is stored in `hbmClient.json` in the `hbmConfig` folder
+  * Configs can be edited ingame via `/ntmclient set <name> <value>` or in the file and then `/ntmclient reload`
+  * Available configs include geiger counter HUD position, info system position and orientation, custom main menu splash texts, ore dict display and custom nuke item info
+  * Check the config file or `/ntmclient list` for a full list of values, the name should make them self-explanatory!
+* Liquid lead
+  * A valid coolant for both PWRs and ICFs
+  * Has an immense heat transfer speed bonus, allowing ICFs to be cooled even when using higher tier pellets
+  * Cools quite effectively in PWRs, but has a negative neutron modifier and a small penalty of how much heat ends up usable
+  * Overall a cheap and very good coolant, just not as efficient as sodium
 
 ## Changed
-* The fluid burner, heat exchanging heater and cooling tower now use the single steel pipe items instead of the larger steel pipes
-* Reduced the amount of condensers needed for crafting the cooling towers
-* Liquefactors and solidifiers now have a base processing time of 5 seconds per operation (instead of 10)
-* Added some info to the coltass about how the coltan deposit works
-* Moved some NEI handlers around, fluid containers are now listed last and radiolysis is now listed right after cracking, since they have the same recipes
-* The autocrafter's inputs are now limited to 4 items per slot
-* Autocrafters can now receive stacked items again (except for items with containers), if they do not exceed the 4 item threshold
-* Bedrock ores now produce bedrock ore fragments instead of straight outputs, one fragment is equivalent to a nugget
-  * Fragments also differ in stack size when produced, most primary fractions yield 9 (equal to the previous full powder), but things with lower demands/higher value like bismuth now yield substantially less
-* The base speed of the large mining drill when mining bedrock has been reduced by 80%, it is now advisable to either invest in upgrades early on or use multiple drills
-* The bedrock ore processor now has a base speed of 30 seconds
-* Standard, special, HE artillery shells and most missiles now use updated explosion animations
-* Decreased hardness of slag blocks
-* Removed legacy circuits
-* Removed a bunch of random unused items
+* Updated russian and chinese localization
+* The fine soot recipe in the pyrolysis oven now only needs 4 tar
+* Overdrive upgrades now use hard plastic/fullerite instead of lithium crystals
+* Machines now only send their sync packets once a second instead of once per tick if the values haven't changed, reducing network traffic by a considerable amount
+* Tom's explosion no longer causes any block updates on the millions of blocks it deletes which hopefully fixes a majority of the lag caused by the crater
+* Overdrive upgrades now increase power usage in pyrolysis ovens (equivalent to 2 speed upgrades per level)
+* Due to the increased maximum demand with overdrives + speed upgrades, the energy buffer for the pyrolysis oven has been increased tenfold
+* Updated basalt textures
+* Scaffold blocks can now be placed horizontally
+* Updated the shredder's textures
+* The strand caster will now cast its remaining buffer after 10 seconds of inactivity, even if the buffer is not full enough for a batch of 9
+* The soldering station now has a toggle for the "refuse to do recipes with no fluid if fluid is present" behavior
+* Recipes using the ore dictionary "oreThorium232" are now also generated for "oreThorium"
+* Conveyor grabbers can now output onto belts directly
+  * I could have just made grabbers delete the input and spawn an identical item on the output but simply changing the position makes it look like the item is sucked in and it looks hilarious
+* Cable connections (connectors, pylons, substations) now render about 10x faster and no longer have weird inaccuracies where the segments meet
+* Cables can be made even faster by setting `RENDER_CABLE_HANG` in the config to `false`
+  * This causes cable connections to render taut, eliminating the need for multiple segments per pylon side
+* Heat exchanging heaters are now set to 24,000mB/t by default
+* The ICF GUI now lists the laser input as "per tick"
+* Glpyhid hives caught in a fallout zone now turn radioactive
+  * Glyphids spawned by radioactive hives are immune to fire, twice as fast and five times as strong
+  * Radioactive glpyhids however are NOT immune to radiation, and typically die quickly
+  * Radioactive hives are sterile, they will not spawn scouts
+* PWR core capacity is now limited to 500%, meaning the maximum amount of heatsinks usable is 80
+* Item autogen now generates ingot forms for items that are castable but don't have an ingot form, preventing cases where a material is completely uncastable
+  * This change makes sodium and strontium castable
+* Ore dict recipe autogen for crucible molds now prioritizes NTM's own items over any other ore dict compatible item
+* If a cracking tower's input is set to an incorrect type, the input and steam tanks are now preserved instead of being set to NONE
+* Removed legacy wire items
+* Removed random ore, along with its configs
+* DFC emitters are now only 95% efficient instead of 98%
+* Oily coal has been removed from worldgen, it no longer spawns in new chunks
+  * Existing oily coal can be mined risk-free
+* Reeds rendering into water can now be toggled with the RENDER_REEDS client config
+  * This option is usually enabled by default, unless Angelica is installed
+* Microwave explosions no longer destroy blocks, only the microwave and nearby players
+* Wings can now be used like armor mods
+* At higher pollution levels, skeletons can now spawn with guns
 
 ## Fixed
-* Fixed crash caused by decontaminating items with the radiolysis machine
-* Fixed ICFs not forming correctly depending on the orientation
-* Fixed electrolyzer metal recipe config not working
-* Fixed the meteor charms not working when used on helmets
-* Fixed NEI handler for the ICF's consturction showing inconsistent values
-* Fixed radiolysis recipes not showing up in NEI unless the usage recipes are loaded first
-* Fixed autocrafter's grid not properly updating when using NEI drag and drop for the filter
-* Fixed all carbon-based crucible materials having the wrong ID, this fix will shift IDs but prevent collisions with silicon
-* Fixed primary bedrock ore fraction roasing yielding one extra pile of crumbs
-* Fixed filing cabinets being unreasonably laggy due to the old packet code
-* Fixed the secure access door taking way longer to craft than any other door
+* The conveyor grabber should no longer skip over items when used in long lines
+* Fixed a potential crash regarding crucibles
+* Fixed compatibility with EndlessIDs, biome changes should no longer crash the game
+* Fixed GL state leak caused by fluid tanks, causing some tile entities to be rendered without face culling
+* Fixed a bug where using too many PWR heatsinks would cause an overflow, making the heat capacity negative
+* Fixed landmines generating into the floor on superflat worlds
+* All NTM type explosions are no longer affected by difficulty setting, preventing them from dealing damage in peaceful mode
+  * There are a few instances of vanilla explosions still being used, those will be phased out in the future
+* Fixed tutorial presentations triggering when hitting F1 not just in the inventory but also when looking at the block in question
+* Fixed a bug regarding shift clicking in the breeding reactor
+* Fixed empty particle capsules not being extractable from the ICF pellet maker
+* Fixed issue regarding mass storage filters when using GTNH-NEI
+* Fixed DFC emitters calculating their original 98% inefficiency twice when hitting another emitter or tungsten crate
+* Fixed the wood burner destroying container items like buckets when using lava as fuel
+* Fixed pollution serialization for the fluid trait config being wrong
